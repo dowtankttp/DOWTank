@@ -1,0 +1,108 @@
+﻿@model System.Data.DataTable
+@using System.Data;
+@{
+    ViewBag.Title = "Tank Search";
+}
+
+
+<div class="well well-lg">
+
+    <!--filter-->
+    <div class="row mt5 mb10">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-12">
+                    <h4 class="dow-color">Tank Search</h4>
+                </div>
+            </div>
+            @using (Html.BeginForm("Search", "TankSearch", FormMethod.Post))
+            {
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label class="control-label">Tank #</label>
+                            <input type="text" name="TankNumber" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label class="control-label">Chassis</label>
+                            <input type="text" name="Chassis" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2">
+                        <input type="submit" value="Search" class="btn btn-default" />
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+    <!--/filter-->
+
+    <!--title-->
+    <div class="row mt10">
+        <div class="col-md-12">
+            <h4>Tank Search Results <span class="ml3">(@ViewBag.TotalRecords)</span></h4>
+        </div>
+    </div>
+    <!--/title-->
+
+    <!--list-->
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-condensed table-striped table-bordered table-responsive table-hover" id="tblTankSearch">
+                <thead>
+                    <tr>
+                        @foreach (DataColumn col in Model.Columns)
+                        {
+                            if (@col.ColumnName != "DispatchID" && @col.ColumnName != "TankID" && @col.ColumnName != "Last Date Loaded" && @col.ColumnName != "Hours" && @col.ColumnName != "Lifts" && @col.ColumnName != "Instruct" && @col.ColumnName != "Type Service")
+                            {
+                            <th>@col.ColumnName</th>
+                            }
+                        }
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (DataRow row in Model.Rows)
+                    {         
+                        <tr>
+                            @foreach (DataColumn col in Model.Columns)
+                            {
+                                if (@col.ColumnName != "DispatchID" && @col.ColumnName != "TankID" && @col.ColumnName != "Last Date Loaded" && @col.ColumnName != "Hours" && @col.ColumnName != "Lifts" && @col.ColumnName != "Instruct" && @col.ColumnName != "Type Service")
+                                {
+                                <td>@row[col.ColumnName]</td>
+                                }
+                            }
+                        </tr> 
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!--/list-->
+
+</div>
+
+<!--script-->
+@section scripts
+{
+
+    <script>
+        $(function () {
+
+            $("#tblTankSearch").dataTable(
+                {
+                    "bLengthChange": false,
+                    searching: false,
+                    ordering: false,
+                    pagination: true,
+                    pageLength: 50,
+                    "sDom": '<"top"flp>rt<"bottom"i><"clear">',
+                    responsive: true
+                });
+            //mark end of document ready
+        });
+    </script>
+}
