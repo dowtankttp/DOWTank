@@ -155,6 +155,7 @@
     <Compile Include="Controllers\RequireCleaningController.cs" />
     <Compile Include="Controllers\RequireServiceController.cs" />
     <Compile Include="Controllers\TankController.cs" />
+    <Compile Include="Controllers\TankHistoryController.cs" />
     <Compile Include="Controllers\TankSearchController.cs" />
     <Compile Include="Custom\UserManager.cs" />
     <Compile Include="Global.asax.cs">
@@ -170,6 +171,7 @@
       <DependentUpon>crDailyDriverActivity.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Utility\CrystalReportPdfResult.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />
@@ -360,6 +362,7 @@
     <Content Include="Views\Tank\Prep.cshtml" />
     <Content Include="Views\Shared\_alerts.cshtml" />
     <Content Include="Views\Tank\TankArrivalUpdate.cshtml" />
+    <Content Include="Views\TankHistory\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DOWTank.Core\DOWTank.Core.csproj">
@@ -395,7 +398,7 @@
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>44321</DevelopmentServerPort>
+          <DevelopmentServerPort>18336</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>http://localhost:44321/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>

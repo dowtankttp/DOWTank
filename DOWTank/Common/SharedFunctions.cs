@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web;
+using CrystalDecisions.CrystalReports.Engine;
+using CrystalDecisions.Shared;
 using DOWTank.Core.Domain.TANK_usp_sel;
 using DOWTank.Core.Service;
 
@@ -21,6 +24,8 @@ namespace DOWTank.Common
                                                                                string EquipmentAn);
         IEnumerable<TANK_usp_sel_ContactDDL_spResults> PopulateContacts();
         IEnumerable<TANK_usp_sel_Equipment_spResults> RefreshEquipment(int? equipmentId, string equipmentAN);
+        bool SetCrystalDBSource(ReportDocument reportDocument);
+
     }
 
     public class SharedFunctions : ISharedFunctions
@@ -141,7 +146,7 @@ namespace DOWTank.Common
                 //TODO: re-factor it later from hard coded
                 IncludeBlank = false,
                 LocationID = 1,
-             };
+            };
             var data = _utilityService.ExecStoredProcedureWithResults<TANK_usp_sel_FittingDDL_spResults>("TANK_usp_sel_FittingDDL", TANK_usp_sel_FittingDDL_spParams);
 
             //# database call
@@ -215,6 +220,60 @@ namespace DOWTank.Common
 
             return data;
         }
+
+        public bool SetCrystalDBSource(ReportDocument reportDocument)
+        {
+            var connectionInfo = new ConnectionInfo();
+            SubreportObject subreportObject;
+            connectionInfo.ServerName = System.Web.Configuration.WebConfigurationManager.AppSettings["DBServer"];
+            connectionInfo.DatabaseName = System.Web.Configuration.WebConfigurationManager.AppSettings["DBName"];
+            connectionInfo.UserID = System.Web.Configuration.WebConfigurationManager.AppSettings["DBUserId"];
+            connectionInfo.Password = System.Web.Configuration.WebConfigurationManager.AppSettings["DBPassword"];
+
+            if (!ApplyLogon(reportDocument, connectionInfo))
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        public bool ApplyLogon(ReportDocument reportDocument, ConnectionInfo connectionInfo)
+        {
+            TableLogOnInfo tableLogOnInfo;
+            for (int tbl = 0; tbl < reportDocument.Database.Tables.Count - 1; tbl++)
+            {
+                tableLogOnInfo = reportDocument.Database.Tables[tbl].LogOnInfo;
+                tableLogOnInfo.ConnectionInfo = connectionInfo;
+                reportDocument.Database.Tables[tbl].ApplyLogOnInfo(tableLogOnInfo);
+                //' check if logon was successful 
+                //' if TestConnectivity returns false, 
+                //' check logon credentials 
+
+                if (reportDocument.Database.Tables[tbl].TestConnectivity())
+                {
+                    //drop fully qualified table location 
+                    if (reportDocument.Database.Tables[tbl].Location.IndexOf(".") > 0)
+                    {
+                        reportDocument.Database.Tables[tbl].Location =
+                            reportDocument.Database.Tables[tbl].Location.Substring(
+                                reportDocument.Database.Tables[tbl].Location.LastIndexOf(".") + 1);
+                    }
+                    else
+                    {
+                        reportDocument.Database.Tables[tbl].Location = reportDocument.Database.Tables[tbl].Location;
+                    }
+                }
+                else
+                {
+                    return false;
+                }
+                return true;
+                //end of for
+            }
+            return true;
+        }
+
     }
 
 
