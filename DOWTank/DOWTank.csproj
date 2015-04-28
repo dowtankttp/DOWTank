@@ -150,6 +150,7 @@
     <Compile Include="Common\ControlGroupExtensions.cs" />
     <Compile Include="Common\SharedFunctions.cs" />
     <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\DispatchController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Controllers\RequireCleaningController.cs" />
@@ -161,6 +162,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\DispatchTankModel.cs" />
     <Compile Include="Models\Select2ViewModel.cs" />
     <Compile Include="Models\TankArrivalUpdatePostModel.cs" />
     <Compile Include="Models\TankPrepPostModel.cs" />
@@ -363,6 +365,7 @@
     <Content Include="Views\Shared\_alerts.cshtml" />
     <Content Include="Views\Tank\TankArrivalUpdate.cshtml" />
     <Content Include="Views\TankHistory\Index.cshtml" />
+    <Content Include="Views\Dispatch\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DOWTank.Core\DOWTank.Core.csproj">

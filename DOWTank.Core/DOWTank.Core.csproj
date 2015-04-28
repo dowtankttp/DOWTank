@@ -62,6 +62,12 @@
     <Compile Include="Domain\TANK_usp_sel\TANK_usp_sel_ChargeCodeDDL_spResults.cs" />
     <Compile Include="Domain\TANK_usp_sel\TANK_usp_sel_ContactDDL_spParams.cs" />
     <Compile Include="Domain\TANK_usp_sel\TANK_usp_sel_ContactDDL_spResults.cs" />
+    <Compile Include="Domain\TANK_usp_sel\TANK_usp_sel_DispatchLastMove_spParams.cs" />
+    <Compile Include="Domain\TANK_usp_sel\TANK_usp_sel_DispatchLastMove_spResults.cs" />
+    <Compile Include="Domain\TANK_usp_sel\TANK_usp_sel_DispatchReasonDDL_spParams.cs" />
+    <Compile Include="Domain\TANK_usp_sel\TANK_usp_sel_DispatchReasonDDL_spResults.cs" />
+    <Compile Include="Domain\TANK_usp_sel\TANK_usp_sel_DriverDDL_spParams.cs" />
+    <Compile Include="Domain\TANK_usp_sel\TANK_usp_sel_DriverDDL_spResults.cs" />
     <Compile Include="Domain\TANK_usp_sel\TANK_usp_sel_EquipmentSearch2_spParams.cs" />
     <Compile Include="Domain\TANK_usp_sel\TANK_usp_sel_EquipmentSearch2_spResults.cs" />
     <Compile Include="Domain\TANK_usp_sel\TANK_usp_sel_Equipment_spParams.cs" />
@@ -78,6 +84,8 @@
     <Compile Include="Domain\TANK_usp_sel\TANK_usp_sel_LocationTreeGrounded_spResults.cs" />
     <Compile Include="Domain\TANK_usp_sel\TANK_usp_sel_ProductDDL_spParams.cs" />
     <Compile Include="Domain\TANK_usp_sel\TANK_usp_sel_ProductDDL_spResults.cs" />
+    <Compile Include="Domain\TANK_usp_sel\TANK_usp_sel_WasteClassTypeDDL_spParams.cs" />
+    <Compile Include="Domain\TANK_usp_sel\TANK_usp_sel_WasteClassTypeDDL_spResults.cs" />
     <Compile Include="Domain\TANK_usp_upd\TANK_usp_upd_ArriveEquipment_spParams.cs" />
     <Compile Include="DOWTankDataModel.Context.cs">
       <AutoGen>True</AutoGen>
