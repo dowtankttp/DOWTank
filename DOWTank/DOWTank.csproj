@@ -163,7 +163,9 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\DispatchTankModel.cs" />
+    <Compile Include="Models\Select2ShortViewModel.cs" />
     <Compile Include="Models\Select2ViewModel.cs" />
+    <Compile Include="Models\SelectServiceTypeModel.cs" />
     <Compile Include="Models\TankArrivalUpdatePostModel.cs" />
     <Compile Include="Models\TankPrepPostModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

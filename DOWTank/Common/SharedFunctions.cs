@@ -29,7 +29,7 @@ namespace DOWTank.Common
         IEnumerable<TANK_usp_sel_WasteClassTypeDDL_spResults> PopulateWasteClassTypes(bool iIncludeBlank);
         IEnumerable<TANK_usp_sel_DispatchReasonDDL_spResults> PopulateDispatchReasons(bool iIncludeBlank);
         IEnumerable<TANK_usp_sel_DispatchLastMove_spResults> LoadDispatchLastMove(String strTankNumber, int locationId);
-
+        IEnumerable<TANK_usp_sel_ServiceTypeDDL_spResults> PopulateServiceType(bool iIncludeBlank);
     }
 
     public class SharedFunctions : ISharedFunctions
@@ -336,6 +336,22 @@ namespace DOWTank.Common
                 FacilityLocationID = 1
             };
             var data = _utilityService.ExecStoredProcedureWithResults<TANK_usp_sel_DispatchLastMove_spResults>("TANK_usp_sel_EquipmentLastDispatch", TANK_usp_sel_DispatchLastMove_spParams);
+
+            //# database call
+
+            return data;
+        }
+
+        public IEnumerable<TANK_usp_sel_ServiceTypeDDL_spResults> PopulateServiceType(bool iIncludeBlank)
+        {
+            // database call
+
+            var TANK_usp_sel_DispatchReasonDDL_spParams = new TANK_usp_sel_DispatchReasonDDL_spParams()
+            {
+                //TODO: re-factor it later from hard coded
+                IncludeBlank = iIncludeBlank
+            };
+            var data = _utilityService.ExecStoredProcedureWithResults<TANK_usp_sel_ServiceTypeDDL_spResults>("TANK_usp_sel_ServiceTypeDDL", TANK_usp_sel_DispatchReasonDDL_spParams);
 
             //# database call
 

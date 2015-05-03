@@ -44,7 +44,7 @@ namespace DOWTank.Controllers
             if (data != null && data.Any())
             {
                 var result = data.FirstOrDefault();
-                return Json(new { ChargeBlockLocationDS = result.ChargeBlockLocationDS, ChargeCodeAN = result.ChargeCodeAN, ChassisEquipmentAN = result.ChassisEquipmentAN, DispatchStartDt = result.DispatchStartDt, Driver = result.Driver, DriverID = result.DriverID, ProductDS = result.ProductDS, ToLocationDS = result.ToLocationDS, FittingDS = result.FittingDS, ShipmentAN = result.ShipmentAN, ContactNM = result.ContactNM, ContactID = result.ContactID }, JsonRequestBehavior.AllowGet);
+                return Json(new { ChargeBlockLocationDS = result.ChargeBlockLocationDS, ChargeCodeAN = result.ChargeCodeAN, ChassisEquipmentID = result.ChassisEquipmentID, ChassisEquipmentAN = result.ChassisEquipmentAN, DispatchStartDt = result.DispatchStartDt, Driver = result.Driver, DriverID = result.DriverID, ProductID = result.ProductID, ProductDS = result.ProductDS, ToLocationDS = result.ToLocationDS, FittingDS = result.FittingDS, ShipmentAN = result.ShipmentAN, ContactNM = result.ContactNM, ContactID = result.ContactID }, JsonRequestBehavior.AllowGet);
             }
             return Json(string.Empty, JsonRequestBehavior.AllowGet);
         }
@@ -80,6 +80,29 @@ namespace DOWTank.Controllers
             }
 
             #endregion PopulateLoadStatusType
+        }
+
+        //PopulateEquipment
+        [HttpGet]
+        [OutputCache(Duration = int.MaxValue, VaryByParam = "searchTerm")]
+        public JsonResult PopulateDispatchReason(string searchTerm)
+        {
+            searchTerm = searchTerm.Trim();
+            //todo: re-factor it later as required
+            var response = _sharedFunctions.PopulateEquipment(1, searchTerm);
+
+            var productList = new List<Select2ViewModel>();
+            if (response != null && response.Any())
+            {
+                foreach (var item in response)
+                {
+                    var product = new Select2ViewModel();
+                    product.id = item.EquipmentID;
+                    product.text = item.EquipmentAn + " " + item.EquipmentTypeDS;
+                    productList.Add(product);
+                }
+            }
+            return Json(productList, JsonRequestBehavior.AllowGet);
         }
     }
 }

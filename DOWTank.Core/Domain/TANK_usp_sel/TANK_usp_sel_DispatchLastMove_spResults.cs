@@ -10,10 +10,12 @@ namespace DOWTank.Core.Domain.TANK_usp_sel
     {
         public String ChargeBlockLocationDS { get; set; }
         public String ChargeCodeAN { get; set; }
+        public Int32 ChassisEquipmentID { get; set; }
         public String ChassisEquipmentAN { get; set; }
         public String DispatchStartDt { get; set; }
         public String Driver { get; set; }
         public Int32 DriverID { get; set; }
+        public Int16 ProductID { get; set; }
         public String ProductDS { get; set; }
         public String ToLocationDS { get; set; }
         public String FittingDS { get; set; }

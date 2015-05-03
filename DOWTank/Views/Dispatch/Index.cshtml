@@ -249,7 +249,9 @@
                     if (response) {
                         //console.log('response ' + response.LoadStatusTypeCD);
                         $("#txtLMDate").val(response.DispatchStartDt);
+                        $("#ChassisID").val(response.ChassisEquipmentID);
                         $("#txtLMChassis").val(response.ChassisEquipmentAN);
+                        $("#ProductID").val(response.ProductID);
                         $("#txtLMProduct").val(response.ProductDS);
                         $("#txtLMDriver").val(response.Driver);
                         $("#DriverID").val(response.DriverID);
@@ -265,7 +267,9 @@
                     else
                     {
                         $("#txtLMDate").val('');
+                        $("#ChassisID").val('');
                         $("#txtLMChassis").val('');
+                        $("#ProductID").val('');
                         $("#txtLMProduct").val('');
                         $("#txtLMDriver").val('');
                         $("#DriverID").val('');

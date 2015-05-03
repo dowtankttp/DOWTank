@@ -47,12 +47,12 @@ namespace DOWTank.Controllers
                 if (postModel.LocationFromCode != null && postModel.LocationFromCode > 0)
                 {
                     TANK_usp_rpt_TankSearch_spParams.FromSubLocationID = postModel.LocationFromCode;
-                    //TANK_usp_rpt_TankSearch_spParams.FromSubLocationDS = postModel.LocationFrom;
+                    TANK_usp_rpt_TankSearch_spParams.FromSubLocationDS = "";
                 }
                 if (postModel.LocationToCode != null && postModel.LocationToCode > 0)
                 {
                     TANK_usp_rpt_TankSearch_spParams.SubLocationID = postModel.LocationToCode;
-                    //TANK_usp_rpt_TankSearch_spParams.SubLocationDS = postModel.LocationTo;                    
+                    TANK_usp_rpt_TankSearch_spParams.SubLocationDS = "";
                 }
                 if (postModel.ChargeNbr != null && postModel.ChargeNbr.Trim().Length > 0)
                     TANK_usp_rpt_TankSearch_spParams.ChargeCodeAN = postModel.ChargeNbr;
@@ -85,8 +85,9 @@ namespace DOWTank.Controllers
             return View(data);
         }
 
-        public ActionResult Search(TankSearchPostModel postModel)
+        public ActionResult Search(TankSearchPostModel postModel, String strDedicatedProduct)
         {
+            postModel.DedicatedProduct = strDedicatedProduct.Trim();
             TempData["postModel"] = postModel;
             return RedirectToAction("Index", "TankSearch");
         }
@@ -108,7 +109,7 @@ namespace DOWTank.Controllers
             }
 
             #endregion PopulateLoadStatusType
-
+                        
             #region LoadPoint
 
             var loadItemsPoint = new List<SelectListItem>();
@@ -208,6 +209,72 @@ namespace DOWTank.Controllers
             }
             return loadPoints;
         }
+
+        //PopulateDispatchReasons
+        [HttpGet]
+        [OutputCache(Duration = int.MaxValue, VaryByParam = "searchTerm")]
+        public JsonResult PopulateDispatchReasons(string searchTerm)
+        {
+            //todo: re-factor it later as required
+            var response = _sharedFunctions.PopulateDispatchReasons(false);
+
+            var DispatchReasons = new List<Select2ShortViewModel>();
+            if (response != null && response.Any())
+            {
+                foreach (var item in response)
+                {
+                    var DispatchReason = new Select2ShortViewModel();
+                    DispatchReason.id = item.DispatchReasonTypeCD;
+                    DispatchReason.text = item.DispatchReasonTypeDS;
+                    DispatchReasons.Add(DispatchReason);
+                }
+            }
+            return Json(DispatchReasons, JsonRequestBehavior.AllowGet);
+        }
+
+        //PopulateServiceType
+        [HttpGet]
+        [OutputCache(Duration = int.MaxValue, VaryByParam = "searchTerm")]
+        public JsonResult PopulateServiceType(string searchTerm)
+        {
+            //todo: re-factor it later as required
+            var response = _sharedFunctions.PopulateServiceType(false);
+
+            var ServiceTypes = new List<SelectServiceTypeModel>();
+            if (response != null && response.Any())
+            {
+                foreach (var item in response)
+                {
+                    var ServiceType = new SelectServiceTypeModel();
+                    ServiceType.id = item.ServiceTypeCD;
+                    ServiceType.text = item.ServiceTypeDS;
+                    ServiceTypes.Add(ServiceType);
+                }
+            }
+            return Json(ServiceTypes, JsonRequestBehavior.AllowGet);
+        }
+
+        //PopulateProducts
+        [HttpGet]
+        [OutputCache(Duration = int.MaxValue, VaryByParam = "searchTerm")]
+        public JsonResult PopulateProducts(string searchTerm)
+        {
+            //todo: re-factor it later as required
+            var response = _sharedFunctions.PopulateProduct(false, 1, searchTerm.Trim().Replace("%", "[%]"));
+
+            var Products = new List<Select2ShortViewModel>();
+            if (response != null && response.Any())
+            {
+                foreach (var item in response)
+                {
+                    var Product = new Select2ShortViewModel();
+                    Product.id = item.ProductID;
+                    Product.text = item.ProductDS;
+                    Products.Add(Product);
+                }
+            }
+            return Json(Products, JsonRequestBehavior.AllowGet);
+        }
     }
 
     public class TankSearchPostModel
@@ -225,7 +292,7 @@ namespace DOWTank.Controllers
         public string ChargeBlockOnHire { get; set; }
         public string ServiceType { get; set; }
         public string DedicatedProduct { get; set; }
-        public short? DispatchReason { get; set; }
+        public Int16? DispatchReason { get; set; }
         public Boolean chkLastMove { get; set; }
     }
 }

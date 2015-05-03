@@ -19,6 +19,7 @@
         <div class="col-md-12">
             @using (Html.BeginForm("Search", "TankSearch", FormMethod.Post))
             {
+                @Html.Hidden("strDedicatedProduct")
                 <div class="row mt10 ">
                     <div class="col-md-12 text-right">
                         <input type="submit" value="Search" class="btn btn-default btn-primary" />
@@ -103,7 +104,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label class="control-label">Service Type</label>
-                                <input class="form-control" id="ddlService" name="ServiceType" style="width: 80%; box-sizing: border-box;">
+                                <input id="ddlService" name="ServiceType" style="width: 80%; box-sizing: border-box;">
                             </div>
                         </div>
                     </div>
@@ -114,13 +115,13 @@
                         <div class="col-md-4 nopadding">
                             <div class="form-group">
                                 <label class="control-label">Dedicated Product</label>
-                                <input class="form-control" id="ddlDedicatedProduct" name="DedicatedProduct" style="width: 80%; box-sizing: border-box;">
+                                <input id="ddlDedicatedProduct" name="DedicatedProduct" style="width: 80%; box-sizing: border-box;">
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label class="control-label">Reason</label>
-                                <input class="form-control" id="ddlDispatchReason" name="DispatchReason" style="width: 80%; box-sizing: border-box;">
+                                <input id="ddlDispatchReason" name="DispatchReason" style="width: 100%; box-sizing: border-box;">
                             </div>
                         </div>
                         <div class="col-md-3">
@@ -279,7 +280,74 @@
                     }
                 }
             });
+
+            // DispatchReason ddl
+            $("#ddlDispatchReason").select2({
+                minimumInputLength: 0,
+                cache: true,
+                ajax: {
+                    url: "/TankSearch/PopulateDispatchReasons",
+                    dataType: 'json',
+                    quietMillis: 650,
+                    data: function (term) {
+                        return {
+                            searchTerm: term // search term
+                        };
+                    },
+                    results: function (data) {
+                        return { results: data };
+                    }
+                }
+            });
+
+            // ServiceType ddl
+            $("#ddlService").select2({
+                minimumInputLength: 0,
+                cache: true,
+                ajax: {
+                    url: "/TankSearch/PopulateServiceType",
+                    dataType: 'json',
+                    quietMillis: 650,
+                    data: function (term) {
+                        return {
+                            searchTerm: term // search term
+                        };
+                    },
+                    results: function (data) {
+                        return { results: data };
+                    }
+                }
+            });
+
+            // ServiceType ddl
+            $("#ddlDedicatedProduct").select2({
+                minimumInputLength: 0,
+                cache: true,
+                ajax: {
+                    url: "/TankSearch/PopulateProducts",
+                    dataType: 'json',
+                    quietMillis: 650,
+                    data: function (term) {
+                        return {
+                            searchTerm: term // search term
+                        };
+                    },
+                    results: function (data) {
+                        return { results: data };
+                    }
+                }
+            });
+
+            $("#ddlDedicatedProduct").change(function () {
+                var theSelectionId = $("#ddlDedicatedProduct").select2('data').id;
+                var theSelectionText = $("#ddlDedicatedProduct").select2('data').text;
+                
+                $("#strDedicatedProduct").val(theSelectionText);
+
+                });
+
         });
+                     
 
         $(function() {
 
