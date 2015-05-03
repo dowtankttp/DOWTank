@@ -1,4 +1,6 @@
-﻿@{
+﻿@model DOWTank.Controllers.TankHistoryModel
+@using System.Data;
+@{
     ViewBag.Title = "Tank History";
 }
 <div class="well well-lg">
@@ -6,136 +8,259 @@
     <div class="row mt10 mb20">
         <div class="col-md-12">
             <h4 class="dow-color">Tank History</h4>
+            @Html.HiddenFor(model => model.HfShowResult, new { id = "hfShowResult" })            
         </div>
     </div>
     <!--/title-->
-
+    @using (Html.BeginForm("Search", "TankHistory", FormMethod.Post))
+    {
     <div class="row mt10 mb10">
         <div class="col-md-1">
-            Tank #:*
+            <label class="control-label">Tank #:*</label>
         </div>
         <div class="col-md-3">
-            <input type="text" class="form-control" />
+            @Html.TextBoxFor(model => model.TextSearch, new { @maxlength = "100", id = "txtSearch", @value="",@class = "form-control" })            
         </div>
         <div class="col-md-2">
-            <input type="button" class="btn btn-default btn-primary" value="Search" />
+            <input id="btnSearch" type="submit" class="btn btn-default btn-primary" value="Search" />
         </div>
     </div>
+    }
 
-    <div class="row mt20">
-        <div class="row no-margin">
-            <div class="col-md-12">
-                <h4>Tank Information</h4>
-            </div>
-        </div>
-        <div class="row no-margin">
-            <div class="col-md-12">
-                <table class="table table-condensed table-striped table-bordered table-responsive table-hover" id="tblTankInformation">
-                    <thead>
-                        <tr>
-                            <th>Facility</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Freeport
-                            </td>
-                            <td></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <div class="row no-margin">
-            <div class="col-md-12">
-                <table class="table table-condensed table-striped table-bordered table-responsive table-hover" id="tblTankInformation">
-                    <thead>
-                        <tr>
-                            <th>Last Product</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Propionic Acid
-                            </td>
-                            <td></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
+    <div id="divShowResults" style="display: none;">
 
-    <div class="row mt10">
-        <div class="row no-margin">
-            <div class="col-md-12">
-                <h4>Moves</h4>
+        <div class="row mt20">
+            <div class="row no-margin">
+                <div class="col-md-12">
+                    <h4>Tank Information <span class="ml3">(@ViewBag.TotalRecordsEquipmentInfo)</span></h4>
+                </div>
             </div>
-        </div>
-    </div>
+            <div class="row no-margin">
+                <div class="col-md-12">
+                    <table class="table table-condensed table-striped table-bordered table-responsive table-hover dataTable no-footer dtr-inline" id="tblEquipmentInfo">
+                        <thead>
+                            <tr>
+                                @foreach (DataColumn col in Model.DataTableEquipmentInfo.Columns)                           
+                            {
+                            if (@col.ColumnName == "MajorLocationDS" || @col.ColumnName == "LocationDS" || @col.ColumnName == "LoadStatusTypeDS" || @col.ColumnName == "OwnerNM" || @col.ColumnName == "OperatorNM" || @col.ColumnName == "EquipmentTypeDS" || @col.ColumnName == "ServiceTypeDS" || @col.ColumnName == "TankCapacity" || @col.ColumnName == "TankLastTestDT" || @col.ColumnName == "TankNextTestDT" )
+                           {
+                                <th>@col.ColumnName</th>
+                                }
+                                }
+                           
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (DataRow row in Model.DataTableEquipmentInfo.Rows)
+                        {         
+                        <tr>
+                            @foreach (DataColumn col in Model.DataTableEquipmentInfo.Columns)
+                            {   
+                                if (@col.ColumnName == "MajorLocationDS" || @col.ColumnName == "LocationDS" || @col.ColumnName == "LoadStatusTypeDS" || @col.ColumnName == "OwnerNM" || @col.ColumnName == "OperatorNM" || @col.ColumnName == "EquipmentTypeDS" || @col.ColumnName == "ServiceTypeDS" || @col.ColumnName == "TankCapacity" || @col.ColumnName == "TankLastTestDT" || @col.ColumnName == "TankNextTestDT" )
+                                {<td>@row[col.ColumnName]</td>}
+                            }
+                        </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="row mt20">
+                <div class="col-md-12">
+                    <table class="table table-condensed table-striped table-bordered table-responsive table-hover dataTable no-footer dtr-inline" id="tblEquipmentInfo2">
+                        <thead>
+                            <tr>
+                                @foreach (DataColumn col in Model.DataTableEquipmentInfo.Columns)                           
+                            {
+                            if (@col.ColumnName == "LastProductDS" || @col.ColumnName == "BarrelConditionTypeDS" || @col.ColumnName == "TankGradeTypeDS" || @col.ColumnName == "LastContactNm")
+                           {
+                                <th>@col.ColumnName</th>
+                                }
+                                }
+                           
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (DataRow row in Model.DataTableEquipmentInfo.Rows)
+                        {         
+                        <tr>
+                            @foreach (DataColumn col in Model.DataTableEquipmentInfo.Columns)
+                            {   
+                                if (@col.ColumnName == "LastProductDS" || @col.ColumnName == "BarrelConditionTypeDS" || @col.ColumnName == "TankGradeTypeDS" || @col.ColumnName == "LastContactNm")
+                                {<td>@row[col.ColumnName]</td>}
+                            }
+                        </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
 
+            <div class="row mt10">
+                <div class="row no-margin">
+                    <div class="col-md-12">
+                        <h4>Moves <span class="ml3">(@ViewBag.TotalRecordsActivityHistory)</span></h4>
+                    </div>
+                </div>
+            </div>
+
+            @using (Html.BeginForm("Filter", "TankHistory", FormMethod.Post))
+    {
     <div class="row">
         <div class="col-md-2">
-            Search Column:
+            <label class="control-label">Search Column:</label>
+            @Html.HiddenFor(model => model.SelectedColumn, new { id = "hfSelectedColumn" ,@Value = ""})            
         </div>
         <div class="col-md-3">
-            <select class="form-control"></select>
+            <select id="ddlFilter" class="form-control">
+                <option value="">---Select---</option>
+                <option value="Chassis">Chassis</option>
+                <option value="From">From</option>
+                <option value="To">To</option>
+                <option value="Product">Product</option>
+                <option value="Charge #">Charge #</option>
+                <option value="Shipment">Shipment</option>
+                <option value="Status">Status</option>
+                <option value="On-Hire">On-Hire</option>
+                <option value="Driver">Driver</option>
+            </select>
         </div>
         <div class="col-md-1">
-            Text:
+            <label class="control-label">Text:</label>
         </div>
         <div class="col-md-3">
-            <input type="text" class="form-control" />
+            @Html.TextBoxFor(model => model.TextFilter, new { @maxlength = "100", id = "txtFilter", @value="", @class = "form-control" })
+        </div>
+        <div class="col-md-1">
+            <input id="btnFilter" type="submit" class="btn btn-default btn-primary" value="Filter" />
         </div>
     </div>
-    <div class="row mt5">
-        <div class="col-md-12">
-            <table class="table table-condensed table-striped table-bordered table-responsive table-hover" id="tblTankInformation">
-                <thead>
-                    <tr>
-                        <th>Chassis</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Freeport
-                        </td>
-                        <td></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
+            <br />
+            }
+            <div class="row no-margin">
+                <div class="col-md-12">
+                    <table class="table table-condensed table-striped table-bordered table-responsive table-hover dataTable no-footer dtr-inline id="tblActivityHistory">
+                        <thead>
+                            <tr>
+                                @foreach (DataColumn col in Model.DataTableActivityHistory.Columns)                           
+                            {
+                            if (@col.ColumnName != "DispatchID" && @col.ColumnName != "Equipment #" && @col.ColumnName != "ChargeBlock" && @col.ColumnName != "Date")
+                           {
+                            <th>@col.ColumnName</th>
+                                }
 
-    <div class="row mt10">
-        <div class="row no-margin">
-            <div class="col-md-12">
-                <h4>On-Hire History</h4>
+                                }
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (DataRow row in Model.DataTableActivityHistory.Rows)
+                        {         
+                        <tr>
+                            @foreach (DataColumn col in Model.DataTableActivityHistory.Columns)
+                            {   
+                            if (@col.ColumnName != "DispatchID" && @col.ColumnName != "Equipment #" && @col.ColumnName != "ChargeBlock" && @col.ColumnName != "Date")
+                            {                         
+                                <td>@row[col.ColumnName]</td>
+                            }
+                            }
+                        </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
-    </div>
-    
-    <div class="row mt5">
-        <div class="col-md-12">
-            <table class="table table-condensed table-striped table-bordered table-responsive table-hover" id="tblTankInformation">
-                <thead>
-                    <tr>
-                        <th>Charge/Shipment #</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>01-T3-6490169
-                        </td>
-                        <td></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
 
+
+
+        <div class="row mt5" style="display: none;">
+            <div class="col-md-12">
+                <table class="table table-condensed table-striped table-bordered table-responsive table-hover dataTable no-footer dtr-inline" id="tblTankInformation">
+                    <thead>
+                        <tr>
+                            @foreach (DataColumn col in Model.DataTableEquipmentProduct.Columns)                           
+                            {
+                           <th>@col.ColumnName</th>
+                            }
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (DataRow row in Model.DataTableEquipmentProduct.Rows)
+                        {         
+                        <tr>
+                            @foreach (DataColumn col in Model.DataTableEquipmentProduct.Columns)
+                            {                            
+                                <td>@row[col.ColumnName]</td>
+                            }
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="row mt10">
+            <div class="row no-margin">
+                <div class="col-md-12">
+                    <h4>On-Hire History <span class="ml3">(@ViewBag.TotalOnHireHistory)</span></h4>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt5">
+            <div class="col-md-12">
+                <table class="table table-condensed table-striped table-bordered table-responsive table-hover dataTable no-footer dtr-inline" id="tblTankInformation">
+                    <thead>
+                        <tr>
+                            @foreach (DataColumn col in Model.DataTableOnHireHistory.Columns)                           
+                            {
+if (@col.ColumnName == "ChargeCodeAn" || @col.ColumnName == "OnHireDS" || @col.ColumnName == "StatusDt" ||@col.ColumnName == "OnHireReasonTypeDS")
+                           {<th>@col.ColumnName</th>
+}
+                            }
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (DataRow row in Model.DataTableOnHireHistory.Rows)
+                        {         
+                        <tr>
+                            @foreach (DataColumn col in Model.DataTableOnHireHistory.Columns)
+                            {  
+if (@col.ColumnName == "ChargeCodeAn" || @col.ColumnName == "OnHireDS" || @col.ColumnName == "StatusDt" ||@col.ColumnName == "OnHireReasonTypeDS")                          
+                                {<td>@row[col.ColumnName]</td>}
+                            }
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
 </div>
+
+<!--script-->
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+
+            if ($("#hfShowResult").val() == "true")
+                $("#divShowResults").show();
+            else
+                $("#divShowResults").hide();
+
+            //$("#hfSelectedColumn").val($("#ddlFilter").val());
+
+            $("#btnFilter").click(function () {
+                debugger;
+                $("#hfSelectedColumn").val($("#ddlFilter").val());
+                //$("#txtSearch").val($("#ddlFilter").val());
+
+                return true;
+            });
+
+        });
+    </script>
+}
