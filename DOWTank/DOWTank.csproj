@@ -152,6 +152,7 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\DispatchController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\InvoiceListController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Controllers\RequireCleaningController.cs" />
     <Compile Include="Controllers\RequireServiceController.cs" />
@@ -368,6 +369,7 @@
     <Content Include="Views\Tank\TankArrivalUpdate.cshtml" />
     <Content Include="Views\TankHistory\Index.cshtml" />
     <Content Include="Views\Dispatch\Index.cshtml" />
+    <Content Include="Views\InvoiceList\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DOWTank.Core\DOWTank.Core.csproj">
