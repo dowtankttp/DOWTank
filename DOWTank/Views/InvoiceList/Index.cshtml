@@ -1,18 +1,18 @@
-﻿@model DOWTank.Controllers.TankHistoryModel
+﻿@model DOWTank.Controllers.InvoiceListModel
 @using System.Data;
 @{
-    ViewBag.Title = "Tank History";
+    ViewBag.Title = "Invoice Console";
 }
 <div class="well well-lg">
     <!--title-->
     <div class="row mt10 mb20">
         <div class="col-md-12">
-            <h4 class="dow-color">Tank History</h4>
+            <h4 class="dow-color">Invoice Console</h4>
             @Html.HiddenFor(model => model.HfShowResult, new { id = "hfShowResult" })            
         </div>
     </div>
     <!--/title-->
-    @using (Html.BeginForm("Search", "TankHistory", FormMethod.Post))
+    @using (Html.BeginForm("Search", "InvoiceList", FormMethod.Post))
     {
     <div class="row mt10 mb10">
         <div class="col-md-1">
@@ -42,7 +42,7 @@
                             <tr>
                                 @foreach (DataColumn col in Model.DataTableEquipmentInfo.Columns)                           
                             {
-                            if (@col.ColumnName == "MajorLocationDS" || @col.ColumnName == "LocationDS" || @col.ColumnName == "LoadStatusTypeDS" || @col.ColumnName == "OwnerNM" || @col.ColumnName == "OperatorNM" || @col.ColumnName == "EquipmentTypeDS" || @col.ColumnName == "ServiceTypeDS" || @col.ColumnName == "TankCapacity" || @col.ColumnName == "TankLastTestDT" || @col.ColumnName == "TankNextTestDT" )
+                            if (@col.ColumnName == "MajorLocationDS" || @col.ColumnName == "LocationDS" || @col.ColumnName == "LoadStatusTypeDS" || @col.ColumnName == "OwnerNM" || @col.ColumnName == "OperatorNM" || @col.ColumnName == "EquipmentTypeDS" || @col.ColumnName == "DedicatedLocationDS" || @col.ColumnName == "TankCapacity" || @col.ColumnName == "TankLastTestDT" || @col.ColumnName == "TankNextTestDT" )
                            {
                                 <th>@col.ColumnName</th>
                                 }
@@ -56,41 +56,8 @@
                         <tr>
                             @foreach (DataColumn col in Model.DataTableEquipmentInfo.Columns)
                             {   
-                                if (@col.ColumnName == "MajorLocationDS" || @col.ColumnName == "LocationDS" || @col.ColumnName == "LoadStatusTypeDS" || @col.ColumnName == "OwnerNM" || @col.ColumnName == "OperatorNM" || @col.ColumnName == "EquipmentTypeDS" || @col.ColumnName == "ServiceTypeDS" || @col.ColumnName == "TankCapacity" || @col.ColumnName == "TankLastTestDT" || @col.ColumnName == "TankNextTestDT" )
-                                {<td>@row[col.ColumnName]</td>
-                            }
-                            }
-                        </tr>
-                            }
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <div class="row mt20">
-                <div class="col-md-12">
-                    <table class="table table-condensed table-striped table-bordered table-responsive table-hover dataTable no-footer dtr-inline" id="tblEquipmentInfo2">
-                        <thead>
-                            <tr>
-                                @foreach (DataColumn col in Model.DataTableEquipmentInfo.Columns)                           
-                            {
-                            if (@col.ColumnName == "LastProductDS" || @col.ColumnName == "BarrelConditionTypeDS" || @col.ColumnName == "TankGradeTypeDS" || @col.ColumnName == "LastContactNm")
-                           {
-                                <th>@col.ColumnName</th>
-                                }
-                                }
-                           
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (DataRow row in Model.DataTableEquipmentInfo.Rows)
-                        {         
-                        <tr>
-                            @foreach (DataColumn col in Model.DataTableEquipmentInfo.Columns)
-                            {   
-                                if (@col.ColumnName == "LastProductDS" || @col.ColumnName == "BarrelConditionTypeDS" || @col.ColumnName == "TankGradeTypeDS" || @col.ColumnName == "LastContactNm")
-                                {<td>@row[col.ColumnName]</td>
-                            }
+                                if (@col.ColumnName == "MajorLocationDS" || @col.ColumnName == "LocationDS" || @col.ColumnName == "LoadStatusTypeDS" || @col.ColumnName == "OwnerNM" || @col.ColumnName == "OperatorNM" || @col.ColumnName == "EquipmentTypeDS" || @col.ColumnName == "DedicatedLocationDS" || @col.ColumnName == "TankCapacity" || @col.ColumnName == "TankLastTestDT" || @col.ColumnName == "TankNextTestDT" )
+                                {<td>@row[col.ColumnName]</td>}
                             }
                         </tr>
                             }
@@ -102,12 +69,12 @@
             <div class="row mt10">
                 <div class="row no-margin">
                     <div class="col-md-12">
-                        <h4>Moves <span class="ml3">(@ViewBag.TotalRecordsActivityHistory)</span></h4>
+                        <h4>Cleaning & Maint Moves  <span class="ml3">(@ViewBag.TotalRecordsMoveHistory)</span></h4>
                     </div>
                 </div>
             </div>
 
-            @using (Html.BeginForm("Filter", "TankHistory", FormMethod.Post))
+            @using (Html.BeginForm("Filter", "InvoiceList", FormMethod.Post))
     {
     <div class="row">
         <div class="col-md-2">
@@ -123,8 +90,7 @@
                 <option value="Product">Product</option>
                 <option value="Charge #">Charge #</option>
                 <option value="Shipment">Shipment</option>
-                <option value="Status">Status</option>
-                <option value="On-Hire">On-Hire</option>
+                <option value="Status">Status</option>                
                 <option value="Driver">Driver</option>
             </select>
         </div>
@@ -142,12 +108,12 @@
             }
             <div class="row no-margin">
                 <div class="col-md-12">
-                    <table class="table table-condensed table-striped table-bordered table-responsive table-hover dataTable no-footer dtr-inline" id="tblActivityHistory">
+                    <table class="table table-condensed table-striped table-bordered table-responsive table-hover dataTable no-footer dtr-inline id="tblMoveHistory">
                         <thead>
                             <tr>
-                                @foreach (DataColumn col in Model.DataTableActivityHistory.Columns)                           
+                                @foreach (DataColumn col in Model.DataTableMoveHistory.Columns)                           
                             {
-                            if (@col.ColumnName != "DispatchID" && @col.ColumnName != "Equipment #" && @col.ColumnName != "ChargeBlock" && @col.ColumnName != "Date")
+                            if (@col.ColumnName != "DispatchID" && @col.ColumnName != "Equipment #" && @col.ColumnName != "ChargeBlock" && @col.ColumnName != "Date"&& @col.ColumnName != "Contact" && @col.ColumnName != "Comments")
                            {
                             <th>@col.ColumnName</th>
                                 }
@@ -156,12 +122,12 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (DataRow row in Model.DataTableActivityHistory.Rows)
+                            @foreach (DataRow row in Model.DataTableMoveHistory.Rows)
                         {         
                         <tr>
-                            @foreach (DataColumn col in Model.DataTableActivityHistory.Columns)
+                            @foreach (DataColumn col in Model.DataTableMoveHistory.Columns)
                             {   
-                            if (@col.ColumnName != "DispatchID" && @col.ColumnName != "Equipment #" && @col.ColumnName != "ChargeBlock" && @col.ColumnName != "Date")
+                            if (@col.ColumnName != "DispatchID" && @col.ColumnName != "Equipment #" && @col.ColumnName != "ChargeBlock" && @col.ColumnName != "Date"&& @col.ColumnName != "Contact" && @col.ColumnName != "Comments")
                             {                         
                                 <td>@row[col.ColumnName]</td>
                             }
@@ -205,19 +171,19 @@
         <div class="row mt10">
             <div class="row no-margin">
                 <div class="col-md-12">
-                    <h4>On-Hire History <span class="ml3">(@ViewBag.TotalOnHireHistory)</span></h4>
+                    <h4>Invoice History <span class="ml3">(@ViewBag.TotalInvoiceHistory)</span></h4>
                 </div>
             </div>
         </div>
 
         <div class="row mt5">
             <div class="col-md-12">
-                <table class="table table-condensed table-striped table-bordered table-responsive table-hover dataTable no-footer dtr-inline" id="tblTankInformation">
+                <table class="table table-condensed table-striped table-bordered table-responsive table-hover dataTable no-footer dtr-inline" id="tblInvoiceHistory">
                     <thead>
                         <tr>
-                            @foreach (DataColumn col in Model.DataTableOnHireHistory.Columns)                           
+                            @foreach (DataColumn col in Model.DataTableInvoiceHistory.Columns)                           
                             {
-                                if (@col.ColumnName == "ChargeCodeAn" || @col.ColumnName == "OnHireDS" || @col.ColumnName == "StatusDt" ||@col.ColumnName == "OnHireReasonTypeDS")
+                                if (@col.ColumnName == "InvoiceDT" || @col.ColumnName == "InvoiceAn" || @col.ColumnName == "InvoiceTotalAmt" ||@col.ColumnName == "ChargeCodeAN")
                                 {
                                     <th>@col.ColumnName</th>
                                 }
@@ -225,14 +191,14 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (DataRow row in Model.DataTableOnHireHistory.Rows)
+                        @foreach (DataRow row in Model.DataTableInvoiceHistory.Rows)
                         {         
                         <tr>
-                            @foreach (DataColumn col in Model.DataTableOnHireHistory.Columns)
+                            @foreach (DataColumn col in Model.DataTableInvoiceHistory.Columns)
                             {  
-                                if (@col.ColumnName == "ChargeCodeAn" || @col.ColumnName == "OnHireDS" || @col.ColumnName == "StatusDt" ||@col.ColumnName == "OnHireReasonTypeDS")                          
+                                if (@col.ColumnName == "InvoiceDT" || @col.ColumnName == "InvoiceAn" || @col.ColumnName == "InvoiceTotalAmt" ||@col.ColumnName == "ChargeCodeAN")
                                 {
-                                <td>@row[col.ColumnName]</td>
+                                    <td>@row[col.ColumnName]</td>
                                 }
                             }
                         </tr>
@@ -257,9 +223,11 @@
                 $("#divShowResults").hide();
 
             $("#btnFilter").click(function () {
+
                 $("#hfSelectedColumn").val($("#ddlFilter").val());
                 return true;
             });
+
         });
     </script>
 }
