@@ -23,18 +23,10 @@ namespace DOWTank.Controllers
         {
             InvoiceListModel invoiceListModel = new InvoiceListModel();
 
-            //int locationId = 1;            
-            //string equipment = "LT 1029";
-
-            //invoiceListModel.DataTableMoveHistory = GetTankMoveHistory(locationId, equipment, "");
-            //invoiceListModel.DataTableEquipmentInfo = GetEquipmentInfo( equipment);
-            //invoiceListModel.DataTableEquipmentProduct = GetEquipmentProduct( equipment);
-            //invoiceListModel.DataTableInvoiceHistory = GetInvoiceHistory( equipment);
-
-            invoiceListModel.DataTableMoveHistory = null;
-            invoiceListModel.DataTableEquipmentInfo = null;
-            invoiceListModel.DataTableEquipmentProduct = null;
-            invoiceListModel.DataTableInvoiceHistory = null;
+            invoiceListModel.DataTableMoveHistory = new DataTable();
+            invoiceListModel.DataTableEquipmentInfo = new DataTable();
+            invoiceListModel.DataTableEquipmentProduct =  new DataTable();
+            invoiceListModel.DataTableInvoiceHistory =  new DataTable();
             
 
             invoiceListModel.HfShowResult = "false";

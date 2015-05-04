@@ -40,14 +40,45 @@
                     <table class="table table-condensed table-striped table-bordered table-responsive table-hover dataTable no-footer dtr-inline" id="tblEquipmentInfo">
                         <thead>
                             <tr>
-                                @foreach (DataColumn col in Model.DataTableEquipmentInfo.Columns)                           
+                            @foreach (DataColumn col in Model.DataTableEquipmentInfo.Columns)                           
                             {
-                            if (@col.ColumnName == "MajorLocationDS" || @col.ColumnName == "LocationDS" || @col.ColumnName == "LoadStatusTypeDS" || @col.ColumnName == "OwnerNM" || @col.ColumnName == "OperatorNM" || @col.ColumnName == "EquipmentTypeDS" || @col.ColumnName == "DedicatedLocationDS" || @col.ColumnName == "TankCapacity" || @col.ColumnName == "TankLastTestDT" || @col.ColumnName == "TankNextTestDT" )
-                           {
-                                <th>@col.ColumnName</th>
+                                if (@col.ColumnName == "MajorLocationDS" || @col.ColumnName == "LocationDS" || @col.ColumnName == "LoadStatusTypeDS" || @col.ColumnName == "OwnerNM" || @col.ColumnName == "OperatorNM" || @col.ColumnName == "EquipmentTypeDS" || @col.ColumnName == "DedicatedLocationDS" || @col.ColumnName == "TankCapacity" || @col.ColumnName == "TankLastTestDT" || @col.ColumnName == "TankNextTestDT" )
+                                {
+                                    switch(@col.ColumnName)
+                                    {
+                                            case "MajorLocationDS":
+                                                <th>Facility</th>
+                                                break;
+                                            case "LocationDS":
+                                                <th>Location</th>
+                                                break;
+                                            case "LoadStatusTypeDS":
+                                                <th>Status</th>
+                                                break;
+                                            case "OwnerNM":
+                                                <th>Owner</th>
+                                                break; 
+                                            case "OperatorNM":
+                                                <th>Operator</th>
+                                                break;
+                                            case "EquipmentTypeDS":
+                                                <th>Type</th>
+                                                break;
+                                            case "DedicatedLocationDS":
+                                                <th>Dedicated Location</th>
+                                                break;
+                                            case "TankCapacity":
+                                                <th>Capacity</th>
+                                                break;
+                                            case "TankLastTestDT":
+                                                <th>Last Test</th>
+                                                break;
+                                            case "TankNextTestDT":
+                                                <th>Test Due</th>
+                                                break;
+                                    }
                                 }
-                                }
-                           
+                            }                           
                             </tr>
                         </thead>
                         <tbody>
@@ -185,7 +216,21 @@
                             {
                                 if (@col.ColumnName == "InvoiceDT" || @col.ColumnName == "InvoiceAn" || @col.ColumnName == "InvoiceTotalAmt" ||@col.ColumnName == "ChargeCodeAN")
                                 {
-                                    <th>@col.ColumnName</th>
+                                    switch(@col.ColumnName)
+                                    {
+                                        case "InvoiceDT":
+                                            <th>Invoice Date</th>
+                                            break;
+                                        case "InvoiceAn":
+                                            <th>Invoice No</th>
+                                            break;
+                                        case "InvoiceTotalAmt":
+                                            <th>Total</th>
+                                            break;
+                                        case "ChargeCodeAN":
+                                            <th>Charge Code</th>
+                                            break; 
+                                    }
                                 }
                             }
                         </tr>
