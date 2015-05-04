@@ -21,6 +21,10 @@
                 @Html.ValidationSummary(false, "Please correct the following items: ")
             </div>
         }
+        @Html.Hidden("ChassisID");
+        @Html.Hidden("ProductID")
+        @Html.Hidden("DriverID")
+        
         <div class="form-group text-right">
             <input type="submit" value="Dispatch Tank" class="btn btn-default btn-primary" />
         </div>
@@ -97,82 +101,96 @@
             <div class="row no-row-margin">
                 <div class="col-md-4 nopadding">
                     <label>Chassis:</label>
-                    <input type="text" id="txtChassis" name="ScheduledDeliveryDT" class="form-control">                    
+                    <input id="ddlChassis" name="ChassisEquipmentID" style="width: 100%; box-sizing: border-box;">
                 </div>
                 <div class="col-md-4 nopadding">
                     <label>Product:</label>
-                    <input type="text" id="txtProduct" name="ScheduledDeliveryDT" class="form-control">
+                    <input id="ddlProduct" type="hidden" name="sintProductId" style="width: 100%; box-sizing: border-box;">
                 </div>
                 <div class="col-md-4 nopadding">
                     <label>Driver:</label>
-                    <input type="text" name="intDriverId" class="form-control">
+                    <input id="ddlDriver" type="hidden" name="intDriverId" style="width: 100%; box-sizing: border-box;">
                 </div>
             </div>
             <div class="row no-row-margin">
                 <div class="col-md-4 nopadding">
+                    <label>Loading Point Type:</label>
+                    @Html.DropDownList("LoadPoint", null, new { @class = "form-control" })
+                </div>
+                <div class="col-md-4 nopadding">
                     <label>Loading Point:</label>
-                    <input type="text" name="intLocationFrom" class="form-control">
+                    <input id="ddlLoadPoint" name="intLocationFrom" type="hidden" style="width: 100%; box-sizing: border-box;">
+                </div>
+                <div class="col-md-4 nopadding">
+                    <label>Charge Code:</label>
+                    <input id="ddlChargeCode" name="intChargeCode" style="width: 100%; box-sizing: border-box;">
+                </div>
+            </div>
+            <div class="row no-row-margin">
+                <div class="col-md-4 nopadding">
+                    <label>Delivery Point Type:</label>
+                    @Html.DropDownList("DeliveryPoint", null, new { @class = "form-control" })
                 </div>
                 <div class="col-md-4 nopadding">
                     <label>Delivery Point:</label>
-                    <input type="text" name="intLocationTo" class="form-control">
-                </div>
-                <div class="col-md-4 nopadding">
-                    <label>On-Hire Block:</label>
-                    <input type="text" name="ScheduledDeliveryDT" class="form-control">
-                </div>
-            </div>
-            <div class="row no-row-margin">
-                <div class="col-md-4 nopadding">
-                    <label>Charge Code:</label>
-                    <input type="text" name="ScheduledDeliveryDT" class="form-control">
-                </div>
-                <div class="col-md-4 nopadding">
-                    <label>Shipment Number:</label>
-                    @Html.TextBoxFor(m => m.strShipmentAN, new { @class = "form-control" })
+                    <input id="ddlDeliveryLocation" name="intLocationTo" type="hidden" style="width: 100%; box-sizing: border-box;">
                 </div>
                 <div class="col-md-4 nopadding">
                     <label>Tank Status:</label>
-                    <input type="text" name="sintLoadStatusTypeId" class="form-control">
+                    @Html.DropDownList("LoadStatusTypeCD", null, new { @class = "form-control" })
                 </div>
             </div>
             <div class="row no-row-margin">
+                <div class="col-md-4 nopadding">
+                    <label>On-Hire Block Type:</label>
+                    @Html.DropDownList("OnHireBlockPoint", null, new { @class = "form-control" })
+                </div>
+                <div class="col-md-4 nopadding">
+                    <label>On-Hire Block:</label>
+                    <input id="ddlOnHireBlock" name="LocationToCode" type="hidden" style="width: 100%; box-sizing: border-box;">
+                </div>
                 <div class="col-md-4 nopadding">
                     <label>Is this a Reload?:</label>
                     @Html.CheckBoxFor(m => m.bolIsReloadFL)
                 </div>
+            </div>
+             <div class="row no-row-margin">
                 <div class="col-md-4 nopadding">
                     <label>Waste Class:</label>
-                    <input type="text" name="ScheduledDeliveryDT" class="form-control">
+                    <input id="ddlWasteClass" type="hidden" name="intWasteClassTypeId" style="width: 100%; box-sizing: border-box;">
                 </div>
                 <div class="col-md-4 nopadding">
                     <label>Instructions/Reason:</label>
-                    <input type="text" name="ScheduledDeliveryDT" class="form-control">
+                    <input id="ddlInstructionsReason" name="sintDispatchReasonTypeId" style="width: 100%; box-sizing: border-box;">
                 </div>
-            </div>
-            <div class="row no-row-margin">
                 <div class="col-md-4 nopadding">
                     <label>Additional Instruct:</label>
-                    <input type="text" name="ScheduledDeliveryDT" class="form-control">
+                    <input id="ddlAdditionalInstruct" name="sintAdditionalDispatchReasonTypeId" style="width: 100%; box-sizing: border-box;">
                 </div>
+            </div>
+            <div class="row no-row-margin">                
                 <div class="col-md-4 nopadding">
                     <label>Pro Number:</label>
-                    @Html.TextBoxFor(m => m.strProNumberAN, new { @class = "form-control datetimepicker" })
+                    @Html.TextBoxFor(m => m.strProNumberAN, new { @class = "form-control" })
                 </div>
+                <div class="col-md-4 nopadding">
+                    <label>ADDL Call Out Hours:</label>
+                    @Html.TextBoxFor(m => m.dblCallOutHoursAMT, new { @class = "form-control" })
+                </div>
+                <div class="col-md-4 nopadding">
+                    <label>Crane Lifts:</label>
+                    @Html.TextBoxFor(m => m.sintCraneLiftAmt, new { @class = "form-control" })
+                </div>                
+            </div>
+            <div class="row no-row-margin">
                 <div class="col-md-4 nopadding">
                     <label>Dispatch Start:</label>
                     @Html.TextBoxFor(m => m.dtmDispatchStart, new { @class = "form-control datetimepicker" })
                 </div>
-            </div>
-            <div class="row no-row-margin">
                 <div class="col-md-4 nopadding">
                     <label>Dispatch End:</label>
                     @Html.TextBoxFor(m => m.dtmDispatchEnd, new { @class = "form-control datetimepicker" })
-                </div>
-                <div class="col-md-4 nopadding">
-                    <label>ADDL Call Out Hours:</label>
-                    @Html.TextBoxFor(m => m.dblCallOutHoursAMT, new { @class = "form-control datetimepicker" })
-                </div>
+                </div>                
                 <div class="col-md-4 nopadding">
                     <label>Scheduled Delivery:</label>
                     @Html.TextBoxFor(m => m.dtmScheduledDelivery, new { @class = "form-control datetimepicker" })
@@ -180,16 +198,17 @@
             </div>
             <div class="row no-row-margin">
                 <div class="col-md-4 nopadding">
-                    <label>Fittings:</label>
-                    <input type="text" name="ScheduledDeliveryDT" class="form-control">
+                    <label>Shipment Number:</label>
+                    @Html.TextBoxFor(m => m.strShipmentAN, new { @class = "form-control" })
                 </div>
                 <div class="col-md-4 nopadding">
-                    <label>Crane Lifts:</label>
-                    @Html.TextBoxFor(m => m.sintCraneLiftAmt, new { @class = "form-control" })
+                    <label>Fittings:</label>
+                    @Html.DropDownList("FittingCD", null, new { @class = "form-control" })
                 </div>
+                
                 <div class="col-md-4 nopadding">
                     <label>Block Contact:</label>
-                    <input type="text" name="ScheduledDeliveryDT" class="form-control">
+                    <input id="ddlContact" name="ContactID" type="hidden" style="width: 100%; box-sizing: border-box;">
                 </div>
             </div>
             <div class="form-group">
@@ -226,6 +245,218 @@
             }
         });
 
+        //ddlChassis
+        $("#ddlChassis").select2({
+            minimumInputLength: 1,
+            cache: false,
+            ajax: {
+                url: "/Dispatch/PopulateChassis",
+                dataType: 'json',
+                quietMillis: 650,
+                data: function (term) {
+                    return {
+                        searchTerm: term // search term
+                    };
+                },
+                results: function (data) {
+                    return { results: data };
+                }
+            }
+        });
+
+        //Product ddl
+        $("#ddlProduct").select2({
+            minimumInputLength: 1,
+            cache: false,
+            ajax: {
+                url: "/Dispatch/PopulateProduct",
+                dataType: 'json',
+                quietMillis: 650,
+                data: function (term) {
+                    return {
+                        searchTerm: term // search term
+                    };
+                },
+                results: function (data) {
+                    return { results: data };
+                }
+            }
+        });
+
+        //Driver ddl
+        $("#ddlDriver").select2({
+            minimumInputLength: 1,
+            cache: false,
+            ajax: {
+                url: "/Dispatch/PopulateDriver",
+                dataType: 'json',
+                quietMillis: 650,
+                data: function (term) {
+                    return {
+                        searchTerm: term // search term
+                    };
+                },
+                results: function (data) {
+                    return { results: data };
+                }
+            }
+        });
+
+        //Load Point ddl
+        $("#ddlLoadPoint").select2({
+            minimumInputLength: 0,
+            cache: false,
+            ajax: {
+                url: "/Dispatch/PopulateLoadPoint",
+                dataType: 'json',
+                quietMillis: 650,
+                data: function (term) {
+                    return {
+                        searchTerm: term, // search term
+                        locationType: $("#LoadPoint").val()
+                    };
+                },
+                results: function (data) {
+                    return { results: data };
+                }
+            }
+        });
+
+        //Destination ddl
+        $("#ddlDeliveryLocation").select2({
+            minimumInputLength: 0,
+            cache: false,
+            ajax: {
+                url: "/Dispatch/PopulateLoadPoint",
+                dataType: 'json',
+                quietMillis: 650,
+                data: function (term) {
+                    return {
+                        searchTerm: term, // search term
+                        locationType: $("#DeliveryPoint").val()
+                    };
+                },
+                results: function (data) {
+                    return { results: data };
+                }
+            }
+        });
+
+        //OnHireBlock ddl
+        $("#ddlOnHireBlock").select2({
+            minimumInputLength: 0,
+            cache: false,
+            ajax: {
+                url: "/Dispatch/PopulateLoadPoint",
+                dataType: 'json',
+                quietMillis: 650,
+                data: function (term) {
+                    return {
+                        searchTerm: term, // search term
+                        locationType: $("#OnHireBlockPoint").val()
+                    };
+                },
+                results: function (data) {
+                    return { results: data };
+                }
+            }
+        });
+        
+        // charge code ddl
+        $("#ddlChargeCode").select2({
+            minimumInputLength: 0,
+            cache: true,
+            ajax: {
+                url: "/Dispatch/PopulateChargeCode",
+                dataType: 'json',
+                quietMillis: 650,
+                data: function (term) {
+                    return {
+                        searchTerm: term // search term
+                    };
+                },
+                results: function (data) {
+                    return { results: data };
+                }
+            }
+        });
+
+        //WasteClass ddl
+        $("#ddlWasteClass").select2({
+            minimumInputLength: 1,
+            cache: false,
+            ajax: {
+                url: "/Dispatch/PopulateWasteClass",
+                dataType: 'json',
+                quietMillis: 650,
+                data: function (term) {
+                    return {
+                        searchTerm: term // search term
+                    };
+                },
+                results: function (data) {
+                    return { results: data };
+                }
+            }
+        });
+
+        // InstructionsReason ddl
+        $("#ddlInstructionsReason").select2({
+            minimumInputLength: 0,
+            cache: true,
+            ajax: {
+                url: "/Dispatch/PopulateDispatchReasons",
+                dataType: 'json',
+                quietMillis: 650,
+                data: function (term) {
+                    return {
+                        searchTerm: term // search term
+                    };
+                },
+                results: function (data) {
+                    return { results: data };
+                }
+            }
+        });
+
+        // AdditionalInstruct ddl
+        $("#ddlAdditionalInstruct").select2({
+            minimumInputLength: 0,
+            cache: true,
+            ajax: {
+                url: "/Dispatch/PopulateDispatchReasons",
+                dataType: 'json',
+                quietMillis: 650,
+                data: function (term) {
+                    return {
+                        searchTerm: term // search term
+                    };
+                },
+                results: function (data) {
+                    return { results: data };
+                }
+            }
+        });
+
+        //ddlContact
+        $("#ddlContact").select2({
+            minimumInputLength: 0,
+            cache: false,
+            ajax: {
+                url: "/Dispatch/PopulateContacts",
+                dataType: 'json',
+                quietMillis: 650,
+                data: function (term) {
+                    return {
+                        searchTerm: term // search term
+                    };
+                },
+                results: function (data) {
+                    return { results: data };
+                }
+            }
+        });
+
         $(function () {
             $('.datetimepicker').datetimepicker({
                 format: 'm/d/Y H:i'
@@ -234,8 +465,13 @@
 
         function CopyOverValues() { }
         $("#btnCopyOver").click(function () {
-            $('#txtChassis').val($('#txtLMChassis').val());
-            $('#txtProduct').val($('#txtLMProduct').val());
+            //$('#txtChassis').val($('#txtLMChassis').val());
+            //$('#txtProduct').val($('#txtLMProduct').val());
+            //alert($('#ChassisID').val() + ' : ' + $('#txtLMChassis').val());
+            $("#ddlChassis").select2("data", { id: $('#ChassisID').val(), text: $('#txtLMChassis').val() });
+            $("#ddlProduct").select2("data", { id: $('#ProductID').val(), text: $('#txtLMProduct').val() });
+            $("#ddlDriver").select2("data", { id: $('#DriverID').val(), text: $('#txtLMDriver').val() });
+
         });
 
         $("#ddlTankNumber").change(function () {
