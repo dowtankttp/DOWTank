@@ -73,8 +73,7 @@ namespace DOWTank.Controllers
             {
                 //todo: re-factor it later, and search using postModel listed above
                 TANK_usp_rpt_TankSearch_spParams.LocationID = 1;
-                TANK_usp_rpt_TankSearch_spParams.EquipmentAN = "LT 1029";
-
+                
             }
             // database call
             data = _utilityService.ExecStoredProcedureForDataTable("TANK_usp_rpt_TankSearch", TANK_usp_rpt_TankSearch_spParams);
