@@ -16,10 +16,10 @@
     {
         if (ViewData.ModelState.Keys.Any(k => ViewData.ModelState[k].Errors.Count() > 0))
         {
-            <div class="alert alert-danger">
-                <button class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                @Html.ValidationSummary(false, "Please correct the following items: ")
-            </div>
+        <div class="alert alert-danger">
+            <button class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            @Html.ValidationSummary(false, "Please correct the following items: ")
+        </div>
         }
         @Html.Hidden("ChassisID");
         @Html.Hidden("ProductID")
@@ -28,197 +28,241 @@
         <div class="form-group text-right">
             <input type="submit" value="Dispatch Tank" class="btn btn-default btn-primary" />
         </div>
+       
         <div class="form-group">
             <div class="col-md-12 nopadding">
                 <label>Tank Number:</label>
             </div>
             <div class="row no-row-margin">
                 <div class="col-md-4 nopadding">
-                    <input id="ddlTankNumber" type="hidden" name= "intEquipmentId" style="width: 100%; box-sizing: border-box;">                   
+                    <input id="ddlTankNumber" type="hidden" name="intEquipmentId" style="width: 100%; box-sizing: border-box;">
                 </div>
             </div>
+        </div>
+       
+        <div class="row no-margin">
             <div class="col-md-12 nopadding">
-                <label>Last Move</label>
+                <h4>Last Move</h4>
             </div>
-
-            <div class="row no-row-margin">
-                <div class="col-md-4 nopadding">
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-3">
                     <label>Date:</label>
-                    <input type="text" id="txtLMDate" name="txtLMDate" disabled="disabled" class="form-control datetimepicker">
+                    <input type="text" id="txtLMDate" name="txtLMDate" class="form-control datetimepicker">
                 </div>
-                <div class="col-md-4 nopadding">
+                <div class="col-md-3">
                     <label>Chassis:</label>
-                    <input type="text" id="txtLMChassis" name="txtLMChassis" disabled="disabled" class="form-control">
+                    <input type="text" id="txtLMChassis" name="txtLMChassis" class="form-control">
                 </div>
-                <div class="col-md-4 nopadding">
+                <div class="col-md-3">
                     <label>Product:</label>
-                    <input type="text" id="txtLMProduct" name="txtLMProduct" disabled="disabled" class="form-control">
+                    <input type="text" id="txtLMProduct" name="txtLMProduct" class="form-control">
                 </div>
             </div>
-            <div class="row no-row-margin">
-                <div class="col-md-4 nopadding">
+        </div>   
+         
+
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-3">
                     <label>Driver:</label>
-                    <input type="text" id="txtLMDriver" name="txtLMDriver" disabled="disabled" class="form-control">
+                    <input type="text" id="txtLMDriver" name="txtLMDriver" class="form-control">
                 </div>
-                <div class="col-md-4 nopadding">
+                <div class="col-md-3">
                     <label>To:</label>
-                    <input type="text" id="txtLMTO" name="txtLMTO" disabled="disabled" class="form-control">
+                    <input type="text" id="txtLMTO" name="txtLMTO" class="form-control">
                 </div>
-                <div class="col-md-4 nopadding">
+                <div class="col-md-3">
                     <label>On-Hire Block:</label>
-                    <input type="text" id="txtLMChargeBlock" name="txtLMChargeBlock" disabled="disabled" class="form-control">
+                    <input type="text" id="txtLMChargeBlock" name="txtLMChargeBlock" class="form-control">
                 </div>
             </div>
-            <div class="row no-row-margin">
-                <div class="col-md-4 nopadding">
+        </div>
+        
+        
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-3">
                     <label>Charge Code:</label>
-                    <input type="text" id="txtLMChargeCode" name="txtLMChargeCode" disabled="disabled" class="form-control">
+                    <input type="text" id="txtLMChargeCode" name="txtLMChargeCode" class="form-control">
                 </div>
-                <div class="col-md-4 nopadding">
+                <div class="col-md-3">
                     <label>Shipment:</label>
-                    <input type="text" id="txtLMShipment" name="txtLMShipment" disabled="disabled" class="form-control">
+                    <input type="text" id="txtLMShipment" name="txtLMShipment" class="form-control">
                 </div>
-                <div class="col-md-4 nopadding">
+                <div class="col-md-3">
                     <label>Fittings:</label>
-                    <input type="text" id="txtLMFittings" name="txtLMFittings" disabled="disabled" class="form-control">
+                    <input type="text" id="txtLMFittings" name="txtLMFittings" class="form-control">
                 </div>
             </div>
-            <div class="row no-row-margin">
-                <div class="col-md-4 nopadding">
+        </div>
+        
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-4">
                     <label>Contact:</label>
-                    <input type="text" id="txtLMContact" name="txtLMContact" disabled="disabled" class="form-control">
+                    <input type="text" id="txtLMContact" name="txtLMContact" class="form-control">
                 </div>
-                <div class="col-md-4 nopadding">
-                    <label style="width: 100%;"></label>
-                    <input type="submit" id="btnCopyOver" value="Copy Over >>" formaction="javascript:CopyOverValues();">
+                <div class="col-md-4 mt20">
+                    <input type="submit" id="btnCopyOver" class="btn btn-default" value="Copy Over >>" formaction="javascript:CopyOverValues();">
                 </div>
             </div>
+        </div>
 
+        
+        <div class="row no-row-margin">
             <div class="col-md-12 nopadding">
-                <label>Current Dispatch Info</label>
+                <h4>Current Dispatch Info</h4>
             </div>
+        </div>
 
-            <div class="row no-row-margin">
-                <div class="col-md-4 nopadding">
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-4 ">
                     <label>Chassis:</label>
                     <input id="ddlChassis" name="ChassisEquipmentID" style="width: 100%; box-sizing: border-box;">
                 </div>
-                <div class="col-md-4 nopadding">
+                <div class="col-md-4 ">
                     <label>Product:</label>
                     <input id="ddlProduct" type="hidden" name="sintProductId" style="width: 100%; box-sizing: border-box;">
                 </div>
-                <div class="col-md-4 nopadding">
+                <div class="col-md-4 ">
                     <label>Driver:</label>
                     <input id="ddlDriver" type="hidden" name="intDriverId" style="width: 100%; box-sizing: border-box;">
                 </div>
             </div>
-            <div class="row no-row-margin">
-                <div class="col-md-4 nopadding">
+        </div>
+        
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-4">
                     <label>Loading Point Type:</label>
                     @Html.DropDownList("LoadPoint", null, new { @class = "form-control" })
                 </div>
-                <div class="col-md-4 nopadding">
+                <div class="col-md-4">
                     <label>Loading Point:</label>
                     <input id="ddlLoadPoint" name="intLocationFrom" type="hidden" style="width: 100%; box-sizing: border-box;">
                 </div>
-                <div class="col-md-4 nopadding">
+                <div class="col-md-4">
                     <label>Charge Code:</label>
                     <input id="ddlChargeCode" name="intChargeCode" style="width: 100%; box-sizing: border-box;">
                 </div>
             </div>
-            <div class="row no-row-margin">
-                <div class="col-md-4 nopadding">
+        </div>
+        
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-4">
                     <label>Delivery Point Type:</label>
                     @Html.DropDownList("DeliveryPoint", null, new { @class = "form-control" })
                 </div>
-                <div class="col-md-4 nopadding">
+                <div class="col-md-4">
                     <label>Delivery Point:</label>
                     <input id="ddlDeliveryLocation" name="intLocationTo" type="hidden" style="width: 100%; box-sizing: border-box;">
                 </div>
-                <div class="col-md-4 nopadding">
+                <div class="col-md-4">
                     <label>Tank Status:</label>
                     @Html.DropDownList("LoadStatusTypeCD", null, new { @class = "form-control" })
                 </div>
             </div>
-            <div class="row no-row-margin">
-                <div class="col-md-4 nopadding">
+        </div>
+        
+        
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-4">
                     <label>On-Hire Block Type:</label>
                     @Html.DropDownList("OnHireBlockPoint", null, new { @class = "form-control" })
                 </div>
-                <div class="col-md-4 nopadding">
+                <div class="col-md-4">
                     <label>On-Hire Block:</label>
                     <input id="ddlOnHireBlock" name="LocationToCode" type="hidden" style="width: 100%; box-sizing: border-box;">
                 </div>
-                <div class="col-md-4 nopadding">
+                <div class="col-md-4 mt20">
                     <label>Is this a Reload?:</label>
                     @Html.CheckBoxFor(m => m.bolIsReloadFL)
                 </div>
             </div>
-             <div class="row no-row-margin">
-                <div class="col-md-4 nopadding">
+        </div>
+        
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-4">
                     <label>Waste Class:</label>
                     <input id="ddlWasteClass" type="hidden" name="intWasteClassTypeId" style="width: 100%; box-sizing: border-box;">
                 </div>
-                <div class="col-md-4 nopadding">
+                <div class="col-md-4">
                     <label>Instructions/Reason:</label>
                     <input id="ddlInstructionsReason" name="sintDispatchReasonTypeId" style="width: 100%; box-sizing: border-box;">
                 </div>
-                <div class="col-md-4 nopadding">
+                <div class="col-md-4">
                     <label>Additional Instruct:</label>
                     <input id="ddlAdditionalInstruct" name="sintAdditionalDispatchReasonTypeId" style="width: 100%; box-sizing: border-box;">
                 </div>
             </div>
-            <div class="row no-row-margin">                
-                <div class="col-md-4 nopadding">
+        </div>
+        
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-4">
                     <label>Pro Number:</label>
                     @Html.TextBoxFor(m => m.strProNumberAN, new { @class = "form-control" })
                 </div>
-                <div class="col-md-4 nopadding">
+                <div class="col-md-4">
                     <label>ADDL Call Out Hours:</label>
                     @Html.TextBoxFor(m => m.dblCallOutHoursAMT, new { @class = "form-control" })
                 </div>
-                <div class="col-md-4 nopadding">
+                <div class="col-md-4">
                     <label>Crane Lifts:</label>
                     @Html.TextBoxFor(m => m.sintCraneLiftAmt, new { @class = "form-control" })
-                </div>                
+                </div>
             </div>
-            <div class="row no-row-margin">
-                <div class="col-md-4 nopadding">
+        </div>
+        
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-4">
                     <label>Dispatch Start:</label>
                     @Html.TextBoxFor(m => m.dtmDispatchStart, new { @class = "form-control datetimepicker" })
                 </div>
-                <div class="col-md-4 nopadding">
+                <div class="col-md-4">
                     <label>Dispatch End:</label>
                     @Html.TextBoxFor(m => m.dtmDispatchEnd, new { @class = "form-control datetimepicker" })
-                </div>                
-                <div class="col-md-4 nopadding">
+                </div>
+                <div class="col-md-4">
                     <label>Scheduled Delivery:</label>
                     @Html.TextBoxFor(m => m.dtmScheduledDelivery, new { @class = "form-control datetimepicker" })
                 </div>
             </div>
-            <div class="row no-row-margin">
-                <div class="col-md-4 nopadding">
+        </div>
+        
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-4">
                     <label>Shipment Number:</label>
                     @Html.TextBoxFor(m => m.strShipmentAN, new { @class = "form-control" })
                 </div>
-                <div class="col-md-4 nopadding">
+                <div class="col-md-4">
                     <label>Fittings:</label>
                     @Html.DropDownList("FittingCD", null, new { @class = "form-control" })
                 </div>
-                
-                <div class="col-md-4 nopadding">
+
+                <div class="col-md-4">
                     <label>Block Contact:</label>
                     <input id="ddlContact" name="ContactID" type="hidden" style="width: 100%; box-sizing: border-box;">
                 </div>
             </div>
-            <div class="form-group">
-                <label>Comments:</label>
-                @Html.TextAreaFor(m => m.strComments, new { @class = "form-control", rows="5", cols="20" })
-            </div>
-            <div class="form-group text-right">
-                <input type="submit" value="Dispatch Tank" class="btn btn-default btn-primary mt20" />
-            </div>
         </div>
+        
+        <div class="form-group">
+            <label>Comments:</label>
+            @Html.TextAreaFor(m => m.strComments, new { @class = "form-control", rows = "5", cols = "20" })
+        </div>
+        <div class="form-group text-right">
+            <input type="submit" value="Dispatch Tank" class="btn btn-default btn-primary mt20" />
+        </div>
+        
     }
 </div>
 
@@ -361,7 +405,7 @@
                 }
             }
         });
-        
+
         // charge code ddl
         $("#ddlChargeCode").select2({
             minimumInputLength: 0,
@@ -476,7 +520,7 @@
 
         $("#ddlTankNumber").change(function () {
             var theSelectionId = $("#ddlTankNumber").select2('data').id;
-            var theSelectionText = $("#ddlTankNumber").select2('data').text; 
+            var theSelectionText = $("#ddlTankNumber").select2('data').text;
             $.ajax({
                 url: "/Dispatch/LoadLastMove?strTankNumber=" + theSelectionText,
                 dataType: 'json',
@@ -500,8 +544,7 @@
                         $("#ContactID").val(response.ContactID);
                         //$("#ddlCurrentLocation").select2("data", { id: response.LocationID, text: response.LocationDS });
                     }
-                    else
-                    {
+                    else {
                         $("#txtLMDate").val('');
                         $("#ChassisID").val('');
                         $("#txtLMChassis").val('');
@@ -521,5 +564,5 @@
             });
         });
 
-    </script>    
+    </script>
 }

@@ -11,7 +11,8 @@
         <div class="col-md-12">
             <h4 class="dow-color col-md-2">Tank Search</h4>
             <div class="ml10 mt5">
-                <button id="btnToggleFilter" class="btn btn-primary btn-default">Show/Hide Filter</button></div>
+                <button id="btnToggleFilter" class="btn btn-primary btn-default">Show/Hide Filter</button>
+            </div>
         </div>
     </div>
     <!--filter-->
@@ -50,22 +51,23 @@
                             <label class="control-label">Tank Status:</label>
                             @Html.DropDownList("LoadStatusTypeCD", null, new { @class = "form-control" })
                         </div>
-                    </div><div class="row">
-    <div class="col-md-12">
-        <label>From:</label>
-    </div>
-    <div class="col-md-12">
-        <div class="col-md-4 nopadding">
-            @Html.DropDownList("LoadPoint", null, new { @class = "form-control" })
-        </div>
-        <div class="col-md-4 col-md-offset-1 mt5">
-            <input id="ddlLoadPoint" name="LocationFromCode" type="hidden" style="width: 100%; box-sizing: border-box;">
-        </div>
-    </div>
-</div>
+                    </div>
+                    
                 </div>
              
-                
+                <div class="row mt10">
+                        <div class="col-md-12">
+                            <label>From:</label>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="col-md-4 nopadding">
+                                @Html.DropDownList("LoadPoint", null, new { @class = "form-control" })
+                            </div>
+                            <div class="col-md-4 col-md-offset-1 mt5">
+                                <input id="ddlLoadPoint" name="LocationFromCode" type="hidden" style="width: 100%; box-sizing: border-box;">
+                            </div>
+                        </div>
+                    </div>
              
                 <div class="row mt10">
                     <div class="col-md-12">
@@ -202,7 +204,7 @@
             //mark end of document ready
         });
 
-        $(function() {
+        $(function () {
             //Product ddl
             $("#ddlProduct").select2({
                 minimumInputLength: 1,
@@ -211,12 +213,12 @@
                     url: "/Tank/PopulateProduct",
                     dataType: 'json',
                     quietMillis: 650,
-                    data: function(term) {
+                    data: function (term) {
                         return {
                             searchTerm: term // search term
                         };
                     },
-                    results: function(data) {
+                    results: function (data) {
                         return { results: data };
                     }
                 }
@@ -230,13 +232,13 @@
                     url: "/Tank/PopulateLoadPoint",
                     dataType: 'json',
                     quietMillis: 650,
-                    data: function(term) {
+                    data: function (term) {
                         return {
                             searchTerm: term, // search term
                             locationType: $("#LoadPoint").val()
                         };
                     },
-                    results: function(data) {
+                    results: function (data) {
                         return { results: data };
                     }
                 }
@@ -250,13 +252,13 @@
                     url: "/Tank/PopulateLoadPoint",
                     dataType: 'json',
                     quietMillis: 650,
-                    data: function(term) {
+                    data: function (term) {
                         return {
                             searchTerm: term, // search term
                             locationType: $("#ddlDestination").val()
                         };
                     },
-                    results: function(data) {
+                    results: function (data) {
                         return { results: data };
                     }
                 }
@@ -270,12 +272,12 @@
                     url: "/Tank/PopulateChargeCode",
                     dataType: 'json',
                     quietMillis: 650,
-                    data: function(term) {
+                    data: function (term) {
                         return {
                             searchTerm: term // search term
                         };
                     },
-                    results: function(data) {
+                    results: function (data) {
                         return { results: data };
                     }
                 }
@@ -341,21 +343,21 @@
             $("#ddlDedicatedProduct").change(function () {
                 var theSelectionId = $("#ddlDedicatedProduct").select2('data').id;
                 var theSelectionText = $("#ddlDedicatedProduct").select2('data').text;
-                
+
                 $("#strDedicatedProduct").val(theSelectionText);
 
-                });
+            });
 
         });
-                     
 
-        $(function() {
 
-            $("#btnToggleFilter").on('click', function() {
+        $(function () {
+
+            $("#btnToggleFilter").on('click', function () {
                 $("#divFilter").toggle();
             });
 
         });
-        
+
     </script>
 }
