@@ -7,10 +7,10 @@ namespace DOWTank.Models
     {
         public Int32? intDispatchId { get; set; }
         [Required(ErrorMessage = "Tank Number is required")]
-        public Int32? intEquipmentId { get; set; }
+        public Int32 intEquipmentId { get; set; }
         public Int32? intChassisEquipmentId { get; set; }
         [Required(ErrorMessage = "Tank Status is required")]
-        public Int16 sintLoadStatusTypeId { get; set; }
+        public Int16? sintLoadStatusTypeId { get; set; }
         public Int16? sintProductId { get; set; }
         public Int16? sintDispatchReasonTypeId { get; set; }
         public Int16? sintAdditionalDispatchReasonTypeId { get; set; }
@@ -24,14 +24,14 @@ namespace DOWTank.Models
         public String strShipmentAN { get; set; }
         public Int32? intDriverId { get; set; }
         [Required(ErrorMessage = "Dispatch Start DateTime is required")]
-        public DateTime dtmDispatchStart { get; set; }
+        public DateTime? dtmDispatchStart { get; set; }
         [Required(ErrorMessage = "Dispatch End DateTime is required")]
-        public DateTime dtmDispatchEnd { get; set; }
+        public DateTime? dtmDispatchEnd { get; set; }
         public DateTime? dtmScheduledDelivery { get; set; }
         [Required(ErrorMessage = "Block Contact is required")]
-        public Int32 intContactId { get; set; }
+        public Int32? intContactId { get; set; }
         [Required(ErrorMessage = "Charge Code is required")]
-        public Int32 intChargeCode { get; set; }
+        public Int32? intChargeCode { get; set; }
         public Int32? intChargeBlockLocationId { get; set; }
         public Int16? sintCraneLiftAmt { get; set; }
         public Int32? intFittingId { get; set; }

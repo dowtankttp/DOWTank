@@ -4,12 +4,13 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using DOWTank.Common;
+using DOWTank.Core.Domain.TANK_usp_insupd;
 using DOWTank.Core.Service;
 using DOWTank.Models;
 
 namespace DOWTank.Controllers
 {
-    public class DispatchController : Controller
+    public class DispatchController : BaseController
     {
         private readonly IUtilityService _utilityService;
         private readonly ISharedFunctions _sharedFunctions;
@@ -27,13 +28,65 @@ namespace DOWTank.Controllers
         }
 
         [HttpPost]
-        public ActionResult Index(DispatchTankModel postModel)
+        public ActionResult Index(DispatchTankModel postModel, String ChassisID, String ProductID, String DriverID)
         {
+            LoadDispatchTankDropdowns();
             if (!ModelState.IsValid)
             {
                 //return appropriate validation messages
                 return View(postModel);
             }
+            //todo: re-factor it as required
+            TANK_usp_insupd_DispatchTank_spParams objDispatchTankParams = new TANK_usp_insupd_DispatchTank_spParams();
+            if (postModel.intDispatchId != null && postModel.intDispatchId > 0)
+                objDispatchTankParams.DispatchID = postModel.intDispatchId;
+            objDispatchTankParams.LocationID = 1;
+            objDispatchTankParams.EquipmentID = postModel.intEquipmentId;
+            if (ChassisID.Trim().Length > 0)
+                objDispatchTankParams.ChassisEquipmentID = Convert.ToInt32(ChassisID);
+            if (postModel.sintLoadStatusTypeId != null && postModel.sintLoadStatusTypeId > 0)
+                objDispatchTankParams.LoadStatusTypeCD = postModel.sintLoadStatusTypeId;
+            if (ProductID.Trim().Length > 0)
+                objDispatchTankParams.ProductID = Convert.ToInt16(ProductID);
+            if (postModel.sintDispatchReasonTypeId != null && postModel.sintDispatchReasonTypeId > 0)
+                objDispatchTankParams.DispatchReasonTypeCd = postModel.sintDispatchReasonTypeId;
+            if (postModel.sintAdditionalDispatchReasonTypeId != null && postModel.sintAdditionalDispatchReasonTypeId > 0)
+                objDispatchTankParams.AdditionalDispatchReasonTypeCD = postModel.sintAdditionalDispatchReasonTypeId;
+            objDispatchTankParams.FromLocationID = postModel.intLocationFrom;
+            objDispatchTankParams.ToLocationID = postModel.intLocationTo;
+            objDispatchTankParams.ShipmentAN = postModel.strShipmentAN;
+            if (DriverID.Trim().Length > 0)
+                objDispatchTankParams.DriverID = Convert.ToInt32(DriverID);
+            if (postModel.dtmDispatchStart != null && postModel.dtmDispatchStart.Value != DateTime.MinValue)
+                objDispatchTankParams.DispatchStartDT = postModel.dtmDispatchStart;
+            if (postModel.dtmDispatchEnd != null && postModel.dtmDispatchEnd.Value != DateTime.MinValue)
+                objDispatchTankParams.DispatchEndDT = postModel.dtmDispatchEnd;
+            if (postModel.dtmScheduledDelivery != null && postModel.dtmScheduledDelivery.Value != DateTime.MinValue)
+                objDispatchTankParams.ScheduledDeliveryDT = postModel.dtmScheduledDelivery;
+            if (postModel.intContactId != null && postModel.intContactId > 0)
+                objDispatchTankParams.ContactID = postModel.intContactId;
+            if (postModel.intChargeCode != null && postModel.intChargeCode > 0)
+                objDispatchTankParams.ChargeCodeID = postModel.intChargeCode;
+            if (postModel.intChargeBlockLocationId != null && postModel.intChargeBlockLocationId > 0)
+                objDispatchTankParams.ChargeBlockLocationID = postModel.intChargeBlockLocationId;
+            if (postModel.sintCraneLiftAmt != null && postModel.sintCraneLiftAmt > 0)
+                objDispatchTankParams.CraneLiftAmt = postModel.sintCraneLiftAmt;
+            if (postModel.intFittingId != null && postModel.intFittingId > 0)
+                objDispatchTankParams.FittingCD = postModel.intFittingId;
+            objDispatchTankParams.PlannedFL = postModel.bolIsPlannedFL;
+            objDispatchTankParams.ProNumberAN = postModel.strProNumberAN;
+            objDispatchTankParams.CommentsAn = postModel.strComments;
+            if (postModel.dblCallOutHoursAMT != null && postModel.dblCallOutHoursAMT > 0)
+                objDispatchTankParams.CallOutHoursAMT = postModel.dblCallOutHoursAMT.Value;
+            if (postModel.intWasteClassTypeId != null && postModel.intWasteClassTypeId > 0)
+                objDispatchTankParams.WasteClassTypeCD = postModel.intWasteClassTypeId;
+            objDispatchTankParams.ReloadFL = postModel.bolIsReloadFL;
+            objDispatchTankParams.CleaningApprovedFL = postModel.bolIsCleaningApprovedFL;
+            objDispatchTankParams.WPNAN = postModel.strWPNAN;
+
+            _utilityService.ExecStoredProcedureWithoutResults("TANK_usp_insupd_Dispatch", objDispatchTankParams);
+            Success("Dispatch Tank Saved Successfully.");
+            //return appropriate message
             return View(postModel);
         }
 
