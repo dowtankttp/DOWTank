@@ -28,7 +28,7 @@ namespace DOWTank.Controllers
         }
 
         [HttpPost]
-        public ActionResult Index(DispatchTankModel postModel, String ChassisID, String ProductID, String DriverID)
+        public ActionResult Index(DispatchTankModel postModel, String ChassisID, String ProductID, String DriverID, String LoadStatusTypeCD)
         {
             LoadDispatchTankDropdowns();
             if (!ModelState.IsValid)
@@ -83,6 +83,7 @@ namespace DOWTank.Controllers
             objDispatchTankParams.ReloadFL = postModel.bolIsReloadFL;
             objDispatchTankParams.CleaningApprovedFL = postModel.bolIsCleaningApprovedFL;
             objDispatchTankParams.WPNAN = postModel.strWPNAN;
+            objDispatchTankParams.UpdateUserAN = "System";
 
             _utilityService.ExecStoredProcedureWithoutResults("TANK_usp_insupd_Dispatch", objDispatchTankParams);
             Success("Dispatch Tank Saved Successfully.");
@@ -132,7 +133,7 @@ namespace DOWTank.Controllers
                 {
                     statusTypeList.Add(new SelectListItem { Text = item.LoadStatusTypeDS, Value = item.LoadStatusTypeCD.ToString() });
                 }
-                ViewBag.LoadStatusTypeCD = statusTypeList;
+                ViewBag.sintLoadStatusTypeId = statusTypeList;
             }
 
             #endregion PopulateLoadStatusType
@@ -148,7 +149,7 @@ namespace DOWTank.Controllers
                 {
                     fittingList.Add(new SelectListItem { Text = item.FittingDS, Value = item.FittingCD.HasValue ? item.FittingCD.Value.ToString() : string.Empty });
                 }
-                ViewBag.FittingCD = fittingList;
+                ViewBag.intFittingId = fittingList;
             }
 
             #endregion fitting ddl

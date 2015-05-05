@@ -24,7 +24,8 @@
         @Html.Hidden("ChassisID");
         @Html.Hidden("ProductID")
         @Html.Hidden("DriverID")
-        
+        @Html.Hidden("FittingID")
+
         <div class="form-group text-right">
             <input type="submit" value="Dispatch Tank" class="btn btn-default btn-primary" />
         </div>
@@ -121,7 +122,7 @@
             <div class="row">
                 <div class="col-md-4 ">
                     <label>Chassis:</label>
-                    <input id="ddlChassis" name="ChassisEquipmentID" style="width: 100%; box-sizing: border-box;">
+                    <input id="ddlChassis" name="intChassisEquipmentId" style="width: 100%; box-sizing: border-box;">
                 </div>
                 <div class="col-md-4 ">
                     <label>Product:</label>
@@ -163,7 +164,7 @@
                 </div>
                 <div class="col-md-4">
                     <label>Tank Status:</label>
-                    @Html.DropDownList("LoadStatusTypeCD", null, new { @class = "form-control" })
+                    @Html.DropDownList("sintLoadStatusTypeId", null, new { @class = "form-control" })
                 </div>
             </div>
         </div>
@@ -177,7 +178,7 @@
                 </div>
                 <div class="col-md-4">
                     <label>On-Hire Block:</label>
-                    <input id="ddlOnHireBlock" name="LocationToCode" type="hidden" style="width: 100%; box-sizing: border-box;">
+                    <input id="ddlOnHireBlock" name="intChargeBlockLocationId" type="hidden" style="width: 100%; box-sizing: border-box;">
                 </div>
                 <div class="col-md-4 mt20">
                     <label>Is this a Reload?:</label>
@@ -241,16 +242,16 @@
             <div class="row">
                 <div class="col-md-4">
                     <label>Shipment Number:</label>
-                    @Html.TextBoxFor(m => m.strShipmentAN, new { @class = "form-control" })
+                    @Html.TextBoxFor(m => m.strShipmentAN, new { @class = "form-control" })                    
                 </div>
                 <div class="col-md-4">
                     <label>Fittings:</label>
-                    @Html.DropDownList("FittingCD", null, new { @class = "form-control" })
+                    @Html.DropDownList("intFittingId", null, new { @class = "form-control" })
                 </div>
 
                 <div class="col-md-4">
                     <label>Block Contact:</label>
-                    <input id="ddlContact" name="ContactID" type="hidden" style="width: 100%; box-sizing: border-box;">
+                    <input id="ddlContact" name="intContactId" type="hidden" style="width: 100%; box-sizing: border-box;">
                 </div>
             </div>
         </div>
@@ -515,7 +516,9 @@
             $("#ddlChassis").select2("data", { id: $('#ChassisID').val(), text: $('#txtLMChassis').val() });
             $("#ddlProduct").select2("data", { id: $('#ProductID').val(), text: $('#txtLMProduct').val() });
             $("#ddlDriver").select2("data", { id: $('#DriverID').val(), text: $('#txtLMDriver').val() });
-
+            $("#ddlContact").select2("data", { id: $('#ContactID').val(), text: $('#txtLMContact').val() });
+            $("#FittingCD").select2("data", { id: $('#FittingID').val(), text: $('#txtLMFittings').val() });
+            $('#strShipmentAN').val($('#txtLMShipment').val());
         });
 
         $("#ddlTankNumber").change(function () {
@@ -540,6 +543,7 @@
                         $("#txtLMChargeCode").val(response.ChargeCodeAN);
                         $("#txtLMShipment").val(response.ShipmentAN);
                         $("#txtLMFittings").val(response.FittingDS);
+                        $("#FittingID").val(response.FittingCD);
                         $("#txtLMContact").val(response.ContactNM);
                         $("#ContactID").val(response.ContactID);
                         //$("#ddlCurrentLocation").select2("data", { id: response.LocationID, text: response.LocationDS });
@@ -556,6 +560,7 @@
                         $("#txtLMChargeBlock").val('');
                         $("#txtLMChargeCode").val('');
                         $("#txtLMShipment").val('');
+                        $("#FittingID").val('');
                         $("#txtLMFittings").val('');
                         $("#txtLMContact").val('');
                         $("#ContactID").val('');
