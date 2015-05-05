@@ -24,15 +24,22 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Require Cleaning", "Index", "RequireCleaning")</li>
-                    <li>@Html.ActionLink("Require Service", "Index", "RequireService")</li>
-                    <li>@Html.ActionLink("Search", "Index", "TankSearch")</li>
-                    <li>@Html.ActionLink("Tank Prep", "Prep", "Tank")</li>
-                    <li>@Html.ActionLink("Tank Arrival", "TankArrivalUpdate", "Tank")</li>
-                    <li>@Html.ActionLink("Audit Driver List", "AuditDriverList", "Report")</li>
-                    <li>@Html.ActionLink("Tank History", "Index", "TankHistory")</li>
-                    <li>@Html.ActionLink("Dispatch", "Index", "Dispatch")</li>
-                    <li>@Html.ActionLink("Invoice", "Index", "InvoiceList")</li>
+                    <li class="dropdown open">
+                        <a aria-expanded="true" role="button" data-toggle="dropdown" class="dropdown-toggle" href="#">Main Console<span class="caret"></span></a>
+                        <ul role="menu" class="dropdown-menu">
+                            <li>@Html.ActionLink("Require Cleaning", "Index", "RequireCleaning")</li>
+                            <li>@Html.ActionLink("Require Service", "Index", "RequireService")</li>
+                            <li>@Html.ActionLink("Search", "Index", "TankSearch")</li>
+                            <li>@Html.ActionLink("Tank Prep", "Prep", "Tank")</li>
+                            <li>@Html.ActionLink("Tank Arrival", "TankArrivalUpdate", "Tank")</li>
+                            <li>@Html.ActionLink("Audit Driver List", "AuditDriverList", "Report")</li>
+                            <li>@Html.ActionLink("Tank History", "Index", "TankHistory")</li>
+                            <li>@Html.ActionLink("Dispatch", "Index", "Dispatch")</li>
+                            <li>@Html.ActionLink("Invoice", "Index", "InvoiceList")</li>
+                        </ul>
+                    </li>
+                    <li><a href="javascript:void(0)">Reports</a></li>
+                    <li><a href="javascript:void(0)">Admin</a></li>
                 </ul>
             </div>
         </div>
