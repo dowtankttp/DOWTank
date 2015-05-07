@@ -1,0 +1,129 @@
+﻿@model DOWTank.Controllers.GroundedMatrixModel
+@using System.Data;
+@{
+    ViewBag.Title = "Grounded Matrix";
+}
+<div class="well well-lg">
+    <!--title-->
+    <div class="row mt10 mb20">
+        <div class="col-md-12">
+            <h4 class="dow-color">Grounded Matrix</h4>           
+        </div>
+    </div>
+    <!--/title-->
+    @using (Html.BeginForm("Search", "GroundedMatrix", FormMethod.Post))
+    {
+    <div class="row mt10 mb10">
+        <div class="col-md-1">
+            <label class="control-label">Section:</label>                            
+        </div>
+        <div class="col-md-3">            
+            <select id="ddlSection" class = "form-control">
+                @foreach (DataRow row in Model.DataTableLocationDDl.Rows)
+                {         
+                    <option value="@row["LocationID"]">@row["LocationDS"]</option>            
+                }
+            </select>
+            @Html.HiddenFor(model => model.HfSelectedSection, new { id = "hfSelectedSection" })       
+        </div>
+        <div class="col-md-2">
+            <input id="btnSearch" type="submit" class="btn btn-default btn-primary" value="Search" />
+        </div>
+    </div>
+    }
+        <div class="row mt20">
+            <div class="row no-margin">
+                <div class="col-md-12">
+                   @* <h4>Grounded Matrix<span class="ml3">(@ViewBag.TotalRecordsGroundedMatrix)</span></h4>*@
+                </div>
+            </div>
+            <div class="row no-margin">
+                <div class="col-md-12">
+                    <table class="table table-condensed table-striped table-bordered table-responsive table-hover dataTable no-footer dtr-inline" id="tblGrounded">
+                        <thead>
+                            <tr>
+                                @foreach (DataColumn col in Model.DataTableGroundedMatrix.Columns)                           
+                            {
+                            if (@col.ColumnName == "SectionDS" || @col.ColumnName == "PadDS" || @col.ColumnName == "RowDS" || @col.ColumnName == "EquipmentAn" || @col.ColumnName == "ProductDS" || @col.ColumnName == "Status" || @col.ColumnName == "StatusDT" || @col.ColumnName == "Block" || @col.ColumnName == "Fitting"  )
+                           {                                
+                                    switch(@col.ColumnName)
+                                    {
+                                        case "SectionDS":
+                                            <th>Section</th>
+                                            break;
+                                        case "PadDS":
+                                            <th>Pad</th>
+                                            break;
+                                        case "RowDS":
+                                            <th>Row</th>
+                                            break;
+                                        case "EquipmentAn":
+                                            <th>Tank</th>
+                                            break;
+                                        case "ProductDS":
+                                            <th>Last Product</th>
+                                            break;
+                                        case "Status":
+                                            <th>Status</th>
+                                            break;
+                                        case "StatusDT":
+                                            <th>Last Move</th>
+                                            break;
+                                        case "Block":
+                                            <th>Block</th>
+                                            break; 
+                                        case "Fitting":
+                                            <th>Fitting</th>
+                                            break; 
+                                    }
+                                }
+                            }
+                           
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (DataRow row in Model.DataTableGroundedMatrix.Rows)
+                        {         
+                        <tr>
+                            @foreach (DataColumn col in Model.DataTableGroundedMatrix.Columns)
+                            {   
+                             if (@col.ColumnName == "SectionDS" || @col.ColumnName == "PadDS" || @col.ColumnName == "RowDS" || @col.ColumnName == "EquipmentAn" || @col.ColumnName == "ProductDS" || @col.ColumnName == "Status" || @col.ColumnName == "StatusDT" || @col.ColumnName == "Block" || @col.ColumnName == "Fitting"  )
+                                {<td>@row[col.ColumnName]</td>}
+                            }
+                        </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+</div>
+
+<!--script-->
+@section scripts
+{
+    <script>
+
+        $(document).ready(function () {
+            $("#hfSelectedSection").val($("#ddlSection").val());
+
+            $("#ddlSection").change(function () {
+                $("#hfSelectedSection").val($("#ddlSection").val());
+            });
+        });
+
+        $(function () {
+            $("#tblGrounded").dataTable(
+                {
+                    "bLengthChange": false,
+                    searching: false,
+                    ordering: false,
+                    pagination: true,
+                    pageLength: 50,
+                    "sDom": '<"top"flp>rt<"bottom"i><"clear">',
+                    responsive: true
+                });           
+        });
+       
+    </script>
+}

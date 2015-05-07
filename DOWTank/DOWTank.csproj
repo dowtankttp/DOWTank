@@ -151,6 +151,7 @@
     <Compile Include="Common\SharedFunctions.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\DispatchController.cs" />
+    <Compile Include="Controllers\GroundedMatrixController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InvoiceListController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
@@ -370,6 +371,7 @@
     <Content Include="Views\TankHistory\Index.cshtml" />
     <Content Include="Views\Dispatch\Index.cshtml" />
     <Content Include="Views\InvoiceList\Index.cshtml" />
+    <Content Include="Views\GroundedMatrix\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DOWTank.Core\DOWTank.Core.csproj">
