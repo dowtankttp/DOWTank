@@ -8,7 +8,7 @@
     <!--title-->
     <div class="row mt10 mb20">
         <div class="col-md-12">
-            <h4 class="dow-color">Require Cleaning <span class="ml3">(@ViewBag.TotalRecords)</span></h4>
+            <h4 class="dow-color">Require Cleaning <span class="ml3">(@ViewBag.TotalRecords)</span><span class="ml5">@Html.ActionLink("view in excel", "ViewInExcel", "RequireCleaning")</span></h4>
             <p>List of idle tanks that have a status of dirty-empty or heel.</p>
         </div>
     </div>
@@ -27,11 +27,11 @@
                             {
                                 if (@col.ColumnName == "EquipmentID")
                                 {
-                                    <th></th>
+                            <th></th>
                                 }
                                 else
                                 {
-                                    <th>@col.ColumnName</th>
+                            <th>@col.ColumnName</th>
                                 }
                             }
                         }

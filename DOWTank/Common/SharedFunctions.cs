@@ -1,12 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data;
+using System.IO;
 using System.Linq;
 using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
 using CrystalDecisions.CrystalReports.Engine;
 using CrystalDecisions.Shared;
 using DOWTank.Core.Domain.TANK_usp_sel;
 using DOWTank.Core.Service;
+using System.Web;
+using System.Web.Mvc;
 
 namespace DOWTank.Common
 {
@@ -31,6 +37,7 @@ namespace DOWTank.Common
         IEnumerable<TANK_usp_sel_DispatchLastMove_spResults> LoadDispatchLastMove(String strTankNumber, int locationId);
         IEnumerable<TANK_usp_sel_DispatchLastMove_spResults> LoadDispatchLastMove(int equipmentId, int locationId);
         IEnumerable<TANK_usp_sel_ServiceTypeDDL_spResults> PopulateServiceType(bool iIncludeBlank);
+        void LoadExcel(DataTable dataTable);
     }
 
     public class SharedFunctions : ISharedFunctions
@@ -374,6 +381,30 @@ namespace DOWTank.Common
 
             return data;
         }
+
+        #region export to excel
+
+        public void LoadExcel(DataTable dataTable)
+        {
+            string fileName = DateTime.Now.ToString("hh:mm:ss");
+            // This actually makes your HTML output to be downloaded as .xls file
+            System.Web.HttpContext.Current.Response.Clear();
+            System.Web.HttpContext.Current.Response.ClearContent();
+            System.Web.HttpContext.Current.Response.ContentType = "application/vnd.ms-excel";
+            System.Web.HttpContext.Current.Response.AddHeader("Content-Disposition", "attachment; filename=" + fileName + ".xls");
+
+            // Create a dynamic control, populate and render it
+            GridView excel = new GridView();
+            excel.DataSource = dataTable;
+            excel.DataBind();
+            excel.RenderControl(new HtmlTextWriter(System.Web.HttpContext.Current.Response.Output));
+
+            System.Web.HttpContext.Current.Response.Flush();
+            System.Web.HttpContext.Current.Response.End();
+        }
+
+        #endregion export to excel
+
     }
 
 
