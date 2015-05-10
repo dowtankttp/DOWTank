@@ -23,22 +23,40 @@
                     <tr>
                         @foreach (DataColumn col in Model.Columns)
                         {
-                            if (@col.ColumnName != "EquipmentID" && @col.ColumnName != "2.5 YR" && @col.ColumnName != "5 YR" && @col.ColumnName != "Type of Service" && @col.ColumnName != "WPN")
+                            if (@col.ColumnName != "2.5 YR" && @col.ColumnName != "5 YR" && @col.ColumnName != "Type of Service" && @col.ColumnName != "WPN")
                             {
-                            <th>@col.ColumnName</th>
+                                if (@col.ColumnName == "EquipmentID")
+                                {
+                                    <th></th>
+                                }
+                                else
+                                {
+                                    <th>@col.ColumnName</th>
+                                }
                             }
                         }
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (DataRow row in Model.Rows)
-                    {         
+                    {
                         <tr>
                             @foreach (DataColumn col in Model.Columns)
                             {
-                                if (@col.ColumnName != "EquipmentID" && @col.ColumnName != "2.5 YR" && @col.ColumnName != "5 YR" && @col.ColumnName != "Type of Service" && @col.ColumnName != "WPN")
+                                if (@col.ColumnName != "2.5 YR" && @col.ColumnName != "5 YR" && @col.ColumnName != "Type of Service" && @col.ColumnName != "WPN")
                                 {
+                                    if (@col.ColumnName == "Tank #")
+                                    {
+                                <td>@Html.ActionLink(@row[col.ColumnName].ToString(), "Index", "TankHistory", new { @tankNumber = @row[col.ColumnName].ToString() }, null)</td>
+                                    }
+                                    else if (@col.ColumnName == "EquipmentID")
+                                    {
+                                <td>@Html.ActionLink("Dispatch", "Index", "Dispatch", new { @equipmentId = @row[col.ColumnName].ToString() }, null)</td>
+                                    }
+                                    else
+                                    {
                                 <td>@row[col.ColumnName]</td>
+                                    }
                                 }
                             }
                         </tr> 
@@ -54,9 +72,9 @@
 <!--script-->
 @section scripts
 {
-  
+
     <script>
-        $(function() {
+        $(function () {
 
             $("#tblRequireCleaning").dataTable(
                 {

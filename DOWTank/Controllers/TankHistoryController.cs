@@ -17,42 +17,47 @@ namespace DOWTank.Controllers
         {
             _utilityService = utilityService;
         }
-        
+
         // GET: /TankHistory/
-        public ActionResult Index()
+        public ActionResult Index(string tankNumber)
         {
             TankHistoryModel tankHistoryModel = new TankHistoryModel();
 
+            string equipment = string.Empty;
+            if (!string.IsNullOrEmpty(tankNumber))
+            {
+                equipment = tankNumber.TrimEnd();
+            }
+            if (TempData["Equipment"] != null)
+            {
+                equipment = TempData["Equipment"].ToString();
+            }
+
             int locationId = 1;
-            int majorLocationID = 1;            
-            string equipment = "LT 1029";
+            int majorLocationID = 1;
 
             tankHistoryModel.DataTableActivityHistory = GetTankActivityHistory(false, locationId, equipment, "");
             tankHistoryModel.DataTableEquipmentInfo = GetEquipmentInfo(false, majorLocationID, equipment);
             tankHistoryModel.DataTableEquipmentProduct = GetEquipmentProduct(false, equipment);
             tankHistoryModel.DataTableOnHireHistory = GetOnHireHistory(false, locationId, equipment);
-            tankHistoryModel.HfShowResult = "false";
+
+            tankHistoryModel.HfShowResult = !string.IsNullOrEmpty(equipment) ? "true" : "false";
+            tankHistoryModel.TextSearch = equipment;
             return View(tankHistoryModel);
         }
 
         public ActionResult Search(TankHistoryModel postModel)
-        {   
+        {
             if (string.IsNullOrEmpty(postModel.TextSearch))
                 return RedirectToAction("Index");
 
-            TankHistoryModel tankHistoryModel = new TankHistoryModel();           
+            TankHistoryModel tankHistoryModel = new TankHistoryModel();
 
-            int locationId = 1;
-            int majorLocationID = 1;                    
             string equipment = postModel.TextSearch;
 
-            tankHistoryModel.DataTableActivityHistory = GetTankActivityHistory(false, locationId, equipment,"");
-            tankHistoryModel.DataTableEquipmentInfo = GetEquipmentInfo(false, majorLocationID, equipment);
-            tankHistoryModel.DataTableEquipmentProduct = GetEquipmentProduct(false, equipment);
-            tankHistoryModel.DataTableOnHireHistory = GetOnHireHistory(false, locationId, equipment);
             TempData["Equipment"] = equipment;
-            tankHistoryModel.HfShowResult = "true";
-            return View("Index", tankHistoryModel);
+
+            return RedirectToAction("Index", "TankHistory");
         }
 
         public ActionResult Filter(TankHistoryModel postModel)
@@ -113,7 +118,7 @@ namespace DOWTank.Controllers
             var TANK_usp_sel_EquipmentInfo_spParams = new TANK_usp_sel_EquipmentInfo_spParams();
             //TANK_usp_sel_EquipmentInfo_spParams.EquipmentID = equipmentId;
             TANK_usp_sel_EquipmentInfo_spParams.EquipmentAN = equipment;
-            TANK_usp_sel_EquipmentInfo_spParams.MajorLocationID = majorLocationID;             
+            TANK_usp_sel_EquipmentInfo_spParams.MajorLocationID = majorLocationID;
 
             DataTable data = _utilityService.ExecStoredProcedureForDataTable("TANK_usp_sel_EquipmentInfo", TANK_usp_sel_EquipmentInfo_spParams);
 
@@ -127,8 +132,8 @@ namespace DOWTank.Controllers
         private DataTable GetEquipmentProduct(bool showColumnsOnly, string equipment)
         {
             // database call                        
-            var TANK_usp_sel_EquipmentProduct_spParams = new TANK_usp_sel_EquipmentProduct_spParams();            
-//            TANK_usp_sel_EquipmentProduct_spParams.EquipmentID = equipmentId;            
+            var TANK_usp_sel_EquipmentProduct_spParams = new TANK_usp_sel_EquipmentProduct_spParams();
+            //            TANK_usp_sel_EquipmentProduct_spParams.EquipmentID = equipmentId;            
             TANK_usp_sel_EquipmentProduct_spParams.EquipmentAN = equipment;
 
             DataTable data = _utilityService.ExecStoredProcedureForDataTable("TANK_usp_sel_EquipmentProduct", TANK_usp_sel_EquipmentProduct_spParams);
@@ -144,7 +149,7 @@ namespace DOWTank.Controllers
         {
             // database call                        
             var TANK_usp_sel_EquipmentOnHireHistory_spParams = new TANK_usp_sel_EquipmentOnHireHistory_spParams();
-            TANK_usp_sel_EquipmentOnHireHistory_spParams.LocationID = locationId;            
+            TANK_usp_sel_EquipmentOnHireHistory_spParams.LocationID = locationId;
             TANK_usp_sel_EquipmentOnHireHistory_spParams.EquipmentAn = equipment;
 
             DataTable data = _utilityService.ExecStoredProcedureForDataTable("TANK_usp_sel_EquipmentOnHireHistory", TANK_usp_sel_EquipmentOnHireHistory_spParams);
@@ -158,7 +163,7 @@ namespace DOWTank.Controllers
 
         #endregion
 
-	}
+    }
 
     public class TankHistoryModel
     {

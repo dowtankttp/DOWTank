@@ -8,6 +8,7 @@ namespace DOWTank.Core.Domain.TANK_usp_sel
 {
     public class TANK_usp_sel_DispatchLastMove_spParams
     {
+        public int? EquipmentID { get; set; }
         public string EquipmentAN { get; set; }
         public int FacilityLocationID { get; set; }
     }

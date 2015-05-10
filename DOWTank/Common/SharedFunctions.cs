@@ -29,6 +29,7 @@ namespace DOWTank.Common
         IEnumerable<TANK_usp_sel_WasteClassTypeDDL_spResults> PopulateWasteClassTypes(bool iIncludeBlank);
         IEnumerable<TANK_usp_sel_DispatchReasonDDL_spResults> PopulateDispatchReasons(bool iIncludeBlank);
         IEnumerable<TANK_usp_sel_DispatchLastMove_spResults> LoadDispatchLastMove(String strTankNumber, int locationId);
+        IEnumerable<TANK_usp_sel_DispatchLastMove_spResults> LoadDispatchLastMove(int equipmentId, int locationId);
         IEnumerable<TANK_usp_sel_ServiceTypeDDL_spResults> PopulateServiceType(bool iIncludeBlank);
     }
 
@@ -332,7 +333,23 @@ namespace DOWTank.Common
             var TANK_usp_sel_DispatchLastMove_spParams = new TANK_usp_sel_DispatchLastMove_spParams()
             {
                 //TODO: re-factor it later from hard coded
-                EquipmentAN = strTankNumber.Trim().Substring(0, 10),
+                EquipmentAN = strTankNumber,
+                FacilityLocationID = 1
+            };
+            var data = _utilityService.ExecStoredProcedureWithResults<TANK_usp_sel_DispatchLastMove_spResults>("TANK_usp_sel_EquipmentLastDispatch", TANK_usp_sel_DispatchLastMove_spParams);
+
+            //# database call
+
+            return data;
+        }
+        public IEnumerable<TANK_usp_sel_DispatchLastMove_spResults> LoadDispatchLastMove(int equipmentId, int locationId)
+        {
+            // database call
+
+            var TANK_usp_sel_DispatchLastMove_spParams = new TANK_usp_sel_DispatchLastMove_spParams()
+            {
+                //TODO: re-factor it later from hard coded
+                EquipmentID = equipmentId,
                 FacilityLocationID = 1
             };
             var data = _utilityService.ExecStoredProcedureWithResults<TANK_usp_sel_DispatchLastMove_spResults>("TANK_usp_sel_EquipmentLastDispatch", TANK_usp_sel_DispatchLastMove_spParams);

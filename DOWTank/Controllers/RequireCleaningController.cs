@@ -30,12 +30,13 @@ namespace DOWTank.Controllers
                 InstallID = 1,
                 LocationID = 1
             };
-            DataTable data = _utilityService.ExecStoredProcedureForDataTable("TANK_usp_rpt_RequiresCleaning", TANK_usp_rpt_RequiresCleaning_spParams);
+            DataTable dataTable = _utilityService.ExecStoredProcedureForDataTable("TANK_usp_rpt_RequiresCleaning", TANK_usp_rpt_RequiresCleaning_spParams);
+            dataTable.Columns["EquipmentID"].SetOrdinal(8); 
 
             //# database call
-            @ViewBag.TotalRecords = data.Rows.Count;
+            @ViewBag.TotalRecords = dataTable.Rows.Count;
 
-            return View(data);
+            return View(dataTable);
         }
     }
 }

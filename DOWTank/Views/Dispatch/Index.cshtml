@@ -11,7 +11,7 @@
             <h4 class="dow-color">Dispatch</h4>
         </div>
     </div>
-
+    <input type="hidden" value="@ViewBag.EquipmentId"  id="hdnEquipmentId"/>
     @using (Html.BeginForm("Index", "Dispatch", FormMethod.Post))
     {
         if (ViewData.ModelState.Keys.Any(k => ViewData.ModelState[k].Errors.Count() > 0))
@@ -242,7 +242,7 @@
             <div class="row">
                 <div class="col-md-4">
                     <label>Shipment Number:</label>
-                    @Html.TextBoxFor(m => m.strShipmentAN, new { @class = "form-control" })                    
+                    @Html.TextBoxFor(m => m.strShipmentAN, new { @class = "form-control" })
                 </div>
                 <div class="col-md-4">
                     <label>Fittings:</label>
@@ -271,264 +271,284 @@
 {
     <script>
 
-        //Tank Number ddl
-        $("#ddlTankNumber").select2({
-            minimumInputLength: 1,
-            cache: false,
-            ajax: {
-                url: "/Tank/PopulateEquipment",
-                dataType: 'json',
-                quietMillis: 650,
-                data: function (term) {
-                    return {
-                        searchTerm: term // search term
-                    };
-                },
-                results: function (data) {
-                    return { results: data };
+        //select2
+
+        $(function() {
+            //Tank Number ddl
+            $("#ddlTankNumber").select2({
+                minimumInputLength: 1,
+                cache: false,
+                ajax: {
+                    url: "/Tank/PopulateEquipment",
+                    dataType: 'json',
+                    quietMillis: 650,
+                    data: function(term) {
+                        return {
+                            searchTerm: term // search term
+                        };
+                    },
+                    results: function(data) {
+                        return { results: data };
+                    }
                 }
-            }
+            });
+
+            //ddlChassis
+            $("#ddlChassis").select2({
+                minimumInputLength: 1,
+                cache: false,
+                ajax: {
+                    url: "/Dispatch/PopulateChassis",
+                    dataType: 'json',
+                    quietMillis: 650,
+                    data: function(term) {
+                        return {
+                            searchTerm: term // search term
+                        };
+                    },
+                    results: function(data) {
+                        return { results: data };
+                    }
+                }
+            });
+
+            //Product ddl
+            $("#ddlProduct").select2({
+                minimumInputLength: 1,
+                cache: false,
+                ajax: {
+                    url: "/Dispatch/PopulateProduct",
+                    dataType: 'json',
+                    quietMillis: 650,
+                    data: function(term) {
+                        return {
+                            searchTerm: term // search term
+                        };
+                    },
+                    results: function(data) {
+                        return { results: data };
+                    }
+                }
+            });
+
+            //Driver ddl
+            $("#ddlDriver").select2({
+                minimumInputLength: 1,
+                cache: false,
+                ajax: {
+                    url: "/Dispatch/PopulateDriver",
+                    dataType: 'json',
+                    quietMillis: 650,
+                    data: function(term) {
+                        return {
+                            searchTerm: term // search term
+                        };
+                    },
+                    results: function(data) {
+                        return { results: data };
+                    }
+                }
+            });
+
+            //Load Point ddl
+            $("#ddlLoadPoint").select2({
+                minimumInputLength: 0,
+                cache: false,
+                ajax: {
+                    url: "/Dispatch/PopulateLoadPoint",
+                    dataType: 'json',
+                    quietMillis: 650,
+                    data: function(term) {
+                        return {
+                            searchTerm: term, // search term
+                            locationType: $("#LoadPoint").val()
+                        };
+                    },
+                    results: function(data) {
+                        return { results: data };
+                    }
+                }
+            });
+
+            //Destination ddl
+            $("#ddlDeliveryLocation").select2({
+                minimumInputLength: 0,
+                cache: false,
+                ajax: {
+                    url: "/Dispatch/PopulateLoadPoint",
+                    dataType: 'json',
+                    quietMillis: 650,
+                    data: function(term) {
+                        return {
+                            searchTerm: term, // search term
+                            locationType: $("#DeliveryPoint").val()
+                        };
+                    },
+                    results: function(data) {
+                        return { results: data };
+                    }
+                }
+            });
+
+            //OnHireBlock ddl
+            $("#ddlOnHireBlock").select2({
+                minimumInputLength: 0,
+                cache: false,
+                ajax: {
+                    url: "/Dispatch/PopulateLoadPoint",
+                    dataType: 'json',
+                    quietMillis: 650,
+                    data: function(term) {
+                        return {
+                            searchTerm: term, // search term
+                            locationType: $("#OnHireBlockPoint").val()
+                        };
+                    },
+                    results: function(data) {
+                        return { results: data };
+                    }
+                }
+            });
+
+            // charge code ddl
+            $("#ddlChargeCode").select2({
+                minimumInputLength: 0,
+                cache: true,
+                ajax: {
+                    url: "/Dispatch/PopulateChargeCode",
+                    dataType: 'json',
+                    quietMillis: 650,
+                    data: function(term) {
+                        return {
+                            searchTerm: term // search term
+                        };
+                    },
+                    results: function(data) {
+                        return { results: data };
+                    }
+                }
+            });
+
+            //WasteClass ddl
+            $("#ddlWasteClass").select2({
+                minimumInputLength: 1,
+                cache: false,
+                ajax: {
+                    url: "/Dispatch/PopulateWasteClass",
+                    dataType: 'json',
+                    quietMillis: 650,
+                    data: function(term) {
+                        return {
+                            searchTerm: term // search term
+                        };
+                    },
+                    results: function(data) {
+                        return { results: data };
+                    }
+                }
+            });
+
+            // InstructionsReason ddl
+            $("#ddlInstructionsReason").select2({
+                minimumInputLength: 0,
+                cache: true,
+                ajax: {
+                    url: "/Dispatch/PopulateDispatchReasons",
+                    dataType: 'json',
+                    quietMillis: 650,
+                    data: function(term) {
+                        return {
+                            searchTerm: term // search term
+                        };
+                    },
+                    results: function(data) {
+                        return { results: data };
+                    }
+                }
+            });
+
+            // AdditionalInstruct ddl
+            $("#ddlAdditionalInstruct").select2({
+                minimumInputLength: 0,
+                cache: true,
+                ajax: {
+                    url: "/Dispatch/PopulateDispatchReasons",
+                    dataType: 'json',
+                    quietMillis: 650,
+                    data: function(term) {
+                        return {
+                            searchTerm: term // search term
+                        };
+                    },
+                    results: function(data) {
+                        return { results: data };
+                    }
+                }
+            });
+
+            //ddlContact
+            $("#ddlContact").select2({
+                minimumInputLength: 0,
+                cache: false,
+                ajax: {
+                    url: "/Dispatch/PopulateContacts",
+                    dataType: 'json',
+                    quietMillis: 650,
+                    data: function(term) {
+                        return {
+                            searchTerm: term // search term
+                        };
+                    },
+                    results: function(data) {
+                        return { results: data };
+                    }
+                }
+            });
         });
 
-        //ddlChassis
-        $("#ddlChassis").select2({
-            minimumInputLength: 1,
-            cache: false,
-            ajax: {
-                url: "/Dispatch/PopulateChassis",
-                dataType: 'json',
-                quietMillis: 650,
-                data: function (term) {
-                    return {
-                        searchTerm: term // search term
-                    };
-                },
-                results: function (data) {
-                    return { results: data };
-                }
-            }
-        });
-
-        //Product ddl
-        $("#ddlProduct").select2({
-            minimumInputLength: 1,
-            cache: false,
-            ajax: {
-                url: "/Dispatch/PopulateProduct",
-                dataType: 'json',
-                quietMillis: 650,
-                data: function (term) {
-                    return {
-                        searchTerm: term // search term
-                    };
-                },
-                results: function (data) {
-                    return { results: data };
-                }
-            }
-        });
-
-        //Driver ddl
-        $("#ddlDriver").select2({
-            minimumInputLength: 1,
-            cache: false,
-            ajax: {
-                url: "/Dispatch/PopulateDriver",
-                dataType: 'json',
-                quietMillis: 650,
-                data: function (term) {
-                    return {
-                        searchTerm: term // search term
-                    };
-                },
-                results: function (data) {
-                    return { results: data };
-                }
-            }
-        });
-
-        //Load Point ddl
-        $("#ddlLoadPoint").select2({
-            minimumInputLength: 0,
-            cache: false,
-            ajax: {
-                url: "/Dispatch/PopulateLoadPoint",
-                dataType: 'json',
-                quietMillis: 650,
-                data: function (term) {
-                    return {
-                        searchTerm: term, // search term
-                        locationType: $("#LoadPoint").val()
-                    };
-                },
-                results: function (data) {
-                    return { results: data };
-                }
-            }
-        });
-
-        //Destination ddl
-        $("#ddlDeliveryLocation").select2({
-            minimumInputLength: 0,
-            cache: false,
-            ajax: {
-                url: "/Dispatch/PopulateLoadPoint",
-                dataType: 'json',
-                quietMillis: 650,
-                data: function (term) {
-                    return {
-                        searchTerm: term, // search term
-                        locationType: $("#DeliveryPoint").val()
-                    };
-                },
-                results: function (data) {
-                    return { results: data };
-                }
-            }
-        });
-
-        //OnHireBlock ddl
-        $("#ddlOnHireBlock").select2({
-            minimumInputLength: 0,
-            cache: false,
-            ajax: {
-                url: "/Dispatch/PopulateLoadPoint",
-                dataType: 'json',
-                quietMillis: 650,
-                data: function (term) {
-                    return {
-                        searchTerm: term, // search term
-                        locationType: $("#OnHireBlockPoint").val()
-                    };
-                },
-                results: function (data) {
-                    return { results: data };
-                }
-            }
-        });
-
-        // charge code ddl
-        $("#ddlChargeCode").select2({
-            minimumInputLength: 0,
-            cache: true,
-            ajax: {
-                url: "/Dispatch/PopulateChargeCode",
-                dataType: 'json',
-                quietMillis: 650,
-                data: function (term) {
-                    return {
-                        searchTerm: term // search term
-                    };
-                },
-                results: function (data) {
-                    return { results: data };
-                }
-            }
-        });
-
-        //WasteClass ddl
-        $("#ddlWasteClass").select2({
-            minimumInputLength: 1,
-            cache: false,
-            ajax: {
-                url: "/Dispatch/PopulateWasteClass",
-                dataType: 'json',
-                quietMillis: 650,
-                data: function (term) {
-                    return {
-                        searchTerm: term // search term
-                    };
-                },
-                results: function (data) {
-                    return { results: data };
-                }
-            }
-        });
-
-        // InstructionsReason ddl
-        $("#ddlInstructionsReason").select2({
-            minimumInputLength: 0,
-            cache: true,
-            ajax: {
-                url: "/Dispatch/PopulateDispatchReasons",
-                dataType: 'json',
-                quietMillis: 650,
-                data: function (term) {
-                    return {
-                        searchTerm: term // search term
-                    };
-                },
-                results: function (data) {
-                    return { results: data };
-                }
-            }
-        });
-
-        // AdditionalInstruct ddl
-        $("#ddlAdditionalInstruct").select2({
-            minimumInputLength: 0,
-            cache: true,
-            ajax: {
-                url: "/Dispatch/PopulateDispatchReasons",
-                dataType: 'json',
-                quietMillis: 650,
-                data: function (term) {
-                    return {
-                        searchTerm: term // search term
-                    };
-                },
-                results: function (data) {
-                    return { results: data };
-                }
-            }
-        });
-
-        //ddlContact
-        $("#ddlContact").select2({
-            minimumInputLength: 0,
-            cache: false,
-            ajax: {
-                url: "/Dispatch/PopulateContacts",
-                dataType: 'json',
-                quietMillis: 650,
-                data: function (term) {
-                    return {
-                        searchTerm: term // search term
-                    };
-                },
-                results: function (data) {
-                    return { results: data };
-                }
-            }
-        });
-
-        $(function () {
+        $(function() {
             $('.datetimepicker').datetimepicker({
                 format: 'm/d/Y H:i'
             });
         });
 
-        function CopyOverValues() { }
-        $("#btnCopyOver").click(function () {
-            //$('#txtChassis').val($('#txtLMChassis').val());
-            //$('#txtProduct').val($('#txtLMProduct').val());
-            //alert($('#ChassisID').val() + ' : ' + $('#txtLMChassis').val());
-            $("#ddlChassis").select2("data", { id: $('#ChassisID').val(), text: $('#txtLMChassis').val() });
-            $("#ddlProduct").select2("data", { id: $('#ProductID').val(), text: $('#txtLMProduct').val() });
-            $("#ddlDriver").select2("data", { id: $('#DriverID').val(), text: $('#txtLMDriver').val() });
-            $("#ddlContact").select2("data", { id: $('#ContactID').val(), text: $('#txtLMContact').val() });
-            $("#FittingCD").select2("data", { id: $('#FittingID').val(), text: $('#txtLMFittings').val() });
-            $('#strShipmentAN').val($('#txtLMShipment').val());
+        function CopyOverValues() {
+        }
+
+        //CopyOver
+        $(function() {
+            $("#btnCopyOver").click(function() {
+                //$('#txtChassis').val($('#txtLMChassis').val());
+                //$('#txtProduct').val($('#txtLMProduct').val());
+                //alert($('#ChassisID').val() + ' : ' + $('#txtLMChassis').val());
+                $("#ddlChassis").select2("data", { id: $('#ChassisID').val(), text: $('#txtLMChassis').val() });
+                $("#ddlProduct").select2("data", { id: $('#ProductID').val(), text: $('#txtLMProduct').val() });
+                $("#ddlDriver").select2("data", { id: $('#DriverID').val(), text: $('#txtLMDriver').val() });
+                $("#ddlContact").select2("data", { id: $('#ContactID').val(), text: $('#txtLMContact').val() });
+                $("#FittingCD").select2("data", { id: $('#FittingID').val(), text: $('#txtLMFittings').val() });
+                $('#strShipmentAN').val($('#txtLMShipment').val());
+            });
         });
 
-        $("#ddlTankNumber").change(function () {
-            var theSelectionId = $("#ddlTankNumber").select2('data').id;
-            var theSelectionText = $("#ddlTankNumber").select2('data').text;
+        //load last move
+        $(function() {
+            $("#ddlTankNumber").change(function() {
+                var theSelectionId = $("#ddlTankNumber").select2('data').id;
+                var theSelectionText = $("#ddlTankNumber").select2('data').text;
+                loadLastMove(theSelectionId, theSelectionText);
+            });
+            var equipmentId = $("#hdnEquipmentId").val();
+            loadTankNumber(equipmentId);
+            loadLastMove(equipmentId, '');
+        });
+
+        function loadLastMove(theSelectionId, theSelectionText) {
+            console.log('theSelectionId ' + theSelectionId);
             $.ajax({
-                url: "/Dispatch/LoadLastMove?strTankNumber=" + theSelectionText,
+                url: "/Dispatch/LoadLastMove?equipmentId=" + theSelectionId,
                 dataType: 'json',
                 method: 'GET',
-                success: function (response) {
+                success: function(response) {
                     if (response) {
                         //console.log('response ' + response.LoadStatusTypeCD);
                         $("#txtLMDate").val(response.DispatchStartDt);
@@ -547,8 +567,7 @@
                         $("#txtLMContact").val(response.ContactNM);
                         $("#ContactID").val(response.ContactID);
                         //$("#ddlCurrentLocation").select2("data", { id: response.LocationID, text: response.LocationDS });
-                    }
-                    else {
+                    } else {
                         $("#txtLMDate").val('');
                         $("#ChassisID").val('');
                         $("#txtLMChassis").val('');
@@ -567,7 +586,23 @@
                     }
                 }
             });
-        });
+        }
+
+        function loadTankNumber(equipmentId) {
+            if (equipmentId) {
+                $.ajax({
+                    url: "/Tank/RefreshEquipment?equipmentId=" + equipmentId,
+                    dataType: 'json',
+                    method: 'GET',
+                    success: function(response) {
+                        if (response) {
+                            console.log('response ' + response.LoadStatusTypeCD);
+                            $("#ddlTankNumber").select2("data", { id: response.EquipmentID, text: response.EquipmentAN });
+                        }
+                    }
+                });
+            }
+        }
 
     </script>
 }
