@@ -25,7 +25,7 @@ namespace DOWTank.Core.Domain.TANK_usp_sel
         public Int16? LoadStatusTypeCD { get; set; }
         public Int16? MaintConditionTypeCD { get; set; }
         public string DOTInspectedDT { get; set; }
-        public double? TankCapacity { get; set; }
+        public decimal? TankCapacity { get; set; }
         public string TankLastTestDT { get; set; }
         public string TankNextTestDT { get; set; }
         public bool LastTestHydroFL { get; set; }

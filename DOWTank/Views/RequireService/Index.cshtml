@@ -9,7 +9,7 @@
     <!--title-->
     <div class="row mt10 mb20">
         <div class="col-md-12">
-            <h4 class="dow-color">Require Serivce <span class="ml3">(@ViewBag.TotalRecords)</span></h4>
+            <h4 class="dow-color">Require Serivce <span class="ml3">(@ViewBag.TotalRecords)</span><span class="ml5">@Html.ActionLink("view in excel", "ViewInExcel", "RequireService")</span></h4>
             <p>List of tanks that require testing.</p>
         </div>
     </div>
@@ -18,15 +18,22 @@
 
     <!--list-->
     <div class="row">
-     <div class="col-md-12">
+        <div class="col-md-12">
             <table class="table table-condensed table-striped table-bordered table-responsive table-hover" id="tblRequireService">
                 <thead>
                     <tr>
                         @foreach (DataColumn col in Model.Columns)
                         {
-                            if (@col.ColumnName != "EquipmentID" && @col.ColumnName != "TankLastTestDT" && @col.ColumnName != "Type of Service")
+                            if (@col.ColumnName != "TankLastTestDT" && @col.ColumnName != "Type of Service")
                             {
+                                if (@col.ColumnName == "EquipmentID")
+                                {
+                            <th></th>
+                                }
+                                else
+                                {
                             <th>@col.ColumnName</th>
+                                }
                             }
                         }
                     </tr>
@@ -37,10 +44,22 @@
                         <tr>
                             @foreach (DataColumn col in Model.Columns)
                             {
-                                if (@col.ColumnName != "EquipmentID" && @col.ColumnName != "TankLastTestDT" && @col.ColumnName != "Type of Service")
+                                if (@col.ColumnName != "TankLastTestDT" && @col.ColumnName != "Type of Service")
                                 {
+                                    if (@col.ColumnName == "Equipment #")
+                                    {
+                                <td>@Html.ActionLink(@row[col.ColumnName].ToString(), "Index", "TankHistory", new { @tankNumber = @row[col.ColumnName].ToString() }, null)</td>
+                                    }
+                                    else if (@col.ColumnName == "EquipmentID")
+                                    {
+                                <td>@Html.ActionLink("Dispatch", "Index", "Dispatch", new { @equipmentAn = @row["Equipment #"].ToString() }, null)</td>
+                                    }
+                                    else
+                                    {
                                 <td>@row[col.ColumnName]</td>
+                                    }
                                 }
+
                             }
                         </tr> 
                     }
@@ -55,9 +74,32 @@
 <!--script-->
 @section scripts
 {
-  
+    @*https://editor.datatables.net/media/js/dataTables.editor.min.js*@
+    <script src="~/Scripts/dataTables.editor.js"></script>
     <script>
-        $(function() {
+
+        //editor
+        //$(function () {
+        //    var editor = new $.fn.dataTable.Editor({
+        //        table: "#tblRequireService",
+        //        formOptions: {
+        //            bubble: {
+        //                title: 'Edit',
+        //                buttons: false
+        //            }
+        //        }
+        //    });
+
+        //    $('#tblRequireService').on('click', 'tbody td', function (e) {
+        //        if ($(this).index() < 6) {
+        //            editor.bubble(this);
+        //        }
+        //    });
+
+        //    //mark end of document ready
+        //});
+        //data table
+        $(function () {
 
             $("#tblRequireService").dataTable(
                 {
@@ -70,6 +112,8 @@
                     "sDom": '<"top"flp>rt<"bottom"i><"clear">',
                     responsive: true
                 });
+
+            console.log('data ' + $("#tblRequireService").dataTable().fnGetData()[0]);
             //mark end of document ready
         });
     </script>

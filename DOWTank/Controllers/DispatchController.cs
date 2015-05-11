@@ -21,10 +21,10 @@ namespace DOWTank.Controllers
         }
 
         // GET: Dispatch
-        public ActionResult Index(int? equipmentId)
+        public ActionResult Index(string equipmentAn)
         {
             LoadDispatchTankDropdowns();
-            ViewBag.EquipmentId = equipmentId ?? 0;
+            ViewBag.EquipmentAN = equipmentAn;
             var postModel = new DispatchTankModel();
             return View(postModel);
         }
@@ -94,13 +94,13 @@ namespace DOWTank.Controllers
         }
 
         [HttpGet]
-        public JsonResult LoadLastMove(int equipmentId)
+        public JsonResult LoadLastMove(int? equipmentId)
         {
-            if (equipmentId == 0)
+            if (equipmentId == null || equipmentId.Value == 0)
             {
                 return Json(string.Empty, JsonRequestBehavior.AllowGet);
             }
-            var data = _sharedFunctions.LoadDispatchLastMove(equipmentId, 1);
+            var data = _sharedFunctions.LoadDispatchLastMove(equipmentId.Value, 1);
             if (data != null && data.Any())
             {
                 var result = data.FirstOrDefault();

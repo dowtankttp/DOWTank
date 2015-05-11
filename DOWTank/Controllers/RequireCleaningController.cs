@@ -21,8 +21,7 @@ namespace DOWTank.Controllers
             _sharedFunctions = sharedFunctions;
         }
 
-        //
-        // GET: /RequireCleaning/
+        [OutputCache(Duration = 3600, VaryByParam = "none")]
         public ActionResult Index(int? page = 1)
         {
             // database call

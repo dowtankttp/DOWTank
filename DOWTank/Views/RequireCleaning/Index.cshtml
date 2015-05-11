@@ -51,7 +51,7 @@
                                     }
                                     else if (@col.ColumnName == "EquipmentID")
                                     {
-                                <td>@Html.ActionLink("Dispatch", "Index", "Dispatch", new { @equipmentId = @row[col.ColumnName].ToString() }, null)</td>
+                                <td>@Html.ActionLink("Dispatch", "Index", "Dispatch", new { @equipmentAn = @row["Tank #"].ToString() }, null)</td>
                                     }
                                     else
                                     {

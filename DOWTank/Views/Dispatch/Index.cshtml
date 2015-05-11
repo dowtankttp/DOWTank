@@ -11,7 +11,7 @@
             <h4 class="dow-color">Dispatch</h4>
         </div>
     </div>
-    <input type="hidden" value="@ViewBag.EquipmentId"  id="hdnEquipmentId"/>
+    <input type="hidden" value="@ViewBag.EquipmentAN"  id="hdnEquipmentAN"/>
     @using (Html.BeginForm("Index", "Dispatch", FormMethod.Post))
     {
         if (ViewData.ModelState.Keys.Any(k => ViewData.ModelState[k].Errors.Count() > 0))
@@ -273,7 +273,7 @@
 
         //select2
 
-        $(function() {
+        $(function () {
             //Tank Number ddl
             $("#ddlTankNumber").select2({
                 minimumInputLength: 1,
@@ -282,12 +282,12 @@
                     url: "/Tank/PopulateEquipment",
                     dataType: 'json',
                     quietMillis: 650,
-                    data: function(term) {
+                    data: function (term) {
                         return {
                             searchTerm: term // search term
                         };
                     },
-                    results: function(data) {
+                    results: function (data) {
                         return { results: data };
                     }
                 }
@@ -301,12 +301,12 @@
                     url: "/Dispatch/PopulateChassis",
                     dataType: 'json',
                     quietMillis: 650,
-                    data: function(term) {
+                    data: function (term) {
                         return {
                             searchTerm: term // search term
                         };
                     },
-                    results: function(data) {
+                    results: function (data) {
                         return { results: data };
                     }
                 }
@@ -320,12 +320,12 @@
                     url: "/Dispatch/PopulateProduct",
                     dataType: 'json',
                     quietMillis: 650,
-                    data: function(term) {
+                    data: function (term) {
                         return {
                             searchTerm: term // search term
                         };
                     },
-                    results: function(data) {
+                    results: function (data) {
                         return { results: data };
                     }
                 }
@@ -339,12 +339,12 @@
                     url: "/Dispatch/PopulateDriver",
                     dataType: 'json',
                     quietMillis: 650,
-                    data: function(term) {
+                    data: function (term) {
                         return {
                             searchTerm: term // search term
                         };
                     },
-                    results: function(data) {
+                    results: function (data) {
                         return { results: data };
                     }
                 }
@@ -358,13 +358,13 @@
                     url: "/Dispatch/PopulateLoadPoint",
                     dataType: 'json',
                     quietMillis: 650,
-                    data: function(term) {
+                    data: function (term) {
                         return {
                             searchTerm: term, // search term
                             locationType: $("#LoadPoint").val()
                         };
                     },
-                    results: function(data) {
+                    results: function (data) {
                         return { results: data };
                     }
                 }
@@ -378,13 +378,13 @@
                     url: "/Dispatch/PopulateLoadPoint",
                     dataType: 'json',
                     quietMillis: 650,
-                    data: function(term) {
+                    data: function (term) {
                         return {
                             searchTerm: term, // search term
                             locationType: $("#DeliveryPoint").val()
                         };
                     },
-                    results: function(data) {
+                    results: function (data) {
                         return { results: data };
                     }
                 }
@@ -398,13 +398,13 @@
                     url: "/Dispatch/PopulateLoadPoint",
                     dataType: 'json',
                     quietMillis: 650,
-                    data: function(term) {
+                    data: function (term) {
                         return {
                             searchTerm: term, // search term
                             locationType: $("#OnHireBlockPoint").val()
                         };
                     },
-                    results: function(data) {
+                    results: function (data) {
                         return { results: data };
                     }
                 }
@@ -418,12 +418,12 @@
                     url: "/Dispatch/PopulateChargeCode",
                     dataType: 'json',
                     quietMillis: 650,
-                    data: function(term) {
+                    data: function (term) {
                         return {
                             searchTerm: term // search term
                         };
                     },
-                    results: function(data) {
+                    results: function (data) {
                         return { results: data };
                     }
                 }
@@ -437,12 +437,12 @@
                     url: "/Dispatch/PopulateWasteClass",
                     dataType: 'json',
                     quietMillis: 650,
-                    data: function(term) {
+                    data: function (term) {
                         return {
                             searchTerm: term // search term
                         };
                     },
-                    results: function(data) {
+                    results: function (data) {
                         return { results: data };
                     }
                 }
@@ -456,12 +456,12 @@
                     url: "/Dispatch/PopulateDispatchReasons",
                     dataType: 'json',
                     quietMillis: 650,
-                    data: function(term) {
+                    data: function (term) {
                         return {
                             searchTerm: term // search term
                         };
                     },
-                    results: function(data) {
+                    results: function (data) {
                         return { results: data };
                     }
                 }
@@ -475,12 +475,12 @@
                     url: "/Dispatch/PopulateDispatchReasons",
                     dataType: 'json',
                     quietMillis: 650,
-                    data: function(term) {
+                    data: function (term) {
                         return {
                             searchTerm: term // search term
                         };
                     },
-                    results: function(data) {
+                    results: function (data) {
                         return { results: data };
                     }
                 }
@@ -494,19 +494,19 @@
                     url: "/Dispatch/PopulateContacts",
                     dataType: 'json',
                     quietMillis: 650,
-                    data: function(term) {
+                    data: function (term) {
                         return {
                             searchTerm: term // search term
                         };
                     },
-                    results: function(data) {
+                    results: function (data) {
                         return { results: data };
                     }
                 }
             });
         });
 
-        $(function() {
+        $(function () {
             $('.datetimepicker').datetimepicker({
                 format: 'm/d/Y H:i'
             });
@@ -516,8 +516,8 @@
         }
 
         //CopyOver
-        $(function() {
-            $("#btnCopyOver").click(function() {
+        $(function () {
+            $("#btnCopyOver").click(function () {
                 //$('#txtChassis').val($('#txtLMChassis').val());
                 //$('#txtProduct').val($('#txtLMProduct').val());
                 //alert($('#ChassisID').val() + ' : ' + $('#txtLMChassis').val());
@@ -531,15 +531,14 @@
         });
 
         //load last move
-        $(function() {
-            $("#ddlTankNumber").change(function() {
+        $(function () {
+            $("#ddlTankNumber").change(function () {
                 var theSelectionId = $("#ddlTankNumber").select2('data').id;
                 var theSelectionText = $("#ddlTankNumber").select2('data').text;
                 loadLastMove(theSelectionId, theSelectionText);
             });
-            var equipmentId = $("#hdnEquipmentId").val();
-            loadTankNumber(equipmentId);
-            loadLastMove(equipmentId, '');
+            var equipmentAn = $("#hdnEquipmentAN").val();
+            loadTankNumber(equipmentAn);
         });
 
         function loadLastMove(theSelectionId, theSelectionText) {
@@ -548,7 +547,7 @@
                 url: "/Dispatch/LoadLastMove?equipmentId=" + theSelectionId,
                 dataType: 'json',
                 method: 'GET',
-                success: function(response) {
+                success: function (response) {
                     if (response) {
                         //console.log('response ' + response.LoadStatusTypeCD);
                         $("#txtLMDate").val(response.DispatchStartDt);
@@ -588,16 +587,17 @@
             });
         }
 
-        function loadTankNumber(equipmentId) {
-            if (equipmentId) {
+        function loadTankNumber(equipmentAn) {
+            if (equipmentAn) {
                 $.ajax({
-                    url: "/Tank/RefreshEquipment?equipmentId=" + equipmentId,
+                    url: "/Tank/PopulateEquipment?searchTerm=" + equipmentAn,
                     dataType: 'json',
                     method: 'GET',
-                    success: function(response) {
-                        if (response) {
-                            console.log('response ' + response.LoadStatusTypeCD);
-                            $("#ddlTankNumber").select2("data", { id: response.EquipmentID, text: response.EquipmentAN });
+                    success: function (response) {
+                        if (response && response.length > 0) {
+                            console.log('response.id ' + response[0].id);
+                            $("#ddlTankNumber").select2("data", { id: response[0].id, text: response[0].text });
+                            loadLastMove(response[0].id, '');
                         }
                     }
                 });

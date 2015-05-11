@@ -6,10 +6,12 @@
     <title>@ViewBag.Title - DOW BBT - Tank</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-    <link href="@Url.Content("~/Content/DataTables/css/jquery.dataTables.min.css")" rel="stylesheet" />
+    @*<link href="@Url.Content("~/Content/DataTables/css/jquery.dataTables.min.css")" rel="stylesheet" />*@
     <link href="@Url.Content("~/Content/dataTables.responsive.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/dataTables.bootstrap.css")" rel="stylesheet" />
     <link href="@Url.Content("~/Content/css/select2.css")" rel="stylesheet" />
     <link href="@Url.Content("~/Content/jquery.datetimepicker.css")" rel="stylesheet" />
+    <link href="~/Content/dataTables.editor.css" rel="stylesheet" />
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -58,11 +60,12 @@
     @Scripts.Render("~/bundles/bootstrap")
     <script src="@Url.Content("~/Scripts/DataTables/jquery.dataTables.min.js")"></script>
     <script src="@Url.Content("~/Scripts/dataTables.responsive.js")"></script>
+    <script src="@Url.Content("~/Scripts/dataTables.bootstrap.js")"></script>
     <script src="@Url.Content("~/Scripts/select2.min.js")"></script>
     <script src="@Url.Content("~/Scripts/jquery.datetimepicker.js")"></script>
     @RenderSection("scripts", required: false)
     <script>
-        $(function() {
+        $(function () {
             $('.dropdown.open .dropdown-toggle').dropdown('toggle');
         });
     </script>
