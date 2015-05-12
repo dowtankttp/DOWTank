@@ -28,6 +28,7 @@
             <div class="row no-row-margin">
                 <div class="col-md-4 nopadding">
                     <input id="ddlChargeCode" name="ChargeCodeID" type="hidden" style="width: 100%; box-sizing: border-box;">
+                    @Html.HiddenFor(m => m.ChargeCodeName)
                 </div>
             </div>
         </div>
@@ -57,10 +58,11 @@
             </div>
             <div class="row no-row-margin">
                 <div class="col-md-4 nopadding">
-                    @Html.DropDownList("LoadPoint", null, new { @class = "form-control" })
+                    @Html.DropDownList("LoadPointFrom", null, new { @class = "form-control" })
                 </div>
                 <div class="col-md-4 col-md-offset-1 mt5">
                     <input id="ddlLoadPoint" name="FromLocationID" type="hidden" style="width: 100%; box-sizing: border-box;">
+                    @Html.HiddenFor(m => m.LoadPointFromText)
                 </div>
             </div>
         </div>
@@ -71,6 +73,7 @@
             <div class="row no-row-margin">
                 <div class="col-md-4 nopadding">
                     <input id="ddlProduct" type="hidden" name="ProductID" style="width: 100%; box-sizing: border-box;">
+                    @Html.HiddenFor(m => m.ProductName)
                 </div>
             </div>
         </div>
@@ -80,10 +83,11 @@
             </div>
             <div class="row no-row-margin">
                 <div class="col-md-4 nopadding">
-                    @Html.DropDownList("LoadPoint", null, new { @class = "form-control", @id = "ddlDestination", @name = "ddlDestination" })
+                    @Html.DropDownList("LoadPointTo", null, new { @class = "form-control", @id = "ddlDestination", @name = "ddlDestination" })
                 </div>
                 <div class="col-md-4 col-md-offset-1 mt5">
                     <input id="ddlDeliveryLocation" name="ToLocationID" type="hidden" style="width: 100%; box-sizing: border-box;">
+                    @Html.HiddenFor(m => m.LoadPointToText)
                 </div>
             </div>
         </div>
@@ -93,7 +97,7 @@
             </div>
             <div class="row no-row-margin">
                 <div class="col-md-2 nopadding">
-                    <input type="text" class="form-control datetimepicker" name="ScheduledDeliveryDT">
+                    @Html.TextBoxFor(m => m.ScheduledDeliveryDT, new { @class = "form-control datetimepicker" })
                 </div>
                 <div class="col-md-1">
                     <div class="checkbox">
@@ -133,7 +137,8 @@
                 <div class="col-md-1 nopadding">
                     <div class="radio">
                         <label>
-                            <input type="radio" name="ReloadFL" value="true" checked>
+                            @*<input type="radio" name="ReloadFL" value="true" checked>*@
+                            @Html.RadioButton("ReloadFL", true)
                             Yes
                         </label>
                     </div>
@@ -141,7 +146,8 @@
                 <div class="col-md-1 nopadding">
                     <div class="radio">
                         <label>
-                            <input type="radio" name="ReloadFL" value="false">
+                            @*<input type="radio" name="ReloadFL" value="false">*@
+                            @Html.RadioButton("ReloadFL", false)
                             No
                         </label>
                     </div>
@@ -155,6 +161,7 @@
             <div class="row no-row-margin">
                 <div class="col-md-4 nopadding">
                     <input id="ddlTankNumber" type="hidden" name="EquipmentID" style="width: 100%; box-sizing: border-box;">
+                    @Html.HiddenFor(m => m.EquipmentAN)
                 </div>
             </div>
         </div>
@@ -165,6 +172,7 @@
             <div class="row no-row-margin">
                 <div class="col-md-4 nopadding">
                     <input id="ddlChassis" type="hidden" name="ChassisEquipmentID" style="width: 100%; box-sizing: border-box;">
+                    @Html.HiddenFor(m => m.ChassisEquipmentName)
                 </div>
             </div>
         </div>
@@ -175,6 +183,7 @@
             <div class="row no-row-margin">
                 <div class="col-md-4 nopadding">
                     <input id="ddlContact" name="ContactID" type="hidden" style="width: 100%; box-sizing: border-box;">
+                    @Html.HiddenFor(m => m.ContactName)
                 </div>
             </div>
         </div>
@@ -243,7 +252,6 @@
                     }
                 }
             });
-
 
             //Destination ddl
             $("#ddlDeliveryLocation").select2({
@@ -344,6 +352,52 @@
 
             //#endregion select2
         });
+
+        //re-populate on post
+        $(function () {
+
+            $("#ddlChargeCode").change(function () {
+                var chargeCodeName = $("#ddlChargeCode").select2('data').text;
+                $("#ChargeCodeName").val(chargeCodeName);
+            });
+            $("#ddlLoadPoint").change(function () {
+                var text = $("#ddlLoadPoint").select2('data').text;
+                $("#LoadPointFromText").val(text);
+            });
+            $("#ddlDeliveryLocation").change(function () {
+                var text = $("#ddlDeliveryLocation").select2('data').text;
+                $("#LoadPointToText").val(text);
+            });
+            $("#ddlProduct").change(function () {
+                var text = $("#ddlProduct").select2('data').text;
+                $("#ProductName").val(text);
+            });
+            $("#ddlTankNumber").change(function () {
+                var text = $("#ddlTankNumber").select2('data').text;
+                $("#EquipmentAN").val(text);
+            });
+            $("#ddlChassis").change(function () {
+                var text = $("#ddlChassis").select2('data').text;
+                $("#ChassisEquipmentName").val(text);
+            });
+            $("#ddlContact").change(function () {
+                var text = $("#ddlContact").select2('data').text;
+                $("#ContactName").val(text);
+            });
+
+        });
+
+        //on page load re-popluate
+        $(function () {
+            $("#ddlChargeCode").select2("data", { id: $("#ChargeCodeID").val(), text: $("#ChargeCodeName").val() });
+            $("#ddlLoadPoint").select2("data", { id: $("#FromLocationID").val(), text: $("#LoadPointFromText").val() });
+            $("#ddlDeliveryLocation").select2("data", { id: $("#ToLocationID").val(), text: $("#LoadPointToText").val() });
+            $("#ddlProduct").select2("data", { id: $("#ProductID").val(), text: $("#ProductName").val() });
+            $("#ddlTankNumber").select2("data", { id: $("#EquipmentID").val(), text: $("#EquipmentAN").val() });
+            $("#ddlChassis").select2("data", { id: $("#ChassisEquipmentID").val(), text: $("#ChassisEquipmentName").val() });
+            $("#ddlContact").select2("data", { id: $("#ContactID").val(), text: $("#ContactName").val() });
+        });
+
     </script>
 
 }

@@ -41,5 +41,16 @@ namespace DOWTank.Models
         public bool ReloadFL { get; set; }
         [Required(ErrorMessage = " Block Contact required")]
         public int? ContactID { get; set; }
+
+        //re-populate post values
+        public string ChargeCodeName { get; set; }
+        public int LoadPointTo { get; set; }
+        public string LoadPointToText { get; set; }
+        public int LoadPointFrom { get; set; }
+        public string LoadPointFromText { get; set; }
+        public string ProductName { get; set; }
+        public string EquipmentAN { get; set; }
+        public string ChassisEquipmentName { get; set; }
+        public string ContactName { get; set; }
     }
 }

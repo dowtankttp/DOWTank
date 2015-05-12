@@ -28,7 +28,7 @@ namespace DOWTank.Controllers
             LoadTankSearchDropdowns();
 
             TankSearchPostModel postModel;
-            DataTable data;
+            var dataTable = new DataTable();
             var TANK_usp_rpt_TankSearch_spParams = new TANK_usp_rpt_TankSearch_spParams();
 
             if (TempData["postModel"] != null)
@@ -68,20 +68,15 @@ namespace DOWTank.Controllers
                     TANK_usp_rpt_TankSearch_spParams.DispatchReasonTypeCD = postModel.DispatchReason;
                 if (postModel.chkLastMove != null && postModel.chkLastMove)
                     TANK_usp_rpt_TankSearch_spParams.SearchLastMoveOnlyFL = postModel.chkLastMove;
-            }
-            else
-            {
-                //todo: re-factor it later, and search using postModel listed above
-                TANK_usp_rpt_TankSearch_spParams.LocationID = 1;
-                
-            }
-            // database call
-            data = _utilityService.ExecStoredProcedureForDataTable("TANK_usp_rpt_TankSearch", TANK_usp_rpt_TankSearch_spParams);
 
-            //# database call
+                // database call
+                dataTable = _utilityService.ExecStoredProcedureForDataTable("TANK_usp_rpt_TankSearch", TANK_usp_rpt_TankSearch_spParams);
 
-            @ViewBag.TotalRecords = data.Rows.Count;
-            return View(data);
+                //# database call
+            }
+
+            @ViewBag.TotalRecords = dataTable.Rows.Count;
+            return View(dataTable);
         }
 
         public ActionResult Search(TankSearchPostModel postModel, String strDedicatedProduct)
@@ -108,7 +103,7 @@ namespace DOWTank.Controllers
             }
 
             #endregion PopulateLoadStatusType
-                        
+
             #region LoadPoint
 
             var loadItemsPoint = new List<SelectListItem>();

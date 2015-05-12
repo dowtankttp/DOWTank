@@ -292,7 +292,7 @@ namespace DOWTank.Controllers
 
             loadItemsPoint.Add(new SelectListItem { Text = "Grounded", Value = "4" });
 
-            ViewBag.LoadPoint = loadItemsPoint;
+            ViewBag.LoadPointTo = ViewBag.LoadPointFrom = loadItemsPoint;
 
             #endregion LoadPoint
 
