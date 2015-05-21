@@ -210,6 +210,45 @@ namespace DOWTank.Controllers
             return RedirectToAction("DedicatedTanks", "Report");
         }
 
+        [HttpGet]
+        public ActionResult TankCostToDate()
+        {
+            var postModel = new TankCostToDatePostModel();
+            if (TempData["TankCostToDatePostModel"] != null)
+            {
+                // database call
+                postModel = (TankCostToDatePostModel)TempData["TankCostToDatePostModel"];
+                var TANK_usp_rpt_TankCostToDate_spParams = new TANK_usp_rpt_TankCostToDate_spParams()
+                {
+                    //TODO: re-factor it later from hard coded
+                    LocationID = 1,
+                    StartDT = postModel.StartDate,
+                    EndDT = postModel.EndDate,
+                    OperatorID = postModel.OperatorID,
+                    OwnerID = postModel.OwnerID,
+                    PoolFL = postModel.PoolFL
+                };
+                DataTable dataTable = _utilityService.ExecStoredProcedureForDataTable("TANK_usp_rpt_TankCostToDate",
+                                                                                      TANK_usp_rpt_TankCostToDate_spParams);
+
+                _sharedFunctions.LoadExcel(dataTable);
+
+                //# database call
+            }
+
+
+            return View(postModel);
+
+        }
+
+        [HttpPost]
+        public ActionResult TankCostToDate(TankCostToDatePostModel postModel)
+        {
+            TempData["TankCostToDatePostModel"] = postModel;
+            return RedirectToAction("TankCostToDate", "Report");
+        }
+
+
         //PopulateContacts
         [HttpGet]
         public JsonResult PopulateSecurityDDL(string searchTerm)
@@ -220,6 +259,36 @@ namespace DOWTank.Controllers
             if (response != null && response.Any())
             {
                 var data = response.Where(r => r.UserAN != null).Select(r => new { id = r.UserAN, text = r.FullName }).ToList();
+                return Json(data, JsonRequestBehavior.AllowGet);
+            }
+            return Json(string.Empty, JsonRequestBehavior.AllowGet);
+        }
+
+        //PopulateOwnerDDL
+        [HttpGet]
+        public JsonResult PopulateOwnerDDL(string searchTerm)
+        {
+            searchTerm = searchTerm.Trim();
+            //todo: re-factor it later as required
+            var response = _sharedFunctions.PopulateOwnerDDL();
+            if (response != null && response.Any())
+            {
+                var data = response.Where(r => r.OwnerID != null).Select(r => new { id = r.OwnerID, text = r.OwnerNM }).ToList();
+                return Json(data, JsonRequestBehavior.AllowGet);
+            }
+            return Json(string.Empty, JsonRequestBehavior.AllowGet);
+        }
+
+        //PopulateOperatorDDL
+        [HttpGet]
+        public JsonResult PopulateOperatorDDL(string searchTerm)
+        {
+            searchTerm = searchTerm.Trim();
+            //todo: re-factor it later as required
+            var response = _sharedFunctions.PopulateOperatorDDL();
+            if (response != null && response.Any())
+            {
+                var data = response.Where(r => r.OperatorID != null).Select(r => new { id = r.OperatorID, text = r.OperatorNM }).ToList();
                 return Json(data, JsonRequestBehavior.AllowGet);
             }
             return Json(string.Empty, JsonRequestBehavior.AllowGet);
@@ -292,6 +361,21 @@ namespace DOWTank.Controllers
         public string CurrentLocationDS { get; set; }
         public string DedicatedLocationDS { get; set; }
         public string DedicatedProductDS { get; set; }
+    }
+
+    public class TankCostToDatePostModel
+    {
+        public TankCostToDatePostModel()
+        {
+            StartDate = DateTime.Now.AddMonths(-1);
+            EndDate = DateTime.Now;
+        }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
+        public int LocationID { get; set; }
+        public int? OwnerID { get; set; }
+        public int? OperatorID { get; set; }
+        public bool PoolFL { get; set; }
     }
 
 

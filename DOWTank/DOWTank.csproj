@@ -423,6 +423,7 @@
     <Content Include="Views\Report\AuditMovesByUser.cshtml" />
     <Content Include="Views\Report\AuditWarningMessages.cshtml" />
     <Content Include="Views\Report\DedicatedTanks.cshtml" />
+    <Content Include="Views\Report\TankCostToDate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DOWTank.Core\DOWTank.Core.csproj">

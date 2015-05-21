@@ -39,6 +39,8 @@ namespace DOWTank.Common
         IEnumerable<TANK_usp_sel_DispatchLastMove_spResults> LoadDispatchLastMove(int equipmentId, int locationId);
         IEnumerable<TANK_usp_sel_ServiceTypeDDL_spResults> PopulateServiceType(bool iIncludeBlank);
         void LoadExcel(DataTable dataTable);
+        IEnumerable<TANK_usp_sel_OwnerDDL_spResults> PopulateOwnerDDL();
+        IEnumerable<TANK_usp_sel_OperatorDDL_spResults> PopulateOperatorDDL();
     }
 
     public class SharedFunctions : ISharedFunctions
@@ -234,6 +236,37 @@ namespace DOWTank.Common
             return data;
         }
 
+        public IEnumerable<TANK_usp_sel_OwnerDDL_spResults> PopulateOwnerDDL()
+        {
+            // database call
+
+            var TANK_usp_sel_OwnerDDL_spParams = new TANK_usp_sel_OwnerDDL_spParams()
+            {
+                //TODO: re-factor it later from hard coded
+                IncludeBlank = false
+            };
+            var data = _utilityService.ExecStoredProcedureWithResults<TANK_usp_sel_OwnerDDL_spResults>("TANK_usp_sel_OwnerDDL", TANK_usp_sel_OwnerDDL_spParams);
+
+            //# database call
+
+            return data;
+        }
+
+        public IEnumerable<TANK_usp_sel_OperatorDDL_spResults> PopulateOperatorDDL()
+        {
+            // database call
+
+            var TANK_usp_sel_OperatorDDL_spParams = new TANK_usp_sel_OperatorDDL_spParams()
+            {
+                //TODO: re-factor it later from hard coded
+                IncludeBlank = false
+            };
+            var data = _utilityService.ExecStoredProcedureWithResults<TANK_usp_sel_OperatorDDL_spResults>("TANK_usp_sel_OperatorDDL", TANK_usp_sel_OperatorDDL_spParams);
+
+            //# database call
+
+            return data;
+        }
 
         public IEnumerable<TANK_usp_sel_Equipment_spResults> RefreshEquipment(int? equipmentId, string equipmentAN)
         {
