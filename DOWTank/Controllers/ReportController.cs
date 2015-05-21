@@ -10,6 +10,7 @@ using CrystalDecisions.Shared;
 using DOWTank.Common;
 using DOWTank.Core.Domain.TANK_usp_rpt;
 using DOWTank.Core.Service;
+using DOWTank.Models;
 using DOWTank.Reports;
 
 namespace DOWTank.Controllers
@@ -89,8 +90,9 @@ namespace DOWTank.Controllers
                 //# database call
             }
 
+
             return View(postModel);
-            
+
         }
 
         [HttpPost]
@@ -100,6 +102,56 @@ namespace DOWTank.Controllers
             return RedirectToAction("AuditMissingMoves", "Report");
         }
 
+        [HttpGet]
+        public ActionResult AuditMovesByUser()
+        {
+            var postModel = new AuditMovesByUserPostModel();
+            if (TempData["AuditMovesByUserPostModel"] != null)
+            {
+                // database call
+                postModel = (AuditMovesByUserPostModel)TempData["AuditMovesByUserPostModel"];
+                var TANK_usp_rpt_AuditMovesByUser_spParams = new TANK_usp_rpt_AuditMovesByUser_spParams()
+                {
+                    //TODO: re-factor it later from hard coded
+                    LocationID = 1,
+                    StartDT = postModel.StartDate,
+                    EndDT = postModel.EndDate,
+                    UserAN = postModel.UserAn
+                };
+                DataTable dataTable = _utilityService.ExecStoredProcedureForDataTable("TANK_usp_rpt_AuditMovesByUser",
+                                                                                      TANK_usp_rpt_AuditMovesByUser_spParams);
+
+                _sharedFunctions.LoadExcel(dataTable);
+
+                //# database call
+            }
+
+
+            return View(postModel);
+
+        }
+
+        [HttpPost]
+        public ActionResult AuditMovesByUser(AuditMovesByUserPostModel postModel)
+        {
+            TempData["AuditMovesByUserPostModel"] = postModel;
+            return RedirectToAction("AuditMovesByUser", "Report");
+        }
+
+        //PopulateContacts
+        [HttpGet]
+        public JsonResult PopulateSecurityDDL(string searchTerm)
+        {
+            searchTerm = searchTerm.Trim();
+            //todo: re-factor it later as required
+            var response = _sharedFunctions.PopulateSecurityDDL();
+            if (response != null && response.Any())
+            {
+                var data = response.Where(r => r.UserAN != null).Select(r => new { id = r.UserAN, text = r.FullName }).ToList();
+                return Json(data, JsonRequestBehavior.AllowGet);
+            }
+            return Json(string.Empty, JsonRequestBehavior.AllowGet);
+        }
 
 
         private byte[] StreamToBytes(Stream input)
@@ -139,4 +191,17 @@ namespace DOWTank.Controllers
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
     }
+
+    public class AuditMovesByUserPostModel
+    {
+        public AuditMovesByUserPostModel()
+        {
+            StartDate = DateTime.Now.AddMonths(-1);
+            EndDate = DateTime.Now;
+        }
+        public string UserAn { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
+    }
+
 }

@@ -29,6 +29,7 @@ namespace DOWTank.Common
         IEnumerable<TANK_usp_sel_EquipmentSearch2_spResults> PopulateEquipment(Int16 EquipmentClassTypeCD,
                                                                                string EquipmentAn);
         IEnumerable<TANK_usp_sel_ContactDDL_spResults> PopulateContacts();
+        IEnumerable<TANK_usp_sel_SecurityDDL_spResults> PopulateSecurityDDL();
         IEnumerable<TANK_usp_sel_Equipment_spResults> RefreshEquipment(int? equipmentId, string equipmentAN);
         bool SetCrystalDBSource(ReportDocument reportDocument);
         IEnumerable<TANK_usp_sel_DriverDDL_spResults> PopulateDrivers(bool iIncludeBlank);
@@ -215,6 +216,24 @@ namespace DOWTank.Common
 
             return data;
         }
+
+        public IEnumerable<TANK_usp_sel_SecurityDDL_spResults> PopulateSecurityDDL()
+        {
+            // database call
+
+            var TANK_usp_sel_SecurityDDL_spParams = new TANK_usp_sel_SecurityDDL_spParams()
+            {
+                //TODO: re-factor it later from hard coded
+                IncludeBlank = false,
+                LocationID = 1
+            };
+            var data = _utilityService.ExecStoredProcedureWithResults<TANK_usp_sel_SecurityDDL_spResults>("TANK_usp_sel_SecurityDDL", TANK_usp_sel_SecurityDDL_spParams);
+
+            //# database call
+
+            return data;
+        }
+
 
         public IEnumerable<TANK_usp_sel_Equipment_spResults> RefreshEquipment(int? equipmentId, string equipmentAN)
         {
