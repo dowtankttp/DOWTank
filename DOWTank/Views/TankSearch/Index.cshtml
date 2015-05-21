@@ -2,6 +2,7 @@
 @using System.Data;
 @{
     ViewBag.Title = "Tank Search";
+    string tankNumber = string.Empty;
 }
 
 
@@ -52,22 +53,22 @@
                             @Html.DropDownList("LoadStatusTypeCD", null, new { @class = "form-control" })
                         </div>
                     </div>
-                    
+
                 </div>
              
                 <div class="row mt10">
-                        <div class="col-md-12">
-                            <label>From:</label>
+                    <div class="col-md-12">
+                        <label>From:</label>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="col-md-4 nopadding">
+                            @Html.DropDownList("LoadPoint", null, new { @class = "form-control" })
                         </div>
-                        <div class="col-md-12">
-                            <div class="col-md-4 nopadding">
-                                @Html.DropDownList("LoadPoint", null, new { @class = "form-control" })
-                            </div>
-                            <div class="col-md-4 col-md-offset-1 mt5">
-                                <input id="ddlLoadPoint" name="LocationFromCode" type="hidden" style="width: 100%; box-sizing: border-box;">
-                            </div>
+                        <div class="col-md-4 col-md-offset-1 mt5">
+                            <input id="ddlLoadPoint" name="LocationFromCode" type="hidden" style="width: 100%; box-sizing: border-box;">
                         </div>
                     </div>
+                </div>
              
                 <div class="row mt10">
                     <div class="col-md-12">
@@ -161,6 +162,11 @@
                             {
                             <th>@col.ColumnName</th>
                             }
+                            else if (@col.ColumnName == "Type Service")
+                            {
+                            <th></th>
+                            <th></th>
+                            }
                         }
                     </tr>
                 </thead>
@@ -173,6 +179,17 @@
                                 if (@col.ColumnName != "DispatchID" && @col.ColumnName != "TankID" && @col.ColumnName != "Last Date Loaded" && @col.ColumnName != "Hours" && @col.ColumnName != "Lifts" && @col.ColumnName != "Instruct" && @col.ColumnName != "Type Service")
                                 {
                                 <td>@row[col.ColumnName]</td>
+                                    if (@col.ColumnName == "Tank #")
+                                    {
+                                        tankNumber = @row[col.ColumnName].ToString();
+                                    }
+                                }
+                                else if (@col.ColumnName == "Type Service")
+                                {
+                                <td>@Html.ActionLink("Prep", "Prep", "Tank", new { @equipmentAn = @tankNumber }, null)</td>
+                                <td>
+                                    @Html.ActionLink("Dispatch", "Index", "Dispatch", new { @equipmentAn = @tankNumber }, null)
+                                </td>
                                 }
                             }
                         </tr>

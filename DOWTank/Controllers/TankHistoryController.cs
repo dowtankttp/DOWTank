@@ -37,7 +37,7 @@ namespace DOWTank.Controllers
             int majorLocationID = 1;
 
             tankHistoryModel.DataTableActivityHistory = GetTankActivityHistory(false, locationId, equipment, "");
-            //tankHistoryModel.DataTableActivityHistory.Columns["EquipmentID"].SetOrdinal(14); 
+            tankHistoryModel.DataTableActivityHistory.Columns["DispatchID"].SetOrdinal(15); 
             tankHistoryModel.DataTableEquipmentInfo = GetEquipmentInfo(false, majorLocationID, equipment);
             tankHistoryModel.DataTableEquipmentInfo.Columns["EquipmentID"].SetOrdinal(44); 
             tankHistoryModel.DataTableEquipmentProduct = GetEquipmentProduct(false, equipment);

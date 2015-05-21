@@ -606,9 +606,9 @@
                         $("#ToLocationDS").val(response.ToLocationDS);
 
                         //$("#ddlCurrentLocation").select2("data", { id: response.LocationID, text: response.LocationDS });
-                        if ($("#LoadDispatchData").val()) {
+                        if (parseInt($("#LoadDispatchData").val())) {
                             CopyOver();
-                        }
+                       }
                     } else {
                         $("#txtLMDate").val('');
                         $("#ChassisID").val('');
@@ -650,7 +650,7 @@
         //load dispatch data
         $(function () {
             console.log('$("#LoadDispatchData").val() ' + $("#LoadDispatchData").val());
-            if ($("#LoadDispatchData").val()) {
+            if (parseInt($("#LoadDispatchData").val())) {
                 $("#sintLoadStatusTypeId").val($('#LoadStatusTypeCD').val());
                 $("#intFittingId").val($('#FittingCD').val());
                 $("#ddlTankNumber").select2("data", { id: $("#EquipmentID").val(), text: $("#EquipmentAN").val() });

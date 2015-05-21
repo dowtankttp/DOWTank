@@ -214,6 +214,10 @@
                                     {
                                     <th>@col.ColumnName</th>
                                     }
+                                    else if (@col.ColumnName == "DispatchID")
+                                    {
+                                    <th></th>
+                                    }
 
                                 }
                             </tr>
@@ -227,6 +231,12 @@
                                         if (@col.ColumnName != "DispatchID" && @col.ColumnName != "Equipment #" && @col.ColumnName != "ChargeBlock" && @col.ColumnName != "Date")
                                         {                         
                                         <td>@row[col.ColumnName]</td>
+                                        }
+                                        else if (@col.ColumnName == "DispatchID")
+                                        {
+                                            <td>
+                                                @Html.ActionLink("Edit", "Index", "Dispatch", new { @dispatchid = @row["DispatchID"].ToString() }, null)</td>
+                                            
                                         }
                                     }
                                 </tr>
@@ -270,7 +280,7 @@
                 <div class="col-md-4">
                     <h4>On-Hire History <span class="ml3">(@ViewBag.TotalOnHireHistory)</span></h4>
                 </div>
-                 <div class="col-md-6 mt10">
+                <div class="col-md-6 mt10">
                     <a href="javascript:void(0)" onclick="alert('will be linked when Add History web form ll be ready')">Edit Tank Info</a>
                 </div>
             </div>
