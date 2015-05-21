@@ -138,6 +138,42 @@ namespace DOWTank.Controllers
             return RedirectToAction("AuditMovesByUser", "Report");
         }
 
+        [HttpGet]
+        public ActionResult AuditWarningMessages()
+        {
+            var postModel = new AuditWarningMessagesPostModel();
+            if (TempData["AuditWarningMessagesPostModel"] != null)
+            {
+                // database call
+                postModel = (AuditWarningMessagesPostModel)TempData["AuditWarningMessagesPostModel"];
+                var TANK_usp_rpt_AuditWarningMessages_spParams = new TANK_usp_rpt_AuditWarningMessages_spParams()
+                {
+                    //TODO: re-factor it later from hard coded
+                    LocationID = 1,
+                    StartDT = postModel.StartDate,
+                    EndDT = postModel.EndDate,
+                    UserAN = postModel.UserAn
+                };
+                DataTable dataTable = _utilityService.ExecStoredProcedureForDataTable("TANK_usp_rpt_AuditWarningMessages",
+                                                                                      TANK_usp_rpt_AuditWarningMessages_spParams);
+
+                _sharedFunctions.LoadExcel(dataTable);
+
+                //# database call
+            }
+
+
+            return View(postModel);
+
+        }
+
+        [HttpPost]
+        public ActionResult AuditWarningMessages(AuditWarningMessagesPostModel postModel)
+        {
+            TempData["AuditWarningMessagesPostModel"] = postModel;
+            return RedirectToAction("AuditWarningMessages", "Report");
+        }
+
         //PopulateContacts
         [HttpGet]
         public JsonResult PopulateSecurityDDL(string searchTerm)
@@ -195,6 +231,17 @@ namespace DOWTank.Controllers
     public class AuditMovesByUserPostModel
     {
         public AuditMovesByUserPostModel()
+        {
+            StartDate = DateTime.Now.AddMonths(-1);
+            EndDate = DateTime.Now;
+        }
+        public string UserAn { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
+    }
+    public class AuditWarningMessagesPostModel
+    {
+        public AuditWarningMessagesPostModel()
         {
             StartDate = DateTime.Now.AddMonths(-1);
             EndDate = DateTime.Now;

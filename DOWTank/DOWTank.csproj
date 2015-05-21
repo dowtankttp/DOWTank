@@ -421,6 +421,7 @@
     <Content Include="Views\Report\AuditDriverList.cshtml" />
     <Content Include="Views\Report\AuditMissingMoves.cshtml" />
     <Content Include="Views\Report\AuditMovesByUser.cshtml" />
+    <Content Include="Views\Report\AuditWarningMessages.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DOWTank.Core\DOWTank.Core.csproj">
