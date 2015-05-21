@@ -31,8 +31,11 @@
 
         <div class="row mt20">
             <div class="row no-margin">
-                <div class="col-md-12">
+                <div class="col-md-4">
                     <h4>Tank Information <span class="ml3">(@ViewBag.TotalRecordsEquipmentInfo)</span></h4>
+                </div>
+                <div class="col-md-6 mt10">
+                    <a href="javascript:void(0)" onclick="alert('will be linked when Edit Tank web form ll be ready')">Edit Tank Info</a>
                 </div>
             </div>
             <div class="row no-margin">
@@ -42,7 +45,12 @@
                             <tr>
                                 @foreach (DataColumn col in Model.DataTableEquipmentInfo.Columns)
                                 {
-                                    if (@col.ColumnName == "MajorLocationDS" || @col.ColumnName == "LocationDS" || @col.ColumnName == "LoadStatusTypeDS" || @col.ColumnName == "OwnerNM" || @col.ColumnName == "OperatorNM" || @col.ColumnName == "EquipmentTypeDS" || @col.ColumnName == "ServiceTypeDS" || @col.ColumnName == "TankCapacity" || @col.ColumnName == "TankLastTestDT" || @col.ColumnName == "TankNextTestDT")
+                                    if (@col.ColumnName == "EquipmentID")
+                                    {
+                                    <th></th>
+                                    <th></th>
+                                    }
+                                    else if (@col.ColumnName == "MajorLocationDS" || @col.ColumnName == "LocationDS" || @col.ColumnName == "LoadStatusTypeDS" || @col.ColumnName == "OwnerNM" || @col.ColumnName == "OperatorNM" || @col.ColumnName == "EquipmentTypeDS" || @col.ColumnName == "ServiceTypeDS" || @col.ColumnName == "TankCapacity" || @col.ColumnName == "TankLastTestDT" || @col.ColumnName == "TankNextTestDT")
                                     {
                                         switch (@col.ColumnName)
                                         {
@@ -90,6 +98,11 @@
                                     {
                                         if (@col.ColumnName == "MajorLocationDS" || @col.ColumnName == "LocationDS" || @col.ColumnName == "LoadStatusTypeDS" || @col.ColumnName == "OwnerNM" || @col.ColumnName == "OperatorNM" || @col.ColumnName == "EquipmentTypeDS" || @col.ColumnName == "ServiceTypeDS" || @col.ColumnName == "TankCapacity" || @col.ColumnName == "TankLastTestDT" || @col.ColumnName == "TankNextTestDT")
                                         {<td>@row[col.ColumnName]</td>
+                                        }
+                                        else if (@col.ColumnName == "EquipmentID")
+                                        {
+                                        <td>@Html.ActionLink("Prep", "Prep", "Tank", new { @equipmentAn = @row["EquipmentAN"].ToString() }, null)</td>
+                                        <td>@Html.ActionLink("Dispatch", "Index", "Dispatch", new { @equipmentAn = @row["EquipmentAN"].ToString() }, null)</td>
                                         }
                                     }
                                 </tr>
@@ -254,8 +267,11 @@
 
         <div class="row mt10">
             <div class="row no-margin">
-                <div class="col-md-12">
+                <div class="col-md-4">
                     <h4>On-Hire History <span class="ml3">(@ViewBag.TotalOnHireHistory)</span></h4>
+                </div>
+                 <div class="col-md-6 mt10">
+                    <a href="javascript:void(0)" onclick="alert('will be linked when Add History web form ll be ready')">Edit Tank Info</a>
                 </div>
             </div>
         </div>
@@ -325,7 +341,7 @@
                 return true;
             });
         });
-        
-       
+
+
     </script>
 }

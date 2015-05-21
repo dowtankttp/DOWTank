@@ -4,6 +4,26 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+@Html.Hidden("FromLocationID")
+@Html.Hidden("FromLocationDS")
+@Html.Hidden("ToLocationID")
+@Html.Hidden("ToLocationDS")
+
+@Html.HiddenFor(m => m.ChargeCodeID)
+@Html.HiddenFor(m => m.ChargeCodeAN)
+@Html.HiddenFor(m => m.LoadStatusTypeCD)
+@Html.HiddenFor(m => m.ChargeBlockLocationID)
+@Html.HiddenFor(m => m.ChargeBlockLocationDS)
+@Html.HiddenFor(m => m.WasteClassTypeCD)
+@Html.HiddenFor(m => m.WasteClassTypeDS)
+@Html.HiddenFor(m => m.DispatchReasonTypeCD)
+@Html.HiddenFor(m => m.DispatchReasonTypeDS)
+@Html.HiddenFor(m => m.AdditionalDispatchReasonTypeCD)
+@Html.HiddenFor(m => m.AdditionalDispatchReasonTypeDS)
+@Html.HiddenFor(m => m.FittingCD)
+@Html.HiddenFor(m => m.Contact)
+@Html.HiddenFor(m => m.ContactID)
+
 <div class="well well-lg">
     <!--title-->
     <div class="row mt10 mb20">
@@ -11,6 +31,7 @@
             <h4 class="dow-color">Dispatch</h4>
         </div>
     </div>
+    @Html.HiddenFor(m => m.LoadDispatchData)
     <input type="hidden" value="@ViewBag.EquipmentAN"  id="hdnEquipmentAN"/>
     @using (Html.BeginForm("Index", "Dispatch", FormMethod.Post))
     {
@@ -36,6 +57,8 @@
             </div>
             <div class="row no-row-margin">
                 <div class="col-md-4 nopadding">
+                    @Html.HiddenFor(m => m.EquipmentID)
+                    @Html.HiddenFor(m => m.EquipmentAN)
                     <input id="ddlTankNumber" type="hidden" name="intEquipmentId" style="width: 100%; box-sizing: border-box;">
                 </div>
             </div>
@@ -50,7 +73,7 @@
             <div class="row">
                 <div class="col-md-3">
                     <label>Date:</label>
-                    <input type="text" id="txtLMDate" name="txtLMDate" class="form-control datetimepicker">
+                    <input type="text" id="txtLMDate" name="txtLMDate" class="form-control datetimepicker" value="@Model.txtLMDate">
                 </div>
                 <div class="col-md-3">
                     <label>Chassis:</label>
@@ -431,7 +454,7 @@
 
             //WasteClass ddl
             $("#ddlWasteClass").select2({
-                minimumInputLength: 1,
+                minimumInputLength: 0,
                 cache: false,
                 ajax: {
                     url: "/Dispatch/PopulateWasteClass",
@@ -518,24 +541,35 @@
         //CopyOver
         $(function () {
             $("#btnCopyOver").click(function () {
-                //$('#txtChassis').val($('#txtLMChassis').val());
-                //$('#txtProduct').val($('#txtLMProduct').val());
-                //alert($('#ChassisID').val() + ' : ' + $('#txtLMChassis').val());
-                $("#ddlChassis").select2("data", { id: $('#ChassisID').val(), text: $('#txtLMChassis').val() });
-                $("#ddlProduct").select2("data", { id: $('#ProductID').val(), text: $('#txtLMProduct').val() });
-                $("#ddlDriver").select2("data", { id: $('#DriverID').val(), text: $('#txtLMDriver').val() });
-                $("#ddlContact").select2("data", { id: $('#ContactID').val(), text: $('#txtLMContact').val() });
-                $("#FittingCD").select2("data", { id: $('#FittingID').val(), text: $('#txtLMFittings').val() });
-                $('#strShipmentAN').val($('#txtLMShipment').val());
+                CopyOver();
             });
         });
+
+        function CopyOver() {
+            //$('#txtChassis').val($('#txtLMChassis').val());
+            //$('#txtProduct').val($('#txtLMProduct').val());
+            //alert($('#ChassisID').val() + ' : ' + $('#txtLMChassis').val());
+            console.log('inside copy over ' + $('#txtLMDriver').val());
+            $("#ddlChassis").select2("data", { id: $('#ChassisID').val(), text: $('#txtLMChassis').val() });
+            $("#ddlProduct").select2("data", { id: $('#ProductID').val(), text: $('#txtLMProduct').val() });
+            $("#ddlDriver").select2("data", { id: $('#DriverID').val(), text: $('#txtLMDriver').val() });
+            $("#ddlContact").select2("data", { id: $('#ContactID').val(), text: $('#txtLMContact').val() });
+            $("#FittingCD").select2("data", { id: $('#FittingID').val(), text: $('#txtLMFittings').val() });
+            $('#strShipmentAN').val($('#txtLMShipment').val());
+            $("#ddlLoadPoint").select2("data", { id: $('#FromLocationID').val(), text: $('#FromLocationDS').val() });
+            $("#ddlDeliveryLocation").select2("data", { id: $('#ToLocationID').val(), text: $('#ToLocationDS').val() });
+            //
+
+        }
+
 
         //load last move
         $(function () {
             $("#ddlTankNumber").change(function () {
                 var theSelectionId = $("#ddlTankNumber").select2('data').id;
                 var theSelectionText = $("#ddlTankNumber").select2('data').text;
-                loadLastMove(theSelectionId, theSelectionText);
+                loadLastMove(theSelectionId,
+                    theSelectionText);
             });
             var equipmentAn = $("#hdnEquipmentAN").val();
             loadTankNumber(equipmentAn);
@@ -565,7 +599,16 @@
                         $("#FittingID").val(response.FittingCD);
                         $("#txtLMContact").val(response.ContactNM);
                         $("#ContactID").val(response.ContactID);
+
+                        $("#FromLocationID").val(response.FromLocationID);
+                        $("#FromLocationDS").val(response.FromLocationDS);
+                        $("#ToLocationID").val(response.ToLocationID);
+                        $("#ToLocationDS").val(response.ToLocationDS);
+
                         //$("#ddlCurrentLocation").select2("data", { id: response.LocationID, text: response.LocationDS });
+                        if ($("#LoadDispatchData").val()) {
+                            CopyOver();
+                        }
                     } else {
                         $("#txtLMDate").val('');
                         $("#ChassisID").val('');
@@ -603,6 +646,25 @@
                 });
             }
         }
+
+        //load dispatch data
+        $(function () {
+            console.log('$("#LoadDispatchData").val() ' + $("#LoadDispatchData").val());
+            if ($("#LoadDispatchData").val()) {
+                $("#sintLoadStatusTypeId").val($('#LoadStatusTypeCD').val());
+                $("#intFittingId").val($('#FittingCD').val());
+                $("#ddlTankNumber").select2("data", { id: $("#EquipmentID").val(), text: $("#EquipmentAN").val() });
+                $("#ddlTankNumber").trigger("change");
+                $("#ddlChargeCode").select2("data", { id: $('#ChargeCodeID').val(), text: $('#ChargeCodeAN').val() });
+                $("#ddlOnHireBlock").select2("data", { id: $('#ChargeBlockLocationID').val(), text: $('#ChargeBlockLocationDS').val() });
+                $("#ddlOnHireBlock").select2("data", { id: $('#WasteClassTypeCD').val(), text: $('#WasteClassTypeDS').val() });
+                $("#ddlInstructionsReason").select2("data", { id: $('#DispatchReasonTypeCD').val(), text: $('#DispatchReasonTypeDS').val() });
+                $("#ddlAdditionalInstruct").select2("data", { id: $('#AdditionalDispatchReasonTypeCD').val(), text: $('#AdditionalDispatchReasonTypeDS').val() });
+                //ddlContact
+                $("#ddlContact").select2("data", { id: $('#ContactID').val(), text: $('#Contact').val() });
+            }
+
+        });
 
     </script>
 }

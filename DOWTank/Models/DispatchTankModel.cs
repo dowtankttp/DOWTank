@@ -5,6 +5,10 @@ namespace DOWTank.Models
 {
     public class DispatchTankModel
     {
+        public DispatchTankModel()
+        {
+            LoadDispatchData = 0;
+        }
         public Int32? intDispatchId { get; set; }
         [Required(ErrorMessage = "Tank Number is required")]
         public Int32 intEquipmentId { get; set; }
@@ -41,10 +45,31 @@ namespace DOWTank.Models
         [StringLength(7000, ErrorMessage = "Comments must not exceed 7000 characters")]
         public String strComments { get; set; }
         public Int32 intLocationId { get; set; }
-        public Double? dblCallOutHoursAMT { get; set; }
+        public decimal? dblCallOutHoursAMT { get; set; }
         public Int32? intWasteClassTypeId { get; set; }
         public Boolean bolIsReloadFL { get; set; }
         public Boolean bolIsCleaningApprovedFL { get; set; }
         public String strWPNAN { get; set; }
+        //load dispatch data
+        public int LoadDispatchData { get; set; }
+        public int EquipmentID { get; set; }
+        public string EquipmentAN { get; set; }
+        public string txtLMDate { get; set; }
+        public int? ChargeCodeID { get; set; }
+        public string ChargeCodeAN { get; set; }
+        public Int16? LoadStatusTypeCD { get; set; }
+        public Int32? ChargeBlockLocationID { get; set; }
+        public string ChargeBlockLocationDS { get; set; }
+        public int? WasteClassTypeCD { get; set; }
+        public string WasteClassTypeDS { get; set; }
+        public Int16? DispatchReasonTypeCD { get; set; }
+        public string DispatchReasonTypeDS { get; set; }
+        public Int16? AdditionalDispatchReasonTypeCD { get; set; }
+        public string AdditionalDispatchReasonTypeDS { get; set; }
+        public int? FittingCD { get; set; }
+        public int? ContactID { get; set; }
+        public string Contact { get; set; }
+        
+        
     }
 }

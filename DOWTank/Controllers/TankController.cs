@@ -25,10 +25,10 @@ namespace DOWTank.Controllers
 
         //
         // GET: /Tank/
-        public ActionResult Prep()
+        public ActionResult Prep(string equipmentAn)
         {
             LoadTankPrepDropdowns();
-
+            ViewBag.EquipmentAN = equipmentAn;
             var viewModel = new TankPrepPostModel();
 
             return View(viewModel);

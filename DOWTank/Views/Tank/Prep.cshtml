@@ -9,6 +9,7 @@
             <h4 class="dow-color">Tank Prep</h4>
         </div>
     </div>
+    <input type="hidden" value="@ViewBag.EquipmentAN"  id="hdnEquipmentAN"/>
     @using (Html.BeginForm("Prep", "Tank", FormMethod.Post))
     {
         if (ViewData.ModelState.Keys.Any(k => ViewData.ModelState[k].Errors.Count() > 0))
@@ -397,6 +398,30 @@
             $("#ddlChassis").select2("data", { id: $("#ChassisEquipmentID").val(), text: $("#ChassisEquipmentName").val() });
             $("#ddlContact").select2("data", { id: $("#ContactID").val(), text: $("#ContactName").val() });
         });
+
+
+        //load tank number
+        $(function() {
+
+            var equipmentAn = $("#hdnEquipmentAN").val();
+            loadTankNumber(equipmentAn);
+        });
+
+        function loadTankNumber(equipmentAn) {
+            if (equipmentAn) {
+                $.ajax({
+                    url: "/Tank/PopulateEquipment?searchTerm=" + equipmentAn,
+                    dataType: 'json',
+                    method: 'GET',
+                    success: function (response) {
+                        if (response && response.length > 0) {
+                            console.log('response.id ' + response[0].id);
+                            $("#ddlTankNumber").select2("data", { id: response[0].id, text: response[0].text });
+                        }
+                    }
+                });
+            }
+        }
 
     </script>
 

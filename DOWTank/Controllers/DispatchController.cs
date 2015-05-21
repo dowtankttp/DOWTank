@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using DOWTank.Common;
 using DOWTank.Core.Domain.TANK_usp_insupd;
+using DOWTank.Core.Domain.TANK_usp_sel;
 using DOWTank.Core.Service;
 using DOWTank.Models;
 
@@ -21,12 +23,92 @@ namespace DOWTank.Controllers
         }
 
         // GET: Dispatch
-        public ActionResult Index(string equipmentAn)
+        public ActionResult Index(string equipmentAn, int? dispatchId)
         {
             LoadDispatchTankDropdowns();
             ViewBag.EquipmentAN = equipmentAn;
             var postModel = new DispatchTankModel();
+            if (dispatchId.HasValue)
+            {
+                LoadDispatch(dispatchId.Value, postModel);
+            }
+
             return View(postModel);
+        }
+
+        private void LoadDispatch(int dispatchId, DispatchTankModel postModel)
+        {
+            postModel.LoadDispatchData = 1;
+            // database call
+
+            var TANK_usp_sel_Dispatch_spParams = new TANK_usp_sel_Dispatch_spParams()
+            {
+                DispatchID = dispatchId
+            };
+            DataTable dataTable = _utilityService.ExecStoredProcedureForDataTable("TANK_usp_sel_Dispatch", TANK_usp_sel_Dispatch_spParams);
+
+            postModel.EquipmentAN = dataTable.Rows[0]["EquipmentAN"].ToString();
+            postModel.EquipmentID = dataTable.Rows[0]["EquipmentId"] != null ? (int)dataTable.Rows[0]["EquipmentId"] : 0;
+            postModel.ChargeCodeAN = dataTable.Rows[0]["ChargeCodeAN"].ToString();
+            postModel.ChargeCodeID = dataTable.Rows[0]["ChargeCodeID"] != null ? (int)dataTable.Rows[0]["EquipmentId"] : 0;
+            postModel.LoadStatusTypeCD = dataTable.Rows[0]["LoadStatusTypeCD"] != null ? (Int16?)dataTable.Rows[0]["LoadStatusTypeCD"] : 0;
+            postModel.ChargeBlockLocationID = !string.IsNullOrEmpty(dataTable.Rows[0]["ChargeBlockLocationID"].ToString()) ? (Int32?)dataTable.Rows[0]["ChargeBlockLocationID"] : 0;
+            postModel.ChargeBlockLocationDS = dataTable.Rows[0]["ChargeBlockLocationDS"].ToString();
+            postModel.bolIsReloadFL = (Boolean)dataTable.Rows[0]["ReloadFL"];
+            postModel.WasteClassTypeCD = !string.IsNullOrEmpty(dataTable.Rows[0]["WasteClassTypeCD"].ToString()) ? (Int32?)dataTable.Rows[0]["WasteClassTypeCD"] : 0;
+            postModel.WasteClassTypeDS = dataTable.Rows[0]["WasteClassTypeDS"].ToString();
+            postModel.DispatchReasonTypeCD = !string.IsNullOrEmpty(dataTable.Rows[0]["DispatchReasonTypeCD"].ToString()) ? (Int16?)dataTable.Rows[0]["DispatchReasonTypeCD"] : 0;
+            postModel.DispatchReasonTypeDS = dataTable.Rows[0]["DispatchReasonTypeDS"].ToString();
+            postModel.AdditionalDispatchReasonTypeCD = !string.IsNullOrEmpty(dataTable.Rows[0]["AdditionalDispatchReasonTypeCD"].ToString()) ? (Int16?)dataTable.Rows[0]["AdditionalDispatchReasonTypeCD"] : 0;
+            postModel.AdditionalDispatchReasonTypeDS = dataTable.Rows[0]["AdditionalDispatchReasonTypeDS"].ToString();
+            postModel.strProNumberAN = dataTable.Rows[0]["ProNumberAN"].ToString();
+            postModel.dblCallOutHoursAMT = !string.IsNullOrEmpty(dataTable.Rows[0]["CallOutHoursAMT"].ToString()) ? (decimal?)dataTable.Rows[0]["CallOutHoursAMT"] : null;
+            postModel.sintCraneLiftAmt = !string.IsNullOrEmpty(dataTable.Rows[0]["CraneLiftAmt"].ToString()) ? (Int16?)dataTable.Rows[0]["CraneLiftAmt"] : null;
+
+            //dispatch start date
+            postModel.dtmDispatchStart = !string.IsNullOrEmpty(dataTable.Rows[0]["DispatchDt"].ToString())
+                                             ? (DateTime?)Convert.ToDateTime(dataTable.Rows[0]["DispatchDt"])
+                                             : null;
+            var start = !string.IsNullOrEmpty(dataTable.Rows[0]["Start"].ToString())
+                                             ? (TimeSpan?)TimeSpan.Parse(dataTable.Rows[0]["Start"].ToString())
+                                             : null;
+            if (postModel.dtmDispatchStart.HasValue && start.HasValue)
+            {
+                postModel.dtmDispatchStart = postModel.dtmDispatchStart.Value.Add(start.Value);
+            }
+
+            //disptach end date
+            postModel.dtmDispatchEnd = !string.IsNullOrEmpty(dataTable.Rows[0]["DeliveryDt"].ToString())
+                                             ? (DateTime?)Convert.ToDateTime(dataTable.Rows[0]["DeliveryDt"])
+                                             : null;
+            var end = !string.IsNullOrEmpty(dataTable.Rows[0]["End"].ToString())
+                                             ? (TimeSpan?)TimeSpan.Parse(dataTable.Rows[0]["End"].ToString())
+                                             : null;
+            if (postModel.dtmDispatchEnd.HasValue && end.HasValue)
+            {
+                postModel.dtmDispatchEnd = postModel.dtmDispatchEnd.Value.Add(end.Value);
+            }
+
+            //dtmScheduledDelivery
+            postModel.dtmScheduledDelivery = !string.IsNullOrEmpty(dataTable.Rows[0]["ScheduledDeliveryDT"].ToString())
+                                             ? (DateTime?)Convert.ToDateTime(dataTable.Rows[0]["ScheduledDeliveryDT"])
+                                             : null;
+            var deliveryTime = !string.IsNullOrEmpty(dataTable.Rows[0]["ScheduledDeliveryTime"].ToString())
+                                             ? (TimeSpan?)TimeSpan.Parse(dataTable.Rows[0]["ScheduledDeliveryTime"].ToString())
+                                             : null;
+            if (postModel.dtmScheduledDelivery.HasValue && deliveryTime.HasValue)
+            {
+                postModel.dtmScheduledDelivery = postModel.dtmScheduledDelivery.Value.Add(deliveryTime.Value);
+            }
+
+            postModel.strShipmentAN = dataTable.Rows[0]["ShipmentAN"].ToString();
+            postModel.FittingCD = !string.IsNullOrEmpty(dataTable.Rows[0]["FittingCD"].ToString()) ? (int?)dataTable.Rows[0]["FittingCD"] : null;
+            postModel.ContactID = postModel.FittingCD = !string.IsNullOrEmpty(dataTable.Rows[0]["ContactID"].ToString()) ? (int?)dataTable.Rows[0]["ContactID"] : null;
+            postModel.Contact = dataTable.Rows[0]["Contact"].ToString();
+            postModel.strComments = dataTable.Rows[0]["CommentsAN"].ToString();
+
+
+            //# database call   
         }
 
         [HttpPost]
@@ -104,7 +186,7 @@ namespace DOWTank.Controllers
             if (data != null && data.Any())
             {
                 var result = data.FirstOrDefault();
-                return Json(new { ChargeBlockLocationDS = result.ChargeBlockLocationDS, ChargeCodeAN = result.ChargeCodeAN, ChassisEquipmentID = result.ChassisEquipmentID, ChassisEquipmentAN = result.ChassisEquipmentAN, DispatchStartDt = result.DispatchStartDt, Driver = result.Driver, DriverID = result.DriverID, ProductID = result.ProductID, ProductDS = result.ProductDS, ToLocationDS = result.ToLocationDS, FittingDS = result.FittingDS, ShipmentAN = result.ShipmentAN, ContactNM = result.ContactNM, ContactID = result.ContactID }, JsonRequestBehavior.AllowGet);
+                return Json(result, JsonRequestBehavior.AllowGet);
             }
             return Json(string.Empty, JsonRequestBehavior.AllowGet);
         }
@@ -163,7 +245,6 @@ namespace DOWTank.Controllers
 
         //PopulateEquipment
         [HttpGet]
-        [OutputCache(Duration = int.MaxValue, VaryByParam = "searchTerm")]
         public JsonResult PopulateDispatchReason(string searchTerm)
         {
             searchTerm = searchTerm.Trim();
@@ -186,7 +267,6 @@ namespace DOWTank.Controllers
 
         //PopulateChassis
         [HttpGet]
-        [OutputCache(Duration = int.MaxValue, VaryByParam = "searchTerm")]
         public JsonResult PopulateChassis(string searchTerm)
         {
             //todo: re-factor it later as required
@@ -208,7 +288,6 @@ namespace DOWTank.Controllers
 
         //PopulateProduct
         [HttpGet]
-        [OutputCache(Duration = int.MaxValue, VaryByParam = "searchTerm")]
         public JsonResult PopulateProduct(string searchTerm)
         {
             //todo: re-factor it later as required
@@ -229,7 +308,6 @@ namespace DOWTank.Controllers
 
         //PopulateDriver
         [HttpGet]
-        [OutputCache(Duration = int.MaxValue, VaryByParam = "searchTerm")]
         public JsonResult PopulateDriver(string searchTerm)
         {
             //todo: re-factor it later as required
@@ -250,7 +328,6 @@ namespace DOWTank.Controllers
 
         //PopulateLoadPoint
         [HttpGet]
-        [OutputCache(Duration = int.MaxValue, VaryByParam = "locationType")]
         public JsonResult PopulateLoadPoint(string searchTerm, int locationType = 1)
         {
             //todo: re-factor it later as required
@@ -260,7 +337,6 @@ namespace DOWTank.Controllers
 
         //PopulateChargeCode
         [HttpGet]
-        [OutputCache(Duration = int.MaxValue, VaryByParam = "searchTerm")]
         public JsonResult PopulateChargeCode(string searchTerm)
         {
             //todo: re-factor it later as required
@@ -284,7 +360,6 @@ namespace DOWTank.Controllers
 
         //PopulateWasteClass
         [HttpGet]
-        [OutputCache(Duration = int.MaxValue, VaryByParam = "searchTerm")]
         public JsonResult PopulateWasteClass(string searchTerm)
         {
             //todo: re-factor it later as required
@@ -305,7 +380,6 @@ namespace DOWTank.Controllers
 
         //PopulateDispatchReasons
         [HttpGet]
-        [OutputCache(Duration = int.MaxValue, VaryByParam = "searchTerm")]
         public JsonResult PopulateDispatchReasons(string searchTerm)
         {
             //todo: re-factor it later as required
@@ -327,7 +401,6 @@ namespace DOWTank.Controllers
 
         //PopulateContacts
         [HttpGet]
-        [OutputCache(Duration = int.MaxValue, VaryByParam = "searchTerm")]
         public JsonResult PopulateContacts(string searchTerm)
         {
             //todo: re-factor it later as required
@@ -417,5 +490,6 @@ namespace DOWTank.Controllers
             }
             return loadPoints;
         }
+
     }
 }

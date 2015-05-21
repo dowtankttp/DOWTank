@@ -38,7 +38,7 @@ namespace DOWTank.Core.Domain.TANK_usp_insupd
         public String ProNumberAN { get; set; }
         public String CommentsAn { get; set; }
         public Int32 LocationID { get; set; }
-        public Double CallOutHoursAMT { get; set; }
+        public decimal? CallOutHoursAMT { get; set; }
         public Int32? MoveTypeCD { get; set; }
         public Int32? WasteClassTypeCD { get; set; }
         public Boolean? ReloadFL { get; set; }
