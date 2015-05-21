@@ -419,6 +419,7 @@
     <Content Include="Views\GroundedMatrix\Index.cshtml" />
     <Content Include="Scripts\jquery-2.1.3.min.map" />
     <Content Include="Views\Report\AuditDriverList.cshtml" />
+    <Content Include="Views\Report\AuditMissingMoves.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DOWTank.Core\DOWTank.Core.csproj">

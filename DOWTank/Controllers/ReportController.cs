@@ -25,7 +25,7 @@ namespace DOWTank.Controllers
             _utilityService = utilityService;
             _sharedFunctions = sharedFunctions;
         }
-       
+
         public ActionResult AuditDriverList()
         {
             var postModel = new AuditDriverListPostModel();
@@ -50,7 +50,7 @@ namespace DOWTank.Controllers
 
                 //# database call
             }
-            
+
             return View(postModel);
 
         }
@@ -62,6 +62,43 @@ namespace DOWTank.Controllers
             return RedirectToAction("AuditDriverList", "Report");
         }
 
+        [HttpGet]
+        public ActionResult AuditMissingMoves()
+        {
+            var postModel = new AuditMissingMovesPostModel();
+            if (TempData["AuditMissingMovesPostModel"] != null)
+            {
+                // database call
+                postModel = (AuditMissingMovesPostModel)TempData["AuditMissingMovesPostModel"];
+                var TANK_usp_rpt_AuditMissingMoves_spParams = new TANK_usp_rpt_AuditMissingMoves_spParams()
+                {
+                    //TODO: re-factor it later from hard coded
+                    LocationID = 1,
+                    StartDT = postModel.StartDate,
+                    EndDT = postModel.EndDate,
+                    EquipmentAn = postModel.TankNumber
+                };
+                DataTable dataTable = _utilityService.ExecStoredProcedureForDataTable("TANK_usp_rpt_AuditMissingMoves",
+                                                                                      TANK_usp_rpt_AuditMissingMoves_spParams);
+
+                DataSet dataSet = new DataSet("AuditMissingMoves");
+                dataSet.Tables.Add(dataTable);
+
+                _sharedFunctions.LoadExcel(dataTable);
+
+                //# database call
+            }
+
+            return View(postModel);
+            
+        }
+
+        [HttpPost]
+        public ActionResult AuditMissingMoves(AuditMissingMovesPostModel postModel)
+        {
+            TempData["AuditMissingMovesPostModel"] = postModel;
+            return RedirectToAction("AuditMissingMoves", "Report");
+        }
 
 
 
@@ -88,6 +125,17 @@ namespace DOWTank.Controllers
             StartDate = DateTime.Now.AddMonths(-1);
             EndDate = DateTime.Now;
         }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
+    }
+    public class AuditMissingMovesPostModel
+    {
+        public AuditMissingMovesPostModel()
+        {
+            StartDate = DateTime.Now.AddMonths(-1);
+            EndDate = DateTime.Now;
+        }
+        public string TankNumber { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
     }

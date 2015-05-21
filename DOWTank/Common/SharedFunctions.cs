@@ -395,6 +395,11 @@ namespace DOWTank.Common
 
             // Create a dynamic control, populate and render it
             GridView excel = new GridView();
+            if (dataTable.Rows.Count == 0)
+            {
+                DataRow row = dataTable.NewRow();
+                dataTable.Rows.Add(row);
+            }
             excel.DataSource = dataTable;
             excel.DataBind();
             excel.RenderControl(new HtmlTextWriter(System.Web.HttpContext.Current.Response.Output));
