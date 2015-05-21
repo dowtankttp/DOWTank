@@ -25,50 +25,44 @@ namespace DOWTank.Controllers
             _utilityService = utilityService;
             _sharedFunctions = sharedFunctions;
         }
-        //
-        // GET: /Report/
+       
         public ActionResult AuditDriverList()
         {
-            // database call
-
-            var TANK_usp_rpt_AuditDrivers_spParams = new TANK_usp_rpt_AuditDrivers_spParams()
+            var postModel = new AuditDriverListPostModel();
+            if (TempData["AuditDriverListPostModel"] != null)
             {
-                //TODO: re-factor it later from hard coded
-                LocationID = 1,
-                StartDT = DateTime.Now.AddYears(-1),
-                EndDT = DateTime.Now
-            };
-            DataTable dataTable = _utilityService.ExecStoredProcedureForDataTable("TANK_usp_rpt_AuditDrivers", TANK_usp_rpt_AuditDrivers_spParams);
+                // database call
+                postModel = (AuditDriverListPostModel)TempData["AuditDriverListPostModel"];
+                var TANK_usp_rpt_AuditDrivers_spParams = new TANK_usp_rpt_AuditDrivers_spParams()
+                    {
+                        //TODO: re-factor it later from hard coded
+                        LocationID = 1,
+                        StartDT = postModel.StartDate,
+                        EndDT = postModel.EndDate
+                    };
+                DataTable dataTable = _utilityService.ExecStoredProcedureForDataTable("TANK_usp_rpt_AuditDrivers",
+                                                                                      TANK_usp_rpt_AuditDrivers_spParams);
 
-            DataSet dataSet = new DataSet("DailyDriverActivity");
-            dataSet.Tables.Add(dataTable);
+                DataSet dataSet = new DataSet("DailyDriverActivity");
+                dataSet.Tables.Add(dataTable);
 
-            //# database call
+                _sharedFunctions.LoadExcel(dataTable);
 
-            #region Report
-
-            var crDailyDriverActivity = new ReportDocument();
-            string reportPath = Path.Combine(Server.MapPath("~/Reports"), "crDailyDriverActivity.rpt");
-            crDailyDriverActivity.Load(reportPath);
-            var dbServer = System.Web.Configuration.WebConfigurationManager.AppSettings["DBServer"];
-            var dbName = System.Web.Configuration.WebConfigurationManager.AppSettings["DBName"];
-            var dbUserId = System.Web.Configuration.WebConfigurationManager.AppSettings["DBUserId"];
-            var dbPassword = System.Web.Configuration.WebConfigurationManager.AppSettings["DBPassword"];
-            crDailyDriverActivity.SetDatabaseLogon(dbUserId, dbPassword, dbServer, dbName, true);
-            crDailyDriverActivity.SetDataSource(dataSet);
-            //todo: these parameters ll be dynamic, but for proof of concept i kept them hard coded
-            crDailyDriverActivity.SetParameterValue("@StartDT", DateTime.Now.AddYears(-1));
-            crDailyDriverActivity.SetParameterValue("@EndDT", DateTime.Now);
-            crDailyDriverActivity.SetParameterValue("@LocationId", 1);
-            crDailyDriverActivity.SetParameterValue("LocationName", "");
-            _contentBytes = StreamToBytes(crDailyDriverActivity.ExportToStream(ExportFormatType.PortableDocFormat));
-
-            #endregion
-
-            return File(_contentBytes, "application/pdf");
-
+                //# database call
+            }
+            
+            return View(postModel);
 
         }
+
+        [HttpPost]
+        public ActionResult AuditDriverList(AuditDriverListPostModel postModel)
+        {
+            TempData["AuditDriverListPostModel"] = postModel;
+            return RedirectToAction("AuditDriverList", "Report");
+        }
+
+
 
 
         private byte[] StreamToBytes(Stream input)
@@ -87,4 +81,14 @@ namespace DOWTank.Controllers
 
     }
 
+    public class AuditDriverListPostModel
+    {
+        public AuditDriverListPostModel()
+        {
+            StartDate = DateTime.Now.AddMonths(-1);
+            EndDate = DateTime.Now;
+        }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
+    }
 }

@@ -41,7 +41,11 @@
                             <li>@Html.ActionLink("Yard", "Index", "GroundedMatrix")</li>
                         </ul>
                     </li>
-                    <li><a href="javascript:void(0)">Reports</a></li>
+                    <li><a aria-expanded="true" role="button" data-toggle="dropdown" class="dropdown-toggle" href="#">Reports<span class="caret"></span></a>
+                        <ul role="menu" class="dropdown-menu">
+                            <li>@Html.ActionLink("Audit Driver List", "AuditDriverList", "Report")</li>
+                        </ul>
+                    </li>
                     <li><a href="javascript:void(0)">Admin</a></li>
                 </ul>
             </div>
