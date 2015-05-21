@@ -174,6 +174,42 @@ namespace DOWTank.Controllers
             return RedirectToAction("AuditWarningMessages", "Report");
         }
 
+        [HttpGet]
+        public ActionResult DedicatedTanks()
+        {
+            var postModel = new DedicatedTanksPostModel();
+            if (TempData["DedicatedTanksPostModel"] != null)
+            {
+                // database call
+                postModel = (DedicatedTanksPostModel)TempData["DedicatedTanksPostModel"];
+                var TANK_usp_rpt_DedicatedTanks_spParams = new TANK_usp_rpt_DedicatedTanks_spParams()
+                {
+                    //TODO: re-factor it later from hard coded
+                    LocationID = 1,
+                    CurrentLocationDS = postModel.CurrentLocationDS,
+                    DedicatedLocationDS = postModel.DedicatedLocationDS,
+                    DedicatedProductDS = postModel.DedicatedLocationDS
+                };
+                DataTable dataTable = _utilityService.ExecStoredProcedureForDataTable("TANK_usp_rpt_DedicatedTanks",
+                                                                                      TANK_usp_rpt_DedicatedTanks_spParams);
+
+                _sharedFunctions.LoadExcel(dataTable);
+
+                //# database call
+            }
+
+
+            return View(postModel);
+
+        }
+
+        [HttpPost]
+        public ActionResult DedicatedTanks(DedicatedTanksPostModel postModel)
+        {
+            TempData["DedicatedTanksPostModel"] = postModel;
+            return RedirectToAction("DedicatedTanks", "Report");
+        }
+
         //PopulateContacts
         [HttpGet]
         public JsonResult PopulateSecurityDDL(string searchTerm)
@@ -250,5 +286,13 @@ namespace DOWTank.Controllers
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
     }
+    public class DedicatedTanksPostModel
+    {
+        public int LocationID { get; set; }
+        public string CurrentLocationDS { get; set; }
+        public string DedicatedLocationDS { get; set; }
+        public string DedicatedProductDS { get; set; }
+    }
+
 
 }
