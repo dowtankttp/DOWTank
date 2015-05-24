@@ -309,6 +309,128 @@ namespace DOWTank.Controllers
             }
         }
 
+
+        public ActionResult HSEReport()
+        {           
+
+            return View();
+
+        }
+
+        [HttpPost]
+        public ActionResult HSEReport(HSEReportPostModel hSEReportPostModel)
+        {
+            // database call                
+            var TANK_usp_rpt_WasteExtract_spParams = new TANK_usp_rpt_WasteExtract_spParams()
+            {
+                //TODO: re-factor it later from hard coded
+                LocationID = 1
+            };
+            DataTable dataTable = _utilityService.ExecStoredProcedureForDataTable("TANK_usp_rpt_WasteExtract",
+                                                                                      TANK_usp_rpt_WasteExtract_spParams);
+
+            DataSet dataSet = new DataSet("HSEReport");
+            dataSet.Tables.Add(dataTable);
+
+            _sharedFunctions.LoadExcel(dataTable);
+
+            //# database call
+            return View();
+        }
+
+        public ActionResult IdleEquipment()
+        {
+
+            return View();
+
+        }
+
+        [HttpPost]
+        public ActionResult IdleEquipment(IdleEquipmentPostModel idleEquipmentPostModel)
+        {
+            // database call                
+            var TANK_usp_rpt_IdleEquipment_spParams = new TANK_usp_rpt_IdleEquipment_spParams()
+            {
+                //TODO: re-factor it later from hard coded
+                LocationID = 1
+            };
+            DataTable dataTable = _utilityService.ExecStoredProcedureForDataTable("TANK_usp_rpt_IdleEquipment",
+                                                                                      TANK_usp_rpt_IdleEquipment_spParams);
+
+            DataSet dataSet = new DataSet("IdleEquipment");
+            dataSet.Tables.Add(dataTable);
+
+            _sharedFunctions.LoadExcel(dataTable);
+
+            //# database call
+            return View();
+        }
+
+        public ActionResult InvoiceSummary()
+        {
+            var postModel = new InvoiceSummmaryPostModel();
+            if (TempData["InvoiceSummmaryPostModel"] != null)
+            {
+                // database call
+                postModel = (InvoiceSummmaryPostModel)TempData["InvoiceSummmaryPostModel"];
+                var TANK_usp_rpt_InvoiceSummary_spParams = new TANK_usp_rpt_InvoiceSummary_spParams()
+                {
+                    //TODO: re-factor it later from hard coded
+                    LocationID = 1,
+                    StartDT = postModel.StartDate,
+                    EndDT = postModel.EndDate
+                };
+                DataTable dataTable = _utilityService.ExecStoredProcedureForDataTable("TANK_usp_rpt_InvoiceSummary",
+                                                                                      TANK_usp_rpt_InvoiceSummary_spParams);
+
+                DataSet dataSet = new DataSet("InvoiceSummary");
+                dataSet.Tables.Add(dataTable);
+
+                _sharedFunctions.LoadExcel(dataTable);
+
+                //# database call
+            }
+
+            return View(postModel);
+
+        }
+
+        [HttpPost]
+        public ActionResult InvoiceSummary(InvoiceSummmaryPostModel postModel)
+        {
+            TempData["InvoiceSummmaryPostModel"] = postModel;
+            return RedirectToAction("InvoiceSummary", "Report");
+        }
+
+    }
+
+    public class HSEReportPostModel
+    {
+        public HSEReportPostModel()
+        {
+
+        }
+
+    }
+
+    public class IdleEquipmentPostModel
+    {
+        public IdleEquipmentPostModel()
+        {
+
+        }
+
+    }
+
+    public class InvoiceSummmaryPostModel
+    {
+        public InvoiceSummmaryPostModel()
+        {
+            StartDate = DateTime.Now.AddMonths(-1);
+            EndDate = DateTime.Now;
+        }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
     }
 
     public class AuditDriverListPostModel

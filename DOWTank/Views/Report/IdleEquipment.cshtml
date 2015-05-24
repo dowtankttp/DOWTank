@@ -1,0 +1,34 @@
+﻿@model DOWTank.Controllers.IdleEquipmentPostModel
+@using System.Data;
+@{
+    ViewBag.Title = "Idle Equipment";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="well well-lg">
+    <!--title-->
+    <div class="row">
+        <div class="col-md-12 nopadding">
+            <h4 class="dow-color col-md-2">Idle Equipment</h4>
+        </div>
+        <div class="col-md-12 nopadding">
+            <span class="ml20">This report displays a list of tanks that have not been moved in several days.</span>
+        </div>
+    </div>
+    @*report criteria*@
+    @using (Html.BeginForm("IdleEquipment", "Report", FormMethod.Post))
+    {
+        <div class="row mt20 mb20">
+
+            <!--save button-->
+            <div class="form-group">
+                <div class="row no-row-margin">
+                    <div class="col-md-10">
+                        <input type="submit" class="btn btn-default btn-primary" value="Run Report" />
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    }
+
+</div>
