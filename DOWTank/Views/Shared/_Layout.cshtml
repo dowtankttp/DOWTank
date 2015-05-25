@@ -55,7 +55,12 @@
                             <li>@Html.ActionLink("Facility Equipment", "FacilityEquipment", "Report")</li>
                         </ul>
                     </li>
-                    <li><a href="javascript:void(0)">Admin</a></li>
+                    <li>
+                        <a aria-expanded="true" role="button" data-toggle="dropdown" class="dropdown-toggle" href="#">Admin<span class="caret"></span></a>
+                        <ul role="menu" class="dropdown-menu">
+                            <li>@Html.ActionLink("Contacts", "Contacts", "Admin")</li>
+                        </ul>
+                    </li>
                 </ul>
             </div>
         </div>

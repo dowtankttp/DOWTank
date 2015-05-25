@@ -148,6 +148,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Common\ControlGroupExtensions.cs" />
     <Compile Include="Common\SharedFunctions.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\DispatchController.cs" />
     <Compile Include="Controllers\GroundedMatrixController.cs" />
@@ -428,6 +429,7 @@
     <Content Include="Views\Report\IdleEquipment.cshtml" />
     <Content Include="Views\Report\InvoiceSummary.cshtml" />
     <Content Include="Views\Report\FacilityEquipment.cshtml" />
+    <Content Include="Views\Admin\Contacts.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DOWTank.Core\DOWTank.Core.csproj">

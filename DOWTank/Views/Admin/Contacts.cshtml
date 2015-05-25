@@ -1,0 +1,68 @@
+﻿@{
+    ViewBag.Title = "Contacts";
+}
+<div class="well well-lg">
+    <!--title-->
+    <div class="row">
+        <div class="col-md-12 nopadding">
+            <h4 class="dow-color col-md-6">Contacts</h4>
+        </div>
+    </div>
+    <!--list-->
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-condensed table-striped table-bordered table-responsive table-hover" id="tblContacts">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Last Name</th>
+                        <th>First Name</th>
+                        <th>Phone</th>
+                        <th>Ext</th>
+                    </tr>
+                </thead>
+
+            </table>
+        </div>
+    </div>
+</div>
+
+<!--script-->
+@section scripts
+{
+    <script>
+
+        $(function () {
+            $("#tblContacts").dataTable({
+                "bLengthChange": false,
+                searching: false,
+                ordering: true,
+                "order": [],
+                pagination: true,
+                pageLength: 50,
+                "sDom": '<"top"flp>rt<"bottom"i><"clear">',
+                responsive: true,
+                "ajax": '/Admin/GetContacts',
+                "columns": [
+           { "data": "Id" },
+           { "data": "LastName" },
+           { "data": "FirstName" },
+           { "data": "Phone" },
+           { "data": "Ext" }
+                ]
+            });
+
+            $.ajax({
+                url: "/Admin/GetContacts",
+                dataType: 'json',
+                method: 'GET',
+                success: function (response) {
+                    console.log('response ' + response);
+                }
+            });
+
+            //mark end of document ready
+        });
+
+    </script>
+}
