@@ -427,6 +427,7 @@
     <Content Include="Views\Report\HSEReport.cshtml" />
     <Content Include="Views\Report\IdleEquipment.cshtml" />
     <Content Include="Views\Report\InvoiceSummary.cshtml" />
+    <Content Include="Views\Report\FacilityEquipment.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DOWTank.Core\DOWTank.Core.csproj">

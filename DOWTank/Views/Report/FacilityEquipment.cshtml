@@ -1,0 +1,176 @@
+﻿@model DOWTank.Controllers.FacilityEquipmentPostModel
+@{
+    ViewBag.Title = "Facility Equipment";
+}
+
+<div class="well well-lg">
+    <!--title-->
+    <div class="row">
+        <div class="col-md-12 nopadding">
+            <h4 class="dow-color col-md-6">Facility Equipment</h4>
+        </div>
+        <div class="col-md-12 nopadding">
+            <span class="ml20">This report displays summary information about units that are in a facilities inventory. This displays only those units that have an On-Terminal status.</span>
+        </div>
+    </div>
+    @*report criteria*@
+    @using (Html.BeginForm("TankCostToDate", "Report", FormMethod.Post))
+    {
+        <div class="row mt20 mb20">
+            <div class="form-group">
+                <div class="row no-row-margin">
+                    <div class="col-md-3">
+                        <label>Owner:</label>
+                        <input id="ddlOwner" name="OwnerID" type="hidden" style="width: 100%; box-sizing: border-box;">
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row no-row-margin">
+                    <div class="col-md-3">
+                        <label>Operator:</label>
+                        <input id="ddlOperator" name="OperatorID" type="hidden" style="width: 100%; box-sizing: border-box;">
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row no-row-margin">
+                    <div class="col-md-3 mb20">
+                        <label>Current Location:</label>
+                        <input type="text" name="CurrentLocationDS" class="form-control" />
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row no-row-margin">
+                    <div class="col-md-3 mb20">
+                        <label>Equipment Class:</label>
+                        @Html.DropDownList("EquipmentClassTypeCD", null, null, new { @class = "form-control" })
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row no-row-margin">
+                    <div class="col-md-3">
+                        <label>Equipment Type:</label>
+                        <input id="ddlEquipmentTypeCD" name="EquipmentTypeCD" type="hidden" style="width: 100%; box-sizing: border-box;">
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row no-row-margin">
+                    <div class="col-md-3 mb20">
+                        <label>Tank Grade:</label>
+                        @Html.DropDownList("TankGradeTypeCD", null, null, new { @class = "form-control" })
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row no-row-margin">
+                    <div class="col-md-3 mb20">
+                        <label>Tank Condition:</label>
+                        @Html.DropDownList("BarrelConditionTypeCD", null, null, new { @class = "form-control" })
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row no-row-margin">
+                    <div class="col-md-3 mb20">
+                        <label>Load Status:</label>
+                        @Html.DropDownList("LoadStatusTypeCD", null, null, new { @class = "form-control" })
+                    </div>
+                </div>
+            </div>
+             <div class="form-group">
+                <div class="row no-row-margin">
+                    <div class="col-md-3 mb20">
+                        <label>Service Type:</label>
+                        @Html.DropDownList("MoveTypeCD", null, null, new { @class = "form-control" })
+                    </div>
+                </div>
+            </div>
+            <!--save button-->
+            <div class="form-group">
+                <div class="row no-row-margin">
+                    <div class="col-md-10">
+                        <input type="submit" class="btn btn-default btn-primary" value="Run Report" />
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    }
+</div>
+
+<!--script-->
+@section scripts
+{
+    <script>
+
+        $(function () {
+
+            //ddlOwner
+            $("#ddlOwner").select2({
+                minimumInputLength: 0,
+                cache: false,
+                ajax: {
+                    url: "/Report/PopulateOwnerDDL",
+                    dataType: 'json',
+                    quietMillis: 650,
+                    data: function (term) {
+                        return {
+                            searchTerm: term // search term
+                        };
+                    },
+                    results: function (data) {
+                        return { results: data };
+                    }
+                }
+            });
+
+            //ddlOperator
+            $("#ddlOperator").select2({
+                minimumInputLength: 0,
+                cache: false,
+                ajax: {
+                    url: "/Report/PopulateOperatorDDL",
+                    dataType: 'json',
+                    quietMillis: 650,
+                    data: function (term) {
+                        return {
+                            searchTerm: term // search term
+                        };
+                    },
+                    results: function (data) {
+                        return { results: data };
+                    }
+                }
+            });
+
+            //EquipmentClassTypeCD
+            //ddlEquipmentTypeCD
+            $("#ddlEquipmentTypeCD").select2({
+                minimumInputLength: 0,
+                cache: false,
+                ajax: {
+                    url: "/Report/PopulateEquipmentType",
+                    dataType: 'json',
+                    quietMillis: 650,
+                    data: function (term) {
+                        return {
+                            searchTerm: term, // search term
+                            equipmentClassTypeCD: $("#EquipmentClassTypeCD").val()
+                        };
+                    },
+                    results: function (data) {
+                        return { results: data };
+                    }
+                }
+            });
+
+
+        });
+
+    </script>
+}
+
