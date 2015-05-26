@@ -37,7 +37,7 @@
         $(function () {
 
             editor = new $.fn.dataTable.Editor({
-                ajax: "/Admin/GetContacts",
+                ajax: "/Admin/ManageContacts",
                 table: "#tblContacts",
                 fields: [{
                     label: "Id",
@@ -71,11 +71,9 @@
                 "order": [],
                 pagination: true,
                 pageLength: 50,
-                //"sDom": '<"top"flp>rt<"bottom"i>T<"clear">',
                 "sDom": '<"top"Tflp>rt<"bottom"i><"clear">',
-                //"sDom": 'Tlfrtip',
                 responsive: true,
-                "ajax": '/Admin/GetContacts',
+                "ajax": '/Admin/ManageContacts',
                 "columns": [
            { "data": "Id" },
            { "data": "LastName" },
@@ -84,10 +82,16 @@
            { "data": "Ext" }
                 ],
                 tableTools: {
-                    sRowSelect: "os",
+                    sRowSelect: "single",
                     aButtons: [
-                        { sExtends: "editor_edit", editor: editor },
-                        { sExtends: "editor_remove", editor: editor }
+                        {
+                            sExtends: "editor_edit",
+                            editor: editor
+                        },
+                        {
+                            sExtends: "editor_remove",
+                            editor: editor
+                        }
                     ]
                 }
 

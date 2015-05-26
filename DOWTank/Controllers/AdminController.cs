@@ -31,8 +31,41 @@ namespace DOWTank.Controllers
         }
 
         [HttpGet]
-        public JsonResult GetContacts()
+        public JsonResult ManageContacts()
         {
+            // database call
+
+            var TANK_usp_sel_ContactUPD_spParams = new TANK_usp_sel_ContactUPD_spParams()
+            {
+                //TODO: re-factor it later from hard coded
+                InstallID = 1,
+                MajorLocationID = 1
+            };
+            DataTable dataTable = _utilityService.ExecStoredProcedureForDataTable("TANK_usp_sel_ContactUPD", TANK_usp_sel_ContactUPD_spParams);
+
+            var data = (from p in dataTable.AsEnumerable()
+                        select new
+                        {
+                            DT_RowId = p.Field<int>("Key"),
+                            Id = p.Field<int>("Key"),
+                            LastName = p.Field<string>("Last Name*"),
+                            FirstName = p.Field<string>("First Name*"),
+                            Phone = p.Field<string>("Phone"),
+                            Ext = p.Field<string>("Ext"),
+                        }).ToList();
+
+            //# database call
+            //return Json(new { data = new[] { data } }, JsonRequestBehavior.AllowGet);
+            return Json(new { data = data }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult ManageContacts(FormCollection formCollection)
+        {
+            var id = formCollection["data[Id]"];
+
+            #region data
+
             // database call
 
             var TANK_usp_sel_ContactUPD_spParams = new TANK_usp_sel_ContactUPD_spParams()
@@ -55,9 +88,20 @@ namespace DOWTank.Controllers
 
             //# database call
             //return Json(new { data = new[] { data } }, JsonRequestBehavior.AllowGet);
-            return Json(new { data = data }, JsonRequestBehavior.AllowGet);
+            return Json(new { data = data });
+
+            #endregion data
         }
 
         #endregion Contacts
     }
+
+    #region Contacts Model
+
+    public class ContactPostModel
+    {
+
+    }
+
+    #endregion Contacts Model
 }
