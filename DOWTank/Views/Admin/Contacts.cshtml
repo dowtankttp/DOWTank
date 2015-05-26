@@ -32,9 +32,9 @@
 {
     <script>
         var editor;
-        
+
         //editor
-        $(function() {
+        $(function () {
 
             editor = new $.fn.dataTable.Editor({
                 ajax: "/Admin/GetContacts",
@@ -58,28 +58,22 @@
                 ]
             });
 
-            $('#tblContacts').on('click', 'tbody td', function (e) {
-                if ($(this).index() === 1) {
-                    editor.bubble(this, ['LastName', 'FirstName']);
-                }
-                else if ($(this).index() > 1) {
-                    editor.bubble(this);
-                }
-            });
-
             //mark end of document ready
         });
 
         //datatable
         $(function () {
-            $("#tblContacts").dataTable({
+
+            var table = $("#tblContacts").dataTable({
                 "bLengthChange": false,
                 searching: false,
                 ordering: true,
                 "order": [],
                 pagination: true,
                 pageLength: 50,
-                "sDom": '<"top"flp>rt<"bottom"i><"clear">',
+                //"sDom": '<"top"flp>rt<"bottom"i>T<"clear">',
+                "sDom": '<"top"Tflp>rt<"bottom"i><"clear">',
+                //"sDom": 'Tlfrtip',
                 responsive: true,
                 "ajax": '/Admin/GetContacts',
                 "columns": [
@@ -88,7 +82,15 @@
            { "data": "FirstName" },
            { "data": "Phone" },
            { "data": "Ext" }
-                ]
+                ],
+                tableTools: {
+                    sRowSelect: "os",
+                    aButtons: [
+                        { sExtends: "editor_edit", editor: editor },
+                        { sExtends: "editor_remove", editor: editor }
+                    ]
+                }
+
             });
             
             //$.ajax({
