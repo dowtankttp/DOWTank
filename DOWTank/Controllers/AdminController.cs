@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using DOWTank.Common;
+using DOWTank.Core.Domain.TANK_usp_insupd;
 using DOWTank.Core.Domain.TANK_usp_sel;
 using DOWTank.Core.Service;
 
@@ -62,7 +63,40 @@ namespace DOWTank.Controllers
         [HttpPost]
         public JsonResult ManageContacts(FormCollection formCollection)
         {
-            var id = formCollection["data[Id]"];
+            var action = formCollection["action"];
+
+            #region edit
+
+            if (action == "edit")
+            {
+                var TANK_usp_insupd_Contact_spParams = new TANK_usp_insupd_Contact_spParams()
+                    {
+                        Key = _sharedFunctions.ToNullableInt32(formCollection["data[Id]"]),
+                        Ext = formCollection["data[Ext]"],
+                        FirstName = formCollection["data[FirstName]"],
+                        LastName = formCollection["data[LastName]"],
+                        Phone = formCollection["data[Phone]"],
+                        UpdateUserAN = "SYSTEM"
+                    };
+                _utilityService.ExecStoredProcedureWithoutResults("TANK_usp_insupd_Contact", TANK_usp_insupd_Contact_spParams);
+            }
+
+            #endregion edit
+
+            #region delete
+
+            if (action == "remove")
+            {
+                var TANK_usp_insupd_Contact_spParams = new TANK_usp_insupd_Contact_spParams()
+                {
+                    Key = _sharedFunctions.ToNullableInt32(formCollection["id[]"]),
+                    ActiveFL = false,
+                    UpdateUserAN = "SYSTEM"
+                };
+                _utilityService.ExecStoredProcedureWithoutResults("TANK_usp_insupd_Contact", TANK_usp_insupd_Contact_spParams);
+            }
+
+            #endregion delete
 
             #region data
 
@@ -93,6 +127,7 @@ namespace DOWTank.Controllers
             #endregion data
         }
 
+
         #endregion Contacts
     }
 
@@ -102,6 +137,7 @@ namespace DOWTank.Controllers
     {
 
     }
+
 
     #endregion Contacts Model
 }

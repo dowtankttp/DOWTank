@@ -41,7 +41,8 @@
                 table: "#tblContacts",
                 fields: [{
                     label: "Id",
-                    name: "Id"
+                    name: "Id",
+                    
                 }, {
                     label: "LastName",
                     name: "LastName"
@@ -56,6 +57,10 @@
                     name: "Ext"
                 }
                 ]
+            });
+            
+            editor.on('onInitEdit', function () {
+                editor.disable('Id');
             });
 
             //mark end of document ready
@@ -96,7 +101,7 @@
                 }
 
             });
-            
+
             //$.ajax({
             //    url: "/Admin/GetContacts",
             //    dataType: 'json',

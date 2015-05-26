@@ -46,6 +46,7 @@ namespace DOWTank.Common
         IEnumerable<TANK_usp_sel_TankGradeTypeDDL_spResults> PopulateTankGrade();
         IEnumerable<TANK_usp_sel_BarrelConditionTypeDDL_spResults> PopulateBarrelCondition();
         IEnumerable<TANK_usp_sel_MoveTypeDDL_spResults> PopulateMoveType();
+        int? ToNullableInt32(string s);
     }
 
     public class SharedFunctions : ISharedFunctions
@@ -547,6 +548,12 @@ namespace DOWTank.Common
 
         #endregion export to excel
 
+        public int? ToNullableInt32(string s)
+        {
+            int i;
+            if (Int32.TryParse(s, out i)) return i;
+            return null;
+        }
     }
 
 
