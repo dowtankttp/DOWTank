@@ -1,0 +1,118 @@
+﻿@{
+    ViewBag.Title = "Contacts";
+}
+<div class="well well-lg">
+    <!--title-->
+    <div class="row">
+        <div class="col-md-12 nopadding">
+            <h4 class="dow-color col-md-6">Contacts</h4>
+        </div>
+    </div>
+    <!--list-->
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-condensed table-striped table-bordered table-responsive table-hover" id="tblContacts">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Last Name</th>
+                        <th>First Name</th>
+                        <th>Phone</th>
+                        <th>Ext</th>
+                    </tr>
+                </thead>
+
+            </table>
+        </div>
+    </div>
+</div>
+
+<!--script-->
+@section scripts
+{
+    <script>
+        var editor;
+
+        //editor
+        $(function () {
+
+            editor = new $.fn.dataTable.Editor({
+                ajax: "/Admin/ManageContacts",
+                table: "#tblContacts",
+                fields: [{
+                    label: "Id",
+                    name: "Id",
+                    
+                }, {
+                    label: "LastName",
+                    name: "LastName"
+                }, {
+                    label: "FirstName:",
+                    name: "FirstName"
+                }, {
+                    label: "Phone:",
+                    name: "Phone"
+                }, {
+                    label: "Ext:",
+                    name: "Ext"
+                }
+                ]
+            });
+            
+            editor.on('onInitEdit', function () {
+                editor.disable('Id');
+            });
+
+            //mark end of document ready
+        });
+
+        //datatable
+        $(function () {
+
+            var table = $("#tblContacts").dataTable({
+                "bLengthChange": false,
+                searching: false,
+                ordering: true,
+                "order": [],
+                pagination: true,
+                pageLength: 50,
+                "sDom": '<"top"Tflp>rt<"bottom"i><"clear">',
+                responsive: true,
+                "ajax": '/Admin/ManageContacts',
+                "columns": [
+           { "data": "Id" },
+           { "data": "LastName" },
+           { "data": "FirstName" },
+           { "data": "Phone" },
+           { "data": "Ext" }
+                ],
+                tableTools: {
+                    sRowSelect: "single",
+                    aButtons: [
+                        {
+                            sExtends: "editor_edit",
+                            editor: editor
+                        },
+                        {
+                            sExtends: "editor_remove",
+                            editor: editor
+                        }
+                    ]
+                }
+
+            });
+
+            //$.ajax({
+            //    url: "/Admin/GetContacts",
+            //    dataType: 'json',
+            //    method: 'GET',
+            //    success: function (response) {
+            //        console.log('response ' + response);
+            //    }
+            //});
+
+            //mark end of document ready
+        });
+
+    </script>
+}

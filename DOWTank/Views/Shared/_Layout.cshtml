@@ -11,7 +11,8 @@
     <link href="@Url.Content("~/Content/dataTables.bootstrap.css")" rel="stylesheet" />
     <link href="@Url.Content("~/Content/css/select2.css")" rel="stylesheet" />
     <link href="@Url.Content("~/Content/jquery.datetimepicker.css")" rel="stylesheet" />
-    <link href="~/Content/dataTables.editor.css" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/dataTables.tableTools.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/dataTables.editor.css")" rel="stylesheet" />
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -52,9 +53,15 @@
                             <li>@Html.ActionLink("HS&E Report", "HSEReport", "Report")</li>
                             <li>@Html.ActionLink("Idle Equipment", "IdleEquipment", "Report")</li>
                             <li>@Html.ActionLink("Invoice Summary", "InvoiceSummary", "Report")</li>
+                            <li>@Html.ActionLink("Facility Equipment", "FacilityEquipment", "Report")</li>
                         </ul>
                     </li>
-                    <li><a href="javascript:void(0)">Admin</a></li>
+                    <li>
+                        <a aria-expanded="true" role="button" data-toggle="dropdown" class="dropdown-toggle" href="#">Admin<span class="caret"></span></a>
+                        <ul role="menu" class="dropdown-menu">
+                            <li>@Html.ActionLink("Contacts", "Contacts", "Admin")</li>
+                        </ul>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -75,6 +82,8 @@
     <script src="@Url.Content("~/Scripts/dataTables.bootstrap.js")"></script>
     <script src="@Url.Content("~/Scripts/select2.min.js")"></script>
     <script src="@Url.Content("~/Scripts/jquery.datetimepicker.js")"></script>
+    <script src="@Url.Content("~/Scripts/dataTables.tableTools.js")"></script>
+    <script src="@Url.Content("~/Scripts/dataTables.editor.js")"></script>
     @RenderSection("scripts", required: false)
     <script>
         $(function () {

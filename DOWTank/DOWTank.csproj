@@ -148,6 +148,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Common\ControlGroupExtensions.cs" />
     <Compile Include="Common\SharedFunctions.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\DispatchController.cs" />
     <Compile Include="Controllers\GroundedMatrixController.cs" />
@@ -330,6 +331,7 @@
     <Content Include="Scripts\DataTables\jquery.dataTables.js" />
     <Content Include="Scripts\DataTables\jquery.dataTables.min.js" />
     <None Include="Scripts\jquery-2.1.3.intellisense.js" />
+    <Content Include="Scripts\editor.bootstrap.js" />
     <Content Include="Scripts\jquery-2.1.3.js" />
     <Content Include="Scripts\jquery-2.1.3.min.js" />
     <Content Include="Scripts\jquery-ui-1.11.4.js" />
@@ -427,6 +429,8 @@
     <Content Include="Views\Report\HSEReport.cshtml" />
     <Content Include="Views\Report\IdleEquipment.cshtml" />
     <Content Include="Views\Report\InvoiceSummary.cshtml" />
+    <Content Include="Views\Report\FacilityEquipment.cshtml" />
+    <Content Include="Views\Admin\Contacts.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DOWTank.Core\DOWTank.Core.csproj">

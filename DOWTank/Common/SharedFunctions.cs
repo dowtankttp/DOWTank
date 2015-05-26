@@ -41,6 +41,12 @@ namespace DOWTank.Common
         void LoadExcel(DataTable dataTable);
         IEnumerable<TANK_usp_sel_OwnerDDL_spResults> PopulateOwnerDDL();
         IEnumerable<TANK_usp_sel_OperatorDDL_spResults> PopulateOperatorDDL();
+        IEnumerable<TANK_usp_sel_EquipmentClassTypeDDL_spResults> PopulateEquipmentClassType();
+        IEnumerable<TANK_usp_sel_EquipmentTypeDDL_spResults> PopulateEquipmentType(Int16? equipmentClassTypeCD);
+        IEnumerable<TANK_usp_sel_TankGradeTypeDDL_spResults> PopulateTankGrade();
+        IEnumerable<TANK_usp_sel_BarrelConditionTypeDDL_spResults> PopulateBarrelCondition();
+        IEnumerable<TANK_usp_sel_MoveTypeDDL_spResults> PopulateMoveType();
+        int? ToNullableInt32(string s);
     }
 
     public class SharedFunctions : ISharedFunctions
@@ -268,6 +274,86 @@ namespace DOWTank.Common
             return data;
         }
 
+        public IEnumerable<TANK_usp_sel_EquipmentClassTypeDDL_spResults> PopulateEquipmentClassType()
+        {
+            // database call
+
+            var TANK_usp_sel_EquipmentClassTypeDDL_spParams = new TANK_usp_sel_EquipmentClassTypeDDL_spParams()
+            {
+                //TODO: re-factor it later from hard coded
+                IncludeBlank = false
+            };
+            var data = _utilityService.ExecStoredProcedureWithResults<TANK_usp_sel_EquipmentClassTypeDDL_spResults>("TANK_usp_sel_EquipmentClassTypeDDL", TANK_usp_sel_EquipmentClassTypeDDL_spParams);
+
+            //# database call
+
+            return data;
+        }
+
+        public IEnumerable<TANK_usp_sel_TankGradeTypeDDL_spResults> PopulateTankGrade()
+        {
+            // database call
+
+            var TANK_usp_sel_TankGradeTypeDDL_spParams = new TANK_usp_sel_TankGradeTypeDDL_spParams()
+            {
+                //TODO: re-factor it later from hard coded
+                IncludeBlank = false
+            };
+            var data = _utilityService.ExecStoredProcedureWithResults<TANK_usp_sel_TankGradeTypeDDL_spResults>("TANK_usp_sel_TankGradeTypeDDL", TANK_usp_sel_TankGradeTypeDDL_spParams);
+
+            //# database call
+
+            return data;
+        }
+
+        public IEnumerable<TANK_usp_sel_BarrelConditionTypeDDL_spResults> PopulateBarrelCondition()
+        {
+            // database call
+
+            var TANK_usp_sel_BarrelConditionTypeDDL_spParams = new TANK_usp_sel_BarrelConditionTypeDDL_spParams()
+            {
+                //TODO: re-factor it later from hard coded
+                IncludeBlank = false
+            };
+            var data = _utilityService.ExecStoredProcedureWithResults<TANK_usp_sel_BarrelConditionTypeDDL_spResults>("TANK_usp_sel_BarrelConditionTypeDDL", TANK_usp_sel_BarrelConditionTypeDDL_spParams);
+
+            //# database call
+
+            return data;
+        }
+        public IEnumerable<TANK_usp_sel_MoveTypeDDL_spResults> PopulateMoveType()
+        {
+            // database call
+
+            var TANK_usp_sel_MoveTypeDDL_spParams = new TANK_usp_sel_MoveTypeDDL_spParams()
+            {
+                //TODO: re-factor it later from hard coded
+                IncludeBlank = false
+            };
+            var data = _utilityService.ExecStoredProcedureWithResults<TANK_usp_sel_MoveTypeDDL_spResults>("TANK_usp_sel_MoveTypeDDL", TANK_usp_sel_MoveTypeDDL_spParams);
+
+            //# database call
+
+            return data;
+        }
+
+        public IEnumerable<TANK_usp_sel_EquipmentTypeDDL_spResults> PopulateEquipmentType(Int16? equipmentClassTypeCD)
+        {
+            // database call
+
+            var TANK_usp_sel_EquipmentTypeDDL_spParams = new TANK_usp_sel_EquipmentTypeDDL_spParams()
+            {
+                //TODO: re-factor it later from hard coded
+                IncludeBlank = false,
+                EquipmentClassTypeCD = equipmentClassTypeCD
+            };
+            var data = _utilityService.ExecStoredProcedureWithResults<TANK_usp_sel_EquipmentTypeDDL_spResults>("TANK_usp_sel_EquipmentTypeDDL", TANK_usp_sel_EquipmentTypeDDL_spParams);
+
+            //# database call
+
+            return data;
+        }
+
         public IEnumerable<TANK_usp_sel_Equipment_spResults> RefreshEquipment(int? equipmentId, string equipmentAN)
         {
             // database call
@@ -462,6 +548,12 @@ namespace DOWTank.Common
 
         #endregion export to excel
 
+        public int? ToNullableInt32(string s)
+        {
+            int i;
+            if (Int32.TryParse(s, out i)) return i;
+            return null;
+        }
     }
 
 

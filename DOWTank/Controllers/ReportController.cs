@@ -402,6 +402,163 @@ namespace DOWTank.Controllers
             return RedirectToAction("InvoiceSummary", "Report");
         }
 
+        public ActionResult FacilityEquipment()
+        {
+            PopulateFacilityEquipmentDropDowns();
+
+            var postModel = new FacilityEquipmentPostModel();
+            if (TempData["FacilityEquipmentPostModel"] != null)
+            {
+                // database call
+                postModel = (FacilityEquipmentPostModel)TempData["FacilityEquipmentPostModel"];
+                var TANK_usp_rpt_EquipmentInventory_spParams = new TANK_usp_rpt_EquipmentInventory_spParams()
+                {
+                    //TODO: re-factor it later from hard coded
+                    LocationID = 1,
+                    OwnerID=postModel.OwnerID,
+                    BarrelConditionTypeCD = postModel.BarrelConditionTypeCD,
+                    CurrentLocationDS = postModel.CurrentLocationDS,
+                    EquipmentClassTypeCD = postModel.EquipmentClassTypeCD,
+                    EquipmentTypeCD = postModel.EquipmentTypeCD,
+                    LoadStatusTypeCD = postModel.LoadStatusTypeCD,
+                    MoveTypeCD = postModel.MoveTypeCD,
+                    OperatorID = postModel.OperatorID,
+                    TankGradeTypeCD = postModel.TankGradeTypeCD
+                };
+                DataTable dataTable = _utilityService.ExecStoredProcedureForDataTable("TANK_usp_rpt_EquipmentInventory",
+                                                                                      TANK_usp_rpt_EquipmentInventory_spParams);
+
+                
+                _sharedFunctions.LoadExcel(dataTable);
+
+                //# database call
+            }
+
+            return View(postModel);
+
+        }
+
+        [HttpPost]
+        public ActionResult FacilityEquipment(FacilityEquipmentPostModel postModel)
+        {
+            TempData["FacilityEquipmentPostModel"] = postModel;
+            return RedirectToAction("FacilityEquipment", "Report");
+        }
+
+        private void PopulateFacilityEquipmentDropDowns()
+        {
+            #region Equip Class
+
+            var equipmentClassList = new List<SelectListItem>();
+            var equipmentClassResponse = _sharedFunctions.PopulateEquipmentClassType();
+            if (equipmentClassResponse != null && equipmentClassResponse.Any())
+            {
+                equipmentClassList.Add(new SelectListItem { Text = "", Value = "" });
+                foreach (var item in equipmentClassResponse)
+                {
+                    equipmentClassList.Add(new SelectListItem { Text = item.EquipmentClassTypeDS, Value = item.EquipmentClassTypeCD.HasValue ? item.EquipmentClassTypeCD.Value.ToString() : string.Empty });
+                }
+                ViewBag.EquipmentClassTypeCD = equipmentClassList;
+            }
+
+            #endregion Equip Class
+
+            #region Tank Grade
+
+            var tankGradeList = new List<SelectListItem>();
+            var tankGradeResponse = _sharedFunctions.PopulateTankGrade();
+            if (tankGradeResponse != null && tankGradeResponse.Any())
+            {
+                tankGradeList.Add(new SelectListItem { Text = "", Value = "" });
+                foreach (var item in tankGradeResponse)
+                {
+                    tankGradeList.Add(new SelectListItem { Text = item.TankGradeTypeDS, Value = item.TankGradeTypeCD.HasValue ? item.TankGradeTypeCD.Value.ToString() : string.Empty });
+                }
+                ViewBag.TankGradeTypeCD = tankGradeList;
+            }
+
+
+            #endregion Tank Grade
+
+            #region Tank Condition
+
+            var barrelConditionList = new List<SelectListItem>();
+            var barrelConditionResponse = _sharedFunctions.PopulateBarrelCondition();
+            if (barrelConditionResponse != null && barrelConditionResponse.Any())
+            {
+                barrelConditionList.Add(new SelectListItem { Text = "", Value = "" });
+                foreach (var item in barrelConditionResponse)
+                {
+                    barrelConditionList.Add(new SelectListItem { Text = item.BarrelConditionTypeDS, Value = item.BarrelConditionTypeCD.HasValue ? item.BarrelConditionTypeCD.Value.ToString() : string.Empty });
+                }
+                ViewBag.BarrelConditionTypeCD = barrelConditionList;
+            }
+
+
+            #endregion Tank Condition
+
+            #region PopulateLoadStatusType
+
+            var statusTypeList = new List<SelectListItem>();
+            var responseStustType = _sharedFunctions.PopulateLoadStatusType();
+            if (responseStustType != null && responseStustType.Any())
+            {
+                statusTypeList.Add(new SelectListItem { Text = "", Value = "" });
+                foreach (var item in responseStustType)
+                {
+                    statusTypeList.Add(new SelectListItem { Text = item.LoadStatusTypeDS, Value = item.LoadStatusTypeCD.ToString() });
+                }
+                ViewBag.LoadStatusTypeCD = statusTypeList;
+            }
+
+            #endregion PopulateLoadStatusType
+
+            #region PopulateMoveType
+
+            var moveTypeCDList = new List<SelectListItem>();
+            var moveTypeCDType = _sharedFunctions.PopulateMoveType();
+            if (moveTypeCDType != null && moveTypeCDType.Any())
+            {
+                moveTypeCDList.Add(new SelectListItem { Text = "", Value = "" });
+                foreach (var item in moveTypeCDType)
+                {
+                    moveTypeCDList.Add(new SelectListItem { Text = item.MoveTypeDS, Value = item.MoveTypeCD.ToString() });
+                }
+                ViewBag.MoveTypeCD = moveTypeCDList;
+            }
+
+            #endregion PopulateMoveType
+        }
+
+        //PopulateEquipmentType
+        [HttpGet]
+        public JsonResult PopulateEquipmentType(string searchTerm, Int16? equipmentClassTypeCD)
+        {
+            searchTerm = searchTerm.Trim();
+            //todo: re-factor it later as required
+            var response = _sharedFunctions.PopulateEquipmentType(equipmentClassTypeCD);
+
+            if (response != null && response.Any())
+            {
+                var data = response.Where(r => r.EquipmentTypeCD != null).Select(r => new { id = r.EquipmentTypeCD, text = r.EquipmentTypeDS }).ToList();
+                return Json(data, JsonRequestBehavior.AllowGet);
+            }
+            return Json(string.Empty, JsonRequestBehavior.AllowGet);
+        }
+
+    }
+
+    public class FacilityEquipmentPostModel
+    {
+        public int? OwnerID { get; set; }
+        public int? OperatorID { get; set; }
+        public int? EquipmentClassTypeCD { get; set; }
+        public int? EquipmentTypeCD { get; set; }
+        public int? TankGradeTypeCD { get; set; }
+        public int? BarrelConditionTypeCD { get; set; }
+        public int? LoadStatusTypeCD { get; set; }
+        public string CurrentLocationDS { get; set; }
+        public int? MoveTypeCD { get; set; }
     }
 
     public class HSEReportPostModel
