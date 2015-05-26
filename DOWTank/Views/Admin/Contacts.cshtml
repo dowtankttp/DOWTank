@@ -31,7 +31,46 @@
 @section scripts
 {
     <script>
+        var editor;
+        
+        //editor
+        $(function() {
 
+            editor = new $.fn.dataTable.Editor({
+                ajax: "/Admin/GetContacts",
+                table: "#tblContacts",
+                fields: [{
+                    label: "Id",
+                    name: "Id"
+                }, {
+                    label: "LastName",
+                    name: "LastName"
+                }, {
+                    label: "FirstName:",
+                    name: "FirstName"
+                }, {
+                    label: "Phone:",
+                    name: "Phone"
+                }, {
+                    label: "Ext:",
+                    name: "Ext"
+                }
+                ]
+            });
+
+            $('#tblContacts').on('click', 'tbody td', function (e) {
+                if ($(this).index() === 1) {
+                    editor.bubble(this, ['LastName', 'FirstName']);
+                }
+                else if ($(this).index() > 1) {
+                    editor.bubble(this);
+                }
+            });
+
+            //mark end of document ready
+        });
+
+        //datatable
         $(function () {
             $("#tblContacts").dataTable({
                 "bLengthChange": false,
@@ -51,15 +90,15 @@
            { "data": "Ext" }
                 ]
             });
-
-            $.ajax({
-                url: "/Admin/GetContacts",
-                dataType: 'json',
-                method: 'GET',
-                success: function (response) {
-                    console.log('response ' + response);
-                }
-            });
+            
+            //$.ajax({
+            //    url: "/Admin/GetContacts",
+            //    dataType: 'json',
+            //    method: 'GET',
+            //    success: function (response) {
+            //        console.log('response ' + response);
+            //    }
+            //});
 
             //mark end of document ready
         });
