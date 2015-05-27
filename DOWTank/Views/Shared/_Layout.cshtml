@@ -5,14 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - DOW BBT - Tank</title>
     @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/themes/base/css")
     @Scripts.Render("~/bundles/modernizr")
     @*<link href="@Url.Content("~/Content/DataTables/css/jquery.dataTables.min.css")" rel="stylesheet" />*@
     <link href="@Url.Content("~/Content/dataTables.responsive.css")" rel="stylesheet" />
     <link href="@Url.Content("~/Content/dataTables.bootstrap.css")" rel="stylesheet" />
     <link href="@Url.Content("~/Content/css/select2.css")" rel="stylesheet" />
     <link href="@Url.Content("~/Content/jquery.datetimepicker.css")" rel="stylesheet" />
-    <link href="@Url.Content("~/Content/dataTables.tableTools.css")" rel="stylesheet" />
-    <link href="@Url.Content("~/Content/dataTables.editor.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/JqGrid/ui.jqgrid.css")" rel="stylesheet" />
+     @RenderSection("head", required: false)
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -82,8 +83,9 @@
     <script src="@Url.Content("~/Scripts/dataTables.bootstrap.js")"></script>
     <script src="@Url.Content("~/Scripts/select2.min.js")"></script>
     <script src="@Url.Content("~/Scripts/jquery.datetimepicker.js")"></script>
-    <script src="@Url.Content("~/Scripts/dataTables.tableTools.js")"></script>
-    <script src="@Url.Content("~/Scripts/dataTables.editor.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery-ui-1.11.4.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/JqGrid/i18n/grid.locale-en.js")"></script>
+    <script src="@Url.Content("~/Scripts/JqGrid/jquery.jqGrid.min.js")"></script>
     @RenderSection("scripts", required: false)
     <script>
         $(function () {
