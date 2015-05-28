@@ -32,7 +32,7 @@ namespace DOWTank.Controllers
         }
 
         [HttpGet]
-        public JsonResult ManageContacts()
+        public JsonResult GetContacts(int page, int rows, string search, string sidx, string sord)
         {
             // database call
 
@@ -47,7 +47,6 @@ namespace DOWTank.Controllers
             var data = (from p in dataTable.AsEnumerable()
                         select new
                         {
-                            DT_RowId = p.Field<int>("Key"),
                             Id = p.Field<int>("Key"),
                             LastName = p.Field<string>("Last Name*"),
                             FirstName = p.Field<string>("First Name*"),
@@ -56,75 +55,91 @@ namespace DOWTank.Controllers
                         }).ToList();
 
             //# database call
-            //return Json(new { data = new[] { data } }, JsonRequestBehavior.AllowGet);
-            return Json(new { data = data }, JsonRequestBehavior.AllowGet);
+
+            int totalRecords = data.Count();
+            var totalPages = (int)Math.Ceiling(totalRecords / (float)rows);
+            data = data.Skip(page * rows).Take(rows).ToList();
+
+            var jsonData = new
+            {
+
+                total = totalPages,
+                page,
+                records = totalRecords,
+                rows = data
+
+            };
+
+            return Json(jsonData, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
-        public JsonResult ManageContacts(FormCollection formCollection)
+        public JsonResult ManageContacts(ContactPostModel postModel)
         {
-            var action = formCollection["action"];
-
-            #region edit
-
-            if (action == "edit")
+            
+            switch (Request.Form["oper"])
             {
-                var TANK_usp_insupd_Contact_spParams = new TANK_usp_insupd_Contact_spParams()
+                case "add":
                     {
-                        Key = _sharedFunctions.ToNullableInt32(formCollection["data[Id]"]),
-                        Ext = formCollection["data[Ext]"],
-                        FirstName = formCollection["data[FirstName]"],
-                        LastName = formCollection["data[LastName]"],
-                        Phone = formCollection["data[Phone]"],
-                        UpdateUserAN = "SYSTEM"
-                    };
-                _utilityService.ExecStoredProcedureWithoutResults("TANK_usp_insupd_Contact", TANK_usp_insupd_Contact_spParams);
+                        #region add
+
+                        var TANK_usp_insupd_Contact_spParams = new TANK_usp_insupd_Contact_spParams()
+                            {
+                                Key = postModel.Id,
+                                Ext = postModel.Ext,
+                                FirstName = postModel.FirstName,
+                                LastName = postModel.LastName,
+                                Phone = postModel.Phone,
+                                UpdateUserAN = "SYSTEM",
+                                ActiveFL = true
+                            };
+                        _utilityService.ExecStoredProcedureWithoutResults("TANK_usp_insupd_Contact",
+                                                                          TANK_usp_insupd_Contact_spParams);
+
+                        #endregion add
+                    }
+                    break;
+                case "edit":
+                    {
+                        #region edit
+
+                        var TANK_usp_insupd_Contact_spParams = new TANK_usp_insupd_Contact_spParams()
+                            {
+                                Key = _sharedFunctions.ToNullableInt32(Request.Form["id"]),
+                                Ext = postModel.Ext,
+                                FirstName = postModel.FirstName,
+                                LastName = postModel.LastName,
+                                Phone = postModel.Phone,
+                                UpdateUserAN = "SYSTEM",
+                                ActiveFL = true
+                            };
+                        _utilityService.ExecStoredProcedureWithoutResults("TANK_usp_insupd_Contact",
+                                                                          TANK_usp_insupd_Contact_spParams);
+
+                        #endregion edit
+                    }
+                    break;
+                case "del":
+                    {
+                        #region delete
+
+                        var TANK_usp_insupd_Contact_spParams = new TANK_usp_insupd_Contact_spParams()
+                            {
+                                Key = postModel.Id,
+                                ActiveFL = false,
+                                UpdateUserAN = "SYSTEM"
+                            };
+                        _utilityService.ExecStoredProcedureWithoutResults("TANK_usp_insupd_Contact",
+                                                                          TANK_usp_insupd_Contact_spParams);
+
+                        #endregion delete
+                    }
+                    break;
+                default:
+                    break;
             }
 
-            #endregion edit
-
-            #region delete
-
-            if (action == "remove")
-            {
-                var TANK_usp_insupd_Contact_spParams = new TANK_usp_insupd_Contact_spParams()
-                {
-                    Key = _sharedFunctions.ToNullableInt32(formCollection["id[]"]),
-                    ActiveFL = false,
-                    UpdateUserAN = "SYSTEM"
-                };
-                _utilityService.ExecStoredProcedureWithoutResults("TANK_usp_insupd_Contact", TANK_usp_insupd_Contact_spParams);
-            }
-
-            #endregion delete
-
-            #region data
-
-            // database call
-
-            var TANK_usp_sel_ContactUPD_spParams = new TANK_usp_sel_ContactUPD_spParams()
-            {
-                //TODO: re-factor it later from hard coded
-                InstallID = 1,
-                MajorLocationID = 1
-            };
-            DataTable dataTable = _utilityService.ExecStoredProcedureForDataTable("TANK_usp_sel_ContactUPD", TANK_usp_sel_ContactUPD_spParams);
-
-            var data = (from p in dataTable.AsEnumerable()
-                        select new
-                        {
-                            Id = p.Field<int>("Key"),
-                            LastName = p.Field<string>("Last Name*"),
-                            FirstName = p.Field<string>("First Name*"),
-                            Phone = p.Field<string>("Phone"),
-                            Ext = p.Field<string>("Ext"),
-                        }).ToList();
-
-            //# database call
-            //return Json(new { data = new[] { data } }, JsonRequestBehavior.AllowGet);
-            return Json(new { data = data });
-
-            #endregion data
+            return Json(true);
         }
 
 
@@ -135,7 +150,11 @@ namespace DOWTank.Controllers
 
     public class ContactPostModel
     {
-
+        public int? Id { get; set; }
+        public string LastName { get; set; }
+        public string FirstName { get; set; }
+        public string Phone { get; set; }
+        public string Ext { get; set; }
     }
 
 
