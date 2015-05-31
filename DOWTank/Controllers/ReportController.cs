@@ -247,8 +247,7 @@ namespace DOWTank.Controllers
             TempData["TankCostToDatePostModel"] = postModel;
             return RedirectToAction("TankCostToDate", "Report");
         }
-
-
+        
         //PopulateContacts
         [HttpGet]
         public JsonResult PopulateSecurityDDL(string searchTerm)
@@ -293,8 +292,7 @@ namespace DOWTank.Controllers
             }
             return Json(string.Empty, JsonRequestBehavior.AllowGet);
         }
-
-
+        
         private byte[] StreamToBytes(Stream input)
         {
             byte[] buffer = new byte[16 * 1024];
@@ -308,8 +306,7 @@ namespace DOWTank.Controllers
                 return ms.ToArray();
             }
         }
-
-
+        
         public ActionResult HSEReport()
         {           
 
@@ -546,6 +543,60 @@ namespace DOWTank.Controllers
             return Json(string.Empty, JsonRequestBehavior.AllowGet);
         }
 
+        public ActionResult DailyDispatch()
+        {
+            var postModel = new DailyDispatchPostModel();
+            if (TempData["DailyDispatchPostModel"] != null)
+            {
+                // database call
+                postModel = (DailyDispatchPostModel)TempData["DailyDispatchPostModel"];
+                var TANK_usp_rpt_DailyDispatch_spParams = new TANK_usp_rpt_DailyDispatch_spParams()
+                {
+                    //TODO: re-factor it later from hard coded
+                    LocationID = 1,
+                    StartDT = postModel.StartDate,
+                    EndDT = DateTime.Now
+                };
+                DataTable dataTable = _utilityService.ExecStoredProcedureForDataTable("TANK_usp_rpt_DailyDispatch", TANK_usp_rpt_DailyDispatch_spParams);
+                DataSet dataSet = new DataSet("DailyDispatch");
+                dataSet.Tables.Add(dataTable);
+
+                //# database call
+
+                #region Report
+                               
+                var crDailyDriverActivity = new ReportDocument();
+                string reportPath = Path.Combine(Server.MapPath("~/Reports"), "crDailyDispatch.rpt");
+                crDailyDriverActivity.Load(reportPath);
+                var dbServer = System.Web.Configuration.WebConfigurationManager.AppSettings["DBServer"];
+                var dbName = System.Web.Configuration.WebConfigurationManager.AppSettings["DBName"];
+                var dbUserId = System.Web.Configuration.WebConfigurationManager.AppSettings["DBUserId"];
+                var dbPassword = System.Web.Configuration.WebConfigurationManager.AppSettings["DBPassword"];
+                crDailyDriverActivity.SetDatabaseLogon(dbUserId, dbPassword, dbServer, dbName, true);
+                crDailyDriverActivity.SetDataSource(dataSet);
+                //todo: these parameters ll be dynamic, but for proof of concept i kept them hard coded
+                crDailyDriverActivity.SetParameterValue("@StartDT", postModel.StartDate);
+                crDailyDriverActivity.SetParameterValue("@EndDT", DateTime.Now);
+                crDailyDriverActivity.SetParameterValue("@LocationId", 1);
+                crDailyDriverActivity.SetParameterValue("LocationName", "");
+                _contentBytes = StreamToBytes(crDailyDriverActivity.ExportToStream(ExportFormatType.PortableDocFormat));
+
+                #endregion
+
+                return File(_contentBytes, "application/pdf");
+            }
+
+            return View(postModel);
+        }
+
+        [HttpPost]
+        public ActionResult DailyDispatch(DailyDispatchPostModel postModel)
+        {
+            TempData["DailyDispatchPostModel"] = postModel;
+            return RedirectToAction("DailyDispatch", "Report");
+        }
+
+
     }
 
     public class FacilityEquipmentPostModel
@@ -657,5 +708,15 @@ namespace DOWTank.Controllers
         public bool PoolFL { get; set; }
     }
 
+    public class DailyDispatchPostModel
+    {
+        public DailyDispatchPostModel()
+        {
+            StartDate = DateTime.Now.AddMonths(-1);
+        }
+        public DateTime StartDate { get; set; }
+        public int LocationID { get; set; }
+        public string LocationName { get; set; }
+    }
 
 }

@@ -61,6 +61,7 @@
     <Compile Include="Domain\TANK_usp_rpt\TANK_usp_rpt_AuditMissingMoves_spParams.cs" />
     <Compile Include="Domain\TANK_usp_rpt\TANK_usp_rpt_AuditMovesByUser_spParams.cs" />
     <Compile Include="Domain\TANK_usp_rpt\TANK_usp_rpt_AuditWarningMessages_spParams.cs" />
+    <Compile Include="Domain\TANK_usp_rpt\TANK_usp_rpt_DailyDispatch_spParams.cs" />
     <Compile Include="Domain\TANK_usp_rpt\TANK_usp_rpt_DedicatedTanks_spParams.cs" />
     <Compile Include="Domain\TANK_usp_rpt\TANK_usp_rpt_EquipmentInventory_spParams.cs" />
     <Compile Include="Domain\TANK_usp_rpt\TANK_usp_rpt_IdleEquipment_spParams.cs" />
