@@ -16,14 +16,14 @@ namespace DOWTank.Reports {
     using CrystalDecisions.CrystalReports.Engine;
     
     
-    public class crDailyDriverActivity : ReportClass {
+    public class crDailyDispatch : ReportClass {
         
-        public crDailyDriverActivity() {
+        public crDailyDispatch() {
         }
         
         public override string ResourceName {
             get {
-                return "crDailyDriverActivity.rpt";
+                return "crDailyDispatch.rpt";
             }
             set {
                 // Do nothing
@@ -41,7 +41,7 @@ namespace DOWTank.Reports {
         
         public override string FullResourceName {
             get {
-                return "DOWTank.Reports.crDailyDriverActivity.rpt";
+                return "DOWTank.Reports.crDailyDispatch.rpt";
             }
             set {
                 // Do nothing
@@ -98,7 +98,7 @@ namespace DOWTank.Reports {
         
         [Browsable(false)]
         [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.Shared.IParameterField Parameter_LocationID {
+        public CrystalDecisions.Shared.IParameterField Parameter_StartDT {
             get {
                 return this.DataDefinition.ParameterFields[1];
             }
@@ -106,7 +106,7 @@ namespace DOWTank.Reports {
         
         [Browsable(false)]
         [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.Shared.IParameterField Parameter_StartDT {
+        public CrystalDecisions.Shared.IParameterField Parameter_EndDT {
             get {
                 return this.DataDefinition.ParameterFields[2];
             }
@@ -114,7 +114,7 @@ namespace DOWTank.Reports {
         
         [Browsable(false)]
         [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.Shared.IParameterField Parameter_EndDt {
+        public CrystalDecisions.Shared.IParameterField Parameter_LocationID {
             get {
                 return this.DataDefinition.ParameterFields[3];
             }
@@ -122,9 +122,9 @@ namespace DOWTank.Reports {
     }
     
     [System.Drawing.ToolboxBitmapAttribute(typeof(CrystalDecisions.Shared.ExportOptions), "report.bmp")]
-    public class CachedcrDailyDriverActivity : Component, ICachedReport {
+    public class CachedcrDailyDispatch : Component, ICachedReport {
         
-        public CachedcrDailyDriverActivity() {
+        public CachedcrDailyDispatch() {
         }
         
         [Browsable(false)]
@@ -161,7 +161,7 @@ namespace DOWTank.Reports {
         }
         
         public virtual CrystalDecisions.CrystalReports.Engine.ReportDocument CreateReport() {
-            crDailyDriverActivity rpt = new crDailyDriverActivity();
+            crDailyDispatch rpt = new crDailyDispatch();
             rpt.Site = this.Site;
             return rpt;
         }
