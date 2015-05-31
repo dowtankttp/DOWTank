@@ -16,14 +16,14 @@ namespace DOWTank.Reports {
     using CrystalDecisions.CrystalReports.Engine;
     
     
-    public class crDailyDriverActivity : ReportClass {
+    public class crDailyMoveSummary : ReportClass {
         
-        public crDailyDriverActivity() {
+        public crDailyMoveSummary() {
         }
         
         public override string ResourceName {
             get {
-                return "crDailyDriverActivity.rpt";
+                return "crDailyMoveSummary.rpt";
             }
             set {
                 // Do nothing
@@ -41,7 +41,7 @@ namespace DOWTank.Reports {
         
         public override string FullResourceName {
             get {
-                return "DOWTank.Reports.crDailyDriverActivity.rpt";
+                return "DOWTank.Reports.crDailyMoveSummary.rpt";
             }
             set {
                 // Do nothing
@@ -130,25 +130,17 @@ namespace DOWTank.Reports {
         
         [Browsable(false)]
         [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.Shared.IParameterField Parameter_DriverID {
-            get {
-                return this.DataDefinition.ParameterFields[3];
-            }
-        }
-        
-        [Browsable(false)]
-        [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
         public CrystalDecisions.Shared.IParameterField Parameter_LocationID {
             get {
-                return this.DataDefinition.ParameterFields[4];
+                return this.DataDefinition.ParameterFields[3];
             }
         }
     }
     
     [System.Drawing.ToolboxBitmapAttribute(typeof(CrystalDecisions.Shared.ExportOptions), "report.bmp")]
-    public class CachedcrDailyDriverActivity : Component, ICachedReport {
+    public class CachedcrDailyMoveSummary : Component, ICachedReport {
         
-        public CachedcrDailyDriverActivity() {
+        public CachedcrDailyMoveSummary() {
         }
         
         [Browsable(false)]
@@ -185,7 +177,7 @@ namespace DOWTank.Reports {
         }
         
         public virtual CrystalDecisions.CrystalReports.Engine.ReportDocument CreateReport() {
-            crDailyDriverActivity rpt = new crDailyDriverActivity();
+            crDailyMoveSummary rpt = new crDailyMoveSummary();
             rpt.Site = this.Site;
             return rpt;
         }
