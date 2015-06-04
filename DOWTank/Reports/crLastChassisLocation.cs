@@ -16,14 +16,14 @@ namespace DOWTank.Reports {
     using CrystalDecisions.CrystalReports.Engine;
     
     
-    public class crDailyDriverActivity : ReportClass {
+    public class crLastChassisLocation : ReportClass {
         
-        public crDailyDriverActivity() {
+        public crLastChassisLocation() {
         }
         
         public override string ResourceName {
             get {
-                return "crDailyDriverActivity.rpt";
+                return "crLastChassisLocation.rpt";
             }
             set {
                 // Do nothing
@@ -41,7 +41,7 @@ namespace DOWTank.Reports {
         
         public override string FullResourceName {
             get {
-                return "DOWTank.Reports.crDailyDriverActivity.rpt";
+                return "DOWTank.Reports.crLastChassisLocation.rpt";
             }
             set {
                 // Do nothing
@@ -66,7 +66,7 @@ namespace DOWTank.Reports {
         
         [Browsable(false)]
         [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.CrystalReports.Engine.Section Section6 {
+        public CrystalDecisions.CrystalReports.Engine.Section Section3 {
             get {
                 return this.ReportDefinition.Sections[2];
             }
@@ -74,7 +74,7 @@ namespace DOWTank.Reports {
         
         [Browsable(false)]
         [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.CrystalReports.Engine.Section Section3 {
+        public CrystalDecisions.CrystalReports.Engine.Section Section4 {
             get {
                 return this.ReportDefinition.Sections[3];
             }
@@ -82,7 +82,7 @@ namespace DOWTank.Reports {
         
         [Browsable(false)]
         [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.CrystalReports.Engine.Section Section7 {
+        public CrystalDecisions.CrystalReports.Engine.Section Section5 {
             get {
                 return this.ReportDefinition.Sections[4];
             }
@@ -90,23 +90,7 @@ namespace DOWTank.Reports {
         
         [Browsable(false)]
         [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.CrystalReports.Engine.Section Section4 {
-            get {
-                return this.ReportDefinition.Sections[5];
-            }
-        }
-        
-        [Browsable(false)]
-        [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.CrystalReports.Engine.Section Section5 {
-            get {
-                return this.ReportDefinition.Sections[6];
-            }
-        }
-        
-        [Browsable(false)]
-        [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.Shared.IParameterField Parameter_LocationName {
+        public CrystalDecisions.Shared.IParameterField Parameter_InstallID {
             get {
                 return this.DataDefinition.ParameterFields[0];
             }
@@ -114,41 +98,17 @@ namespace DOWTank.Reports {
         
         [Browsable(false)]
         [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.Shared.IParameterField Parameter_StartDT {
-            get {
-                return this.DataDefinition.ParameterFields[1];
-            }
-        }
-        
-        [Browsable(false)]
-        [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.Shared.IParameterField Parameter_EndDT {
-            get {
-                return this.DataDefinition.ParameterFields[2];
-            }
-        }
-        
-        [Browsable(false)]
-        [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.Shared.IParameterField Parameter_DriverID {
-            get {
-                return this.DataDefinition.ParameterFields[3];
-            }
-        }
-        
-        [Browsable(false)]
-        [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
         public CrystalDecisions.Shared.IParameterField Parameter_LocationID {
             get {
-                return this.DataDefinition.ParameterFields[4];
+                return this.DataDefinition.ParameterFields[1];
             }
         }
     }
     
     [System.Drawing.ToolboxBitmapAttribute(typeof(CrystalDecisions.Shared.ExportOptions), "report.bmp")]
-    public class CachedcrDailyDriverActivity : Component, ICachedReport {
+    public class CachedcrLastChassisLocation : Component, ICachedReport {
         
-        public CachedcrDailyDriverActivity() {
+        public CachedcrLastChassisLocation() {
         }
         
         [Browsable(false)]
@@ -185,7 +145,7 @@ namespace DOWTank.Reports {
         }
         
         public virtual CrystalDecisions.CrystalReports.Engine.ReportDocument CreateReport() {
-            crDailyDriverActivity rpt = new crDailyDriverActivity();
+            crLastChassisLocation rpt = new crLastChassisLocation();
             rpt.Site = this.Site;
             return rpt;
         }

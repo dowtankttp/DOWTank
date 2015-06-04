@@ -46,6 +46,7 @@ namespace DOWTank.Common
         IEnumerable<TANK_usp_sel_TankGradeTypeDDL_spResults> PopulateTankGrade();
         IEnumerable<TANK_usp_sel_BarrelConditionTypeDDL_spResults> PopulateBarrelCondition();
         IEnumerable<TANK_usp_sel_MoveTypeDDL_spResults> PopulateMoveType();
+        IEnumerable<TANK_usp_sel_LocationDDL_spParams_spResults> PopulateGroundedSections(int MajorLocationID, bool iIncludeBlank);
         int? ToNullableInt32(string s);
     }
 
@@ -517,6 +518,21 @@ namespace DOWTank.Common
 
             //# database call
 
+            return data;
+        }
+
+        public IEnumerable<TANK_usp_sel_LocationDDL_spParams_spResults> PopulateGroundedSections(int MajorLocationID, bool iIncludeBlank)
+        {
+            // database call
+
+            var TANK_usp_sel_LocationDDL_spParams = new TANK_usp_sel_LocationDDL_spParams()
+            {
+                //TODO: re-factor it later from hard coded
+                IncludeBlank = iIncludeBlank,
+                MajorLocationID = MajorLocationID,
+                LocationTypeCD = 7
+            };
+            var data = _utilityService.ExecStoredProcedureWithResults<TANK_usp_sel_LocationDDL_spParams_spResults>("TANK_usp_sel_LocationDDL", TANK_usp_sel_LocationDDL_spParams);
             return data;
         }
 

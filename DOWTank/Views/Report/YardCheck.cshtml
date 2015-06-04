@@ -1,0 +1,42 @@
+﻿@model DOWTank.Controllers.YardCheckPostModel
+@{
+    ViewBag.Title = "Yard Check";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="well well-lg">
+    <!--title-->
+    <div class="row">
+        <div class="col-md-12 nopadding">
+            <h4 class="dow-color col-md-6">Yard Check</h4>
+        </div>
+        <div class="col-md-12 nopadding">
+            <span class="ml20">Grounded Inventory by Section.</span>
+        </div>
+    </div>
+    @*report criteria*@
+    @using (Html.BeginForm("YardCheck", "Report", FormMethod.Post))
+    {
+        <div class="row mt20 mb20">
+            <div class="form-group">
+                <div class="row no-row-margin">
+                    <div class="col-md-3">
+                        <label>Yard Section:</label>
+                        @Html.DropDownList("SectionLocationID", null, new { @class = "form-control" })
+                    </div>
+                </div>
+            </div>
+            <!--save button-->
+            <div class="form-group">
+                <div class="row no-row-margin">
+                    <div class="col-md-10">
+                        <input type="submit" class="btn btn-default btn-primary" value="Run Report" />
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    }
+
+</div>
+
