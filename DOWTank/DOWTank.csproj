@@ -519,6 +519,21 @@
     <Content Include="Views\Report\TankShipmentSchedule.cshtml" />
     <Content Include="Views\Report\TankActivity.cshtml" />
     <Content Include="Views\Report\YardCheck.cshtml" />
+    <Content Include="Views\Admin\ChargeCodes.cshtml" />
+    <Content Include="Views\Admin\DispatchReasonType.cshtml" />
+    <Content Include="Views\Admin\Drivers.cshtml" />
+    <Content Include="Views\Admin\EquipmentTypes.cshtml" />
+    <Content Include="Views\Admin\FacilityParameters.cshtml" />
+    <Content Include="Views\Admin\Fittings.cshtml" />
+    <Content Include="Views\Admin\HireReason.cshtml" />
+    <Content Include="Views\Admin\Locations.cshtml" />
+    <Content Include="Views\Admin\MaintenanceCondition.cshtml" />
+    <Content Include="Views\Admin\MovementType.cshtml" />
+    <Content Include="Views\Admin\Operator.cshtml" />
+    <Content Include="Views\Admin\Owners.cshtml" />
+    <Content Include="Views\Admin\TankConstruction.cshtml" />
+    <Content Include="Views\Admin\Vendor.cshtml" />
+    <Content Include="Views\Admin\WasteClass.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DOWTank.Core\DOWTank.Core.csproj">
