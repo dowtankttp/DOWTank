@@ -768,22 +768,19 @@ namespace DOWTank.Controllers
         {
             // database call
 
-            var TANK_usp_sel_ContactUPD_spParams = new TANK_usp_sel_ContactUPD_spParams()
+            var TANK_usp_sel_FittingsUpd_spParams = new TANK_usp_sel_FittingsUpd_spParams()
             {
                 //TODO: re-factor it later from hard coded
                 InstallID = 1,
-                MajorLocationID = 1
+                LocationID = 1
             };
-            DataTable dataTable = _utilityService.ExecStoredProcedureForDataTable("TANK_usp_sel_ContactUPD", TANK_usp_sel_ContactUPD_spParams);
+            DataTable dataTable = _utilityService.ExecStoredProcedureForDataTable("TANK_usp_sel_FittingUPD", TANK_usp_sel_FittingsUpd_spParams);
 
             var data = (from p in dataTable.AsEnumerable()
                         select new
                         {
                             Id = p.Field<int>("Key"),
-                            LastName = p.Field<string>("Last Name*"),
-                            FirstName = p.Field<string>("First Name*"),
-                            Phone = p.Field<string>("Phone"),
-                            Ext = p.Field<string>("Ext"),
+                            Description = p.Field<string>("Description*"),
                         }).ToList();
 
             //# database call
@@ -815,18 +812,16 @@ namespace DOWTank.Controllers
                     {
                         #region add
 
-                        var TANK_usp_insupd_Contact_spParams = new TANK_usp_insupd_Contact_spParams()
+                        var TANK_usp_insupd_Fitting_spParams = new TANK_usp_insupd_Fitting_spParams()
                         {
-                            Key = postModel.Id,
-                            Ext = postModel.Ext,
-                            FirstName = postModel.FirstName,
-                            LastName = postModel.LastName,
-                            Phone = postModel.Phone,
+                            Key = postModel.Id,                            
+                            Description = postModel.Description,
+                            LocationId = 1,
                             UpdateUserAN = "SYSTEM",
                             ActiveFL = true
                         };
-                        _utilityService.ExecStoredProcedureWithoutResults("TANK_usp_insupd_Contact",
-                                                                          TANK_usp_insupd_Contact_spParams);
+                        _utilityService.ExecStoredProcedureWithoutResults("TANK_usp_insupd_Fitting",
+                                                                          TANK_usp_insupd_Fitting_spParams);
 
                         #endregion add
                     }
@@ -835,18 +830,16 @@ namespace DOWTank.Controllers
                     {
                         #region edit
 
-                        var TANK_usp_insupd_Contact_spParams = new TANK_usp_insupd_Contact_spParams()
+                        var TANK_usp_insupd_Fitting_spParams = new TANK_usp_insupd_Fitting_spParams()
                         {
                             Key = _sharedFunctions.ToNullableInt32(Request.Form["id"]),
-                            Ext = postModel.Ext,
-                            FirstName = postModel.FirstName,
-                            LastName = postModel.LastName,
-                            Phone = postModel.Phone,
+                            Description = postModel.Description,
+                            LocationId = 1,
                             UpdateUserAN = "SYSTEM",
                             ActiveFL = true
                         };
-                        _utilityService.ExecStoredProcedureWithoutResults("TANK_usp_insupd_Contact",
-                                                                          TANK_usp_insupd_Contact_spParams);
+                        _utilityService.ExecStoredProcedureWithoutResults("TANK_usp_insupd_Fitting",
+                                                                          TANK_usp_insupd_Fitting_spParams);
 
                         #endregion edit
                     }
@@ -855,14 +848,14 @@ namespace DOWTank.Controllers
                     {
                         #region delete
 
-                        var TANK_usp_insupd_Contact_spParams = new TANK_usp_insupd_Contact_spParams()
+                        var TANK_usp_insupd_Fitting_spParams = new TANK_usp_insupd_Fitting_spParams()
                         {
                             Key = postModel.Id,
                             ActiveFL = false,
                             UpdateUserAN = "SYSTEM"
                         };
-                        _utilityService.ExecStoredProcedureWithoutResults("TANK_usp_insupd_Contact",
-                                                                          TANK_usp_insupd_Contact_spParams);
+                        _utilityService.ExecStoredProcedureWithoutResults("TANK_usp_insupd_Fitting",
+                                                                          TANK_usp_insupd_Fitting_spParams);
 
                         #endregion delete
                     }
@@ -890,22 +883,22 @@ namespace DOWTank.Controllers
         {
             // database call
 
-            var TANK_usp_sel_ContactUPD_spParams = new TANK_usp_sel_ContactUPD_spParams()
+            var TANK_usp_sel_LocationsUpd_spParams = new TANK_usp_sel_LocationsUpd_spParams()
             {
                 //TODO: re-factor it later from hard coded
                 InstallID = 1,
                 MajorLocationID = 1
             };
-            DataTable dataTable = _utilityService.ExecStoredProcedureForDataTable("TANK_usp_sel_ContactUPD", TANK_usp_sel_ContactUPD_spParams);
+            DataTable dataTable = _utilityService.ExecStoredProcedureForDataTable("TANK_usp_sel_LocationUPD", TANK_usp_sel_LocationsUpd_spParams);
 
             var data = (from p in dataTable.AsEnumerable()
                         select new
                         {
                             Id = p.Field<int>("Key"),
-                            LastName = p.Field<string>("Last Name*"),
-                            FirstName = p.Field<string>("First Name*"),
-                            Phone = p.Field<string>("Phone"),
-                            Ext = p.Field<string>("Ext"),
+                            LocType = p.Field<string>("LocType*"),
+                            Description = p.Field<string>("Description*"),
+                            Parent = p.Field<string>("Parent"),
+                            Code = p.Field<string>("Code"),
                         }).ToList();
 
             //# database call
@@ -937,18 +930,18 @@ namespace DOWTank.Controllers
                     {
                         #region add
 
-                        var TANK_usp_insupd_Contact_spParams = new TANK_usp_insupd_Contact_spParams()
+                        var TANK_usp_insupd_Location_spParams = new TANK_usp_insupd_Location_spParams()
                         {
                             Key = postModel.Id,
-                            Ext = postModel.Ext,
-                            FirstName = postModel.FirstName,
-                            LastName = postModel.LastName,
-                            Phone = postModel.Phone,
+                            Code = postModel.Code,
+                            Description = postModel.Description,
+                            ParentLocationID = postModel.ParentLocationID,
+                            LocationTypeCD = null,
                             UpdateUserAN = "SYSTEM",
                             ActiveFL = true
                         };
-                        _utilityService.ExecStoredProcedureWithoutResults("TANK_usp_insupd_Contact",
-                                                                          TANK_usp_insupd_Contact_spParams);
+                        _utilityService.ExecStoredProcedureWithoutResults("TANK_usp_insupd_Location",
+                                                                          TANK_usp_insupd_Location_spParams);
 
                         #endregion add
                     }
@@ -957,18 +950,18 @@ namespace DOWTank.Controllers
                     {
                         #region edit
 
-                        var TANK_usp_insupd_Contact_spParams = new TANK_usp_insupd_Contact_spParams()
+                        var TANK_usp_insupd_Location_spParams = new TANK_usp_insupd_Location_spParams()
                         {
                             Key = _sharedFunctions.ToNullableInt32(Request.Form["id"]),
-                            Ext = postModel.Ext,
-                            FirstName = postModel.FirstName,
-                            LastName = postModel.LastName,
-                            Phone = postModel.Phone,
+                            Code = postModel.Code,
+                            Description = postModel.Description,
+                            ParentLocationID = postModel.ParentLocationID,
+                            LocationTypeCD = null,
                             UpdateUserAN = "SYSTEM",
                             ActiveFL = true
                         };
-                        _utilityService.ExecStoredProcedureWithoutResults("TANK_usp_insupd_Contact",
-                                                                          TANK_usp_insupd_Contact_spParams);
+                        _utilityService.ExecStoredProcedureWithoutResults("TANK_usp_insupd_Location",
+                                                                          TANK_usp_insupd_Location_spParams);
 
                         #endregion edit
                     }
@@ -977,14 +970,14 @@ namespace DOWTank.Controllers
                     {
                         #region delete
 
-                        var TANK_usp_insupd_Contact_spParams = new TANK_usp_insupd_Contact_spParams()
+                        var TANK_usp_insupd_Location_spParams = new TANK_usp_insupd_Location_spParams()
                         {
                             Key = postModel.Id,
                             ActiveFL = false,
                             UpdateUserAN = "SYSTEM"
                         };
-                        _utilityService.ExecStoredProcedureWithoutResults("TANK_usp_insupd_Contact",
-                                                                          TANK_usp_insupd_Contact_spParams);
+                        _utilityService.ExecStoredProcedureWithoutResults("TANK_usp_insupd_Location",
+                                                                          TANK_usp_insupd_Location_spParams);
 
                         #endregion delete
                     }
@@ -2068,10 +2061,10 @@ namespace DOWTank.Controllers
     public class FittingsPostModel
     {
         public int? Id { get; set; }
-        public string LastName { get; set; }
-        public string FirstName { get; set; }
-        public string Phone { get; set; }
-        public string Ext { get; set; }
+        public int? LocationId { get; set; }
+        public string Description { get; set; }
+        public Boolean ActiveFL { get; set; }
+        public string UpdateUserAN { get; set; }
     }
 
 
@@ -2082,10 +2075,12 @@ namespace DOWTank.Controllers
     public class LocationsPostModel
     {
         public int? Id { get; set; }
-        public string LastName { get; set; }
-        public string FirstName { get; set; }
-        public string Phone { get; set; }
-        public string Ext { get; set; }
+        public int? ParentLocationID { get; set; }
+        public int? LocationTypeCD { get; set; }
+        public string Code { get; set; }
+        public string Description { get; set; }
+        public Boolean ActiveFL { get; set; }
+        public string UpdateUserAN { get; set; }
     }
 
 

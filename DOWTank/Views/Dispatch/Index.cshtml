@@ -23,6 +23,7 @@
 @Html.HiddenFor(m => m.FittingCD)
 @Html.HiddenFor(m => m.Contact)
 @Html.HiddenFor(m => m.ContactID)
+@Html.HiddenFor(m => m.intDispatchId)
 
 <div class="well well-lg">
     <!--title-->
@@ -48,7 +49,10 @@
         @Html.Hidden("FittingID")
 
         <div class="form-group text-right">
-            <input type="submit" value="Dispatch Tank" class="btn btn-default btn-primary" />
+            <input type="submit" value="Dispatch Tank" class="btn btn-default btn-primary mr10" />
+            <input type="button" value="Delete Dispatch" onclick="return confirm('Are you sure you want to delete ?');" class="btn btn-default btn-primary mr10 btnDeleteDispatch" />
+            <!--todo: replace it with action link-->
+            <input type="button" value="Add Invoice" class="btn btn-default btn-primary" />
         </div>
        
         <div class="form-group">
@@ -284,7 +288,10 @@
             @Html.TextAreaFor(m => m.strComments, new { @class = "form-control", rows = "5", cols = "20" })
         </div>
         <div class="form-group text-right">
-            <input type="submit" value="Dispatch Tank" class="btn btn-default btn-primary mt20" />
+            <input type="submit" value="Dispatch Tank" class="btn btn-default btn-primary mr10" />
+            <input type="button" value="Delete Dispatch" class="btn btn-default btn-primary mr10 btnDeleteDispatch" />
+            <!--todo: replace it with action link-->
+            <input type="button" value="Add Invoice" class="btn btn-default btn-primary" />
         </div>
         
     }
@@ -293,6 +300,27 @@
 @section scripts
 {
     <script>
+
+        //delete dispatch
+        $(function () {
+
+            $('.btnDeleteDispatch').click(function () {
+
+                var postModel = { DispatchID: $("#intDispatchId").val(), EquipmentID: $("#EquipmentID").val() };
+                $.ajax({
+                    url: "/Dispatch/DeleteDispatchData",
+                    dataType: 'json',
+                    method: 'POST',
+                    data: postModel,
+                    success: function (response) {
+                        if (response) {
+                            window.location.href = "/";
+                        }
+                    }
+                });
+            });
+
+        });
 
         //select2
 
@@ -608,7 +636,7 @@
                         //$("#ddlCurrentLocation").select2("data", { id: response.LocationID, text: response.LocationDS });
                         if (parseInt($("#LoadDispatchData").val())) {
                             CopyOver();
-                       }
+                        }
                     } else {
                         $("#txtLMDate").val('');
                         $("#ChassisID").val('');

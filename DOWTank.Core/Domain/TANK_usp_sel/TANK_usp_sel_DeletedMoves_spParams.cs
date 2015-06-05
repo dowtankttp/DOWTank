@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace DOWTank.Core.Domain.TANK_usp_sel
 {
-    public class TANK_usp_sel_FittingsUpd_spParams
+    public class TANK_usp_sel_DeletedMoves_spParams
     {
-        public Int16 InstallID { get; set; }
-        public int? LocationID { get; set; }
+        public int LocationID { get; set; }
     }
 }
