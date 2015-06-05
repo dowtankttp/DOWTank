@@ -1,0 +1,149 @@
+﻿@{
+    ViewBag.Title = "Fittings";
+}
+@section head{
+    <style>
+        *::before, *::after#delhdlist
+        {
+            box-sizing: unset!important;
+        }
+
+        *#delhdlist
+        {
+            box-sizing: unset!important;
+        }
+
+        *::before, *::after#dData
+        {
+            box-sizing: unset!important;
+        }
+
+        *#dData
+        {
+            box-sizing: unset!important;
+        }
+
+        *::before, *::after#eData
+        {
+            box-sizing: unset!important;
+        }
+
+        *#eData
+        {
+            box-sizing: unset!important;
+        }
+
+        *::before, *::after#edithdlist
+        {
+            box-sizing: unset!important;
+        }
+
+        *#edithdlist
+        {
+            box-sizing: unset!important;
+        }
+
+        *::before, *::after#sData
+        {
+            box-sizing: unset!important;
+        }
+
+        *#sData
+        {
+            box-sizing: unset!important;
+        }
+
+        *::before, *::after#cData
+        {
+            box-sizing: unset!important;
+        }
+
+        *#cData
+        {
+            box-sizing: unset!important;
+        }
+    </style>
+}
+
+<div class="well well-lg">
+    <!--title-->
+    <div class="row">
+        <div class="col-md-12 nopadding">
+            <h4 class="dow-color col-md-6">Fittings</h4>
+        </div>
+    </div>
+    <!--list-->
+    <div class="row">
+        <div class="col-md-12">
+            <table id="list">
+                <tr>
+                    <td></td>
+                </tr>
+            </table>
+            <div id="pager"></div>
+        </div>
+    </div>
+</div>
+
+<!--script-->
+@section scripts
+{
+    <script>
+
+        $(function () {
+            var lastsel;
+            $("#list").jqGrid({
+                url: "/Admin/GetFittings",
+                datatype: "json",
+                mtype: "GET",
+                colNames: ["Id", "Description*"],
+                colModel: [
+                {
+                    name: "Id",
+                    index: 'Id',
+                    width: 60,
+                    sortable: false,
+                    align: "right",
+                    key: true
+                },
+                {
+                    name: "Description",
+                    index: 'Description',
+                    sortable: false,
+                    editable: true,
+                    edittype: 'text', editrules: {
+                        required: true
+                    },
+                    editoptions: { size: 60 }
+                }
+                ],
+                pager: "#pager",
+                rowNum: 50,
+                rowList: [10, 20, 30],
+                sortorder: "desc",
+                height: 375,
+                autowidth: true,
+                viewrecords: true,
+                autoencode: true,
+                key: true,
+                editurl: "/Admin/ManageFittings",
+                ondblClickRow: function (rowid, iCol, aData) {
+                    if (rowid && rowid !== lastsel) {
+                        if (lastsel)
+                            $('#list').jqGrid('restoreRow', lastsel);
+                        $('#list').jqGrid('editRow', rowid, true);
+                        lastsel = rowid;
+                    }
+                }
+            }
+        );            $("#list").jqGrid('navGrid', '#pager', { edit: false, add: true, del: true, search: false, refresh: false },
+             { closeOnEscape: true, reloadAfterSubmit: true, closeAfterEdit: true, left: 400, top: 300 },
+             { closeOnEscape: true, reloadAfterSubmit: true, closeAfterAdd: true, left: 450, top: 300, width: 520 },
+             { closeOnEscape: true, reloadAfterSubmit: true, left: 450, top: 300 });
+
+            //mark end of document ready
+        });
+
+
+    </script>
+}
