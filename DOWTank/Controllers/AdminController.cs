@@ -76,7 +76,7 @@ namespace DOWTank.Controllers
         [HttpPost]
         public JsonResult ManageContacts(ContactPostModel postModel)
         {
-            
+
             switch (Request.Form["oper"])
             {
                 case "add":
@@ -144,6 +144,106 @@ namespace DOWTank.Controllers
 
 
         #endregion Contacts
+
+        #region Deleted Moves
+
+        [HttpGet]
+        public ActionResult RecoverDeletedMoves()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public JsonResult GetDeletedMoves(int page, int rows, string search, string sidx, string sord, string tankNumber, string from, string to, string product, string chargeNumber, string shipment)
+        {
+            // database call
+
+            var TANK_usp_sel_DeletedMoves_spParams = new TANK_usp_sel_DeletedMoves_spParams()
+            {
+                //TODO: re-factor it later from hard coded
+                LocationID = 1
+            };
+            DataTable dataTable = _utilityService.ExecStoredProcedureForDataTable("TANK_usp_sel_DeletedMoves", TANK_usp_sel_DeletedMoves_spParams);
+
+            var data = (from p in dataTable.AsEnumerable()
+                        select new
+                        {
+                            Id = p.Field<int>("DispatchID"),
+                            Tank = p.Field<string>("Tank #"),
+                            From = p.Field<string>("From"),
+                            To = p.Field<string>("To"),
+                            Product = p.Field<string>("Product"),
+                            ChargeNumber = p.Field<string>("Charge #"),
+                            Shipment = p.Field<string>("Shipment"),
+                            Status = p.Field<string>("Status"),
+                            Start = p.Field<string>("Start"),
+                            End = p.Field<string>("End"),
+                            Chassis = p.Field<string>("Chassis"),
+                            Driver = p.Field<string>("Driver"),
+                        }).ToList();
+
+            //# database call
+
+            #region sort
+
+            data = data.OrderBy(s => s.Tank).ToList();
+            if (sidx == "Tank" && sord == "desc")
+            {
+                data = data.OrderByDescending(s => s.Tank).ToList();
+            }
+
+            #endregion sort
+
+            #region filter
+
+            if (!string.IsNullOrEmpty(tankNumber))
+            {
+                data = data.Where(s => s.Tank.Contains(tankNumber)).ToList();
+            }
+            else if (!string.IsNullOrEmpty(from))
+            {
+                data = data.Where(s => s.From.Contains(from)).ToList();
+            }
+            else if (!string.IsNullOrEmpty(to))
+            {
+                data = data.Where(s => s.To.Contains(to)).ToList();
+            }
+            else if (!string.IsNullOrEmpty(product))
+            {
+                data = data.Where(s => s.To.Contains(product)).ToList();
+            }
+            else if (!string.IsNullOrEmpty(chargeNumber))
+            {
+                data = data.Where(s => s.To.Contains(chargeNumber)).ToList();
+            }
+            else if (!string.IsNullOrEmpty(shipment))
+            {
+                data = data.Where(s => s.To.Contains(shipment)).ToList();
+            }
+
+            #endregion filter
+
+            int totalRecords = data.Count();
+            var totalPages = (int)Math.Ceiling(totalRecords / (float)rows);
+            page = page - 1;
+            data = data.Skip(page * rows).Take(rows).ToList();
+
+            var jsonData = new
+            {
+
+                total = totalPages,
+                page,
+                records = totalRecords,
+                rows = data
+
+            };
+
+            return Json(jsonData, JsonRequestBehavior.AllowGet);
+        }
+
+
+
+        #endregion Deleted Moves
     }
 
     #region Contacts Model
@@ -159,4 +259,19 @@ namespace DOWTank.Controllers
 
 
     #endregion Contacts Model
+
+    #region Recover Deleted Moves
+
+    public class DeleteMovesPostModel
+    {
+        public string TankNumber { get; set; }
+        public string From { get; set; }
+        public string To { get; set; }
+        public string Product { get; set; }
+        public string ChargeNumber { get; set; }
+        public string Shipment { get; set; }
+    }
+
+    #endregion Recover Deleted Moves
+
 }

@@ -1,0 +1,268 @@
+﻿@{
+    ViewBag.Title = "Recover Deleted Moves";
+}
+@section head{
+    <style>
+        *::before, *::after#delhdlist
+        {
+            box-sizing: unset!important;
+        }
+
+        *#delhdlist
+        {
+            box-sizing: unset!important;
+        }
+
+        *::before, *::after#dData
+        {
+            box-sizing: unset!important;
+        }
+
+        *#dData
+        {
+            box-sizing: unset!important;
+        }
+
+        *::before, *::after#eData
+        {
+            box-sizing: unset!important;
+        }
+
+        *#eData
+        {
+            box-sizing: unset!important;
+        }
+
+        *::before, *::after#edithdlist
+        {
+            box-sizing: unset!important;
+        }
+
+        *#edithdlist
+        {
+            box-sizing: unset!important;
+        }
+
+        *::before, *::after#sData
+        {
+            box-sizing: unset!important;
+        }
+
+        *#sData
+        {
+            box-sizing: unset!important;
+        }
+
+        *::before, *::after#cData
+        {
+            box-sizing: unset!important;
+        }
+
+        *#cData
+        {
+            box-sizing: unset!important;
+        }
+
+        .ui-jqgrid tr.jqgrow td
+        {
+            white-space: normal !important;
+            height: auto;
+            vertical-align: text-top;
+            padding-top: 2px;
+        }
+    </style>
+}
+
+<div class="well well-lg">
+    <!--title-->
+    <div class="row">
+        <div class="col-md-12 nopadding">
+            <h4 class="dow-color col-md-12">Deleted Moves</h4>
+            <span class="col-md-12">Note: To recover a deleted dispatch, click RECOVER to display the dispatch edit screen then click DISPATCH. </span>
+        </div>
+    </div>
+    <!--filter-->
+    <div id="divFilter" class="row mt5 mb10">
+        <div class="col-md-12">
+            <div class="row mt20">
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <span>Tank #</span>
+                        <input type="text" id="txtTankNumber" class="form-control" />
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <span>From</span>
+                        <input type="text" id="txtFromLocation" class="form-control" />
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <span>To</span>
+                        <input type="text" id="txtToLocation" class="form-control" />
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <span>Product</span>
+                        <input type="text" id="txtProduct" class="form-control" />
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <span>Charge #</span>
+                        <input type="text" id="txtChargeNumber" class="form-control" />
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <span>Shipment</span>
+                        <input type="text" id="txtShipment" class="form-control" />
+                    </div>
+                </div>
+            </div>
+            <div class="row mb10">
+                <div class="col-md-12 text-left">
+                    <input id="btnSearch" type="button" value="Search" class="btn btn-default btn-primary" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--list-->
+    <div class="row mt10">
+        <div class="col-md-12">
+            <table id="list">
+                <tr>
+                    <td></td>
+                </tr>
+            </table>
+            <div id="pager"></div>
+        </div>
+    </div>
+</div>
+
+<!--script-->
+@section scripts
+{
+    <script>
+
+        $(function () {
+            var lastsel;
+            $("#list").jqGrid({
+                url: "/Admin/GetDeletedMoves",
+                datatype: "json",
+                mtype: "GET",
+                colNames: ["Id", "Tank #", "From", "To", "Product", "Charge #", "Shipment", "Status", "Start", "End", "Chassis", "Driver"],
+                colModel: [
+                    { name: "Id", index: 'Id', sortable: false, hidden: true, align: "right", key: true },
+                    { name: "Tank", index: 'Tank', sortable: true, width: 125 },
+                    { name: "From", index: 'From', align: 'left', sortable: false, width: 90 },
+                    { name: "To", index: 'To', align: 'left', sortable: false, width: 90 },
+                    { name: "Product", index: 'Product', sortable: false, width: 150 },
+                    { name: "ChargeNumber", index: 'ChargeNumber', sortable: false, width: 150 },
+                    { name: "Shipment", index: 'Shipment', align: "right", sortable: false, width: 80 },
+                    { name: "Status", index: 'Status', sortable: false, width: 85 },
+                    { name: "Start", index: 'Start', align: "right", sortable: false, width: 150 },
+                    { name: "End", index: 'End', sortable: false, width: 150 },
+                    { name: "Chassis", index: 'Chassis', sortable: false, width: 100 },
+                    { name: "Driver", index: 'Driver', sortable: false, width: 180 }
+                ],
+                pager: "#pager",
+                rowNum: 50,
+                rowList: [50, 100, 125],
+                height: 375,
+                autowidth: true,
+                viewrecords: true,
+                autoencode: true,
+                key: true
+            }
+            );
+            $("#list").jqGrid('navGrid', '#pager', { edit: false, add: false, del: false, search: false, refresh: false });
+
+            //mark end of document ready
+        });
+
+        $(function () {
+
+            resetFilter();
+
+            $("#btnSearch").click(function () {
+                gridReload();
+            });
+
+            $("#txtTankNumber").keypress(function () {
+                $("#txtFromLocation").val('');
+                $("#txtToLocation").val('');
+                $("#txtProduct").val('');
+                $("#txtChargeNumber").val('');
+                $("#txtShipment").val('');
+            });
+
+            $("#txtFromLocation").keypress(function () {
+                $("#txtTankNumber").val('');
+                $("#txtToLocation").val('');
+                $("#txtProduct").val('');
+                $("#txtChargeNumber").val('');
+                $("#txtShipment").val('');
+            });
+
+            $("#txtToLocation").keypress(function () {
+                $("#txtTankNumber").val('');
+                $("#txtFromLocation").val('');
+                $("#txtProduct").val('');
+                $("#txtChargeNumber").val('');
+                $("#txtShipment").val('');
+            });
+
+            $("#txtProduct").keypress(function () {
+                $("#txtTankNumber").val('');
+                $("#txtFromLocation").val('');
+                $("#txtToLocation").val('');
+                $("#txtChargeNumber").val('');
+                $("#txtShipment").val('');
+            });
+
+            $("#txtChargeNumber").keypress(function () {
+                $("#txtTankNumber").val('');
+                $("#txtFromLocation").val('');
+                $("#txtToLocation").val('');
+                $("#txtProduct").val('');
+                $("#txtShipment").val('');
+            });
+
+            $("#txtShipment").keypress(function () {
+                $("#txtTankNumber").val('');
+                $("#txtFromLocation").val('');
+                $("#txtToLocation").val('');
+                $("#txtProduct").val('');
+                $("#txtChargeNumber").val('');
+            });
+
+        });
+
+
+        function gridReload() {
+            console.log('from ' + $("#txtFromLocation").val());
+            var tankNumber = $("#txtTankNumber").val();
+            var from = $("#txtFromLocation").val();
+            var to = $("#txtToLocation").val();
+            var product = $("#txtProduct").val();
+            var chargeNumber = $("#txtChargeNumber").val();
+            var shipment = $("#txtShipment").val();
+            $("#list").jqGrid('setGridParam', { url: "/Admin/GetDeletedMoves?tankNumber=" + tankNumber + "&from=" + from + "&to=" + to + "&product=" + product + "&chargeNumber=" + chargeNumber + "&shipment=" + shipment, page: 1 }).trigger("reloadGrid");
+        }
+
+        function resetFilter() {
+            $("#txtTankNumber").val('');
+            $("txtFromLocation").val('');
+            $("txtToLocation").val('');
+            $("#txtProduct").val('');
+            $("#txtChargeNumber").val('');
+            $("#txtShipment").val('');
+        }
+
+    </script>
+}
+
+

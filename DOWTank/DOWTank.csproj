@@ -519,6 +519,7 @@
     <Content Include="Views\Report\TankShipmentSchedule.cshtml" />
     <Content Include="Views\Report\TankActivity.cshtml" />
     <Content Include="Views\Report\YardCheck.cshtml" />
+    <Content Include="Views\Admin\RecoverDeletedMoves.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DOWTank.Core\DOWTank.Core.csproj">
