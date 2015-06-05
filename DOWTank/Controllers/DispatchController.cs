@@ -46,7 +46,7 @@ namespace DOWTank.Controllers
                 DispatchID = dispatchId
             };
             DataTable dataTable = _utilityService.ExecStoredProcedureForDataTable("TANK_usp_sel_Dispatch", TANK_usp_sel_Dispatch_spParams);
-
+            postModel.intDispatchId = dispatchId;
             postModel.EquipmentAN = dataTable.Rows[0]["EquipmentAN"].ToString();
             postModel.EquipmentID = dataTable.Rows[0]["EquipmentId"] != null ? (int)dataTable.Rows[0]["EquipmentId"] : 0;
             postModel.ChargeCodeAN = dataTable.Rows[0]["ChargeCodeAN"].ToString();
@@ -175,6 +175,38 @@ namespace DOWTank.Controllers
             return View(postModel);
         }
 
+        #region Delete Dispatch
+
+        [HttpPost]
+        public JsonResult DeleteDispatchData(DeleteDispatchPostModel postModel)
+        {
+            if (postModel == null || postModel.DispatchID == null || postModel.EquipmentID == 0)
+            {
+                return Json(0);
+            }
+            TANK_usp_insupd_DispatchTank_spParams objDispatchTankParams = new TANK_usp_insupd_DispatchTank_spParams()
+                {
+                    LocationID = 1,
+                    DispatchID = postModel.DispatchID,
+                    EquipmentID = postModel.EquipmentID,
+                    ActiveFL = false,
+                    UpdateUserAN = "System"
+                };
+
+            _utilityService.ExecStoredProcedureWithoutResults("TANK_usp_insupd_Dispatch", objDispatchTankParams);
+
+            Success("Dispatch Tank Deleted Successfully.");
+            return Json(1);
+        }
+
+        public class DeleteDispatchPostModel
+        {
+            public int? DispatchID { get; set; }
+            public int EquipmentID { get; set; }
+        }
+
+        #endregion Delete Dispatch
+
         [HttpGet]
         public JsonResult LoadLastMove(int? equipmentId)
         {
@@ -242,6 +274,8 @@ namespace DOWTank.Controllers
 
             #endregion fitting ddl
         }
+
+        #region select2
 
         //PopulateEquipment
         [HttpGet]
@@ -491,5 +525,6 @@ namespace DOWTank.Controllers
             return loadPoints;
         }
 
+        #endregion select2
     }
 }
