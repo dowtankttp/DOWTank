@@ -244,6 +244,27 @@ namespace DOWTank.Controllers
 
 
         #endregion Deleted Moves
+
+        #region Equipment
+
+        public ActionResult Equipment()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Equipment(AdminEquipmentPostModel postModel)
+        {
+            return View();
+        }
+
+        public class AdminEquipmentPostModel
+        {
+            
+        }
+
+        #endregion Equipment
+
     }
 
     #region Contacts Model
