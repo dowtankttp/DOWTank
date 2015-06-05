@@ -153,7 +153,7 @@
                 url: "/Admin/GetDeletedMoves",
                 datatype: "json",
                 mtype: "GET",
-                colNames: ["Id", "Tank #", "From", "To", "Product", "Charge #", "Shipment", "Status", "Start", "End", "Chassis", "Driver"],
+                colNames: ["Id", "Tank #", "From", "To", "Product", "Charge #", "Shipment", "Status", "Start", "End", "Chassis", "Driver", ""],
                 colModel: [
                     { name: "Id", index: 'Id', sortable: false, hidden: true, align: "right", key: true },
                     { name: "Tank", index: 'Tank', sortable: true, width: 125 },
@@ -166,7 +166,8 @@
                     { name: "Start", index: 'Start', align: "right", sortable: false, width: 150 },
                     { name: "End", index: 'End', sortable: false, width: 150 },
                     { name: "Chassis", index: 'Chassis', sortable: false, width: 100 },
-                    { name: "Driver", index: 'Driver', sortable: false, width: 180 }
+                    { name: "Driver", index: 'Driver', sortable: false, width: 180 },
+                  { name: 'Recover', index: 'Recover', formatter: linkformatter, sortable: false, width: 80 }
                 ],
                 pager: "#pager",
                 rowNum: 50,
@@ -260,6 +261,11 @@
             $("#txtProduct").val('');
             $("#txtChargeNumber").val('');
             $("#txtShipment").val('');
+        }
+
+        function linkformatter(cellvalue, options, rowObject) {
+            //rowObject.Id
+            return '<a style="color:#286090;font-size:12px;" href="/Dispatch/Index?mode=7&dispatchId=' + rowObject.Id + '" >Recover</a>';
         }
 
     </script>

@@ -23,7 +23,7 @@ namespace DOWTank.Controllers
         }
 
         // GET: Dispatch
-        public ActionResult Index(string equipmentAn, int? dispatchId)
+        public ActionResult Index(string equipmentAn, int? dispatchId, string mode)
         {
             LoadDispatchTankDropdowns();
             ViewBag.EquipmentAN = equipmentAn;
