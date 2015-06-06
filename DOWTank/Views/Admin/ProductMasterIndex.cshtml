@@ -123,19 +123,20 @@
 {
     <script>
 
-        $(function () {
+        $(function() {
             var lastsel;
             $("#list").jqGrid({
                 url: "/Admin/GetProductsData",
                 datatype: "json",
                 mtype: "GET",
-                colNames: ["Id", "Product", "Product Code", "Status", "Create Date", ""],
+                colNames: ["Id", "Product", "Product Code", "Status", "Create Date", "", ""],
                 colModel: [
                     { name: "Id", index: 'Id', sortable: false, hidden: true, align: "right", key: true },
                     { name: "ProductDS", index: 'ProductDS', sortable: true, width: 185 },
                     { name: "ProductCodeAN", index: 'ProductCodeAN', align: 'left', sortable: false, width: 120 },
                     { name: "Status", index: 'Status', align: 'left', sortable: false, width: 50 },
                     { name: "CreateDT", index: 'CreateDT', sortable: false, width: 60 },
+                    { name: 'GrantedFL', index: 'GrantedFL', editable: true, edittype: 'checkbox', editoptions: { value: "True:False" }, formatter: "checkbox", formatoptions: { disabled: false }, width: 20 },
                     { name: 'Edit', index: 'Edit', formatter: linkformatter, sortable: false, width: 40 }
                 ],
                 pager: "#pager",
@@ -145,29 +146,52 @@
                 autowidth: true,
                 viewrecords: true,
                 autoencode: true,
-                key: true
-            }
-            );
+                key: true,
+                beforeSelectRow: function(rowid, e) {
+                    var isCheckBox = $(e.target).is(":checkbox");
+                    if (isCheckBox) {
+                        var isChecked = $(e.target).is(":checked");
+                        console.log('rowid on beforeSelectRow ' + rowid);
+                        var postModel = { ProductId: rowid, ActiveFL: isChecked };
+                        $.ajax({
+                            url: "/Admin/UpdateProductLocation",
+                            dataType: 'json',
+                            method: 'POST',
+                            data: postModel,
+                            success: function (response) {
+                                if (response) {
+                                    //
+                                }
+                            }
+                        });
+                    }
+                    return true; // allow selection
+                }
+            });
             $("#list").jqGrid('navGrid', '#pager', { edit: false, add: false, del: false, search: false, refresh: false });
+
+            $(document).delegate('#list .jqgrow td input', 'click', function() {
+                console.log('inside checkbox click');
+            });
 
             //mark end of document ready
         });
 
-        $(function () {
+        $(function() {
 
             resetFilter();
 
-            $("#btnSearch").click(function () {
+            $("#btnSearch").click(function() {
                 gridReload();
             });
 
-            $("#txtProductCode").keypress(function () {
+            $("#txtProductCode").keypress(function() {
                 $("#txtProductName").val('');
-             });
+            });
 
-            $("#txtProductName").keypress(function () {
+            $("#txtProductName").keypress(function() {
                 $("#txtProductCode").val('');
-             });
+            });
 
         });
 
@@ -182,7 +206,7 @@
         function resetFilter() {
             $("#txtProductName").val('');
             $("#txtProductCode").val('');
-         
+
         }
 
         function linkformatter(cellvalue, options, rowObject) {

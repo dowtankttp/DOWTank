@@ -33,7 +33,7 @@ namespace DOWTank.Controllers
 
         [HttpGet]
         public JsonResult GetProductsData(int page, int rows, string search, string sidx, string sord, string productName, string productCode)
-        {   
+        {
             // database call
 
             var TANK_usp_sel_ProductList_spParams = new TANK_usp_sel_ProductList_spParams()
@@ -50,7 +50,8 @@ namespace DOWTank.Controllers
                             ProductDS = p.Field<string>("ProductDS"),
                             ProductCodeAN = p.Field<string>("ProductCodeAN"),
                             Status = p.Field<string>("ActiveDS"),
-                            CreateDT = p.Field<DateTime>("CreateDT").ToShortDateString()
+                            CreateDT = p.Field<DateTime>("CreateDT").ToShortDateString(),
+                            GrantedFL = p.Field<int>("GrantedFL")
                         }).ToList();
 
             //# database call
@@ -80,8 +81,8 @@ namespace DOWTank.Controllers
 
             int totalRecords = data.Count();
             var totalPages = (int)Math.Ceiling(totalRecords / (float)rows);
-            page = page - 1;
-            data = data.Skip(page * rows).Take(rows).ToList();
+            int pageNumber = page - 1;
+            data = data.Skip(pageNumber * rows).Take(rows).ToList();
 
             var jsonData = new
             {
@@ -94,8 +95,30 @@ namespace DOWTank.Controllers
             };
 
             return Json(jsonData, JsonRequestBehavior.AllowGet);
-            
+
         }
+
+        [HttpPost]
+        public JsonResult UpdateProductLocation(UpdateProductionLocationPostModel postModel)
+        {
+            if (postModel == null || postModel.ProductId == 0)
+            {
+                return Json(0);
+            }
+
+            TANK_usp_insupd_ProductLocation_spParams TANK_usp_insupd_ProductLocation_spParams = new TANK_usp_insupd_ProductLocation_spParams()
+                {
+                    ProductID = postModel.ProductId,
+                    ActiveFL = postModel.ActiveFL,
+                    LocationID = 1
+                };
+
+            _utilityService.ExecStoredProcedureWithoutResults("TANK_usp_insupd_ProductLocation", TANK_usp_insupd_ProductLocation_spParams);
+         
+
+            return Json(1);
+        }
+
 
         [HttpGet]
         public ActionResult ProductMaster(string id)
@@ -111,7 +134,7 @@ namespace DOWTank.Controllers
             return View();
         }
 
-        
+
 
         #endregion product master
 
@@ -1228,7 +1251,7 @@ namespace DOWTank.Controllers
                         select new
                         {
                             Id = p.Field<int>("Key"),
-                            Description = p.Field<string>("Description*")                           
+                            Description = p.Field<string>("Description*")
                         }).ToList();
 
             //# database call
@@ -1330,7 +1353,7 @@ namespace DOWTank.Controllers
             // database call
 
             TANK_usp_sel_MovementTypeUpd_spParams TANK_usp_sel_MovementTypeUpd_spParams = null;
-           
+
             DataTable dataTable = _utilityService.ExecStoredProcedureForDataTable("TANK_usp_sel_MoveTypeUPD", TANK_usp_sel_MovementTypeUpd_spParams);
 
             var data = (from p in dataTable.AsEnumerable()
@@ -1481,7 +1504,7 @@ namespace DOWTank.Controllers
                         var TANK_usp_insupd_OnHireReasonType_spParams = new TANK_usp_insupd_OnHireReasonType_spParams()
                         {
                             Key = postModel.Id,
-                            Description = postModel.Description,                        
+                            Description = postModel.Description,
                             UpdateUserAN = "SYSTEM",
                             ActiveFL = true
                         };
@@ -1995,8 +2018,8 @@ namespace DOWTank.Controllers
         {
             // database call
 
-            TANK_usp_sel_WasteClassUpd_spParams TANK_usp_sel_WasteClassUpd_spParams= null;
-       
+            TANK_usp_sel_WasteClassUpd_spParams TANK_usp_sel_WasteClassUpd_spParams = null;
+
             DataTable dataTable = _utilityService.ExecStoredProcedureForDataTable("TANK_usp_sel_WasteClassTypeUPD", TANK_usp_sel_WasteClassUpd_spParams);
 
             var data = (from p in dataTable.AsEnumerable()
@@ -2038,7 +2061,7 @@ namespace DOWTank.Controllers
                         var TANK_usp_insupd_WasteClassType_spParams = new TANK_usp_insupd_WasteClassType_spParams()
                         {
                             Key = postModel.Id,
-                            Description = postModel.Description,                
+                            Description = postModel.Description,
                             UpdateUserAN = "SYSTEM",
                             ActiveFL = true
                         };
@@ -2096,7 +2119,13 @@ namespace DOWTank.Controllers
 
     public class ProductMasterPostModel
     {
-        
+
+    }
+
+    public class UpdateProductionLocationPostModel
+    {
+        public int ProductId { get; set; }
+        public bool ActiveFL { get; set; }
     }
 
     #endregion product master
@@ -2336,6 +2365,6 @@ namespace DOWTank.Controllers
     }
 
 
-    #endregion  
+    #endregion
 
 }
