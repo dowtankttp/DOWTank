@@ -96,7 +96,7 @@
                 url: "/Admin/GetLocations",
                 datatype: "json",
                 mtype: "GET",
-                colNames: ["Id", "Location*", "Description*", "Parent", "Code"],
+                colNames: ["Id", "Location Type*", "Description*", "Parent", "Code"],
                 colModel: [
                 {
                     name: "Id",
@@ -107,8 +107,8 @@
                     key: true
                 },
                 {
-                    name: "Location",
-                    index: 'Location',
+                    name: "LocType",
+                    index: 'LocType',
                     sortable: false,
                     editable: true,
                     edittype: 'text', editrules: {

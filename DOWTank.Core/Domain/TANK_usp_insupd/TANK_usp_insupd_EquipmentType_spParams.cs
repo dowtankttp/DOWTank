@@ -16,7 +16,7 @@ namespace DOWTank.Core.Domain.TANK_usp_insupd
         public int? Class { get; set; }
         public string Description { get; set; }
         public string Code { get; set; }
-        public float Length { get; set; }
+        public double Length { get; set; }
         public int LocationID { get; set; }
         public Boolean ActiveFL { get; set; }
         public string UpdateUserAN { get; set; }

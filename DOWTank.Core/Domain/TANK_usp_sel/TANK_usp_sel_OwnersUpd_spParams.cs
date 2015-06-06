@@ -9,6 +9,5 @@ namespace DOWTank.Core.Domain.TANK_usp_sel
     public class TANK_usp_sel_OwnersUpd_spParams
     {
         public Int16 InstallID { get; set; }
-        public int MajorLocationID { get; set; }
     }
 }

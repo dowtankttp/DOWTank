@@ -413,7 +413,7 @@ namespace DOWTank.Controllers
 
             int totalRecords = data.Count();
             var totalPages = (int)Math.Ceiling(totalRecords / (float)rows);
-            data = data.Skip(page * rows).Take(rows).ToList();
+            data = data.Skip((page-1) * rows).Take(rows).ToList();
 
             var jsonData = new
             {
@@ -529,7 +529,7 @@ namespace DOWTank.Controllers
 
             int totalRecords = data.Count();
             var totalPages = (int)Math.Ceiling(totalRecords / (float)rows);
-            data = data.Skip(page * rows).Take(rows).ToList();// bug in paging
+            data = data.Skip((page-1) * rows).Take(rows).ToList();// bug in paging
 
             var jsonData = new
             {
@@ -649,7 +649,7 @@ namespace DOWTank.Controllers
 
             int totalRecords = data.Count();
             var totalPages = (int)Math.Ceiling(totalRecords / (float)rows);
-            data = data.Skip(page * rows).Take(rows).ToList();
+            data = data.Skip((page-1) * rows).Take(rows).ToList();
 
             var jsonData = new
             {
@@ -766,18 +766,18 @@ namespace DOWTank.Controllers
             var data = (from p in dataTable.AsEnumerable()
                         select new
                         {
-                            Id = p.Field<int>("Key"),
+                            Id = p.Field<Int16>("Key"),
                             Class = p.Field<string>("Class*"),
                             Description = p.Field<string>("Description*"),
                             Code = p.Field<string>("Code"),
-                            Length = p.Field<string>("Length"),
+                            Length = p.Field<double>("Length"),
                         }).ToList();
 
             //# database call
 
             int totalRecords = data.Count();
             var totalPages = (int)Math.Ceiling(totalRecords / (float)rows);
-            data = data.Skip(page * rows).Take(rows).ToList();
+            data = data.Skip((page-1) * rows).Take(rows).ToList();
 
             var jsonData = new
             {
@@ -900,7 +900,7 @@ namespace DOWTank.Controllers
 
             int totalRecords = data.Count();
             var totalPages = (int)Math.Ceiling(totalRecords / (float)rows);
-            data = data.Skip(page * rows).Take(rows).ToList();
+            data = data.Skip((page-1) * rows).Take(rows).ToList();
 
             var jsonData = new
             {
@@ -1014,7 +1014,7 @@ namespace DOWTank.Controllers
             var data = (from p in dataTable.AsEnumerable()
                         select new
                         {
-                            Id = p.Field<int>("Key"),
+                            Id = p.Field<Int16>("Key"),
                             Description = p.Field<string>("Description*"),
                         }).ToList();
 
@@ -1022,7 +1022,7 @@ namespace DOWTank.Controllers
 
             int totalRecords = data.Count();
             var totalPages = (int)Math.Ceiling(totalRecords / (float)rows);
-            data = data.Skip(page * rows).Take(rows).ToList();
+            data = data.Skip((page-1) * rows).Take(rows).ToList();
 
             var jsonData = new
             {
@@ -1140,7 +1140,7 @@ namespace DOWTank.Controllers
 
             int totalRecords = data.Count();
             var totalPages = (int)Math.Ceiling(totalRecords / (float)rows);
-            data = data.Skip(page * rows).Take(rows).ToList();
+            data = data.Skip((page-1) * rows).Take(rows).ToList();
 
             var jsonData = new
             {
@@ -1250,15 +1250,16 @@ namespace DOWTank.Controllers
             var data = (from p in dataTable.AsEnumerable()
                         select new
                         {
-                            Id = p.Field<int>("Key"),
-                            Description = p.Field<string>("Description*")
+                            Id = p.Field<Int16>("Key"),
+                            Description = p.Field<string>("Description*")                           
+
                         }).ToList();
 
             //# database call
 
             int totalRecords = data.Count();
             var totalPages = (int)Math.Ceiling(totalRecords / (float)rows);
-            data = data.Skip(page * rows).Take(rows).ToList();
+            data = data.Skip((page-1) * rows).Take(rows).ToList();
 
             var jsonData = new
             {
@@ -1359,7 +1360,7 @@ namespace DOWTank.Controllers
             var data = (from p in dataTable.AsEnumerable()
                         select new
                         {
-                            Id = p.Field<int>("Key"),
+                            Id = p.Field<Int32>("Key"),
                             Description = p.Field<string>("Description*"),
                         }).ToList();
 
@@ -1367,7 +1368,7 @@ namespace DOWTank.Controllers
 
             int totalRecords = data.Count();
             var totalPages = (int)Math.Ceiling(totalRecords / (float)rows);
-            data = data.Skip(page * rows).Take(rows).ToList();
+            data = data.Skip((page-1) * rows).Take(rows).ToList();
 
             var jsonData = new
             {
@@ -1468,7 +1469,7 @@ namespace DOWTank.Controllers
             var data = (from p in dataTable.AsEnumerable()
                         select new
                         {
-                            Id = p.Field<int>("Key"),
+                            Id = p.Field<Int16>("Key"),
                             Description = p.Field<string>("Description*")
                         }).ToList();
 
@@ -1476,7 +1477,7 @@ namespace DOWTank.Controllers
 
             int totalRecords = data.Count();
             var totalPages = (int)Math.Ceiling(totalRecords / (float)rows);
-            data = data.Skip(page * rows).Take(rows).ToList();
+            data = data.Skip((page-1) * rows).Take(rows).ToList();
 
             var jsonData = new
             {
@@ -1580,7 +1581,7 @@ namespace DOWTank.Controllers
             var data = (from p in dataTable.AsEnumerable()
                         select new
                         {
-                            Id = p.Field<int>("Key"),
+                            Id = p.Field<Int32>("Key"),
                             Name = p.Field<string>("Name*")
                         }).ToList();
 
@@ -1588,7 +1589,7 @@ namespace DOWTank.Controllers
 
             int totalRecords = data.Count();
             var totalPages = (int)Math.Ceiling(totalRecords / (float)rows);
-            data = data.Skip(page * rows).Take(rows).ToList();
+            data = data.Skip((page-1) * rows).Take(rows).ToList();
 
             var jsonData = new
             {
@@ -1692,7 +1693,7 @@ namespace DOWTank.Controllers
             var data = (from p in dataTable.AsEnumerable()
                         select new
                         {
-                            Id = p.Field<int>("Key"),
+                            Id = p.Field<Int32>("Key"),
                             Name = p.Field<string>("Name*")
                         }).ToList();
 
@@ -1700,7 +1701,7 @@ namespace DOWTank.Controllers
 
             int totalRecords = data.Count();
             var totalPages = (int)Math.Ceiling(totalRecords / (float)rows);
-            data = data.Skip(page * rows).Take(rows).ToList();
+            data = data.Skip((page-1) * rows).Take(rows).ToList();
 
             var jsonData = new
             {
@@ -1804,7 +1805,7 @@ namespace DOWTank.Controllers
             var data = (from p in dataTable.AsEnumerable()
                         select new
                         {
-                            Id = p.Field<int>("Key"),
+                            Id = p.Field<Int32>("Key"),
                             Description = p.Field<string>("Description*")
                         }).ToList();
 
@@ -1812,7 +1813,7 @@ namespace DOWTank.Controllers
 
             int totalRecords = data.Count();
             var totalPages = (int)Math.Ceiling(totalRecords / (float)rows);
-            data = data.Skip(page * rows).Take(rows).ToList();
+            data = data.Skip((page-1) * rows).Take(rows).ToList();
 
             var jsonData = new
             {
@@ -1913,7 +1914,7 @@ namespace DOWTank.Controllers
             var data = (from p in dataTable.AsEnumerable()
                         select new
                         {
-                            Id = p.Field<int>("Key"),
+                            Id = p.Field<Int32>("Key"),
                             Code = p.Field<string>("Code*"),
                             Description = p.Field<string>("Description*")
                         }).ToList();
@@ -1922,7 +1923,7 @@ namespace DOWTank.Controllers
 
             int totalRecords = data.Count();
             var totalPages = (int)Math.Ceiling(totalRecords / (float)rows);
-            data = data.Skip(page * rows).Take(rows).ToList();
+            data = data.Skip((page-1) * rows).Take(rows).ToList();
 
             var jsonData = new
             {
@@ -2025,7 +2026,7 @@ namespace DOWTank.Controllers
             var data = (from p in dataTable.AsEnumerable()
                         select new
                         {
-                            Id = p.Field<int>("Key"),
+                            Id = p.Field<Int32>("Key"),
                             Description = p.Field<string>("Description*")
                         }).ToList();
 
@@ -2033,7 +2034,7 @@ namespace DOWTank.Controllers
 
             int totalRecords = data.Count();
             var totalPages = (int)Math.Ceiling(totalRecords / (float)rows);
-            data = data.Skip(page * rows).Take(rows).ToList();
+            data = data.Skip((page-1) * rows).Take(rows).ToList();
 
             var jsonData = new
             {
@@ -2207,7 +2208,7 @@ namespace DOWTank.Controllers
         public int? Class { get; set; }
         public string Description { get; set; }
         public string Code { get; set; }
-        public float Length { get; set; }
+        public double Length { get; set; }
         public int LocationID { get; set; }
     }
 
