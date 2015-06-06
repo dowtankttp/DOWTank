@@ -96,7 +96,7 @@
                 url: "/Admin/GetHireReason",
                 datatype: "json",
                 mtype: "GET",
-                colNames: ["Id", "Last Name", "First Name", "Phone", "Ext"],
+                colNames: ["Id", "Description*"],
                 colModel: [
                 {
                     name: "Id",
@@ -107,44 +107,15 @@
                     key: true
                 },
                 {
-                    name: "LastName",
-                    index: 'LastName',
+                    name: "Description",
+                    index: 'Description',
                     sortable: false,
                     editable: true,
                     edittype: 'text', editrules: {
                         required: true
                     },
                     editoptions: { size: 60 }
-                },
-            {
-                name: "FirstName",
-                index: 'FirstName',
-                sortable: false,
-                editable: true,
-                edittype: 'text', editrules: {
-                    required: true
                 }
-                , editoptions: { size: 60 }
-            },
-            {
-                name: "Phone",
-                index: 'Phone',
-                align: "right",
-                sortable: false,
-                editable: true,
-                edittype: 'text', editrules: {
-                    required: true
-                }
-                , editoptions: { size: 60 }
-            },
-            {
-                name: "Ext",
-                index: 'Ext',
-                align: "right",
-                sortable: false,
-                editable: true,
-                edittype: 'text'
-            }
                 ],
                 pager: "#pager",
                 rowNum: 50,

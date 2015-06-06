@@ -96,7 +96,7 @@
                 url: "/Admin/GetVendor",
                 datatype: "json",
                 mtype: "GET",
-                colNames: ["Id", "Last Name", "First Name", "Phone", "Ext"],
+                colNames: ["Id", "Code*", "Description*"],
                 colModel: [
                 {
                     name: "Id",
@@ -107,8 +107,8 @@
                     key: true
                 },
                 {
-                    name: "LastName",
-                    index: 'LastName',
+                    name: "Code",
+                    index: 'Code',
                     sortable: false,
                     editable: true,
                     edittype: 'text', editrules: {
@@ -117,33 +117,14 @@
                     editoptions: { size: 60 }
                 },
             {
-                name: "FirstName",
-                index: 'FirstName',
+                name: "Description",
+                index: 'Description',
                 sortable: false,
                 editable: true,
                 edittype: 'text', editrules: {
                     required: true
                 }
                 , editoptions: { size: 60 }
-            },
-            {
-                name: "Phone",
-                index: 'Phone',
-                align: "right",
-                sortable: false,
-                editable: true,
-                edittype: 'text', editrules: {
-                    required: true
-                }
-                , editoptions: { size: 60 }
-            },
-            {
-                name: "Ext",
-                index: 'Ext',
-                align: "right",
-                sortable: false,
-                editable: true,
-                edittype: 'text'
             }
                 ],
                 pager: "#pager",

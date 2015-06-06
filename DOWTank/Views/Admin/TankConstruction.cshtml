@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "TankConstruction";
+    ViewBag.Title = "Tank Construction";
 }
 @section head{
     <style>
@@ -69,7 +69,7 @@
     <!--title-->
     <div class="row">
         <div class="col-md-12 nopadding">
-            <h4 class="dow-color col-md-6">TankConstruction</h4>
+            <h4 class="dow-color col-md-6">Tank Construction</h4>
         </div>
     </div>
     <!--list-->
@@ -96,7 +96,7 @@
                 url: "/Admin/GetTankConstruction",
                 datatype: "json",
                 mtype: "GET",
-                colNames: ["Id", "Last Name", "First Name", "Phone", "Ext"],
+                colNames: ["Id", "Description*"],
                 colModel: [
                 {
                     name: "Id",
@@ -107,44 +107,15 @@
                     key: true
                 },
                 {
-                    name: "LastName",
-                    index: 'LastName',
+                    name: "Description",
+                    index: 'Description',
                     sortable: false,
                     editable: true,
                     edittype: 'text', editrules: {
                         required: true
                     },
                     editoptions: { size: 60 }
-                },
-            {
-                name: "FirstName",
-                index: 'FirstName',
-                sortable: false,
-                editable: true,
-                edittype: 'text', editrules: {
-                    required: true
                 }
-                , editoptions: { size: 60 }
-            },
-            {
-                name: "Phone",
-                index: 'Phone',
-                align: "right",
-                sortable: false,
-                editable: true,
-                edittype: 'text', editrules: {
-                    required: true
-                }
-                , editoptions: { size: 60 }
-            },
-            {
-                name: "Ext",
-                index: 'Ext',
-                align: "right",
-                sortable: false,
-                editable: true,
-                edittype: 'text'
-            }
                 ],
                 pager: "#pager",
                 rowNum: 50,
