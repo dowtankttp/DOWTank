@@ -1,0 +1,196 @@
+﻿@{
+    ViewBag.Title = "Products";
+}
+@section head{
+    <style>
+        *::before, *::after#delhdlist
+        {
+            box-sizing: unset!important;
+        }
+
+        *#delhdlist
+        {
+            box-sizing: unset!important;
+        }
+
+        *::before, *::after#dData
+        {
+            box-sizing: unset!important;
+        }
+
+        *#dData
+        {
+            box-sizing: unset!important;
+        }
+
+        *::before, *::after#eData
+        {
+            box-sizing: unset!important;
+        }
+
+        *#eData
+        {
+            box-sizing: unset!important;
+        }
+
+        *::before, *::after#edithdlist
+        {
+            box-sizing: unset!important;
+        }
+
+        *#edithdlist
+        {
+            box-sizing: unset!important;
+        }
+
+        *::before, *::after#sData
+        {
+            box-sizing: unset!important;
+        }
+
+        *#sData
+        {
+            box-sizing: unset!important;
+        }
+
+        *::before, *::after#cData
+        {
+            box-sizing: unset!important;
+        }
+
+        *#cData
+        {
+            box-sizing: unset!important;
+        }
+
+        .ui-jqgrid tr.jqgrow td
+        {
+            white-space: normal !important;
+            height: auto;
+            vertical-align: text-top;
+            padding-top: 2px;
+        }
+    </style>
+}
+
+<div class="well well-lg">
+    <!--title-->
+    <div class="row">
+        <div class="col-md-12 nopadding">
+            <h4 class="dow-color col-md-12">Products</h4>
+            <span class="col-md-12">Note: This screen displays the master list of all products. Use the check boxs to add/remove products to the current facility. </span>
+        </div>
+    </div>
+    <!--filter-->
+    <div id="divFilter" class="row mt5 mb10">
+        <div class="col-md-12">
+            <div class="row mt20">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <span>Product Name</span>
+                        <input type="text" id="txtProductName" class="form-control" />
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <span>Product Code</span>
+                        <input type="text" id="txtProductCode" class="form-control" />
+                    </div>
+                </div>
+            </div>
+            <div class="row mb10">
+                <div class="col-md-12 text-left">
+                    <input id="btnSearch" type="button" value="Search" class="btn btn-default btn-primary" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--list-->
+    <div class="row mt10">
+        <div class="col-md-12">
+            <table id="list">
+                <tr>
+                    <td></td>
+                </tr>
+            </table>
+            <div id="pager"></div>
+        </div>
+    </div>
+</div>
+
+<!--script-->
+@section scripts
+{
+    <script>
+
+        $(function () {
+            var lastsel;
+            $("#list").jqGrid({
+                url: "/Admin/GetProductsData",
+                datatype: "json",
+                mtype: "GET",
+                colNames: ["Id", "Product", "Product Code", "Status", "Create Date", ""],
+                colModel: [
+                    { name: "Id", index: 'Id', sortable: false, hidden: true, align: "right", key: true },
+                    { name: "ProductDS", index: 'ProductDS', sortable: true, width: 185 },
+                    { name: "ProductCodeAN", index: 'ProductCodeAN', align: 'left', sortable: false, width: 120 },
+                    { name: "Status", index: 'Status', align: 'left', sortable: false, width: 50 },
+                    { name: "CreateDT", index: 'CreateDT', sortable: false, width: 60 },
+                    { name: 'Edit', index: 'Edit', formatter: linkformatter, sortable: false, width: 40 }
+                ],
+                pager: "#pager",
+                rowNum: 50,
+                rowList: [50, 100, 125],
+                height: 375,
+                autowidth: true,
+                viewrecords: true,
+                autoencode: true,
+                key: true
+            }
+            );
+            $("#list").jqGrid('navGrid', '#pager', { edit: false, add: false, del: false, search: false, refresh: false });
+
+            //mark end of document ready
+        });
+
+        $(function () {
+
+            resetFilter();
+
+            $("#btnSearch").click(function () {
+                gridReload();
+            });
+
+            $("#txtProductCode").keypress(function () {
+                $("#txtProductName").val('');
+             });
+
+            $("#txtProductName").keypress(function () {
+                $("#txtProductCode").val('');
+             });
+
+        });
+
+
+        function gridReload() {
+            console.log('from ' + $("#txtFromLocation").val());
+            var productName = $("#txtProductName").val();
+            var productCode = $("#txtProductCode").val();
+            $("#list").jqGrid('setGridParam', { url: "/Admin/GetProductsData?productName=" + productName + "&productCode=" + productCode, page: 1 }).trigger("reloadGrid");
+        }
+
+        function resetFilter() {
+            $("#txtProductName").val('');
+            $("#txtProductCode").val('');
+         
+        }
+
+        function linkformatter(cellvalue, options, rowObject) {
+            //rowObject.Id
+            return '<a style="color:#286090;font-size:12px;" href="/Admin/ProductMaster?id=' + rowObject.Id + '" >Edit</a>';
+        }
+
+    </script>
+}
+
+

@@ -537,6 +537,7 @@
     <Content Include="Views\Admin\RecoverDeletedMoves.cshtml" />
     <Content Include="Views\Admin\Equipment.cshtml" />
     <Content Include="Views\Admin\ProductMaster.cshtml" />
+    <Content Include="Views\Admin\ProductMasterIndex.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DOWTank.Core\DOWTank.Core.csproj">

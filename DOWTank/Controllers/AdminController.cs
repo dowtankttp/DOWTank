@@ -26,7 +26,79 @@ namespace DOWTank.Controllers
         #region product master
 
         [HttpGet]
-        public ActionResult ProductMaster()
+        public ActionResult ProductMasterIndex()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public JsonResult GetProductsData(int page, int rows, string search, string sidx, string sord, string productName, string productCode)
+        {   
+            // database call
+
+            var TANK_usp_sel_ProductList_spParams = new TANK_usp_sel_ProductList_spParams()
+            {
+                //TODO: re-factor it later from hard coded
+                MajorLocationID = 1
+            };
+            DataTable dataTable = _utilityService.ExecStoredProcedureForDataTable("TANK_usp_sel_ProductList", TANK_usp_sel_ProductList_spParams);
+
+            var data = (from p in dataTable.AsEnumerable()
+                        select new
+                        {
+                            Id = p.Field<Int16>("ProductID"),
+                            ProductDS = p.Field<string>("ProductDS"),
+                            ProductCodeAN = p.Field<string>("ProductCodeAN"),
+                            Status = p.Field<string>("ActiveDS"),
+                            CreateDT = p.Field<DateTime>("CreateDT").ToShortDateString()
+                        }).ToList();
+
+            //# database call
+
+            #region sort
+
+            data = data.OrderBy(s => s.ProductDS).ToList();
+            if (sidx == "ProductDS" && sord == "desc")
+            {
+                data = data.OrderByDescending(s => s.ProductDS).ToList();
+            }
+
+            #endregion sort
+
+            #region filter
+
+            if (!string.IsNullOrEmpty(productName))
+            {
+                data = data.Where(s => s.ProductDS.Contains(productName)).ToList();
+            }
+            else if (!string.IsNullOrEmpty(productCode))
+            {
+                data = data.Where(s => s.ProductCodeAN.Contains(productCode)).ToList();
+            }
+
+            #endregion filter
+
+            int totalRecords = data.Count();
+            var totalPages = (int)Math.Ceiling(totalRecords / (float)rows);
+            page = page - 1;
+            data = data.Skip(page * rows).Take(rows).ToList();
+
+            var jsonData = new
+            {
+
+                total = totalPages,
+                page,
+                records = totalRecords,
+                rows = data
+
+            };
+
+            return Json(jsonData, JsonRequestBehavior.AllowGet);
+            
+        }
+
+        [HttpGet]
+        public ActionResult ProductMaster(string id)
         {
 
             return View();
