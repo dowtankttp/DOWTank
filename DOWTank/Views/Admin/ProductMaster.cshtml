@@ -1,0 +1,229 @@
+﻿@{
+    ViewBag.Title = "Product Master";
+}
+<div class="well well-lg">
+    <!--title-->
+    <div class="row">
+        <div class="col-md-12 nopadding">
+            <h4 class="dow-color col-md-6">Product</h4>
+        </div>
+    </div>
+    @using (Html.BeginForm("Equipment", "Admin", FormMethod.Post))
+    {
+        if (ViewData.ModelState.Keys.Any(k => ViewData.ModelState[k].Errors.Count() > 0))
+        {
+        <div class="alert alert-danger">
+            <button class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            @Html.ValidationSummary(false, "Please correct the following items: ")
+        </div>
+        }
+      
+        <div class="form-group text-right">
+            <input type="submit" value="Save Product" class="btn btn-default btn-primary" />
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-4">
+                    <label>Product Code #:</label>
+                    <input type="text" class="form-control" />
+                </div>
+                <div class="col-md-5">
+                    <label>MSDS Number #:</label>
+                    <input type="text" class="form-control" />
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-4">
+                    <label>WPN #:</label>
+                    <input type="text" class="form-control" />
+                </div>
+                <div class="col-md-5">
+                    <label>Product Name:*</label>
+                    <input type="text" class="form-control" />
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-6">
+                    <label>DOT Shipping Name::</label>
+                    <input type="text" class="form-control" />
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Synonyms:</label><span>(Please separate Synonyms with a semi-colon [;])</span>
+            <textarea rows="4" cols="18" name="CommentsAn" class="form-control"></textarea>
+        </div>
+        <div class="form-group">
+            <div class="col-md-12 nopadding">
+                <label>Hazardous:</label>
+            </div>
+            <div class="row no-row-margin">
+                <div class="col-md-1 nopadding">
+                    <div class="radio">
+                        <label>
+                            <input type="radio" name="ReloadFL" value="true" checked>
+                            Yes
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-1 nopadding">
+                    <div class="radio">
+                        <label>
+                            <input type="radio" name="ReloadFL" value="false">
+                            No
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-6">
+                    <label>Hazard Class:</label>
+                    <select class="form-control">
+                        <option></option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label>UN/NA #:</label>
+                    <input type="text" class="form-control" />
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-4">
+                    <label>Density:</label>
+                    <input type="text" class="form-control" />
+                </div>
+                <div class="col-md-4">
+                    <label>LBS Per Gallon:</label>
+                    <input type="text" class="form-control" />
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Prior Content Restriction:</label>
+            <textarea rows="5" cols="20" name="CommentsAn" class="form-control"></textarea>
+        </div>
+        <div class="form-group">
+            <label>Cleaning Requirements:</label>
+            <textarea rows="5" cols="20" name="CommentsAn" class="form-control"></textarea>
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-4">
+                    <label>Tank Capacity:</label>
+                    <input type="text" class="form-control" />
+                </div>
+                <div class="col-md-4">
+                    <label>Tank Type:</label>
+                    <select class="form-control">
+                        <option></option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-4">
+                    <label>Tank Construction:</label>
+                    <select class="form-control">
+                        <option></option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label>Tank # of Bars:</label>
+                    <input type="text" class="form-control" />
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-4">
+                    <label>Tank Grade:</label>
+                    <select class="form-control">
+                        <option></option>
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label>Tank Discharge:</label>
+                    <div class="row no-row-margin">
+                        <div class="col-md-2">
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" name="ReloadFL" value="true" checked>
+                                    Top
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" name="ReloadFL" value="false">
+                                    Bottom
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-4">
+                    <label>Tank Requires:</label>
+                    <div class="row no-row-margin">
+                        <div class="col-md-4">
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" name="ReloadFL" value="true" checked>
+                                    Hydro
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" name="ReloadFL" value="false">
+                                    Air
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <label>Active:* </label>
+                    <div class="row no-row-margin">
+                        <div class="col-md-2">
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="ReloadFL" value="true" checked>
+                                    Yes
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="ReloadFL" value="false">
+                                    No
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="form-group text-right mt10">
+            <input type="submit" value="Save Product" class="btn btn-default btn-primary" />
+        </div>
+    }
+
+</div>

@@ -23,6 +23,26 @@ namespace DOWTank.Controllers
             _sharedFunctions = sharedFunctions;
         }
 
+        #region product master
+
+        [HttpGet]
+        public ActionResult ProductMaster()
+        {
+
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult ProductMaster(ProductMasterPostModel postModel)
+        {
+
+            return View();
+        }
+
+        
+
+        #endregion product master
+
         #region Contacts
 
         [HttpGet]
@@ -2088,6 +2108,16 @@ namespace DOWTank.Controllers
         #endregion
 
     }
+
+    #region product master
+
+    public class ProductMasterPostModel
+    {
+        
+    }
+
+    #endregion product master
+
 
     #region Contacts Model
 
