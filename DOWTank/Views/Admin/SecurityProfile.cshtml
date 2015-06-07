@@ -76,14 +76,16 @@
                     <span>Note: Options in this category are used to govern page level security as well as dashboard menu options. IE: In order to DISPATCH or PREP from anywhere in the system, the appropriate privilege must also be checked here.
                     </span>
                     <div class="row no-row-margin">
-                        @foreach (var item in @Model.DashboardMenu)
+                        @for (int i = 0; i < Model.DashboardMenu.Count; i++)
                         {
+                            var dashboardName = "DashboardMenu[" + i + "].PrivilegeID";
                             <div class="col-md-12 no-padding">
                                 <div class="checkbox">
                                     <label>
-                                        <input type="checkbox" value="@item.PrivilegeID" id="@item.PrivilegeID"   name="@item.PrivilegeID"  @if (item.GrantedFL == 1)
-                                                                                                                                            { <text>checked='checked'</text> }>
-                                        @item.PrivilegeDS
+                                        @Html.HiddenFor(m => m.DashboardMenu[i].PrivilegeDS)
+                                        <input type="checkbox" value="@Model.DashboardMenu[i].PrivilegeID" id="@Model.DashboardMenu[i].PrivilegeID"   name="@dashboardName"  @if (@Model.DashboardMenu[i].GrantedFL == 1)
+                                                                                                                                                                             { <text>checked='checked'</text> }>
+                                        @Model.DashboardMenu[i].PrivilegeDS
                                     </label>
                                 </div>
                             </div>
@@ -108,14 +110,16 @@
         </div>
         <div class="form-group">
             <div class="row">
-                @foreach (var item in @Model.DashboardList)
+                @for (int i = 0; i < Model.DashboardList.Count; i++)
                 {
+                    var dashboardName = "DashboardList[" + i + "].PrivilegeID";
                     <div class="col-md-12">
                         <div class="checkbox">
                             <label>
-                                <input type="checkbox" value="@item.PrivilegeID" id="@item.PrivilegeID"   name="@item.PrivilegeID"  @if (item.GrantedFL == 1)
-                                                                                                                                    { <text>checked='checked'</text> }>
-                                @item.PrivilegeDS
+                                @Html.HiddenFor(m => m.DashboardList[i].PrivilegeDS)
+                                <input type="checkbox" value="@Model.DashboardList[i].PrivilegeID" id="@Model.DashboardList[i].PrivilegeID"   name="@dashboardName"  @if (@Model.DashboardList[i].GrantedFL == 1)
+                                                                                                                                                                     { <text>checked='checked'</text> }>
+                                @Model.DashboardList[i].PrivilegeDS
                             </label>
                         </div>
                     </div>
@@ -138,14 +142,16 @@
         </div>
         <div class="form-group">
             <div class="row">
-                @foreach (var item in @Model.DispatchScreen)
+                @for (int i = 0; i < Model.DispatchScreen.Count; i++)
                 {
+                    var dashboardName = "DispatchScreen[" + i + "].PrivilegeID";
                     <div class="col-md-12">
                         <div class="checkbox">
                             <label>
-                                <input type="checkbox" value="@item.PrivilegeID" id="@item.PrivilegeID"   name="@item.PrivilegeID"  @if (item.GrantedFL == 1)
-                                                                                                                                    { <text>checked='checked'</text> }>
-                                @item.PrivilegeDS
+                                @Html.HiddenFor(m => m.DispatchScreen[i].PrivilegeDS)
+                                <input type="checkbox" value="@Model.DispatchScreen[i].PrivilegeID" id="@Model.DispatchScreen[i].PrivilegeID"   name="@dashboardName"  @if (@Model.DispatchScreen[i].GrantedFL == 1)
+                                                                                                                                                                       { <text>checked='checked'</text> }>
+                                @Model.DispatchScreen[i].PrivilegeDS
                             </label>
                         </div>
                     </div>
@@ -167,14 +173,16 @@
         </div>
         <div class="form-group">
             <div class="row">
-                @foreach (var item in @Model.PrepScreen)
+                @for (int i = 0; i < Model.PrepScreen.Count; i++)
                 {
+                    var dashboardName = "PrepScreen[" + i + "].PrivilegeID";
                     <div class="col-md-12">
                         <div class="checkbox">
                             <label>
-                                <input type="checkbox" value="@item.PrivilegeID" id="@item.PrivilegeID"   name="@item.PrivilegeID"  @if (item.GrantedFL == 1)
-                                                                                                                                    { <text>checked='checked'</text> }>
-                                @item.PrivilegeDS
+                                @Html.HiddenFor(m => m.PrepScreen[i].PrivilegeDS)
+                                <input type="checkbox" value="@Model.PrepScreen[i].PrivilegeID" id="@Model.PrepScreen[i].PrivilegeID"   name="@dashboardName"  @if (@Model.PrepScreen[i].GrantedFL == 1)
+                                                                                                                                                                       { <text>checked='checked'</text> }>
+                                @Model.PrepScreen[i].PrivilegeDS
                             </label>
                         </div>
                     </div>
@@ -197,14 +205,16 @@
         </div>
         <div class="form-group">
             <div class="row">
-                @foreach (var item in @Model.RequireCleaning)
+                @for (int i = 0; i < Model.RequireCleaning.Count; i++)
                 {
+                    var dashboardName = "RequireCleaning[" + i + "].PrivilegeID";
                     <div class="col-md-12">
                         <div class="checkbox">
                             <label>
-                                <input type="checkbox" value="@item.PrivilegeID" id="@item.PrivilegeID"   name="@item.PrivilegeID"  @if (item.GrantedFL == 1)
-                                                                                                                                    { <text>checked='checked'</text> }>
-                                @item.PrivilegeDS
+                                @Html.HiddenFor(m => m.RequireCleaning[i].PrivilegeDS)
+                                <input type="checkbox" value="@Model.RequireCleaning[i].PrivilegeID" id="@Model.RequireCleaning[i].PrivilegeID"   name="@dashboardName"  @if (@Model.RequireCleaning[i].GrantedFL == 1)
+                                                                                                                                                                       { <text>checked='checked'</text> }>
+                                @Model.RequireCleaning[i].PrivilegeDS
                             </label>
                         </div>
                     </div>
@@ -227,14 +237,16 @@
         </div>
         <div class="form-group">
             <div class="row">
-                @foreach (var item in @Model.RequireCleaning)
+                @for (int i = 0; i < Model.RequireService.Count; i++)
                 {
+                    var dashboardName = "RequireService[" + i + "].PrivilegeID";
                     <div class="col-md-12">
                         <div class="checkbox">
                             <label>
-                                <input type="checkbox" value="@item.PrivilegeID" id="@item.PrivilegeID"   name="@item.PrivilegeID"  @if (item.GrantedFL == 1)
-                                                                                                                                    { <text>checked='checked'</text> }>
-                                @item.PrivilegeDS
+                                @Html.HiddenFor(m => m.RequireService[i].PrivilegeDS)
+                                <input type="checkbox" value="@Model.RequireService[i].PrivilegeID" id="@Model.RequireService[i].PrivilegeID"   name="@dashboardName"  @if (@Model.RequireService[i].GrantedFL == 1)
+                                                                                                                                                                       { <text>checked='checked'</text> }>
+                                @Model.RequireService[i].PrivilegeDS
                             </label>
                         </div>
                     </div>
@@ -256,14 +268,16 @@
         </div>
         <div class="form-group">
             <div class="row">
-                @foreach (var item in @Model.TankSearchScreen)
+                @for (int i = 0; i < Model.TankSearchScreen.Count; i++)
                 {
+                    var dashboardName = "TankSearchScreen[" + i + "].PrivilegeID";
                     <div class="col-md-12">
                         <div class="checkbox">
                             <label>
-                                <input type="checkbox" value="@item.PrivilegeID" id="@item.PrivilegeID"   name="@item.PrivilegeID"  @if (item.GrantedFL == 1)
-                                                                                                                                    { <text>checked='checked'</text> }>
-                                @item.PrivilegeDS
+                                @Html.HiddenFor(m => m.TankSearchScreen[i].PrivilegeDS)
+                                <input type="checkbox" value="@Model.TankSearchScreen[i].PrivilegeID" id="@Model.TankSearchScreen[i].PrivilegeID"   name="@dashboardName"  @if (@Model.TankSearchScreen[i].GrantedFL == 1)
+                                                                                                                                                                       { <text>checked='checked'</text> }>
+                                @Model.TankSearchScreen[i].PrivilegeDS
                             </label>
                         </div>
                     </div>
@@ -285,14 +299,16 @@
         </div>
         <div class="form-group">
             <div class="row">
-                @foreach (var item in @Model.TankHistoryScreen)
+                @for (int i = 0; i < Model.TankHistoryScreen.Count; i++)
                 {
+                    var dashboardName = "TankHistoryScreen[" + i + "].PrivilegeID";
                     <div class="col-md-12">
                         <div class="checkbox">
                             <label>
-                                <input type="checkbox" value="@item.PrivilegeID" id="@item.PrivilegeID"   name="@item.PrivilegeID"  @if (item.GrantedFL == 1)
-                                                                                                                                    { <text>checked='checked'</text> }>
-                                @item.PrivilegeDS
+                                @Html.HiddenFor(m => m.TankHistoryScreen[i].PrivilegeDS)
+                                <input type="checkbox" value="@Model.TankHistoryScreen[i].PrivilegeID" id="@Model.TankHistoryScreen[i].PrivilegeID"   name="@dashboardName"  @if (@Model.TankHistoryScreen[i].GrantedFL == 1)
+                                                                                                                                                                       { <text>checked='checked'</text> }>
+                                @Model.TankHistoryScreen[i].PrivilegeDS
                             </label>
                         </div>
                     </div>
@@ -314,21 +330,23 @@
         </div>
         <div class="form-group">
             <div class="row">
-                @foreach (var item in @Model.GroundedMatrix)
+                @for (int i = 0; i < Model.GroundedMatrix.Count; i++)
                 {
+                    var dashboardName = "GroundedMatrix[" + i + "].PrivilegeID";
                     <div class="col-md-12">
                         <div class="checkbox">
                             <label>
-                                <input type="checkbox" value="@item.PrivilegeID" id="@item.PrivilegeID"   name="@item.PrivilegeID"  @if (item.GrantedFL == 1)
-                                                                                                                                    { <text>checked='checked'</text> }>
-                                @item.PrivilegeDS
+                                @Html.HiddenFor(m => m.GroundedMatrix[i].PrivilegeDS)
+                                <input type="checkbox" value="@Model.GroundedMatrix[i].PrivilegeID" id="@Model.GroundedMatrix[i].PrivilegeID"   name="@dashboardName"  @if (@Model.GroundedMatrix[i].GrantedFL == 1)
+                                                                                                                                                                       { <text>checked='checked'</text> }>
+                                @Model.GroundedMatrix[i].PrivilegeDS
                             </label>
                         </div>
                     </div>
                 }
             </div>
         </div>        
-        //Reports Menu Options
+                //Reports Menu Options
         <div class="form-group">
             <div class="row">
                 <div class="col-md-12">
@@ -343,21 +361,23 @@
         </div>
         <div class="form-group">
             <div class="row">
-                @foreach (var item in @Model.ReportsMenuOptions)
+                @for (int i = 0; i < Model.ReportsMenuOptions.Count; i++)
                 {
+                    var dashboardName = "ReportsMenuOptions[" + i + "].PrivilegeID";
                     <div class="col-md-12">
                         <div class="checkbox">
                             <label>
-                                <input type="checkbox" value="@item.PrivilegeID" id="@item.PrivilegeID"   name="@item.PrivilegeID"  @if (item.GrantedFL == 1)
-                                                                                                                                    { <text>checked='checked'</text> }>
-                                @item.PrivilegeDS
+                                @Html.HiddenFor(m => m.ReportsMenuOptions[i].PrivilegeDS)
+                                <input type="checkbox" value="@Model.ReportsMenuOptions[i].PrivilegeID" id="@Model.ReportsMenuOptions[i].PrivilegeID"   name="@dashboardName"  @if (@Model.ReportsMenuOptions[i].GrantedFL == 1)
+                                                                                                                                                                       { <text>checked='checked'</text> }>
+                                @Model.ReportsMenuOptions[i].PrivilegeDS
                             </label>
                         </div>
                     </div>
                 }
             </div>
         </div>        
-        //Admin Menu Options
+                //Admin Menu Options
         <div class="form-group">
             <div class="row">
                 <div class="col-md-12">
@@ -372,21 +392,23 @@
         </div>
         <div class="form-group">
             <div class="row">
-                @foreach (var item in @Model.AdminMenuOptions)
+                @for (int i = 0; i < Model.AdminMenuOptions.Count; i++)
                 {
+                    var dashboardName = "AdminMenuOptions[" + i + "].PrivilegeID";
                     <div class="col-md-12">
                         <div class="checkbox">
                             <label>
-                                <input type="checkbox" value="@item.PrivilegeID" id="@item.PrivilegeID"   name="@item.PrivilegeID"  @if (item.GrantedFL == 1)
-                                                                                                                                    { <text>checked='checked'</text> }>
-                                @item.PrivilegeDS
+                                @Html.HiddenFor(m => m.AdminMenuOptions[i].PrivilegeDS)
+                                <input type="checkbox" value="@Model.AdminMenuOptions[i].PrivilegeID" id="@Model.AdminMenuOptions[i].PrivilegeID"   name="@dashboardName"  @if (@Model.AdminMenuOptions[i].GrantedFL == 1)
+                                                                                                                                                                       { <text>checked='checked'</text> }>
+                                @Model.AdminMenuOptions[i].PrivilegeDS
                             </label>
                         </div>
                     </div>
                 }
             </div>
         </div>
-        //Product Master
+                //Product Master
         <div class="form-group">
             <div class="row">
                 <div class="col-md-12">
@@ -401,14 +423,16 @@
         </div>
         <div class="form-group">
             <div class="row">
-                @foreach (var item in @Model.ProductMaster)
+                @for (int i = 0; i < Model.ProductMaster.Count; i++)
                 {
+                    var dashboardName = "ProductMaster[" + i + "].PrivilegeID";
                     <div class="col-md-12">
                         <div class="checkbox">
                             <label>
-                                <input type="checkbox" value="@item.PrivilegeID" id="@item.PrivilegeID"   name="@item.PrivilegeID"  @if (item.GrantedFL == 1)
-                                                                                                                                    { <text>checked='checked'</text> }>
-                                @item.PrivilegeDS
+                                @Html.HiddenFor(m => m.ProductMaster[i].PrivilegeDS)
+                                <input type="checkbox" value="@Model.ProductMaster[i].PrivilegeID" id="@Model.ProductMaster[i].PrivilegeID"   name="@dashboardName"  @if (@Model.ProductMaster[i].GrantedFL == 1)
+                                                                                                                                                                       { <text>checked='checked'</text> }>
+                                @Model.ProductMaster[i].PrivilegeDS
                             </label>
                         </div>
                     </div>

@@ -41,7 +41,7 @@ namespace DOWTank.Models
 
     public class UserSecurityListViewModel
     {
-        public int? PrivilegeID { get; set; }
+        public int PrivilegeID { get; set; }
         public string PrivilegeDS { get; set; }
         public int GrantedFL { get; set; }
     }

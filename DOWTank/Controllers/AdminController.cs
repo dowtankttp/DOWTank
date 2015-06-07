@@ -4,6 +4,7 @@ using System.Data;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Routing;
 using DOWTank.Common;
 using DOWTank.Core.Domain.TANK_usp_insupd;
 using DOWTank.Core.Domain.TANK_usp_sel;
@@ -141,7 +142,7 @@ namespace DOWTank.Controllers
                     foreach (var dashboardMenuItem in dashboardMenuItems.ToList())
                     {
                         var item = new UserSecurityListViewModel();
-                        item.PrivilegeID = dashboardMenuItem.PrivilegeID;
+                        item.PrivilegeID = dashboardMenuItem.PrivilegeID.Value;
                         item.PrivilegeDS = dashboardMenuItem.PrivilegeDS;
                         item.GrantedFL = dashboardMenuItem.GrantedFL;
                         dashboardMenuList.Add(item);
@@ -172,7 +173,7 @@ namespace DOWTank.Controllers
                     foreach (var dashboardMenuItem in dashboardListItems.ToList())
                     {
                         var item = new UserSecurityListViewModel();
-                        item.PrivilegeID = dashboardMenuItem.PrivilegeID;
+                        item.PrivilegeID = dashboardMenuItem.PrivilegeID.Value;
                         item.PrivilegeDS = dashboardMenuItem.PrivilegeDS;
                         item.GrantedFL = dashboardMenuItem.GrantedFL;
                         dashboardMenuList.Add(item);
@@ -203,7 +204,7 @@ namespace DOWTank.Controllers
                     foreach (var dashboardMenuItem in listItems.ToList())
                     {
                         var item = new UserSecurityListViewModel();
-                        item.PrivilegeID = dashboardMenuItem.PrivilegeID;
+                        item.PrivilegeID = dashboardMenuItem.PrivilegeID.Value;
                         item.PrivilegeDS = dashboardMenuItem.PrivilegeDS;
                         item.GrantedFL = dashboardMenuItem.GrantedFL;
                         menuList.Add(item);
@@ -234,7 +235,7 @@ namespace DOWTank.Controllers
                     foreach (var dashboardMenuItem in listItems.ToList())
                     {
                         var item = new UserSecurityListViewModel();
-                        item.PrivilegeID = dashboardMenuItem.PrivilegeID;
+                        item.PrivilegeID = dashboardMenuItem.PrivilegeID.Value;
                         item.PrivilegeDS = dashboardMenuItem.PrivilegeDS;
                         item.GrantedFL = dashboardMenuItem.GrantedFL;
                         menuList.Add(item);
@@ -265,7 +266,7 @@ namespace DOWTank.Controllers
                     foreach (var dashboardMenuItem in listItems.ToList())
                     {
                         var item = new UserSecurityListViewModel();
-                        item.PrivilegeID = dashboardMenuItem.PrivilegeID;
+                        item.PrivilegeID = dashboardMenuItem.PrivilegeID.Value;
                         item.PrivilegeDS = dashboardMenuItem.PrivilegeDS;
                         item.GrantedFL = dashboardMenuItem.GrantedFL;
                         menuList.Add(item);
@@ -296,7 +297,7 @@ namespace DOWTank.Controllers
                     foreach (var dashboardMenuItem in listItems.ToList())
                     {
                         var item = new UserSecurityListViewModel();
-                        item.PrivilegeID = dashboardMenuItem.PrivilegeID;
+                        item.PrivilegeID = dashboardMenuItem.PrivilegeID.Value;
                         item.PrivilegeDS = dashboardMenuItem.PrivilegeDS;
                         item.GrantedFL = dashboardMenuItem.GrantedFL;
                         menuList.Add(item);
@@ -327,7 +328,7 @@ namespace DOWTank.Controllers
                     foreach (var dashboardMenuItem in listItems.ToList())
                     {
                         var item = new UserSecurityListViewModel();
-                        item.PrivilegeID = dashboardMenuItem.PrivilegeID;
+                        item.PrivilegeID = dashboardMenuItem.PrivilegeID.Value;
                         item.PrivilegeDS = dashboardMenuItem.PrivilegeDS;
                         item.GrantedFL = dashboardMenuItem.GrantedFL;
                         menuList.Add(item);
@@ -358,7 +359,7 @@ namespace DOWTank.Controllers
                     foreach (var dashboardMenuItem in listItems.ToList())
                     {
                         var item = new UserSecurityListViewModel();
-                        item.PrivilegeID = dashboardMenuItem.PrivilegeID;
+                        item.PrivilegeID = dashboardMenuItem.PrivilegeID.Value;
                         item.PrivilegeDS = dashboardMenuItem.PrivilegeDS;
                         item.GrantedFL = dashboardMenuItem.GrantedFL;
                         menuList.Add(item);
@@ -389,7 +390,7 @@ namespace DOWTank.Controllers
                     foreach (var dashboardMenuItem in listItems.ToList())
                     {
                         var item = new UserSecurityListViewModel();
-                        item.PrivilegeID = dashboardMenuItem.PrivilegeID;
+                        item.PrivilegeID = dashboardMenuItem.PrivilegeID.Value;
                         item.PrivilegeDS = dashboardMenuItem.PrivilegeDS;
                         item.GrantedFL = dashboardMenuItem.GrantedFL;
                         menuList.Add(item);
@@ -420,7 +421,7 @@ namespace DOWTank.Controllers
                     foreach (var dashboardMenuItem in listItems.ToList())
                     {
                         var item = new UserSecurityListViewModel();
-                        item.PrivilegeID = dashboardMenuItem.PrivilegeID;
+                        item.PrivilegeID = dashboardMenuItem.PrivilegeID.Value;
                         item.PrivilegeDS = dashboardMenuItem.PrivilegeDS;
                         item.GrantedFL = dashboardMenuItem.GrantedFL;
                         menuList.Add(item);
@@ -451,7 +452,7 @@ namespace DOWTank.Controllers
                     foreach (var dashboardMenuItem in listItems.ToList())
                     {
                         var item = new UserSecurityListViewModel();
-                        item.PrivilegeID = dashboardMenuItem.PrivilegeID;
+                        item.PrivilegeID = dashboardMenuItem.PrivilegeID.Value;
                         item.PrivilegeDS = dashboardMenuItem.PrivilegeDS;
                         item.GrantedFL = dashboardMenuItem.GrantedFL;
                         menuList.Add(item);
@@ -482,7 +483,7 @@ namespace DOWTank.Controllers
                     foreach (var dashboardMenuItem in listItems.ToList())
                     {
                         var item = new UserSecurityListViewModel();
-                        item.PrivilegeID = dashboardMenuItem.PrivilegeID;
+                        item.PrivilegeID = dashboardMenuItem.PrivilegeID.Value;
                         item.PrivilegeDS = dashboardMenuItem.PrivilegeDS;
                         item.GrantedFL = dashboardMenuItem.GrantedFL;
                         menuList.Add(item);
@@ -497,10 +498,9 @@ namespace DOWTank.Controllers
         }
 
         [HttpPost]
-        public ActionResult SecurityProfile()
+        public ActionResult SecurityProfile(UserSecurityProfileViewModel postModel)
         {
-
-            return View();
+            return RedirectToAction("SecurityProfile", "Admin", new { @id = postModel.Id });
         }
 
         #endregion User Profile
