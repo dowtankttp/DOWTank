@@ -23,6 +23,77 @@ namespace DOWTank.Controllers
             _sharedFunctions = sharedFunctions;
         }
 
+        #region User Profile
+
+        public ActionResult UserProfile()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public JsonResult GetUserProfileData(int page, int rows, string search, string sidx, string sord)
+        {
+            // database call
+
+            var TANK_usp_sel_SecurityProfile_spParams = new TANK_usp_sel_SecurityProfile_spParams()
+            {
+                //TODO: re-factor it later from hard coded
+                LocationID = 1
+            };
+            DataTable dataTable = _utilityService.ExecStoredProcedureForDataTable("TANK_usp_sel_SecurityProfile", TANK_usp_sel_SecurityProfile_spParams);
+
+            var data = (from p in dataTable.AsEnumerable()
+                        select new
+                        {
+                            Id = p.Field<int>("SecurityProfileID"),
+                            SecurityProfileDS = p.Field<string>("SecurityProfileDS"),
+                            ActiveDS = p.Field<string>("ActiveDS"),
+                            CreateUserNM = p.Field<string>("CreateUserNM"),
+                            CreateDT = p.Field<DateTime>("CreateDT").ToShortDateString(),
+                            UpdateUserNM = p.Field<string>("UpdateUserNM"),
+                            UpdateDT = p.Field<DateTime>("UpdateDT").ToShortDateString(),
+                        }).ToList();
+
+            //# database call
+
+            #region sort
+
+            data = data.OrderBy(s => s.SecurityProfileDS).ToList();
+            if (sidx == "SecurityProfileDS" && sord == "desc")
+            {
+                data = data.OrderByDescending(s => s.SecurityProfileDS).ToList();
+            }
+
+            #endregion sort
+
+            
+
+            int totalRecords = data.Count();
+            var totalPages = (int)Math.Ceiling(totalRecords / (float)rows);
+            int pageNumber = page - 1;
+            data = data.Skip(pageNumber * rows).Take(rows).ToList();
+
+            var jsonData = new
+            {
+
+                total = totalPages,
+                page,
+                records = totalRecords,
+                rows = data
+
+            };
+
+            return Json(jsonData, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public ActionResult SecurityProfile(int? id)
+        {
+            return View();
+        }
+
+        #endregion User Profile
+
         #region product master
 
         [HttpGet]
