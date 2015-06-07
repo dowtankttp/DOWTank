@@ -1,7 +1,893 @@
-﻿
-@{
-    ViewBag.Title = "SecurityProfile";
+﻿@{
+    ViewBag.Title = "Edit User Profile";
 }
 
-<h2>SecurityProfile</h2>
+<div class="well well-lg">
+    <!--title-->
+    <div class="row">
+        <div class="col-md-12 nopadding">
+            <h4 class="dow-color col-md-6">Edit User Profile</h4>
+        </div>
+    </div>
+    @using (Html.BeginForm("SecurityProfile", "Admin", FormMethod.Post))
+    {
+        if (ViewData.ModelState.Keys.Any(k => ViewData.ModelState[k].Errors.Count() > 0))
+        {
+        <div class="alert alert-danger">
+            <button class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            @Html.ValidationSummary(false, "Please correct the following items: ")
+        </div>
+        }
+        <div class="form-group text-right">
+            <input type="submit" value="Save Profile" class="btn btn-default btn-primary" />
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-6">
+                    <label>Profile Name #:*</label>
+                    <input type="text" class="form-control" />
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-12 nopadding">
+                <label>Active:</label>
+            </div>
+            <div class="row no-row-margin">
+                <div class="col-md-1 nopadding">
+                    <div class="radio">
+                        <label>
+                            <input type="radio" name="ReloadFL" value="true" checked>
+                            Yes
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-1 nopadding">
+                    <div class="radio">
+                        <label>
+                            <input type="radio" name="ReloadFL" value="false">
+                            No
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="row no-row-margin">
+                    <div class="col-md-12">
+                        <div class="checkbox">
+                            <label class="control-label">
+                                <input type="checkbox" name="ReloadFL" value="true" checked>
+                                <b>Admin</b>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-12">
+                    <span>Note: Options in this category are used to govern page level security as well as dashboard menu options. IE: In order to DISPATCH or PREP from anywhere in the system, the appropriate privilege must also be checked here.
+                    </span>
+                    <div class="row no-row-margin">
+                        <div class="col-md-12 no-padding">
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" name="ReloadFL" value="true" checked>
+                                    Admin
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-12 no-padding">
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" name="ReloadFL" value="false">
+                                    Arrive Tank
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-12 no-padding">
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" name="ReloadFL" value="false">
+                                    Dispatch
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-12 no-padding">
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" name="ReloadFL" value="false">
+                                    Invoices
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-12 no-padding">
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" name="ReloadFL" value="false">
+                                    Prep
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-12 no-padding">
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" name="ReloadFL" value="false">
+                                    Require Cleaning
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-12 no-padding">
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" name="ReloadFL" value="false">
+                                    Require Service
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-12 no-padding">
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" name="ReloadFL" value="false">
+                                    Tank History
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-12 no-padding">
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" name="ReloadFL" value="false">
+                                    Yard
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="checkbox">
+                        <label class="control-label">
+                            <input type="checkbox" name="ReloadFL" value="true" checked>
+                            <b>Dashboard List</b>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="ReloadFL" value="true" checked>
+                            Close Open Dispatch
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="ReloadFL" value="false">
+                            Dispatch Planned Moves
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="ReloadFL" value="false">
+                            Dispatch Tank Prep
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="ReloadFL" value="false">
+                            Edit Dispatch
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="ReloadFL" value="false">
+                            Edit Tank Prep
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="ReloadFL" value="false">
+                            View Open Moves
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="ReloadFL" value="false">
+                            View Planned Moves
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="ReloadFL" value="false">
+                            View Tank Prep List
+                        </label>
+                    </div>
+                </div>
 
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="checkbox">
+                        <label class="control-label">
+                            <input type="checkbox" name="ReloadFL" value="true" checked>
+                            <b>Dispatch Screen</b>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="ReloadFL" value="true" checked>
+                            Add Invoice
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="ReloadFL" value="false">
+                            Add Product
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="ReloadFL" value="false">
+                            Delete Dispatch
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="checkbox">
+                        <label class="control-label">
+                            <input type="checkbox" name="ReloadFL" value="true" checked>
+                            <b>Prep Screen</b>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="ReloadFL" value="true" checked>
+                            Delete Dispatch
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="checkbox">
+                        <label class="control-label">
+                            <input type="checkbox" name="ReloadFL" value="true" checked>
+                            <b>Require Cleaning</b>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="ReloadFL" value="true" checked>
+                            Dispatch
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="checkbox">
+                        <label class="control-label">
+                            <input type="checkbox" name="ReloadFL" value="true" checked>
+                            <b>Require Service</b>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="ReloadFL" value="true" checked>
+                            Dispatch
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="ReloadFL" value="true" checked>
+                            Edit Test Dates
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="checkbox">
+                        <label class="control-label">
+                            <input type="checkbox" name="ReloadFL" value="true" checked>
+                            <b>Tank Search Screen</b>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="ReloadFL" value="true" checked>
+                            Dispatch
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="ReloadFL" value="true" checked>
+                            Prep
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="checkbox">
+                        <label class="control-label">
+                            <input type="checkbox" name="ReloadFL" value="true" checked>
+                            <b>Tank History Screen</b>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="ReloadFL" value="true" checked>
+                            Dispatch
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="ReloadFL" value="true" checked>
+                            Edit Dispatch
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="ReloadFL" value="true" checked>
+                            Edit On Hire History
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="ReloadFL" value="true" checked>
+                            Edit Tank Info
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="ReloadFL" value="true" checked>
+                            Prep
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="ReloadFL" value="true" checked>
+                            View On Hire History
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="checkbox">
+                        <label class="control-label">
+                            <input type="checkbox" name="ReloadFL" value="true" checked>
+                            <b>Grounded Matrix</b>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="ReloadFL" value="true" checked>
+                            Edit Location
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>        
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="checkbox">
+                        <label class="control-label">
+                            <input type="checkbox" name="ReloadFL" value="true" checked>
+                            <b>Reports Menu Options</b>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="ReloadFL" value="true" checked>
+                            Audit Driver List
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="ReloadFL" value="true" checked>
+                            Audit Missing Moves
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="ReloadFL" value="true" checked>
+                            Audit Moves By User
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="ReloadFL" value="true" checked>
+                            Audit Warning Messages
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="ReloadFL" value="true" checked>
+                            Billing
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="ReloadFL" value="true" checked>
+                            Chassis Activity
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="ReloadFL" value="true" checked>
+                            Daily Dispatch
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="ReloadFL" value="true" checked>
+                            Dedicated Tanks
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="ReloadFL" value="true" checked>
+                            Driver Activity
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="ReloadFL" value="true" checked>
+                            Exif Tank Positions
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="ReloadFL" value="true" checked>
+                            Facility Equipment
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="ReloadFL" value="true" checked>
+                            HS&E Report
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="ReloadFL" value="true" checked>
+                            Idle Equipment
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="ReloadFL" value="true" checked>
+                            Invoice Summary
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="ReloadFL" value="true" checked>
+                            Last Chassis Location
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="ReloadFL" value="true" checked>
+                            Last Tank Move
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="ReloadFL" value="true" checked>
+                            Tank Activity
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="ReloadFL" value="true" checked>
+                            Tank Cost To Date
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="ReloadFL" value="true" checked>
+                            Tank Prep / Shipment Schedule
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="ReloadFL" value="true" checked>
+                            Yard Check
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>        
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="checkbox">
+                        <label class="control-label">
+                            <input type="checkbox" name="ReloadFL" value="true" checked>
+                            <b>Admin Menu Options</b>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="ReloadFL" value="true" checked>
+                            Admin Charge Codes
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="ReloadFL" value="true" checked>
+                            Admin Contacts
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="ReloadFL" value="true" checked>
+                            Admin Dispatch Reason
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="ReloadFL" value="true" checked>
+                            Admin Drivers
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="ReloadFL" value="true" checked>
+                            Admin Equipment
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="ReloadFL" value="true" checked>
+                            Admin Equipment Types
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="ReloadFL" value="true" checked>
+                            Admin Facility Parameters
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="ReloadFL" value="true" checked>
+                            Admin Fittings
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="ReloadFL" value="true" checked>
+                            Admin Invoice Items
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="ReloadFL" value="true" checked>
+                            Admin Locations
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="ReloadFL" value="true" checked>
+                            Admin Maintenance Condition
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="ReloadFL" value="true" checked>
+                            Admin Movement Type
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="ReloadFL" value="true" checked>
+                            Admin On/Off Hire Reason
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="ReloadFL" value="true" checked>
+                            Admin Operator
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="ReloadFL" value="true" checked>
+                            Admin Owners
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="ReloadFL" value="true" checked>
+                            Admin Product Master
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="ReloadFL" value="true" checked>
+                            Admin Products
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="ReloadFL" value="true" checked>
+                            Admin Tank Construction
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="ReloadFL" value="true" checked>
+                            Admin User Profile
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="ReloadFL" value="true" checked>
+                            Admin Users
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="ReloadFL" value="true" checked>
+                            Admin Vendors
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="ReloadFL" value="true" checked>
+                            Admin Waste Classification
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="ReloadFL" value="true" checked>
+                            Recover Deleted Moves
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="checkbox">
+                        <label class="control-label">
+                            <input type="checkbox" name="ReloadFL" value="true" checked>
+                            <b>Product Master</b>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="ReloadFL" value="true" checked>
+                            Add Product To Facility
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="ReloadFL" value="true" checked>
+                            Edit Product
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="ReloadFL" value="true" checked>
+                            Replace Product
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>        
+        <div class="form-group text-right mt10">
+            <input type="submit" value="Save Product" class="btn btn-default btn-primary" />
+        </div>
+    }
+
+</div>
