@@ -170,6 +170,7 @@
     <Compile Include="Models\SelectServiceTypeModel.cs" />
     <Compile Include="Models\TankArrivalUpdatePostModel.cs" />
     <Compile Include="Models\TankPrepPostModel.cs" />
+    <Compile Include="Models\UserSecurityProfileViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Reports\crDailyDispatch.cs">
       <AutoGen>True</AutoGen>

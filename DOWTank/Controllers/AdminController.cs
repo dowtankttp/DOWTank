@@ -8,6 +8,7 @@ using DOWTank.Common;
 using DOWTank.Core.Domain.TANK_usp_insupd;
 using DOWTank.Core.Domain.TANK_usp_sel;
 using DOWTank.Core.Service;
+using DOWTank.Models;
 
 namespace DOWTank.Controllers
 {
@@ -89,7 +90,410 @@ namespace DOWTank.Controllers
         [HttpGet]
         public ActionResult SecurityProfile(int? id)
         {
-            return View();
+            var viewModel = new UserSecurityProfileViewModel();
+
+            #region TANK_usp_sel_SecurityProfile
+
+            var TANK_usp_sel_SecurityProfile_spParams = new TANK_usp_sel_SecurityProfile_spParams()
+            {
+                //TODO: re-factor it later from hard coded
+                LocationID = 1,
+                SecurityProfileID = id
+            };
+            DataTable dataTable = _utilityService.ExecStoredProcedureForDataTable("TANK_usp_sel_SecurityProfile", TANK_usp_sel_SecurityProfile_spParams);
+
+            var userProfile = (from p in dataTable.AsEnumerable()
+                               select new
+                               {
+                                   Id = p.Field<int>("SecurityProfileID"),
+                                   SecurityProfileDS = p.Field<string>("SecurityProfileDS"),
+                                   ActiveDS = p.Field<string>("ActiveDS"),
+                                   CreateUserNM = p.Field<string>("CreateUserNM"),
+                                   CreateDT = p.Field<DateTime>("CreateDT").ToShortDateString(),
+                                   UpdateUserNM = p.Field<string>("UpdateUserNM"),
+                                   UpdateDT = p.Field<DateTime>("UpdateDT").ToShortDateString(),
+                                   ActiveFL = p.Field<bool>("ActiveFL")
+                               }).FirstOrDefault();
+
+            viewModel.Id = userProfile.Id;
+            viewModel.ProfileName = userProfile.SecurityProfileDS;
+            viewModel.IsActive = userProfile.ActiveFL;
+
+            #endregion TANK_usp_sel_SecurityProfile
+
+            #region Dashboard menu
+
+            {
+                TANK_usp_sel_SecurityProfilePrivileges_spParams TANK_usp_sel_SecurityProfilePrivileges_spParams = new TANK_usp_sel_SecurityProfilePrivileges_spParams
+                    ()
+                    {
+                        //todo: refactor it later
+                        CurrentUserProfileID = 1,
+                        PrivilegeCategoryID = 2,
+                        SecurityProfileID = id
+                    };
+                var dashboardMenuItems =
+                    _utilityService.ExecStoredProcedureWithResults<TANK_usp_sel_SecurityProfilePrivileges_spResults>(
+                        "TANK_usp_sel_SecurityProfilePrivileges", TANK_usp_sel_SecurityProfilePrivileges_spParams);
+                if (dashboardMenuItems != null && dashboardMenuItems.Any())
+                {
+                    var dashboardMenuList = new List<UserSecurityListViewModel>();
+                    foreach (var dashboardMenuItem in dashboardMenuItems.ToList())
+                    {
+                        var item = new UserSecurityListViewModel();
+                        item.PrivilegeID = dashboardMenuItem.PrivilegeID;
+                        item.PrivilegeDS = dashboardMenuItem.PrivilegeDS;
+                        item.GrantedFL = dashboardMenuItem.GrantedFL;
+                        dashboardMenuList.Add(item);
+                    }
+                    viewModel.DashboardMenu = dashboardMenuList;
+                }
+            }
+
+            #endregion Dashboard menu
+
+            #region Dashboard List
+
+            {
+                var TANK_usp_sel_SecurityProfilePrivileges_spParams = new TANK_usp_sel_SecurityProfilePrivileges_spParams
+                    ()
+                    {
+                        //todo: refactor it later
+                        CurrentUserProfileID = 1,
+                        PrivilegeCategoryID = 1,
+                        SecurityProfileID = id
+                    };
+                var dashboardListItems =
+                    _utilityService.ExecStoredProcedureWithResults<TANK_usp_sel_SecurityProfilePrivileges_spResults>(
+                        "TANK_usp_sel_SecurityProfilePrivileges", TANK_usp_sel_SecurityProfilePrivileges_spParams);
+                if (dashboardListItems != null && dashboardListItems.Any())
+                {
+                    var dashboardMenuList = new List<UserSecurityListViewModel>();
+                    foreach (var dashboardMenuItem in dashboardListItems.ToList())
+                    {
+                        var item = new UserSecurityListViewModel();
+                        item.PrivilegeID = dashboardMenuItem.PrivilegeID;
+                        item.PrivilegeDS = dashboardMenuItem.PrivilegeDS;
+                        item.GrantedFL = dashboardMenuItem.GrantedFL;
+                        dashboardMenuList.Add(item);
+                    }
+                    viewModel.DashboardList = dashboardMenuList;
+                }
+            }
+
+            #endregion Dashboard List
+
+            #region Dispatch Screen
+
+            {
+                var TANK_usp_sel_SecurityProfilePrivileges_spParams = new TANK_usp_sel_SecurityProfilePrivileges_spParams
+                    ()
+                {
+                    //todo: refactor it later
+                    CurrentUserProfileID = 1,
+                    PrivilegeCategoryID = 3,
+                    SecurityProfileID = id
+                };
+                var listItems =
+                    _utilityService.ExecStoredProcedureWithResults<TANK_usp_sel_SecurityProfilePrivileges_spResults>(
+                        "TANK_usp_sel_SecurityProfilePrivileges", TANK_usp_sel_SecurityProfilePrivileges_spParams);
+                if (listItems != null && listItems.Any())
+                {
+                    var menuList = new List<UserSecurityListViewModel>();
+                    foreach (var dashboardMenuItem in listItems.ToList())
+                    {
+                        var item = new UserSecurityListViewModel();
+                        item.PrivilegeID = dashboardMenuItem.PrivilegeID;
+                        item.PrivilegeDS = dashboardMenuItem.PrivilegeDS;
+                        item.GrantedFL = dashboardMenuItem.GrantedFL;
+                        menuList.Add(item);
+                    }
+                    viewModel.DispatchScreen = menuList;
+                }
+            }
+
+            #endregion DispatchScreen
+
+            #region prep Screen
+
+            {
+                var TANK_usp_sel_SecurityProfilePrivileges_spParams = new TANK_usp_sel_SecurityProfilePrivileges_spParams
+                    ()
+                {
+                    //todo: refactor it later
+                    CurrentUserProfileID = 1,
+                    PrivilegeCategoryID = 4,
+                    SecurityProfileID = id
+                };
+                var listItems =
+                    _utilityService.ExecStoredProcedureWithResults<TANK_usp_sel_SecurityProfilePrivileges_spResults>(
+                        "TANK_usp_sel_SecurityProfilePrivileges", TANK_usp_sel_SecurityProfilePrivileges_spParams);
+                if (listItems != null && listItems.Any())
+                {
+                    var menuList = new List<UserSecurityListViewModel>();
+                    foreach (var dashboardMenuItem in listItems.ToList())
+                    {
+                        var item = new UserSecurityListViewModel();
+                        item.PrivilegeID = dashboardMenuItem.PrivilegeID;
+                        item.PrivilegeDS = dashboardMenuItem.PrivilegeDS;
+                        item.GrantedFL = dashboardMenuItem.GrantedFL;
+                        menuList.Add(item);
+                    }
+                    viewModel.PrepScreen = menuList;
+                }
+            }
+
+            #endregion prep screen
+
+            #region Require Cleaning
+
+            {
+                var TANK_usp_sel_SecurityProfilePrivileges_spParams = new TANK_usp_sel_SecurityProfilePrivileges_spParams
+                    ()
+                {
+                    //todo: refactor it later
+                    CurrentUserProfileID = 1,
+                    PrivilegeCategoryID = 5,
+                    SecurityProfileID = id
+                };
+                var listItems =
+                    _utilityService.ExecStoredProcedureWithResults<TANK_usp_sel_SecurityProfilePrivileges_spResults>(
+                        "TANK_usp_sel_SecurityProfilePrivileges", TANK_usp_sel_SecurityProfilePrivileges_spParams);
+                if (listItems != null && listItems.Any())
+                {
+                    var menuList = new List<UserSecurityListViewModel>();
+                    foreach (var dashboardMenuItem in listItems.ToList())
+                    {
+                        var item = new UserSecurityListViewModel();
+                        item.PrivilegeID = dashboardMenuItem.PrivilegeID;
+                        item.PrivilegeDS = dashboardMenuItem.PrivilegeDS;
+                        item.GrantedFL = dashboardMenuItem.GrantedFL;
+                        menuList.Add(item);
+                    }
+                    viewModel.RequireCleaning = menuList;
+                }
+            }
+
+            #endregion Require Cleaning
+
+            #region Require Serivce
+
+            {
+                var TANK_usp_sel_SecurityProfilePrivileges_spParams = new TANK_usp_sel_SecurityProfilePrivileges_spParams
+                    ()
+                {
+                    //todo: refactor it later
+                    CurrentUserProfileID = 1,
+                    PrivilegeCategoryID = 6,
+                    SecurityProfileID = id
+                };
+                var listItems =
+                    _utilityService.ExecStoredProcedureWithResults<TANK_usp_sel_SecurityProfilePrivileges_spResults>(
+                        "TANK_usp_sel_SecurityProfilePrivileges", TANK_usp_sel_SecurityProfilePrivileges_spParams);
+                if (listItems != null && listItems.Any())
+                {
+                    var menuList = new List<UserSecurityListViewModel>();
+                    foreach (var dashboardMenuItem in listItems.ToList())
+                    {
+                        var item = new UserSecurityListViewModel();
+                        item.PrivilegeID = dashboardMenuItem.PrivilegeID;
+                        item.PrivilegeDS = dashboardMenuItem.PrivilegeDS;
+                        item.GrantedFL = dashboardMenuItem.GrantedFL;
+                        menuList.Add(item);
+                    }
+                    viewModel.RequireService = menuList;
+                }
+            }
+
+            #endregion Require Service
+
+            #region Tank Search Screen
+
+            {
+                var TANK_usp_sel_SecurityProfilePrivileges_spParams = new TANK_usp_sel_SecurityProfilePrivileges_spParams
+                    ()
+                {
+                    //todo: refactor it later
+                    CurrentUserProfileID = 1,
+                    PrivilegeCategoryID = 7,
+                    SecurityProfileID = id
+                };
+                var listItems =
+                    _utilityService.ExecStoredProcedureWithResults<TANK_usp_sel_SecurityProfilePrivileges_spResults>(
+                        "TANK_usp_sel_SecurityProfilePrivileges", TANK_usp_sel_SecurityProfilePrivileges_spParams);
+                if (listItems != null && listItems.Any())
+                {
+                    var menuList = new List<UserSecurityListViewModel>();
+                    foreach (var dashboardMenuItem in listItems.ToList())
+                    {
+                        var item = new UserSecurityListViewModel();
+                        item.PrivilegeID = dashboardMenuItem.PrivilegeID;
+                        item.PrivilegeDS = dashboardMenuItem.PrivilegeDS;
+                        item.GrantedFL = dashboardMenuItem.GrantedFL;
+                        menuList.Add(item);
+                    }
+                    viewModel.TankSearchScreen = menuList;
+                }
+            }
+
+            #endregion Tank Search Screen
+
+            #region Tank History Screen
+
+            {
+                var TANK_usp_sel_SecurityProfilePrivileges_spParams = new TANK_usp_sel_SecurityProfilePrivileges_spParams
+                    ()
+                {
+                    //todo: refactor it later
+                    CurrentUserProfileID = 1,
+                    PrivilegeCategoryID = 8,
+                    SecurityProfileID = id
+                };
+                var listItems =
+                    _utilityService.ExecStoredProcedureWithResults<TANK_usp_sel_SecurityProfilePrivileges_spResults>(
+                        "TANK_usp_sel_SecurityProfilePrivileges", TANK_usp_sel_SecurityProfilePrivileges_spParams);
+                if (listItems != null && listItems.Any())
+                {
+                    var menuList = new List<UserSecurityListViewModel>();
+                    foreach (var dashboardMenuItem in listItems.ToList())
+                    {
+                        var item = new UserSecurityListViewModel();
+                        item.PrivilegeID = dashboardMenuItem.PrivilegeID;
+                        item.PrivilegeDS = dashboardMenuItem.PrivilegeDS;
+                        item.GrantedFL = dashboardMenuItem.GrantedFL;
+                        menuList.Add(item);
+                    }
+                    viewModel.TankHistoryScreen = menuList;
+                }
+            }
+
+            #endregion Tank History Screen
+
+            #region Grounded Matrix
+
+            {
+                var TANK_usp_sel_SecurityProfilePrivileges_spParams = new TANK_usp_sel_SecurityProfilePrivileges_spParams
+                    ()
+                {
+                    //todo: refactor it later
+                    CurrentUserProfileID = 1,
+                    PrivilegeCategoryID = 9,
+                    SecurityProfileID = id
+                };
+                var listItems =
+                    _utilityService.ExecStoredProcedureWithResults<TANK_usp_sel_SecurityProfilePrivileges_spResults>(
+                        "TANK_usp_sel_SecurityProfilePrivileges", TANK_usp_sel_SecurityProfilePrivileges_spParams);
+                if (listItems != null && listItems.Any())
+                {
+                    var menuList = new List<UserSecurityListViewModel>();
+                    foreach (var dashboardMenuItem in listItems.ToList())
+                    {
+                        var item = new UserSecurityListViewModel();
+                        item.PrivilegeID = dashboardMenuItem.PrivilegeID;
+                        item.PrivilegeDS = dashboardMenuItem.PrivilegeDS;
+                        item.GrantedFL = dashboardMenuItem.GrantedFL;
+                        menuList.Add(item);
+                    }
+                    viewModel.GroundedMatrix = menuList;
+                }
+            }
+
+            #endregion Grounded Matrix
+
+            #region ReportsMenuOptions
+
+            {
+                var TANK_usp_sel_SecurityProfilePrivileges_spParams = new TANK_usp_sel_SecurityProfilePrivileges_spParams
+                    ()
+                {
+                    //todo: refactor it later
+                    CurrentUserProfileID = 1,
+                    PrivilegeCategoryID = 10,
+                    SecurityProfileID = id
+                };
+                var listItems =
+                    _utilityService.ExecStoredProcedureWithResults<TANK_usp_sel_SecurityProfilePrivileges_spResults>(
+                        "TANK_usp_sel_SecurityProfilePrivileges", TANK_usp_sel_SecurityProfilePrivileges_spParams);
+                if (listItems != null && listItems.Any())
+                {
+                    var menuList = new List<UserSecurityListViewModel>();
+                    foreach (var dashboardMenuItem in listItems.ToList())
+                    {
+                        var item = new UserSecurityListViewModel();
+                        item.PrivilegeID = dashboardMenuItem.PrivilegeID;
+                        item.PrivilegeDS = dashboardMenuItem.PrivilegeDS;
+                        item.GrantedFL = dashboardMenuItem.GrantedFL;
+                        menuList.Add(item);
+                    }
+                    viewModel.ReportsMenuOptions = menuList;
+                }
+            }
+
+            #endregion ReportsMenuOptions
+
+            #region AdminMenuOptions
+
+            {
+                var TANK_usp_sel_SecurityProfilePrivileges_spParams = new TANK_usp_sel_SecurityProfilePrivileges_spParams
+                    ()
+                {
+                    //todo: refactor it later
+                    CurrentUserProfileID = 1,
+                    PrivilegeCategoryID = 11,
+                    SecurityProfileID = id
+                };
+                var listItems =
+                    _utilityService.ExecStoredProcedureWithResults<TANK_usp_sel_SecurityProfilePrivileges_spResults>(
+                        "TANK_usp_sel_SecurityProfilePrivileges", TANK_usp_sel_SecurityProfilePrivileges_spParams);
+                if (listItems != null && listItems.Any())
+                {
+                    var menuList = new List<UserSecurityListViewModel>();
+                    foreach (var dashboardMenuItem in listItems.ToList())
+                    {
+                        var item = new UserSecurityListViewModel();
+                        item.PrivilegeID = dashboardMenuItem.PrivilegeID;
+                        item.PrivilegeDS = dashboardMenuItem.PrivilegeDS;
+                        item.GrantedFL = dashboardMenuItem.GrantedFL;
+                        menuList.Add(item);
+                    }
+                    viewModel.AdminMenuOptions = menuList;
+                }
+            }
+
+            #endregion AdminMenuOptions
+
+            #region ProductMaster
+
+            {
+                var TANK_usp_sel_SecurityProfilePrivileges_spParams = new TANK_usp_sel_SecurityProfilePrivileges_spParams
+                    ()
+                {
+                    //todo: refactor it later
+                    CurrentUserProfileID = 1,
+                    PrivilegeCategoryID = 12,
+                    SecurityProfileID = id
+                };
+                var listItems =
+                    _utilityService.ExecStoredProcedureWithResults<TANK_usp_sel_SecurityProfilePrivileges_spResults>(
+                        "TANK_usp_sel_SecurityProfilePrivileges", TANK_usp_sel_SecurityProfilePrivileges_spParams);
+                if (listItems != null && listItems.Any())
+                {
+                    var menuList = new List<UserSecurityListViewModel>();
+                    foreach (var dashboardMenuItem in listItems.ToList())
+                    {
+                        var item = new UserSecurityListViewModel();
+                        item.PrivilegeID = dashboardMenuItem.PrivilegeID;
+                        item.PrivilegeDS = dashboardMenuItem.PrivilegeDS;
+                        item.GrantedFL = dashboardMenuItem.GrantedFL;
+                        menuList.Add(item);
+                    }
+                    viewModel.ProductMaster = menuList;
+                }
+            }
+
+            #endregion ProductMaster
+
+            return View(viewModel);
         }
 
         [HttpPost]
@@ -2194,6 +2598,7 @@ namespace DOWTank.Controllers
 
     }
 
+
     #region product master
 
     public class ProductMasterPostModel
@@ -2208,7 +2613,6 @@ namespace DOWTank.Controllers
     }
 
     #endregion product master
-
 
     #region Contacts Model
 
