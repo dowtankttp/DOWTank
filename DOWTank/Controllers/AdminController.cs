@@ -13,7 +13,7 @@ using DOWTank.Models;
 
 namespace DOWTank.Controllers
 {
-    public class AdminController : Controller
+    public class AdminController : BaseController
     {
 
         private readonly IUtilityService _utilityService;
@@ -92,33 +92,37 @@ namespace DOWTank.Controllers
         public ActionResult SecurityProfile(int? id)
         {
             var viewModel = new UserSecurityProfileViewModel();
-
+            viewModel.Id = id ?? 0;
             #region TANK_usp_sel_SecurityProfile
 
-            var TANK_usp_sel_SecurityProfile_spParams = new TANK_usp_sel_SecurityProfile_spParams()
+            if (id.HasValue)
             {
-                //TODO: re-factor it later from hard coded
-                LocationID = 1,
-                SecurityProfileID = id
-            };
-            DataTable dataTable = _utilityService.ExecStoredProcedureForDataTable("TANK_usp_sel_SecurityProfile", TANK_usp_sel_SecurityProfile_spParams);
+                var TANK_usp_sel_SecurityProfile_spParams = new TANK_usp_sel_SecurityProfile_spParams()
+                    {
+                        //TODO: re-factor it later from hard coded
+                        LocationID = 1,
+                        SecurityProfileID = id
+                    };
+                DataTable dataTable = _utilityService.ExecStoredProcedureForDataTable("TANK_usp_sel_SecurityProfile",
+                                                                                      TANK_usp_sel_SecurityProfile_spParams);
 
-            var userProfile = (from p in dataTable.AsEnumerable()
-                               select new
-                               {
-                                   Id = p.Field<int>("SecurityProfileID"),
-                                   SecurityProfileDS = p.Field<string>("SecurityProfileDS"),
-                                   ActiveDS = p.Field<string>("ActiveDS"),
-                                   CreateUserNM = p.Field<string>("CreateUserNM"),
-                                   CreateDT = p.Field<DateTime>("CreateDT").ToShortDateString(),
-                                   UpdateUserNM = p.Field<string>("UpdateUserNM"),
-                                   UpdateDT = p.Field<DateTime>("UpdateDT").ToShortDateString(),
-                                   ActiveFL = p.Field<bool>("ActiveFL")
-                               }).FirstOrDefault();
+                var userProfile = (from p in dataTable.AsEnumerable()
+                                   select new
+                                       {
+                                           Id = p.Field<int>("SecurityProfileID"),
+                                           SecurityProfileDS = p.Field<string>("SecurityProfileDS"),
+                                           ActiveDS = p.Field<string>("ActiveDS"),
+                                           CreateUserNM = p.Field<string>("CreateUserNM"),
+                                           CreateDT = p.Field<DateTime>("CreateDT").ToShortDateString(),
+                                           UpdateUserNM = p.Field<string>("UpdateUserNM"),
+                                           UpdateDT = p.Field<DateTime>("UpdateDT").ToShortDateString(),
+                                           ActiveFL = p.Field<bool>("ActiveFL")
+                                       }).FirstOrDefault();
 
-            viewModel.Id = userProfile.Id;
-            viewModel.ProfileName = userProfile.SecurityProfileDS;
-            viewModel.IsActive = userProfile.ActiveFL;
+                viewModel.Id = userProfile.Id;
+                viewModel.ProfileName = userProfile.SecurityProfileDS;
+                viewModel.IsActive = userProfile.ActiveFL;
+            }
 
             #endregion TANK_usp_sel_SecurityProfile
 
@@ -500,17 +504,30 @@ namespace DOWTank.Controllers
         [HttpPost]
         public ActionResult SecurityProfile(UserSecurityProfileViewModel postModel)
         {
-            //todo: validation
-
-            if (postModel == null || string.IsNullOrEmpty(postModel.ProfileName))
+            if (!ModelState.IsValid)
             {
-                //Error("Please provide the required inputs");
-                return RedirectToAction("SecurityProfile", "Admin", new { @id = postModel.Id });
+                return View(postModel);
             }
 
             #region SecurityProfile
 
-            TANK_usp_insupd_SecurityProfile_spParams TANK_usp_insupd_SecurityProfile_spParams = new TANK_usp_insupd_SecurityProfile_spParams()
+            //ADD
+            if (postModel.Id == 0)
+            {
+                var TANK_usp_insupd_SecurityProfile_spParams = new TANK_usp_insupd_SecurityProfile_spParams()
+                {
+                    LocationID = 1,
+                    SecurityProfileDS = postModel.ProfileName,
+                    ActiveFL = postModel.IsActive,
+                    UpdateUserAN = "System"
+                };
+                var id = _utilityService.ExecStoredProcedureWithResults<int>("TANK_usp_insupd_SecurityProfile",
+                                                                   TANK_usp_insupd_SecurityProfile_spParams);
+                postModel.Id = id.FirstOrDefault();
+            }
+            else
+            {
+                var TANK_usp_insupd_SecurityProfile_spParams = new TANK_usp_insupd_SecurityProfile_spParams()
                 {
                     LocationID = 1,
                     SecurityProfileDS = postModel.ProfileName,
@@ -518,25 +535,30 @@ namespace DOWTank.Controllers
                     ActiveFL = postModel.IsActive,
                     UpdateUserAN = "System"
                 };
-            _utilityService.ExecStoredProcedureWithoutResults("TANK_usp_insupd_SecurityProfile", TANK_usp_insupd_SecurityProfile_spParams);
-
-            //Success("Dispatch Tank Saved Successfully.");
+                _utilityService.ExecStoredProcedureWithoutResults("TANK_usp_insupd_SecurityProfile",
+                                                                  TANK_usp_insupd_SecurityProfile_spParams);
+            }
 
             #endregion SecurityProfile
 
             #region SecurityProfilePrivilege
 
-            TANK_usp_insupd_SecurityProfilePrivilege_spParams TANK_usp_insupd_SecurityProfilePrivilege_spParams = new TANK_usp_insupd_SecurityProfilePrivilege_spParams()
-                {
-                    SecurityProfileID = postModel.Id,
-                    PrivilegeList = GetPrivilegeList(postModel)
-                };
+            if (postModel.Id != 0)
+            {
+                TANK_usp_insupd_SecurityProfilePrivilege_spParams TANK_usp_insupd_SecurityProfilePrivilege_spParams = new TANK_usp_insupd_SecurityProfilePrivilege_spParams
+                    ()
+                    {
+                        SecurityProfileID = postModel.Id,
+                        PrivilegeList = GetPrivilegeList(postModel)
+                    };
 
-            _utilityService.ExecStoredProcedureWithoutResults("TANK_usp_insupd_SecurityProfilePrivilege", TANK_usp_insupd_SecurityProfilePrivilege_spParams);
-
+                _utilityService.ExecStoredProcedureWithoutResults("TANK_usp_insupd_SecurityProfilePrivilege",
+                                                                  TANK_usp_insupd_SecurityProfilePrivilege_spParams);
+            }
 
             #endregion SecurityProfilePrivilege
 
+            Success("User Profile Changes Saved Successfully.");
             return RedirectToAction("SecurityProfile", "Admin", new { @id = postModel.Id });
         }
 

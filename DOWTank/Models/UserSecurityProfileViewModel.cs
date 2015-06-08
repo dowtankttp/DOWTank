@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -23,7 +24,9 @@ namespace DOWTank.Models
             ProductMaster = new List<UserSecurityListViewModel>();
         }
         public int Id { get; set; }
+        [Required]
         public string ProfileName { get; set; }
+        [Required]
         public bool IsActive { get; set; }
         public List<UserSecurityListViewModel> DashboardMenu { get; set; }
         public List<UserSecurityListViewModel> DashboardList { get; set; }
