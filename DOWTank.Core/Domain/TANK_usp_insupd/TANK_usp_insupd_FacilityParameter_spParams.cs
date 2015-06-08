@@ -19,7 +19,7 @@ namespace DOWTank.Core.Domain.TANK_usp_insupd
         public string Description { get; set; }
         public int? MajorLocationID { get; set; }
         public Boolean ActiveFL { get; set; }
-        public DateTime UpdateDT  { get; set; }
+        public DateTime? UpdateDT  { get; set; }
         public string UpdateUserAN { get; set; }
     }
 }
