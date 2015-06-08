@@ -500,7 +500,113 @@ namespace DOWTank.Controllers
         [HttpPost]
         public ActionResult SecurityProfile(UserSecurityProfileViewModel postModel)
         {
+            //todo: validation
+
+            if (postModel == null || string.IsNullOrEmpty(postModel.ProfileName))
+            {
+                //Error("Please provide the required inputs");
+                return RedirectToAction("SecurityProfile", "Admin", new { @id = postModel.Id });
+            }
+
+            #region SecurityProfile
+
+            TANK_usp_insupd_SecurityProfile_spParams TANK_usp_insupd_SecurityProfile_spParams = new TANK_usp_insupd_SecurityProfile_spParams()
+                {
+                    LocationID = 1,
+                    SecurityProfileDS = postModel.ProfileName,
+                    SecurityProfileID = postModel.Id,
+                    ActiveFL = postModel.IsActive,
+                    UpdateUserAN = "System"
+                };
+            _utilityService.ExecStoredProcedureWithoutResults("TANK_usp_insupd_SecurityProfile", TANK_usp_insupd_SecurityProfile_spParams);
+
+            //Success("Dispatch Tank Saved Successfully.");
+
+            #endregion SecurityProfile
+
+            #region SecurityProfilePrivilege
+
+            TANK_usp_insupd_SecurityProfilePrivilege_spParams TANK_usp_insupd_SecurityProfilePrivilege_spParams = new TANK_usp_insupd_SecurityProfilePrivilege_spParams()
+                {
+                    SecurityProfileID = postModel.Id,
+                    PrivilegeList = GetPrivilegeList(postModel)
+                };
+
+            _utilityService.ExecStoredProcedureWithoutResults("TANK_usp_insupd_SecurityProfilePrivilege", TANK_usp_insupd_SecurityProfilePrivilege_spParams);
+
+
+            #endregion SecurityProfilePrivilege
+
             return RedirectToAction("SecurityProfile", "Admin", new { @id = postModel.Id });
+        }
+
+        private string GetPrivilegeList(UserSecurityProfileViewModel postModel)
+        {
+
+            string returnList = string.Empty;
+            if (postModel.DashboardMenu.Any())
+            {
+                var dashboardMenu = postModel.DashboardMenu.Where(s => s.PrivilegeID != null).Select(s => s.PrivilegeID).ToList();
+                returnList = string.Join(",", dashboardMenu);
+            }
+            if (postModel.DashboardList.Any())
+            {
+                var dashboardList = postModel.DashboardList.Where(s => s.PrivilegeID != null).Select(s => s.PrivilegeID).ToList();
+                returnList += "," + string.Join(",", dashboardList);
+            }
+            if (postModel.DispatchScreen.Any())
+            {
+                var dispatchScreen = postModel.DispatchScreen.Where(s => s.PrivilegeID != null).Select(s => s.PrivilegeID).ToList();
+                returnList += "," + string.Join(",", dispatchScreen);
+            }
+            if (postModel.PrepScreen.Any())
+            {
+                var list = postModel.PrepScreen.Where(s => s.PrivilegeID != null).Select(s => s.PrivilegeID).ToList();
+                returnList += "," + string.Join(",", list);
+            }
+            if (postModel.RequireCleaning.Any())
+            {
+                var list = postModel.RequireCleaning.Where(s => s.PrivilegeID != null).Select(s => s.PrivilegeID).ToList();
+                returnList += "," + string.Join(",", list);
+            }
+            if (postModel.RequireService.Any())
+            {
+                var list = postModel.RequireService.Where(s => s.PrivilegeID != null).Select(s => s.PrivilegeID).ToList();
+                returnList += "," + string.Join(",", list);
+            }
+            if (postModel.TankSearchScreen.Any())
+            {
+                var list = postModel.TankSearchScreen.Where(s => s.PrivilegeID != null).Select(s => s.PrivilegeID).ToList();
+                returnList += "," + string.Join(",", list);
+            }
+            if (postModel.TankHistoryScreen.Any())
+            {
+                var list = postModel.TankHistoryScreen.Where(s => s.PrivilegeID != null).Select(s => s.PrivilegeID).ToList();
+                returnList += "," + string.Join(",", list);
+            }
+            if (postModel.GroundedMatrix.Any())
+            {
+                var list = postModel.GroundedMatrix.Where(s => s.PrivilegeID != null).Select(s => s.PrivilegeID).ToList();
+                returnList += "," + string.Join(",", list);
+            }
+            if (postModel.ReportsMenuOptions.Any())
+            {
+                var list = postModel.ReportsMenuOptions.Where(s => s.PrivilegeID != null).Select(s => s.PrivilegeID).ToList();
+                returnList += "," + string.Join(",", list);
+            }
+            if (postModel.AdminMenuOptions.Any())
+            {
+                var list = postModel.AdminMenuOptions.Where(s => s.PrivilegeID != null).Select(s => s.PrivilegeID).ToList();
+                returnList += "," + string.Join(",", list);
+            }
+            if (postModel.ProductMaster.Any())
+            {
+                var list = postModel.ProductMaster.Where(s => s.PrivilegeID != null).Select(s => s.PrivilegeID).ToList();
+                returnList += "," + string.Join(",", list);
+            }
+
+            return returnList;
+
         }
 
         #endregion User Profile

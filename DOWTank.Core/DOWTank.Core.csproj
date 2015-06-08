@@ -68,6 +68,8 @@
     <Compile Include="Domain\TANK_usp_insupd\TANK_usp_insupd_Operator_spParams.cs" />
     <Compile Include="Domain\TANK_usp_insupd\TANK_usp_insupd_Owner_spParams.cs" />
     <Compile Include="Domain\TANK_usp_insupd\TANK_usp_insupd_ProductLocation_spParams.cs" />
+    <Compile Include="Domain\TANK_usp_insupd\TANK_usp_insupd_SecurityProfilePrivilege_spParams.cs" />
+    <Compile Include="Domain\TANK_usp_insupd\TANK_usp_insupd_SecurityProfile_spParams.cs" />
     <Compile Include="Domain\TANK_usp_insupd\TANK_usp_insupd_TankConstructionType_spParams.cs" />
     <Compile Include="Domain\TANK_usp_insupd\TANK_usp_insupd_TankPrep_spParams.cs" />
     <Compile Include="Domain\TANK_usp_insupd\TANK_usp_insupd_Vendor_spParams.cs" />
