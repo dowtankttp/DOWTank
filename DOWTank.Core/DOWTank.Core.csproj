@@ -190,6 +190,7 @@
       <DependentUpon>DOWTankDataModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service\PasswordService.cs" />
     <Compile Include="Service\UtilityService.cs" />
   </ItemGroup>
   <ItemGroup>

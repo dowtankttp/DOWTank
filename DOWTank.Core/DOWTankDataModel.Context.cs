@@ -18,6 +18,7 @@ namespace DOWTank.Core
         public DOWTankEntities()
             : base("name=DOWTankEntities")
         {
+            this.Database.CommandTimeout = 120;
         }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

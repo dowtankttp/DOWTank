@@ -302,7 +302,7 @@ namespace DOWTank.Controllers
             var response = _sharedFunctions.PopulateDrivers(false);
             if (response != null && response.Any())
             {
-                var data = response.Where(r => r.DriverID != null).Select(r => new { id = r.DriverID, text = r.DriverNM }).ToList();
+                var data = response.Where(r => r.DriverID != null).Select(r => new { id = r.DriverID, text = r.Driver }).ToList();
                 return Json(data, JsonRequestBehavior.AllowGet);
             }
             return Json(string.Empty, JsonRequestBehavior.AllowGet);
@@ -756,7 +756,7 @@ namespace DOWTank.Controllers
                     DriverList.Add(new SelectListItem { Text = "", Value = "" });
                     foreach (var item in Drivers)
                     {
-                        DriverList.Add(new SelectListItem { Text = item.DriverNM, Value = item.DriverID.ToString() });
+                        DriverList.Add(new SelectListItem { Text = item.Driver, Value = item.DriverID.ToString() });
                     }
                     ViewBag.ddlDriver = DriverList;
                 }

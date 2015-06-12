@@ -25,6 +25,15 @@ namespace DOWTank.Controllers
             _sharedFunctions = sharedFunctions;
         }
 
+        #region User
+
+        public ActionResult UserIndex()
+        {
+            return View();
+        }
+
+        #endregion User
+
         #region User Profile
 
         public ActionResult UserProfile()

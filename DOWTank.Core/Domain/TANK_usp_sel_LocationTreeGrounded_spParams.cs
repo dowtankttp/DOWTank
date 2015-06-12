@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace DOWTank.Core.Domain.TANK_usp_sel
 {
-    public class TANK_usp_sel_DriverDDL_spResults
+    public class TANK_usp_sel_LocationTreeGrounded_spParams
     {
-        public Int32 DriverID { get; set; }
-        public string Driver { get; set; }
+        public int MajorLocationID { get; set; }
     }
 }

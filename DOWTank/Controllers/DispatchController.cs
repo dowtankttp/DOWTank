@@ -349,11 +349,11 @@ namespace DOWTank.Controllers
             var DriverList = new List<Select2ViewModel>();
             if (response != null && response.Any())
             {
-                foreach (var item in response)
+                foreach (var item in response.Where(d => d.Driver.Contains(searchTerm)))
                 {
                     var Driver = new Select2ViewModel();
                     Driver.id = item.DriverID;
-                    Driver.text = item.DriverNM;
+                    Driver.text = item.Driver;
                     DriverList.Add(Driver);
                 }
             }

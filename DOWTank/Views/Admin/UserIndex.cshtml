@@ -1,0 +1,141 @@
+﻿@{
+    ViewBag.Title = "Users";
+}
+@section head{
+    <style>
+        *::before, *::after#delhdlist
+        {
+            box-sizing: unset!important;
+        }
+
+        *#delhdlist
+        {
+            box-sizing: unset!important;
+        }
+
+        *::before, *::after#dData
+        {
+            box-sizing: unset!important;
+        }
+
+        *#dData
+        {
+            box-sizing: unset!important;
+        }
+
+        *::before, *::after#eData
+        {
+            box-sizing: unset!important;
+        }
+
+        *#eData
+        {
+            box-sizing: unset!important;
+        }
+
+        *::before, *::after#edithdlist
+        {
+            box-sizing: unset!important;
+        }
+
+        *#edithdlist
+        {
+            box-sizing: unset!important;
+        }
+
+        *::before, *::after#sData
+        {
+            box-sizing: unset!important;
+        }
+
+        *#sData
+        {
+            box-sizing: unset!important;
+        }
+
+        *::before, *::after#cData
+        {
+            box-sizing: unset!important;
+        }
+
+        *#cData
+        {
+            box-sizing: unset!important;
+        }
+
+        .ui-jqgrid tr.jqgrow td
+        {
+            white-space: normal !important;
+            height: auto;
+            vertical-align: text-top;
+            padding-top: 2px;
+        }
+    </style>
+}
+
+<div class="well well-lg">
+    <!--title-->
+    <div class="row">
+        <div class="col-md-2">
+            <h4 class="dow-color col-md-12">User List</h4>
+        </div>
+    </div>
+    <!--list-->
+    <div class="row mt10">
+        <div class="col-md-12">
+            <table id="list">
+                <tr>
+                    <td></td>
+                </tr>
+            </table>
+            <div id="pager"></div>
+        </div>
+    </div>
+</div>
+
+<!--script-->
+@section scripts
+{
+    <script>
+
+        $(function () {
+            var lastsel;
+            $("#list").jqGrid({
+                url: "/Admin/GetUserProfileData",
+                datatype: "json",
+                mtype: "GET",
+                colNames: ["Id", "Profile", "Status", "Created By", "Create DT", "Updated By", "Update DT", ""],
+                colModel: [
+                    { name: "Id", index: 'Id', sortable: false, hidden: true, align: "right", key: true },
+                    { name: "SecurityProfileDS", index: 'SecurityProfileDS', sortable: true, width: 225 },
+                    { name: "ActiveDS", index: 'ActiveDS', align: 'left', sortable: false, width: 50 },
+                    { name: "CreateUserNM", index: 'CreateUserNM', align: 'left', sortable: false, width: 150 },
+                    { name: "CreateDT", index: 'CreateDT', sortable: false, width: 50 },
+                    { name: "UpdateUserNM", index: 'UpdateUserNM', sortable: false, width: 150 },
+                    { name: "UpdateDT", index: 'UpdateDT', align: "left", sortable: false, width: 50 },
+                    { name: 'Recover', index: 'Recover', formatter: linkformatter, sortable: false, width: 50, align: 'center' }
+                ],
+                pager: "#pager",
+                rowNum: 50,
+                rowList: [50, 100, 125],
+                height: 375,
+                autowidth: true,
+                viewrecords: true,
+                autoencode: true,
+                key: true
+            }
+            );
+            $("#list").jqGrid('navGrid', '#pager', { edit: false, add: false, del: false, search: false, refresh: false });
+
+            //mark end of document ready
+        });
+
+        function linkformatter(cellvalue, options, rowObject) {
+            //rowObject.Id
+            return '<a style="color:#286090;font-size:12px;" href="/Admin/SecurityProfile?id=' + rowObject.Id + '" >Edit</a>';
+        }
+
+    </script>
+}
+
+
