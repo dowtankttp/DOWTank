@@ -3,38 +3,37 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Web;
+using DOWTank.Core.Service;
+using DOWTank.Models;
 
 namespace DOWTank.Utility
 {
     public class UserManager
     {
-        //private readonly IMembershipProvider _membershipProvider;
-        //private readonly GluuDatabase _database;
+        private readonly IPasswordService _passwordService;
 
-        //public UserManager(IMembershipProvider membershipProvider, GluuDatabase database)
-        //{
-        //    _membershipProvider = membershipProvider;
-        //    _database = database;
-        //}
-
-        public bool Athenticate(string userName, string password, bool rememberMe, string site = null)
+        public UserManager(IPasswordService passwordService)
         {
-            //if (_membershipProvider.ValidateUser(userName, password, site))
-            //{
-            //    return true;
-            //}
-            return false;
+            _passwordService = passwordService;
         }
 
-        //public ClaimsIdentity CreateIdentity(LoginPostModel model, string site = null)
-        //{
-        //    var identity = new ClaimsIdentity("ApplicationCookie");
-        //    identity.AddClaim(new Claim("UserName", model.UserName));
-        //    var user = _database.Users.GetByUsername(model.UserName, site);
-        //    identity.AddClaim(new Claim("AccountId", user.UniqueId.ToString()));
+        public bool Athenticate(string userName, string password)
+        {
+           return _passwordService.ValidateUserLogin(userName, password);
+        }
 
-        //    return identity;
-        //}
+        public ClaimsIdentity CreateIdentity(LoginPostModel model)
+        {
+            var identity = new ClaimsIdentity("ApplicationCookie");
+            identity.AddClaim(new Claim("UserName", model.UserName));
+            //var user = _database.Users.GetByUsername(model.UserName, site);
+            //identity.AddClaim(new Claim("AccountId", user.UniqueId.ToString()));
+            //TODO: add identity as required
+
+
+
+            return identity;
+        }
     }
 
 }

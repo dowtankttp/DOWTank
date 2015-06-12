@@ -13,6 +13,7 @@ using DOWTank.Models;
 
 namespace DOWTank.Controllers
 {
+    [Authorize]
     public class AdminController : BaseController
     {
 

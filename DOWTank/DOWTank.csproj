@@ -143,6 +143,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Custom\" />
     <Folder Include="Views\BaseController\" />
   </ItemGroup>
   <ItemGroup>
@@ -152,6 +153,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Common\ControlGroupExtensions.cs" />
     <Compile Include="Common\SharedFunctions.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\DispatchController.cs" />
@@ -164,11 +166,11 @@
     <Compile Include="Controllers\TankController.cs" />
     <Compile Include="Controllers\TankHistoryController.cs" />
     <Compile Include="Controllers\TankSearchController.cs" />
-    <Compile Include="Custom\UserManager.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\DispatchTankModel.cs" />
+    <Compile Include="Models\LoginPostModel.cs" />
     <Compile Include="Models\Select2ShortViewModel.cs" />
     <Compile Include="Models\Select2ViewModel.cs" />
     <Compile Include="Models\SelectServiceTypeModel.cs" />
@@ -224,6 +226,7 @@
       <DependentUpon>crYardCheck.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Startup.cs" />
     <Compile Include="Utility\ClaimExtension.cs" />
     <Compile Include="Utility\CrystalReportPdfResult.cs" />
     <Compile Include="Utility\UserManager.cs" />
@@ -548,6 +551,8 @@
     <Content Include="Views\Admin\UserProfile.cshtml" />
     <Content Include="Views\Admin\SecurityProfile.cshtml" />
     <Content Include="Views\Admin\UserIndex.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Shared\_LoginPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DOWTank.Core\DOWTank.Core.csproj">
@@ -609,11 +614,11 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>False</UseIIS>
+          <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>18336</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:44321/</IISUrl>
+          <IISUrl>http://localhost:44986/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

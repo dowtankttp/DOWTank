@@ -8,7 +8,7 @@ using System.Web.Mvc;
 using DOWTank.Common;
 using DOWTank.Core;
 using DOWTank.Core.Service;
-using DOWTank.Custom;
+using DOWTank.Utility;
 
 namespace DOWTank.App_Start
 {
@@ -34,8 +34,8 @@ namespace DOWTank.App_Start
         {
             containerBuilder.RegisterType<DOWTankEntities>().AsSelf().InstancePerRequest();
             containerBuilder.RegisterType<UtilityService>().As<IUtilityService>().PropertiesAutowired().InstancePerRequest();
+            containerBuilder.RegisterType<PasswordService>().As<IPasswordService>().PropertiesAutowired().InstancePerRequest();
             containerBuilder.RegisterType<SharedFunctions>().As<ISharedFunctions>().PropertiesAutowired().InstancePerRequest();
-
             containerBuilder.RegisterType<UserManager>().AsSelf().PropertiesAutowired().InstancePerRequest();
            // containerBuilder.RegisterType<ClaimsAuthorizeAttribute>().PropertiesAutowired().InstancePerRequest();
 
