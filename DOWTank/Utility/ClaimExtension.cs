@@ -12,9 +12,9 @@ namespace DOWTank.Utility
         {
             return identity.FindFirst(c => c.Type == "UserName").Value;
         }
-        public static string GetAccountId(this ClaimsIdentity identity)
+        public static string GetRoles(this ClaimsIdentity identity)
         {
-            return identity.FindFirst(c => c.Type == "AccountId").Value;
+            return identity.FindFirst(c => c.Type == "Roles").Value;
         }
     }
 }

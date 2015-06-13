@@ -143,7 +143,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Custom\" />
     <Folder Include="Views\BaseController\" />
   </ItemGroup>
   <ItemGroup>
@@ -166,6 +165,7 @@
     <Compile Include="Controllers\TankController.cs" />
     <Compile Include="Controllers\TankHistoryController.cs" />
     <Compile Include="Controllers\TankSearchController.cs" />
+    <Compile Include="Custom\ClaimsAuthorizeAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -553,6 +553,7 @@
     <Content Include="Views\Admin\UserIndex.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Home\AccessDenied.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DOWTank.Core\DOWTank.Core.csproj">
