@@ -18,9 +18,6 @@ namespace DOWTank.Custom
         public string Roles { get; set; }
         private RouteValueDictionary RedirectRoute { get; set; }
 
-        //public bool IsPageMainMethod { get; set; }
-        //public string CustomSecureId { get; set; }
-
         protected override bool AuthorizeCore(HttpContextBase httpContext)
         {
             var userManager = DependencyResolver.Current.GetService<UserManager>();

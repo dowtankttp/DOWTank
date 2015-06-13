@@ -190,6 +190,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DOWTankDataModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Enum\SecurityCatEnum.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\PasswordService.cs" />
     <Compile Include="Service\UtilityService.cs" />

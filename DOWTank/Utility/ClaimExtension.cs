@@ -16,5 +16,9 @@ namespace DOWTank.Utility
         {
             return identity.FindFirst(c => c.Type == "Roles").Value;
         }
+        public static int GetSecurityProfileId(this ClaimsIdentity identity)
+        {
+            return Convert.ToInt32(identity.FindFirst(c => c.Type == "SecurityProfileId").Value);
+        }
     }
 }

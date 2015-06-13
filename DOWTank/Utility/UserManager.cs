@@ -29,7 +29,8 @@ namespace DOWTank.Utility
         {
             var identity = new ClaimsIdentity("ApplicationCookie");
             identity.AddClaim(new Claim("UserName", model.UserName));
-
+            //todo: re-factor it later
+            identity.AddClaim(new Claim("SecurityProfileId", "1"));
             //TODO: add identity as required
 
             #region SetSecurityGroups

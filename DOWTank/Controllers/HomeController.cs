@@ -11,7 +11,7 @@ namespace DOWTank.Controllers
     public class HomeController : Controller
     {
         //[ClaimsAuthorize(Roles = "Dispatch")]
-        [ClaimsAuthorize(Roles = "")]
+        //[ClaimsAuthorize(Roles = "")]
         public ActionResult Index()
         {
             return View();
