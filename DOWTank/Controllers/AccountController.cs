@@ -60,7 +60,9 @@ namespace DOWTank.Controllers
             return RedirectToAction("Login", "Account");
         }
 
-        [HttpGet]
+        //Reason for comment: a public action method was not found on controller post
+        //[HttpGet]
+        //[AcceptVerbs(HttpVerbs.Get)]
         public ActionResult GetUserName()
         {
             var identity = User.Identity as ClaimsIdentity;

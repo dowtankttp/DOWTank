@@ -4,23 +4,33 @@ using System.Data;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using DOWTank.Common;
 using DOWTank.Core.Domain.TANK_usp_rpt;
+using DOWTank.Core.Enum;
 using DOWTank.Core.Service;
+using DOWTank.Custom;
 
 namespace DOWTank.Controllers
 {
-    public class InvoiceListController : Controller
+    [ClaimsAuthorize(Roles = "Invoices")]
+    public class InvoiceListController : BaseController
     {
         private readonly IUtilityService _utilityService;
+        private readonly ISharedFunctions _sharedFunctions;
 
-        public InvoiceListController(IUtilityService utilityService)
+        public InvoiceListController(IUtilityService utilityService, ISharedFunctions sharedFunctions)
         {
             _utilityService = utilityService;
+            _sharedFunctions = sharedFunctions;
         }
         
         // GET: /InvoiceList/
         public ActionResult Index()
         {
+            PopulateSecurityExtended();
+            int securityProfileId = SecurityExtended.SecurityProfileId;
+            var permissionList = _sharedFunctions.GetSecuritySettings(securityProfileId, (int)SecurityCatEnum.RequireService, null);
+           
             InvoiceListModel invoiceListModel = new InvoiceListModel();
 
             invoiceListModel.DataTableMoveHistory = new DataTable();
@@ -34,7 +44,8 @@ namespace DOWTank.Controllers
         }
 
         public ActionResult Search(InvoiceListModel postModel)
-        {   
+        {
+            PopulateSecurityExtended();
             if (string.IsNullOrEmpty(postModel.TextSearch))
                 return RedirectToAction("Index");
 
@@ -54,6 +65,10 @@ namespace DOWTank.Controllers
 
         public ActionResult Filter(InvoiceListModel postModel)
         {
+            PopulateSecurityExtended();
+            int securityProfileId = SecurityExtended.SecurityProfileId;
+            var permissionList = _sharedFunctions.GetSecuritySettings(securityProfileId, (int)SecurityCatEnum.RequireService, null);
+            
             if (TempData["Equipment"] == null)
                 return null;
 
