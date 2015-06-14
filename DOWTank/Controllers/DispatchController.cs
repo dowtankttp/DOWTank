@@ -7,11 +7,14 @@ using System.Web.Mvc;
 using DOWTank.Common;
 using DOWTank.Core.Domain.TANK_usp_insupd;
 using DOWTank.Core.Domain.TANK_usp_sel;
+using DOWTank.Core.Enum;
 using DOWTank.Core.Service;
+using DOWTank.Custom;
 using DOWTank.Models;
 
 namespace DOWTank.Controllers
 {
+    [ClaimsAuthorize(Roles = "Dispatch")]
     public class DispatchController : BaseController
     {
         private readonly IUtilityService _utilityService;
@@ -25,6 +28,29 @@ namespace DOWTank.Controllers
         // GET: Dispatch
         public ActionResult Index(string equipmentAn, int? dispatchId, string mode)
         {
+
+            PopulateSecurityExtended();
+            int securityProfileId = SecurityExtended.SecurityProfileId;
+            var permissionList = _sharedFunctions.GetSecuritySettings(securityProfileId, (int)SecurityCatEnum.DispatchScreen, null);
+            ViewBag.AllowDeleteDispatch = false;
+            ViewBag.AllowAddProduct = false;
+            ViewBag.AllowAddInvoice = false;
+            foreach (var permission in permissionList)
+            {
+                if (permission.PrivilegeDS == "Delete Dispatch")
+                {
+                    ViewBag.AllowDeleteDispatch = (permission.GrantedFL == 1);
+                }
+                else if (permission.PrivilegeDS == "Add Product")
+                {
+                    ViewBag.AllowAddProduct = (permission.GrantedFL == 1);
+                }
+                else if (permission.PrivilegeDS == "Add Invoice")
+                {
+                    ViewBag.AllowAddInvoice = (permission.GrantedFL == 1);
+                }
+            }
+
             LoadDispatchTankDropdowns();
             ViewBag.EquipmentAN = equipmentAn;
             var postModel = new DispatchTankModel();

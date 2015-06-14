@@ -7,10 +7,13 @@ using System.Web.Mvc;
 using DOWTank.Core.Domain.TANK_usp_rpt;
 using DOWTank.Core.Service;
 using DOWTank.Core.Domain.TANK_usp_sel;
+using DOWTank.Custom;
+using DOWTank.Utility;
 
 namespace DOWTank.Controllers
 {
-    public class GroundedMatrixController : Controller
+    [ClaimsAuthorize(Roles = "Yard")]
+    public class GroundedMatrixController : BaseController
     {
         private readonly IUtilityService _utilityService;
 
@@ -22,10 +25,12 @@ namespace DOWTank.Controllers
         // GET: /Grounded Matrix/
         public ActionResult Index()
         {
+            PopulateSecurityExtended();
+            
             GroundedMatrixModel groundedMatrixModel = new GroundedMatrixModel();
 
             bool includeBlank = false;
-            int? majorLocationID = 1;
+            int? majorLocationID = SecurityExtended.LocationId;
             int? locationTypeCS = 7;
             int? selectedLocation = null;
             groundedMatrixModel.DataTableLocationDDl = GetLocationDDL(includeBlank, locationTypeCS, majorLocationID);
@@ -40,10 +45,11 @@ namespace DOWTank.Controllers
 
         public ActionResult Search(GroundedMatrixModel postModel)
         {
+            PopulateSecurityExtended();
             GroundedMatrixModel groundedMatrixModel = new GroundedMatrixModel();
             int? locationTypeCS = Convert.ToInt32(postModel.HfSelectedSection);
             bool includeBlank = false;
-            int? majorLocationID = 1;
+            int? majorLocationID = SecurityExtended.LocationId;
 
             groundedMatrixModel.DataTableLocationDDl = GetLocationDDL(false, locationTypeCS, majorLocationID);
             groundedMatrixModel.DataTableGroundedMatrix = GetTankGroundedMatrix(majorLocationID, locationTypeCS);

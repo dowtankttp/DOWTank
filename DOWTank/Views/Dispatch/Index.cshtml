@@ -50,9 +50,15 @@
 
         <div class="form-group text-right">
             <input type="submit" value="Dispatch Tank" class="btn btn-default btn-primary mr10" />
-            <input type="button" value="Delete Dispatch" onclick="return confirm('Are you sure you want to delete ?');" class="btn btn-default btn-primary mr10 btnDeleteDispatch" />
-            <!--todo: replace it with action link-->
-            <input type="button" value="Add Invoice" class="btn btn-default btn-primary" />
+            @if (Convert.ToBoolean(ViewBag.AllowDeleteDispatch))
+            {
+                <input type="button" value="Delete Dispatch" onclick=" return confirm('Are you sure you want to delete ?'); " class="btn btn-default btn-primary mr10 btnDeleteDispatch" />
+            }
+            @if (Convert.ToBoolean(ViewBag.AllowAddInvoice))
+            {
+                <!--todo: replace it with action link-->
+                <input type="button" value="Add Invoice" class="btn btn-default btn-primary" />
+            }
         </div>
        
         <div class="form-group">
@@ -289,9 +295,15 @@
         </div>
         <div class="form-group text-right">
             <input type="submit" value="Dispatch Tank" class="btn btn-default btn-primary mr10" />
-            <input type="button" value="Delete Dispatch" class="btn btn-default btn-primary mr10 btnDeleteDispatch" />
-            <!--todo: replace it with action link-->
-            <input type="button" value="Add Invoice" class="btn btn-default btn-primary" />
+            @if (Convert.ToBoolean(ViewBag.AllowDeleteDispatch))
+            {
+                <input type="button" value="Delete Dispatch" onclick=" return confirm('Are you sure you want to delete ?'); " class="btn btn-default btn-primary mr10 btnDeleteDispatch" />
+            }
+            @if (Convert.ToBoolean(ViewBag.AllowAddInvoice))
+            {
+                <!--todo: replace it with action link-->
+                <input type="button" value="Add Invoice" class="btn btn-default btn-primary" />
+            }
         </div>
         
     }
