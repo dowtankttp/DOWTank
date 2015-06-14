@@ -20,5 +20,20 @@ namespace DOWTank.Utility
         {
             return Convert.ToInt32(identity.FindFirst(c => c.Type == "SecurityProfileId").Value);
         }
+        public static string GetLocationName(this ClaimsIdentity identity)
+        {
+            return identity.FindFirst(c => c.Type == "LocationName").Value;
+        }
+        public static string GetLocationId(this ClaimsIdentity identity)
+        {
+            return identity.FindFirst(c => c.Type == "LocationId").Value;
+        }
+
+        public static int? ToNullableInt32(this string s)
+        {
+            int i;
+            if (Int32.TryParse(s, out i)) return i;
+            return null;
+        }
     }
 }

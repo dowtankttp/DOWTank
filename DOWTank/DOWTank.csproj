@@ -229,6 +229,7 @@
     <Compile Include="Startup.cs" />
     <Compile Include="Utility\ClaimExtension.cs" />
     <Compile Include="Utility\CrystalReportPdfResult.cs" />
+    <Compile Include="Utility\SecurityExtended.cs" />
     <Compile Include="Utility\UserManager.cs" />
   </ItemGroup>
   <ItemGroup>

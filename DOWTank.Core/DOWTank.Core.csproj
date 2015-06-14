@@ -163,6 +163,7 @@
     <Compile Include="Domain\TANK_usp_sel\TANK_usp_sel_ProductList_spParams.cs" />
     <Compile Include="Domain\TANK_usp_sel\TANK_usp_sel_SecurityDDL_spParams.cs" />
     <Compile Include="Domain\TANK_usp_sel\TANK_usp_sel_SecurityDDL_spResults.cs" />
+    <Compile Include="Domain\TANK_usp_sel\TANK_usp_sel_SecurityLocation_spParams.cs" />
     <Compile Include="Domain\TANK_usp_sel\TANK_usp_sel_SecurityProfilePrivileges_spParams.cs" />
     <Compile Include="Domain\TANK_usp_sel\TANK_usp_sel_SecurityProfilePrivileges_spResults.cs" />
     <Compile Include="Domain\TANK_usp_sel\TANK_usp_sel_SecurityProfile_spParams.cs" />

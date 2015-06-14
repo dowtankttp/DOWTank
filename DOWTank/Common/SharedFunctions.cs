@@ -49,6 +49,7 @@ namespace DOWTank.Common
         IEnumerable<TANK_usp_sel_LocationDDL_spParams_spResults> PopulateGroundedSections(int MajorLocationID, bool iIncludeBlank);
         int? ToNullableInt32(string s);
         List<TANK_usp_sel_SecurityProfilePrivileges_spResults> GetSecuritySettings(int? currentUserProfileId, int? privilegeCategoryId, int? securityProfileId);
+        List<TANK_usp_sel_SecurityLocation_spResults> GetLocation(string userAn);
     }
 
     public class SharedFunctions : ISharedFunctions
@@ -59,6 +60,22 @@ namespace DOWTank.Common
         {
             _utilityService = utilityService;
         }
+
+        public List<TANK_usp_sel_SecurityLocation_spResults> GetLocation(string userAn)
+        {
+
+            var TANK_usp_sel_SecurityLocation_spParams = new TANK_usp_sel_SecurityLocation_spParams
+                ()
+            {
+                UserAN = userAn
+            };
+            var listItems =
+                _utilityService.ExecStoredProcedureWithResults<TANK_usp_sel_SecurityLocation_spResults>(
+                    "TANK_usp_sel_SecurityLocation", TANK_usp_sel_SecurityLocation_spParams);
+
+            return listItems.ToList();
+        }
+
 
         public List<TANK_usp_sel_SecurityProfilePrivileges_spResults> GetSecuritySettings(int? currentUserProfileId, int? privilegeCategoryId, int? securityProfileId)
         {
