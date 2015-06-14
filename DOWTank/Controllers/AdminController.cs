@@ -145,8 +145,7 @@ namespace DOWTank.Controllers
                 TANK_usp_sel_SecurityProfilePrivileges_spParams TANK_usp_sel_SecurityProfilePrivileges_spParams = new TANK_usp_sel_SecurityProfilePrivileges_spParams
                     ()
                     {
-                        //todo: refactor it later
-                        CurrentUserProfileID = 1,
+                        CurrentUserProfileID = SecurityExtended.LocationId,
                         PrivilegeCategoryID = 2,
                         SecurityProfileID = id
                     };
@@ -177,7 +176,7 @@ namespace DOWTank.Controllers
                     ()
                     {
                         //todo: refactor it later
-                        CurrentUserProfileID = 1,
+                        CurrentUserProfileID = SecurityExtended.LocationId,
                         PrivilegeCategoryID = 1,
                         SecurityProfileID = id
                     };
@@ -207,8 +206,7 @@ namespace DOWTank.Controllers
                 var TANK_usp_sel_SecurityProfilePrivileges_spParams = new TANK_usp_sel_SecurityProfilePrivileges_spParams
                     ()
                 {
-                    //todo: refactor it later
-                    CurrentUserProfileID = 1,
+                    CurrentUserProfileID = SecurityExtended.LocationId,
                     PrivilegeCategoryID = 3,
                     SecurityProfileID = id
                 };
@@ -238,8 +236,7 @@ namespace DOWTank.Controllers
                 var TANK_usp_sel_SecurityProfilePrivileges_spParams = new TANK_usp_sel_SecurityProfilePrivileges_spParams
                     ()
                 {
-                    //todo: refactor it later
-                    CurrentUserProfileID = 1,
+                    CurrentUserProfileID = SecurityExtended.LocationId,
                     PrivilegeCategoryID = 4,
                     SecurityProfileID = id
                 };
@@ -270,7 +267,7 @@ namespace DOWTank.Controllers
                     ()
                 {
                     //todo: refactor it later
-                    CurrentUserProfileID = 1,
+                    CurrentUserProfileID = SecurityExtended.LocationId,
                     PrivilegeCategoryID = 5,
                     SecurityProfileID = id
                 };
@@ -301,7 +298,7 @@ namespace DOWTank.Controllers
                     ()
                 {
                     //todo: refactor it later
-                    CurrentUserProfileID = 1,
+                    CurrentUserProfileID = SecurityExtended.LocationId,
                     PrivilegeCategoryID = 6,
                     SecurityProfileID = id
                 };
@@ -332,7 +329,7 @@ namespace DOWTank.Controllers
                     ()
                 {
                     //todo: refactor it later
-                    CurrentUserProfileID = 1,
+                    CurrentUserProfileID = SecurityExtended.LocationId,
                     PrivilegeCategoryID = 7,
                     SecurityProfileID = id
                 };
@@ -362,8 +359,7 @@ namespace DOWTank.Controllers
                 var TANK_usp_sel_SecurityProfilePrivileges_spParams = new TANK_usp_sel_SecurityProfilePrivileges_spParams
                     ()
                 {
-                    //todo: refactor it later
-                    CurrentUserProfileID = 1,
+                    CurrentUserProfileID = SecurityExtended.LocationId,
                     PrivilegeCategoryID = 8,
                     SecurityProfileID = id
                 };
@@ -393,8 +389,7 @@ namespace DOWTank.Controllers
                 var TANK_usp_sel_SecurityProfilePrivileges_spParams = new TANK_usp_sel_SecurityProfilePrivileges_spParams
                     ()
                 {
-                    //todo: refactor it later
-                    CurrentUserProfileID = 1,
+                    CurrentUserProfileID = SecurityExtended.LocationId,
                     PrivilegeCategoryID = 9,
                     SecurityProfileID = id
                 };
@@ -424,8 +419,7 @@ namespace DOWTank.Controllers
                 var TANK_usp_sel_SecurityProfilePrivileges_spParams = new TANK_usp_sel_SecurityProfilePrivileges_spParams
                     ()
                 {
-                    //todo: refactor it later
-                    CurrentUserProfileID = 1,
+                    CurrentUserProfileID = SecurityExtended.LocationId,
                     PrivilegeCategoryID = 10,
                     SecurityProfileID = id
                 };
@@ -455,8 +449,7 @@ namespace DOWTank.Controllers
                 var TANK_usp_sel_SecurityProfilePrivileges_spParams = new TANK_usp_sel_SecurityProfilePrivileges_spParams
                     ()
                 {
-                    //todo: refactor it later
-                    CurrentUserProfileID = 1,
+                    CurrentUserProfileID = SecurityExtended.LocationId,
                     PrivilegeCategoryID = 11,
                     SecurityProfileID = id
                 };
@@ -486,8 +479,7 @@ namespace DOWTank.Controllers
                 var TANK_usp_sel_SecurityProfilePrivileges_spParams = new TANK_usp_sel_SecurityProfilePrivileges_spParams
                     ()
                 {
-                    //todo: refactor it later
-                    CurrentUserProfileID = 1,
+                    CurrentUserProfileID = SecurityExtended.LocationId,
                     PrivilegeCategoryID = 12,
                     SecurityProfileID = id
                 };
@@ -533,7 +525,7 @@ namespace DOWTank.Controllers
                     LocationID = SecurityExtended.LocationId,
                     SecurityProfileDS = postModel.ProfileName,
                     ActiveFL = postModel.IsActive,
-                    UpdateUserAN = "System"
+                    UpdateUserAN = SecurityExtended.UserName
                 };
                 var id = _utilityService.ExecStoredProcedureWithResults<int>("TANK_usp_insupd_SecurityProfile",
                                                                    TANK_usp_insupd_SecurityProfile_spParams);
@@ -547,7 +539,7 @@ namespace DOWTank.Controllers
                     SecurityProfileDS = postModel.ProfileName,
                     SecurityProfileID = postModel.Id,
                     ActiveFL = postModel.IsActive,
-                    UpdateUserAN = "System"
+                    UpdateUserAN = SecurityExtended.UserName
                 };
                 _utilityService.ExecStoredProcedureWithoutResults("TANK_usp_insupd_SecurityProfile",
                                                                   TANK_usp_insupd_SecurityProfile_spParams);
@@ -832,7 +824,7 @@ namespace DOWTank.Controllers
                             FirstName = postModel.FirstName,
                             LastName = postModel.LastName,
                             Phone = postModel.Phone,
-                            UpdateUserAN = "SYSTEM",
+                            UpdateUserAN = SecurityExtended.UserName,
                             ActiveFL = true
                         };
                         _utilityService.ExecStoredProcedureWithoutResults("TANK_usp_insupd_Contact",
@@ -852,7 +844,7 @@ namespace DOWTank.Controllers
                             FirstName = postModel.FirstName,
                             LastName = postModel.LastName,
                             Phone = postModel.Phone,
-                            UpdateUserAN = "SYSTEM",
+                            UpdateUserAN = SecurityExtended.UserName,
                             ActiveFL = true
                         };
                         _utilityService.ExecStoredProcedureWithoutResults("TANK_usp_insupd_Contact",
@@ -869,7 +861,7 @@ namespace DOWTank.Controllers
                         {
                             Key = postModel.Id,
                             ActiveFL = false,
-                            UpdateUserAN = "SYSTEM"
+                            UpdateUserAN = SecurityExtended.UserName
                         };
                         _utilityService.ExecStoredProcedureWithoutResults("TANK_usp_insupd_Contact",
                                                                           TANK_usp_insupd_Contact_spParams);
@@ -1072,7 +1064,7 @@ namespace DOWTank.Controllers
                             Key = postModel.Id,
                             Code = postModel.Code,
                             Description = postModel.Description,
-                            UpdateUserAN = "SYSTEM",
+                            UpdateUserAN = SecurityExtended.UserName,
                             MajorLocationID = SecurityExtended.LocationId,//todo change location id
                             ActiveFL = true
                         };
@@ -1091,7 +1083,7 @@ namespace DOWTank.Controllers
                             Key = _sharedFunctions.ToNullableInt32(Request.Form["id"]),
                             Code = postModel.Code,
                             Description = postModel.Description,
-                            UpdateUserAN = "SYSTEM",
+                            UpdateUserAN = SecurityExtended.UserName,
                             MajorLocationID = SecurityExtended.LocationId.Value,//todo change location id
                             ActiveFL = true
                         };
@@ -1109,7 +1101,7 @@ namespace DOWTank.Controllers
                         {
                             Key = postModel.Id,
                             ActiveFL = false,
-                            UpdateUserAN = "SYSTEM"
+                            UpdateUserAN = SecurityExtended.UserName
                         };
                         _utilityService.ExecStoredProcedureWithoutResults("TANK_usp_insupd_ChargeCode",
                                                                           TANK_usp_insupd_ChargeCode_spParams);
@@ -1187,7 +1179,7 @@ namespace DOWTank.Controllers
                         {
                             Key = postModel.Id,
                             Description = postModel.Description,
-                            UpdateUserAN = "SYSTEM",
+                            UpdateUserAN = SecurityExtended.UserName,
                             LocationId = SecurityExtended.LocationId,//todo
                             ActiveFL = true
                         };
@@ -1205,7 +1197,7 @@ namespace DOWTank.Controllers
                         {
                             Key = _sharedFunctions.ToNullableInt32(Request.Form["id"]),
                             Description = postModel.Description,
-                            UpdateUserAN = "SYSTEM",
+                            UpdateUserAN = SecurityExtended.UserName,
                             LocationId = SecurityExtended.LocationId.Value,//todo
                             ActiveFL = true
                         };
@@ -1223,7 +1215,7 @@ namespace DOWTank.Controllers
                         {
                             Key = postModel.Id,
                             ActiveFL = false,
-                            UpdateUserAN = "SYSTEM"
+                            UpdateUserAN = SecurityExtended.UserName
                         };
                         _utilityService.ExecStoredProcedureWithoutResults("TANK_usp_insupd_DispatchReasonType",
                                                                           TANK_usp_insupd_DispatchReasonType_spParams);
@@ -1313,7 +1305,7 @@ namespace DOWTank.Controllers
                             Radio = postModel.Radio,
                             Phone = postModel.Phone,
                             Mobile = postModel.Mobile,
-                            UpdateUserAN = "SYSTEM",
+                            UpdateUserAN = SecurityExtended.UserName,
                             ActiveFL = true
                         };
                         _utilityService.ExecStoredProcedureWithoutResults("TANK_usp_insupd_Driver",
@@ -1336,7 +1328,7 @@ namespace DOWTank.Controllers
                             Radio = postModel.Radio,
                             Phone = postModel.Phone,
                             Mobile = postModel.Mobile,
-                            UpdateUserAN = "SYSTEM",
+                            UpdateUserAN = SecurityExtended.UserName,
                             ActiveFL = true
                         };
                         _utilityService.ExecStoredProcedureWithoutResults("TANK_usp_insupd_Driver",
@@ -1353,7 +1345,7 @@ namespace DOWTank.Controllers
                         {
                             Key = postModel.Id,
                             ActiveFL = false,
-                            UpdateUserAN = "SYSTEM"
+                            UpdateUserAN = SecurityExtended.UserName
                         };
                         _utilityService.ExecStoredProcedureWithoutResults("TANK_usp_insupd_Driver",
                                                                           TANK_usp_insupd_Driver_spParams);
@@ -1439,7 +1431,7 @@ namespace DOWTank.Controllers
                             Code = postModel.Code,
                             Length = postModel.Length,
                             LocationID = SecurityExtended.LocationId.Value,
-                            UpdateUserAN = "SYSTEM",
+                            UpdateUserAN = SecurityExtended.UserName,
                             ActiveFL = true
                         };
                         _utilityService.ExecStoredProcedureWithoutResults("TANK_usp_insupd_EquipmentType",
@@ -1460,7 +1452,7 @@ namespace DOWTank.Controllers
                             Code = postModel.Code,
                             Length = postModel.Length,
                             LocationID = SecurityExtended.LocationId.Value,
-                            UpdateUserAN = "SYSTEM",
+                            UpdateUserAN = SecurityExtended.UserName,
                             ActiveFL = true
                         };
                         _utilityService.ExecStoredProcedureWithoutResults("TANK_usp_insupd_EquipmentType",
@@ -1477,7 +1469,7 @@ namespace DOWTank.Controllers
                         {
                             Key = postModel.Id,
                             ActiveFL = false,
-                            UpdateUserAN = "SYSTEM"
+                            UpdateUserAN = SecurityExtended.UserName
                         };
                         _utilityService.ExecStoredProcedureWithoutResults("TANK_usp_insupd_EquipmentType",
                                                                           TANK_usp_insupd_EquipmentType_spParams);
@@ -1563,7 +1555,7 @@ namespace DOWTank.Controllers
                             Description = postModel.Description,
                             MajorLocationID = SecurityExtended.LocationId.Value,
                             UpdateDT = DateTime.Now,
-                            UpdateUserAN = "SYSTEM",
+                            UpdateUserAN = SecurityExtended.UserName,
                             ActiveFL = true
                         };
                         _utilityService.ExecStoredProcedureWithoutResults("TANK_usp_insupd_FacilityParameter",
@@ -1585,7 +1577,7 @@ namespace DOWTank.Controllers
                             Description = postModel.Description,
                             MajorLocationID = SecurityExtended.LocationId.Value,
                             UpdateDT = DateTime.Now,
-                            UpdateUserAN = "SYSTEM",
+                            UpdateUserAN = SecurityExtended.UserName,
                             ActiveFL = true
                         };
                         _utilityService.ExecStoredProcedureWithoutResults("TANK_usp_insupd_FacilityParameter",
@@ -1602,7 +1594,7 @@ namespace DOWTank.Controllers
                         {
                             KEY = postModel.Id,
                             ActiveFL = false,
-                            UpdateUserAN = "SYSTEM"
+                            UpdateUserAN = SecurityExtended.UserName
                         };
                         _utilityService.ExecStoredProcedureWithoutResults("TANK_usp_insupd_FacilityParameter",
                                                                           TANK_usp_insupd_FacilityParameter_spParams);
@@ -1683,7 +1675,7 @@ namespace DOWTank.Controllers
                             Key = postModel.Id,
                             Description = postModel.Description,
                             LocationId = SecurityExtended.LocationId.Value,
-                            UpdateUserAN = "SYSTEM",
+                            UpdateUserAN = SecurityExtended.UserName,
                             ActiveFL = true
                         };
                         _utilityService.ExecStoredProcedureWithoutResults("TANK_usp_insupd_Fitting",
@@ -1701,7 +1693,7 @@ namespace DOWTank.Controllers
                             Key = _sharedFunctions.ToNullableInt32(Request.Form["id"]),
                             Description = postModel.Description,
                             LocationId = SecurityExtended.LocationId.Value,
-                            UpdateUserAN = "SYSTEM",
+                            UpdateUserAN = SecurityExtended.UserName,
                             ActiveFL = true
                         };
                         _utilityService.ExecStoredProcedureWithoutResults("TANK_usp_insupd_Fitting",
@@ -1718,7 +1710,7 @@ namespace DOWTank.Controllers
                         {
                             Key = postModel.Id,
                             ActiveFL = false,
-                            UpdateUserAN = "SYSTEM"
+                            UpdateUserAN = SecurityExtended.UserName
                         };
                         _utilityService.ExecStoredProcedureWithoutResults("TANK_usp_insupd_Fitting",
                                                                           TANK_usp_insupd_Fitting_spParams);
@@ -1804,7 +1796,7 @@ namespace DOWTank.Controllers
                             Description = postModel.Description,
                             ParentLocationID = postModel.ParentLocationID,
                             LocationTypeCD = null,
-                            UpdateUserAN = "SYSTEM",
+                            UpdateUserAN = SecurityExtended.UserName,
                             ActiveFL = true
                         };
                         _utilityService.ExecStoredProcedureWithoutResults("TANK_usp_insupd_Location",
@@ -1824,7 +1816,7 @@ namespace DOWTank.Controllers
                             Description = postModel.Description,
                             ParentLocationID = postModel.ParentLocationID,
                             LocationTypeCD = null,
-                            UpdateUserAN = "SYSTEM",
+                            UpdateUserAN = SecurityExtended.UserName,
                             ActiveFL = true
                         };
                         _utilityService.ExecStoredProcedureWithoutResults("TANK_usp_insupd_Location",
@@ -1841,7 +1833,7 @@ namespace DOWTank.Controllers
                         {
                             Key = postModel.Id,
                             ActiveFL = false,
-                            UpdateUserAN = "SYSTEM"
+                            UpdateUserAN = SecurityExtended.UserName
                         };
                         _utilityService.ExecStoredProcedureWithoutResults("TANK_usp_insupd_Location",
                                                                           TANK_usp_insupd_Location_spParams);
@@ -1920,7 +1912,7 @@ namespace DOWTank.Controllers
                         {
                             Key = postModel.Id,
                             Description = postModel.Description,
-                            UpdateUserAN = "SYSTEM",
+                            UpdateUserAN = SecurityExtended.UserName,
                             ActiveFL = true
                         };
                         _utilityService.ExecStoredProcedureWithoutResults("TANK_usp_insupd_MaintConditionType",
@@ -1937,7 +1929,7 @@ namespace DOWTank.Controllers
                         {
                             Key = _sharedFunctions.ToNullableInt32(Request.Form["id"]),
                             Description = postModel.Description,
-                            UpdateUserAN = "SYSTEM",
+                            UpdateUserAN = SecurityExtended.UserName,
                             ActiveFL = true
                         };
                         _utilityService.ExecStoredProcedureWithoutResults("TANK_usp_insupd_MaintConditionType",
@@ -1954,7 +1946,7 @@ namespace DOWTank.Controllers
                         {
                             Key = postModel.Id,
                             ActiveFL = false,
-                            UpdateUserAN = "SYSTEM"
+                            UpdateUserAN = SecurityExtended.UserName
                         };
                         _utilityService.ExecStoredProcedureWithoutResults("TANK_usp_insupd_MaintConditionType",
                                                                           TANK_usp_insupd_MaintConditionType_spParams);
@@ -2029,7 +2021,7 @@ namespace DOWTank.Controllers
                         {
                             Key = postModel.Id,
                             Description = postModel.Description,
-                            UpdateUserAN = "SYSTEM",
+                            UpdateUserAN = SecurityExtended.UserName,
                             ActiveFL = true
                         };
                         _utilityService.ExecStoredProcedureWithoutResults("TANK_usp_insupd_MoveType",
@@ -2046,7 +2038,7 @@ namespace DOWTank.Controllers
                         {
                             Key = _sharedFunctions.ToNullableInt32(Request.Form["id"]),
                             Description = postModel.Description,
-                            UpdateUserAN = "SYSTEM",
+                            UpdateUserAN = SecurityExtended.UserName,
                             ActiveFL = true
                         };
                         _utilityService.ExecStoredProcedureWithoutResults("TANK_usp_insupd_MoveType",
@@ -2063,7 +2055,7 @@ namespace DOWTank.Controllers
                         {
                             Key = postModel.Id,
                             ActiveFL = false,
-                            UpdateUserAN = "SYSTEM"
+                            UpdateUserAN = SecurityExtended.UserName
                         };
                         _utilityService.ExecStoredProcedureWithoutResults("TANK_usp_insupd_MoveType",
                                                                           TANK_usp_insupd_MoveType_spParams);
@@ -2138,7 +2130,7 @@ namespace DOWTank.Controllers
                         {
                             Key = postModel.Id,
                             Description = postModel.Description,
-                            UpdateUserAN = "SYSTEM",
+                            UpdateUserAN = SecurityExtended.UserName,
                             ActiveFL = true
                         };
                         _utilityService.ExecStoredProcedureWithoutResults("TANK_usp_insupd_OnHireReasonType",
@@ -2155,7 +2147,7 @@ namespace DOWTank.Controllers
                         {
                             Key = _sharedFunctions.ToNullableInt32(Request.Form["id"]),
                             Description = postModel.Description,
-                            UpdateUserAN = "SYSTEM",
+                            UpdateUserAN = SecurityExtended.UserName,
                             ActiveFL = true
                         };
                         _utilityService.ExecStoredProcedureWithoutResults("TANK_usp_insupd_OnHireReasonType",
@@ -2172,7 +2164,7 @@ namespace DOWTank.Controllers
                         {
                             Key = postModel.Id,
                             ActiveFL = false,
-                            UpdateUserAN = "SYSTEM"
+                            UpdateUserAN = SecurityExtended.UserName
                         };
                         _utilityService.ExecStoredProcedureWithoutResults("TANK_usp_insupd_OnHireReasonType",
                                                                           TANK_usp_insupd_OnHireReasonType_spParams);
@@ -2250,7 +2242,7 @@ namespace DOWTank.Controllers
                         {
                             Key = postModel.Id,
                             Name = postModel.Name,
-                            UpdateUserAN = "SYSTEM",
+                            UpdateUserAN = SecurityExtended.UserName,
                             ActiveFL = true
                         };
                         _utilityService.ExecStoredProcedureWithoutResults("TANK_usp_insupd_Operator",
@@ -2267,7 +2259,7 @@ namespace DOWTank.Controllers
                         {
                             Key = _sharedFunctions.ToNullableInt32(Request.Form["id"]),
                             Name = postModel.Name,
-                            UpdateUserAN = "SYSTEM",
+                            UpdateUserAN = SecurityExtended.UserName,
                             ActiveFL = true
                         };
                         _utilityService.ExecStoredProcedureWithoutResults("TANK_usp_insupd_Operator",
@@ -2284,7 +2276,7 @@ namespace DOWTank.Controllers
                         {
                             Key = postModel.Id,
                             ActiveFL = false,
-                            UpdateUserAN = "SYSTEM"
+                            UpdateUserAN = SecurityExtended.UserName
                         };
                         _utilityService.ExecStoredProcedureWithoutResults("TANK_usp_insupd_Operator",
                                                                           TANK_usp_insupd_Operator_spParams);
@@ -2362,7 +2354,7 @@ namespace DOWTank.Controllers
                         {
                             Key = postModel.Id,
                             Name = postModel.Name,
-                            UpdateUserAN = "SYSTEM",
+                            UpdateUserAN = SecurityExtended.UserName,
                             ActiveFL = true
                         };
                         _utilityService.ExecStoredProcedureWithoutResults("TANK_usp_insupd_Owner",
@@ -2379,7 +2371,7 @@ namespace DOWTank.Controllers
                         {
                             Key = _sharedFunctions.ToNullableInt32(Request.Form["id"]),
                             Name = postModel.Name,
-                            UpdateUserAN = "SYSTEM",
+                            UpdateUserAN = SecurityExtended.UserName,
                             ActiveFL = true
                         };
                         _utilityService.ExecStoredProcedureWithoutResults("TANK_usp_insupd_Owner",
@@ -2396,7 +2388,7 @@ namespace DOWTank.Controllers
                         {
                             Key = postModel.Id,
                             ActiveFL = false,
-                            UpdateUserAN = "SYSTEM"
+                            UpdateUserAN = SecurityExtended.UserName
                         };
                         _utilityService.ExecStoredProcedureWithoutResults("TANK_usp_insupd_Owner",
                                                                           TANK_usp_insupd_Owner_spParams);
@@ -2474,7 +2466,7 @@ namespace DOWTank.Controllers
                         {
                             Key = postModel.Id,
                             Description = postModel.Description,
-                            UpdateUserAN = "SYSTEM",
+                            UpdateUserAN = SecurityExtended.UserName,
                             ActiveFL = true
                         };
                         _utilityService.ExecStoredProcedureWithoutResults("TANK_usp_insupd_TankConstructionType",
@@ -2491,7 +2483,7 @@ namespace DOWTank.Controllers
                         {
                             Key = _sharedFunctions.ToNullableInt32(Request.Form["id"]),
                             Description = postModel.Description,
-                            UpdateUserAN = "SYSTEM",
+                            UpdateUserAN = SecurityExtended.UserName,
                             ActiveFL = true
                         };
                         _utilityService.ExecStoredProcedureWithoutResults("TANK_usp_insupd_TankConstructionType",
@@ -2508,7 +2500,7 @@ namespace DOWTank.Controllers
                         {
                             Key = postModel.Id,
                             ActiveFL = false,
-                            UpdateUserAN = "SYSTEM"
+                            UpdateUserAN = SecurityExtended.UserName
                         };
                         _utilityService.ExecStoredProcedureWithoutResults("TANK_usp_insupd_TankConstructionType",
                                                                           TANK_usp_insupd_TankConstructionType_spParams);
@@ -2585,7 +2577,7 @@ namespace DOWTank.Controllers
                             Key = postModel.Id,
                             Description = postModel.Description,
                             Code = postModel.Code,
-                            UpdateUserAN = "SYSTEM",
+                            UpdateUserAN = SecurityExtended.UserName,
                             ActiveFL = true
                         };
                         _utilityService.ExecStoredProcedureWithoutResults("TANK_usp_insupd_Vendor",
@@ -2603,7 +2595,7 @@ namespace DOWTank.Controllers
                             Key = _sharedFunctions.ToNullableInt32(Request.Form["id"]),
                             Description = postModel.Description,
                             Code = postModel.Code,
-                            UpdateUserAN = "SYSTEM",
+                            UpdateUserAN = SecurityExtended.UserName,
                             ActiveFL = true
                         };
                         _utilityService.ExecStoredProcedureWithoutResults("TANK_usp_insupd_Vendor",
@@ -2620,7 +2612,7 @@ namespace DOWTank.Controllers
                         {
                             Key = postModel.Id,
                             ActiveFL = false,
-                            UpdateUserAN = "SYSTEM"
+                            UpdateUserAN = SecurityExtended.UserName
                         };
                         _utilityService.ExecStoredProcedureWithoutResults("TANK_usp_insupd_Vendor",
                                                                           TANK_usp_insupd_Vendor_spParams);
@@ -2695,7 +2687,7 @@ namespace DOWTank.Controllers
                         {
                             Key = postModel.Id,
                             Description = postModel.Description,
-                            UpdateUserAN = "SYSTEM",
+                            UpdateUserAN = SecurityExtended.UserName,
                             ActiveFL = true
                         };
                         _utilityService.ExecStoredProcedureWithoutResults("TANK_usp_insupd_WasteClassType",
@@ -2712,7 +2704,7 @@ namespace DOWTank.Controllers
                         {
                             Key = _sharedFunctions.ToNullableInt32(Request.Form["id"]),
                             Description = postModel.Description,
-                            UpdateUserAN = "SYSTEM",
+                            UpdateUserAN = SecurityExtended.UserName,
                             ActiveFL = true
                         };
                         _utilityService.ExecStoredProcedureWithoutResults("TANK_usp_insupd_WasteClassType",
@@ -2729,7 +2721,7 @@ namespace DOWTank.Controllers
                         {
                             Key = postModel.Id,
                             ActiveFL = false,
-                            UpdateUserAN = "SYSTEM"
+                            UpdateUserAN = SecurityExtended.UserName
                         };
                         _utilityService.ExecStoredProcedureWithoutResults("TANK_usp_insupd_WasteClassType",
                                                                           TANK_usp_insupd_WasteClassType_spParams);
