@@ -18,18 +18,18 @@ namespace DOWTank.Common
 {
     public interface ISharedFunctions
     {
-        IEnumerable<TANK_usp_sel_ChargeCodeDDL_spResults> PopulateChargeCode(int iIncludeBlank, string sFilter);
+        IEnumerable<TANK_usp_sel_ChargeCodeDDL_spResults> PopulateChargeCode(int iIncludeBlank, string sFilter, int locationId);
         IEnumerable<TANK_usp_sel_LocationTreeFLAT_spResults> PopulateLoadPointLocationTreeFlatOverTheRoad(int majorLocationId);
         IEnumerable<TANK_usp_sel_LocationTreeFLAT_spResults> PopulateLoadPointLocationTreeFlatBlock(int majorLocationId);
         IEnumerable<TANK_usp_sel_LocationTreeGrounded_spResults> PopulateLoadPointLocationGrounded(int majorLocationId);
         IEnumerable<TANK_usp_sel_locationTreeALL_spResults> PopulateLoadPointLocationAll(int majorLocationId);
         IEnumerable<TANK_usp_sel_ProductDDL_spResults> PopulateProduct(bool iIncludeBlank, int locationId, string searchTerm);
-        IEnumerable<TANK_usp_sel_FittingDDL_spResults> PopulateFitting();
+        IEnumerable<TANK_usp_sel_FittingDDL_spResults> PopulateFitting(int locationId);
         IEnumerable<TANK_usp_sel_LoadStatusTypeDDL_spResults> PopulateLoadStatusType();
         IEnumerable<TANK_usp_sel_EquipmentSearch2_spResults> PopulateEquipment(Int16 EquipmentClassTypeCD,
                                                                                string EquipmentAn);
-        IEnumerable<TANK_usp_sel_ContactDDL_spResults> PopulateContacts();
-        IEnumerable<TANK_usp_sel_SecurityDDL_spResults> PopulateSecurityDDL();
+        IEnumerable<TANK_usp_sel_ContactDDL_spResults> PopulateContacts(int locationId);
+        IEnumerable<TANK_usp_sel_SecurityDDL_spResults> PopulateSecurityDDL(int locationId);
         IEnumerable<TANK_usp_sel_Equipment_spResults> RefreshEquipment(int? equipmentId, string equipmentAN);
         bool SetCrystalDBSource(ReportDocument reportDocument);
         IEnumerable<TANK_usp_sel_DriverDDL_spResults> PopulateDrivers(bool iIncludeBlank);
@@ -95,7 +95,7 @@ namespace DOWTank.Common
             return listItems.ToList();
         }
 
-        public IEnumerable<TANK_usp_sel_ChargeCodeDDL_spResults> PopulateChargeCode(int iIncludeBlank, string sFilter)
+        public IEnumerable<TANK_usp_sel_ChargeCodeDDL_spResults> PopulateChargeCode(int iIncludeBlank, string sFilter, int locationId)
         {
             // database call
 
@@ -103,7 +103,7 @@ namespace DOWTank.Common
             {
                 //TODO: re-factor it later from hard coded
                 IncludeBlank = false,
-                LocationID = 1
+                LocationID = locationId
             };
             var data = _utilityService.ExecStoredProcedureWithResults<TANK_usp_sel_ChargeCodeDDL_spResults>("TANK_usp_sel_ChargeCodeDDL", TANK_usp_sel_ChargeCodeDDL_spParams);
 
@@ -137,7 +137,7 @@ namespace DOWTank.Common
             var TANK_usp_sel_locationTreeFLAT_spParams = new TANK_usp_sel_locationTreeFLAT_spParams()
             {
                 //TODO: re-factor it later from hard coded
-                MajorLocationID = 1,
+                MajorLocationID = majorLocationId,
                 LocationTypeCD = 3
             };
             var data = _utilityService.ExecStoredProcedureWithResults<TANK_usp_sel_LocationTreeFLAT_spResults>("TANK_usp_sel_LocationTreeFLAT", TANK_usp_sel_locationTreeFLAT_spParams);
@@ -153,7 +153,7 @@ namespace DOWTank.Common
             var TANK_usp_sel_LocationTreeGrounded_spParams = new TANK_usp_sel_LocationTreeGrounded_spParams()
             {
                 //TODO: re-factor it later from hard coded
-                MajorLocationID = 1
+                MajorLocationID = majorLocationId
             };
             var data = _utilityService.ExecStoredProcedureWithResults<TANK_usp_sel_LocationTreeGrounded_spResults>("TANK_usp_sel_LocationTreeGrounded", TANK_usp_sel_LocationTreeGrounded_spParams);
 
@@ -168,7 +168,7 @@ namespace DOWTank.Common
             var TANK_usp_sel_locationTreeALL_spParams = new TANK_usp_sel_locationTreeALL_spParams()
             {
                 //TODO: re-factor it later from hard coded
-                MajorLocationID = 1
+                MajorLocationID = majorLocationId
             };
             var data = _utilityService.ExecStoredProcedureWithResults<TANK_usp_sel_locationTreeALL_spResults>("TANK_usp_sel_locationTreeALL", TANK_usp_sel_locationTreeALL_spParams);
 
@@ -185,7 +185,7 @@ namespace DOWTank.Common
             {
                 //TODO: re-factor it later from hard coded
                 IncludeBlank = false,
-                LocationID = 1,
+                LocationID = locationId,
                 Filter = searchTerm
             };
             var data = _utilityService.ExecStoredProcedureWithResults<TANK_usp_sel_ProductDDL_spResults>("TANK_usp_sel_ProductDDL", TANK_usp_sel_ProductDDL_spParams);
@@ -195,7 +195,7 @@ namespace DOWTank.Common
             return data;
         }
 
-        public IEnumerable<TANK_usp_sel_FittingDDL_spResults> PopulateFitting()
+        public IEnumerable<TANK_usp_sel_FittingDDL_spResults> PopulateFitting(int locationId)
         {
             // database call
 
@@ -203,7 +203,7 @@ namespace DOWTank.Common
             {
                 //TODO: re-factor it later from hard coded
                 IncludeBlank = false,
-                LocationID = 1,
+                LocationID = locationId,
             };
             var data = _utilityService.ExecStoredProcedureWithResults<TANK_usp_sel_FittingDDL_spResults>("TANK_usp_sel_FittingDDL", TANK_usp_sel_FittingDDL_spParams);
 
@@ -245,7 +245,7 @@ namespace DOWTank.Common
             return data;
         }
 
-        public IEnumerable<TANK_usp_sel_ContactDDL_spResults> PopulateContacts()
+        public IEnumerable<TANK_usp_sel_ContactDDL_spResults> PopulateContacts(int locationId)
         {
             // database call
 
@@ -253,7 +253,7 @@ namespace DOWTank.Common
             {
                 //TODO: re-factor it later from hard coded
                 IncludeBlank = false,
-                LocationID = 1
+                LocationID = locationId
             };
             var data = _utilityService.ExecStoredProcedureWithResults<TANK_usp_sel_ContactDDL_spResults>("TANK_usp_sel_ContactDDL", TANK_usp_sel_ContactDDL_spParams);
 
@@ -262,7 +262,7 @@ namespace DOWTank.Common
             return data;
         }
 
-        public IEnumerable<TANK_usp_sel_SecurityDDL_spResults> PopulateSecurityDDL()
+        public IEnumerable<TANK_usp_sel_SecurityDDL_spResults> PopulateSecurityDDL(int locationId)
         {
             // database call
 
@@ -270,7 +270,7 @@ namespace DOWTank.Common
             {
                 //TODO: re-factor it later from hard coded
                 IncludeBlank = false,
-                LocationID = 1
+                LocationID = locationId
             };
             var data = _utilityService.ExecStoredProcedureWithResults<TANK_usp_sel_SecurityDDL_spResults>("TANK_usp_sel_SecurityDDL", TANK_usp_sel_SecurityDDL_spParams);
 
@@ -516,7 +516,7 @@ namespace DOWTank.Common
             {
                 //TODO: re-factor it later from hard coded
                 EquipmentAN = strTankNumber,
-                FacilityLocationID = 1
+                FacilityLocationID = locationId
             };
             var data = _utilityService.ExecStoredProcedureWithResults<TANK_usp_sel_DispatchLastMove_spResults>("TANK_usp_sel_EquipmentLastDispatch", TANK_usp_sel_DispatchLastMove_spParams);
 
@@ -532,7 +532,7 @@ namespace DOWTank.Common
             {
                 //TODO: re-factor it later from hard coded
                 EquipmentID = equipmentId,
-                FacilityLocationID = 1
+                FacilityLocationID = locationId
             };
             var data = _utilityService.ExecStoredProcedureWithResults<TANK_usp_sel_DispatchLastMove_spResults>("TANK_usp_sel_EquipmentLastDispatch", TANK_usp_sel_DispatchLastMove_spParams);
 

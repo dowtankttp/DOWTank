@@ -106,10 +106,10 @@ namespace DOWTank.Controllers
         [OutputCache(Duration = int.MaxValue, VaryByParam = "searchTerm")]
         public JsonResult PopulateChargeCode(string searchTerm)
         {
-
+            PopulateSecurityExtended();
             searchTerm = searchTerm.Trim();
             //todo: re-factor it later as required
-            var response = _sharedFunctions.PopulateChargeCode(0, searchTerm);
+            var response = _sharedFunctions.PopulateChargeCode(0, searchTerm, SecurityExtended.LocationId.Value);
 
             var chargeCodes = new List<Select2ViewModel>();
             if (response != null && response.Any())
@@ -133,9 +133,10 @@ namespace DOWTank.Controllers
         [OutputCache(Duration = int.MaxValue, VaryByParam = "searchTerm")]
         public JsonResult PopulateProduct(string searchTerm)
         {
+            PopulateSecurityExtended();	
             searchTerm = searchTerm.Trim();
             //todo: re-factor it later as required
-            var response = _sharedFunctions.PopulateProduct(false, 1, searchTerm);
+            var response = _sharedFunctions.PopulateProduct(false, SecurityExtended.LocationId.Value, searchTerm);
 
             var productList = new List<Select2ViewModel>();
             if (response != null && response.Any())
@@ -215,9 +216,10 @@ namespace DOWTank.Controllers
         [OutputCache(Duration = int.MaxValue, VaryByParam = "searchTerm")]
         public JsonResult PopulateContacts(string searchTerm)
         {
+            PopulateSecurityExtended();		
             searchTerm = searchTerm.Trim();
             //todo: re-factor it later as required
-            var response = _sharedFunctions.PopulateContacts();
+            var response = _sharedFunctions.PopulateContacts(SecurityExtended.LocationId.Value);
 
             var productList = new List<Select2ViewModel>();
             if (response != null && response.Any())
@@ -235,13 +237,14 @@ namespace DOWTank.Controllers
 
         private List<Select2ViewModel> LoadLocations(int locationType)
         {
+            PopulateSecurityExtended();	
             //todo: re-factor it later as required
             var loadPoints = new List<Select2ViewModel>();
 
             //selected location
             if (locationType == 1)
             {
-                var response = _sharedFunctions.PopulateLoadPointLocationAll(1);
+                var response = _sharedFunctions.PopulateLoadPointLocationAll(SecurityExtended.LocationId.Value);
                 if (response != null && response.Any())
                 {
                     foreach (var item in response)
@@ -257,7 +260,7 @@ namespace DOWTank.Controllers
             //Over The Road
             else if (locationType == 2)
             {
-                var response = _sharedFunctions.PopulateLoadPointLocationTreeFlatOverTheRoad(1);
+                var response = _sharedFunctions.PopulateLoadPointLocationTreeFlatOverTheRoad(SecurityExtended.LocationId.Value);
                 if (response != null && response.Any())
                 {
                     foreach (var item in response)
@@ -273,7 +276,7 @@ namespace DOWTank.Controllers
             //Block
             else if (locationType == 3)
             {
-                var response = _sharedFunctions.PopulateLoadPointLocationTreeFlatBlock(1);
+                var response = _sharedFunctions.PopulateLoadPointLocationTreeFlatBlock(SecurityExtended.LocationId.Value);
                 if (response != null && response.Any())
                 {
                     foreach (var item in response)
@@ -289,7 +292,7 @@ namespace DOWTank.Controllers
             //Grounded
             else if (locationType == 4)
             {
-                var response = _sharedFunctions.PopulateLoadPointLocationGrounded(1);
+                var response = _sharedFunctions.PopulateLoadPointLocationGrounded(SecurityExtended.LocationId.Value);
                 if (response != null && response.Any())
                 {
                     foreach (var item in response)
@@ -306,6 +309,8 @@ namespace DOWTank.Controllers
 
         private void LoadTankPrepDropdowns()
         {
+            PopulateSecurityExtended();												
+
             #region LoadPoint
 
             var loadItemsPoint = new List<SelectListItem>();
@@ -328,7 +333,7 @@ namespace DOWTank.Controllers
 
             #region fitting ddl
             var fittingList = new List<SelectListItem>();
-            var response = _sharedFunctions.PopulateFitting();
+            var response = _sharedFunctions.PopulateFitting(SecurityExtended.LocationId.Value);
             if (response != null && response.Any())
             {
                 fittingList.Add(new SelectListItem { Text = "", Value = "" });

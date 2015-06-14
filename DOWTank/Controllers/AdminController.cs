@@ -46,12 +46,13 @@ namespace DOWTank.Controllers
         [HttpGet]
         public JsonResult GetUserProfileData(int page, int rows, string search, string sidx, string sord)
         {
+            PopulateSecurityExtended();
             // database call
 
             var TANK_usp_sel_SecurityProfile_spParams = new TANK_usp_sel_SecurityProfile_spParams()
             {
                 //TODO: re-factor it later from hard coded
-                LocationID = 1
+                LocationID = SecurityExtended.LocationId
             };
             DataTable dataTable = _utilityService.ExecStoredProcedureForDataTable("TANK_usp_sel_SecurityProfile", TANK_usp_sel_SecurityProfile_spParams);
 
@@ -102,6 +103,7 @@ namespace DOWTank.Controllers
         [HttpGet]
         public ActionResult SecurityProfile(int? id)
         {
+            PopulateSecurityExtended();
             var viewModel = new UserSecurityProfileViewModel();
             viewModel.Id = id ?? 0;
             #region TANK_usp_sel_SecurityProfile
@@ -111,7 +113,7 @@ namespace DOWTank.Controllers
                 var TANK_usp_sel_SecurityProfile_spParams = new TANK_usp_sel_SecurityProfile_spParams()
                     {
                         //TODO: re-factor it later from hard coded
-                        LocationID = 1,
+                        LocationID = SecurityExtended.LocationId,
                         SecurityProfileID = id
                     };
                 DataTable dataTable = _utilityService.ExecStoredProcedureForDataTable("TANK_usp_sel_SecurityProfile",
@@ -515,6 +517,7 @@ namespace DOWTank.Controllers
         [HttpPost]
         public ActionResult SecurityProfile(UserSecurityProfileViewModel postModel)
         {
+            PopulateSecurityExtended();
             if (!ModelState.IsValid)
             {
                 return View(postModel);
@@ -527,7 +530,7 @@ namespace DOWTank.Controllers
             {
                 var TANK_usp_insupd_SecurityProfile_spParams = new TANK_usp_insupd_SecurityProfile_spParams()
                 {
-                    LocationID = 1,
+                    LocationID = SecurityExtended.LocationId,
                     SecurityProfileDS = postModel.ProfileName,
                     ActiveFL = postModel.IsActive,
                     UpdateUserAN = "System"
@@ -540,7 +543,7 @@ namespace DOWTank.Controllers
             {
                 var TANK_usp_insupd_SecurityProfile_spParams = new TANK_usp_insupd_SecurityProfile_spParams()
                 {
-                    LocationID = 1,
+                    LocationID = SecurityExtended.LocationId,
                     SecurityProfileDS = postModel.ProfileName,
                     SecurityProfileID = postModel.Id,
                     ActiveFL = postModel.IsActive,
@@ -655,12 +658,13 @@ namespace DOWTank.Controllers
         [HttpGet]
         public JsonResult GetProductsData(int page, int rows, string search, string sidx, string sord, string productName, string productCode)
         {
+            PopulateSecurityExtended();
             // database call
 
             var TANK_usp_sel_ProductList_spParams = new TANK_usp_sel_ProductList_spParams()
             {
                 //TODO: re-factor it later from hard coded
-                MajorLocationID = 1
+                MajorLocationID = SecurityExtended.LocationId.Value
             };
             DataTable dataTable = _utilityService.ExecStoredProcedureForDataTable("TANK_usp_sel_ProductList", TANK_usp_sel_ProductList_spParams);
 
@@ -722,6 +726,7 @@ namespace DOWTank.Controllers
         [HttpPost]
         public JsonResult UpdateProductLocation(UpdateProductionLocationPostModel postModel)
         {
+            PopulateSecurityExtended();
             if (postModel == null || postModel.ProductId == 0)
             {
                 return Json(0);
@@ -731,7 +736,7 @@ namespace DOWTank.Controllers
                 {
                     ProductID = postModel.ProductId,
                     ActiveFL = postModel.ActiveFL,
-                    LocationID = 1
+                    LocationID = SecurityExtended.LocationId.Value
                 };
 
             _utilityService.ExecStoredProcedureWithoutResults("TANK_usp_insupd_ProductLocation", TANK_usp_insupd_ProductLocation_spParams);
@@ -770,13 +775,14 @@ namespace DOWTank.Controllers
         [HttpGet]
         public JsonResult GetContacts(int page, int rows, string search, string sidx, string sord)
         {
+            PopulateSecurityExtended();
             // database call
 
             var TANK_usp_sel_ContactUPD_spParams = new TANK_usp_sel_ContactUPD_spParams()
             {
                 //TODO: re-factor it later from hard coded
                 InstallID = 1,
-                MajorLocationID = 1
+                MajorLocationID = SecurityExtended.LocationId.Value
             };
             DataTable dataTable = _utilityService.ExecStoredProcedureForDataTable("TANK_usp_sel_ContactUPD", TANK_usp_sel_ContactUPD_spParams);
 
@@ -892,12 +898,13 @@ namespace DOWTank.Controllers
         [HttpGet]
         public JsonResult GetDeletedMoves(int page, int rows, string search, string sidx, string sord, string tankNumber, string from, string to, string product, string chargeNumber, string shipment)
         {
+            PopulateSecurityExtended();
             // database call
 
             var TANK_usp_sel_DeletedMoves_spParams = new TANK_usp_sel_DeletedMoves_spParams()
             {
                 //TODO: re-factor it later from hard coded
-                LocationID = 1
+                LocationID = SecurityExtended.LocationId.Value
             };
             DataTable dataTable = _utilityService.ExecStoredProcedureForDataTable("TANK_usp_sel_DeletedMoves", TANK_usp_sel_DeletedMoves_spParams);
 
@@ -1012,13 +1019,14 @@ namespace DOWTank.Controllers
         [HttpGet]
         public JsonResult GetChargeCodes(int page, int rows, string search, string sidx, string sord)
         {
+            PopulateSecurityExtended();
             // database call
 
             var TANK_usp_sel_ChargeCodesUpd_spParams = new TANK_usp_sel_ChargeCodesUpd_spParams()
             {
                 //TODO: re-factor it later from hard coded
                 InstallID = 1,
-                MajorLocationID = 1
+                MajorLocationID = SecurityExtended.LocationId.Value
             };
             DataTable dataTable = _utilityService.ExecStoredProcedureForDataTable("TANK_usp_sel_ChargeCodeUPD", TANK_usp_sel_ChargeCodesUpd_spParams);
 
@@ -1052,7 +1060,7 @@ namespace DOWTank.Controllers
         [HttpPost]
         public JsonResult ManageChargeCodes(ChargeCodesPostModel postModel)
         {
-
+            PopulateSecurityExtended();
             switch (Request.Form["oper"])
             {
                 case "add":
@@ -1065,7 +1073,7 @@ namespace DOWTank.Controllers
                             Code = postModel.Code,
                             Description = postModel.Description,
                             UpdateUserAN = "SYSTEM",
-                            MajorLocationID = 1,//todo change location id
+                            MajorLocationID = SecurityExtended.LocationId,//todo change location id
                             ActiveFL = true
                         };
                         _utilityService.ExecStoredProcedureWithoutResults("TANK_usp_insupd_ChargeCode",
@@ -1084,7 +1092,7 @@ namespace DOWTank.Controllers
                             Code = postModel.Code,
                             Description = postModel.Description,
                             UpdateUserAN = "SYSTEM",
-                            MajorLocationID = 1,//todo change location id
+                            MajorLocationID = SecurityExtended.LocationId.Value,//todo change location id
                             ActiveFL = true
                         };
                         _utilityService.ExecStoredProcedureWithoutResults("TANK_usp_insupd_ChargeCode",
@@ -1168,7 +1176,7 @@ namespace DOWTank.Controllers
         [HttpPost]
         public JsonResult ManageDispatchReasonType(DispatchReasonTypePostModel postModel)
         {
-
+            PopulateSecurityExtended();
             switch (Request.Form["oper"])
             {
                 case "add":
@@ -1180,7 +1188,7 @@ namespace DOWTank.Controllers
                             Key = postModel.Id,
                             Description = postModel.Description,
                             UpdateUserAN = "SYSTEM",
-                            LocationId = 1,//todo
+                            LocationId = SecurityExtended.LocationId,//todo
                             ActiveFL = true
                         };
                         _utilityService.ExecStoredProcedureWithoutResults("TANK_usp_insupd_DispatchReasonType",
@@ -1198,7 +1206,7 @@ namespace DOWTank.Controllers
                             Key = _sharedFunctions.ToNullableInt32(Request.Form["id"]),
                             Description = postModel.Description,
                             UpdateUserAN = "SYSTEM",
-                            LocationId = 1,//todo
+                            LocationId = SecurityExtended.LocationId.Value,//todo
                             ActiveFL = true
                         };
                         _utilityService.ExecStoredProcedureWithoutResults("TANK_usp_insupd_DispatchReasonType",
@@ -1416,7 +1424,7 @@ namespace DOWTank.Controllers
         [HttpPost]
         public JsonResult ManageEquipmentTypes(EquipmentTypesPostModel postModel)
         {
-
+            PopulateSecurityExtended();	
             switch (Request.Form["oper"])
             {
                 case "add":
@@ -1430,7 +1438,7 @@ namespace DOWTank.Controllers
                             Description = postModel.Description,
                             Code = postModel.Code,
                             Length = postModel.Length,
-                            LocationID = 1,
+                            LocationID = SecurityExtended.LocationId.Value,
                             UpdateUserAN = "SYSTEM",
                             ActiveFL = true
                         };
@@ -1451,7 +1459,7 @@ namespace DOWTank.Controllers
                             Description = postModel.Description,
                             Code = postModel.Code,
                             Length = postModel.Length,
-                            LocationID = 1,
+                            LocationID = SecurityExtended.LocationId.Value,
                             UpdateUserAN = "SYSTEM",
                             ActiveFL = true
                         };
@@ -1499,12 +1507,12 @@ namespace DOWTank.Controllers
         public JsonResult GetFacilityParameters(int page, int rows, string search, string sidx, string sord)
         {
             // database call
-
+            PopulateSecurityExtended();	
             var TANK_usp_sel_FacilityParametersUpd_spParams = new TANK_usp_sel_FacilityParametersUpd_spParams()
             {
                 //TODO: re-factor it later from hard coded
                 InstallID = 1,
-                MajorLocationID = 1
+                MajorLocationID = SecurityExtended.LocationId.Value
             };
             DataTable dataTable = _utilityService.ExecStoredProcedureForDataTable("TANK_usp_sel_FacilityParameterUPD", TANK_usp_sel_FacilityParametersUpd_spParams);
 
@@ -1553,7 +1561,7 @@ namespace DOWTank.Controllers
                             InstallID = 1,
                             Value = postModel.Value,
                             Description = postModel.Description,
-                            MajorLocationID = 1,
+                            MajorLocationID = SecurityExtended.LocationId.Value,
                             UpdateDT = DateTime.Now,
                             UpdateUserAN = "SYSTEM",
                             ActiveFL = true
@@ -1575,7 +1583,7 @@ namespace DOWTank.Controllers
                             InstallID = 1,
                             Value = postModel.Value,
                             Description = postModel.Description,
-                            MajorLocationID = 1,
+                            MajorLocationID = SecurityExtended.LocationId.Value,
                             UpdateDT = DateTime.Now,
                             UpdateUserAN = "SYSTEM",
                             ActiveFL = true
@@ -1622,13 +1630,14 @@ namespace DOWTank.Controllers
         [HttpGet]
         public JsonResult GetFittings(int page, int rows, string search, string sidx, string sord)
         {
+            PopulateSecurityExtended();	
             // database call
 
             var TANK_usp_sel_FittingsUpd_spParams = new TANK_usp_sel_FittingsUpd_spParams()
             {
                 //TODO: re-factor it later from hard coded
                 InstallID = 1,
-                LocationID = 1
+                LocationID = SecurityExtended.LocationId.Value
             };
             DataTable dataTable = _utilityService.ExecStoredProcedureForDataTable("TANK_usp_sel_FittingUPD", TANK_usp_sel_FittingsUpd_spParams);
 
@@ -1661,6 +1670,7 @@ namespace DOWTank.Controllers
         [HttpPost]
         public JsonResult ManageFittings(FittingsPostModel postModel)
         {
+            PopulateSecurityExtended();	
 
             switch (Request.Form["oper"])
             {
@@ -1672,7 +1682,7 @@ namespace DOWTank.Controllers
                         {
                             Key = postModel.Id,
                             Description = postModel.Description,
-                            LocationId = 1,
+                            LocationId = SecurityExtended.LocationId.Value,
                             UpdateUserAN = "SYSTEM",
                             ActiveFL = true
                         };
@@ -1690,7 +1700,7 @@ namespace DOWTank.Controllers
                         {
                             Key = _sharedFunctions.ToNullableInt32(Request.Form["id"]),
                             Description = postModel.Description,
-                            LocationId = 1,
+                            LocationId = SecurityExtended.LocationId.Value,
                             UpdateUserAN = "SYSTEM",
                             ActiveFL = true
                         };
@@ -1737,13 +1747,14 @@ namespace DOWTank.Controllers
         [HttpGet]
         public JsonResult GetLocations(int page, int rows, string search, string sidx, string sord)
         {
+            PopulateSecurityExtended();	
             // database call
 
             var TANK_usp_sel_LocationsUpd_spParams = new TANK_usp_sel_LocationsUpd_spParams()
             {
                 //TODO: re-factor it later from hard coded
                 InstallID = 1,
-                MajorLocationID = 1
+                MajorLocationID = SecurityExtended.LocationId.Value
             };
             DataTable dataTable = _utilityService.ExecStoredProcedureForDataTable("TANK_usp_sel_LocationUPD", TANK_usp_sel_LocationsUpd_spParams);
 

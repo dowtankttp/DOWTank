@@ -140,6 +140,7 @@ namespace DOWTank.Controllers
         [HttpPost]
         public ActionResult Index(DispatchTankModel postModel, String ChassisID, String ProductID, String DriverID, String LoadStatusTypeCD)
         {
+            PopulateSecurityExtended();	
             LoadDispatchTankDropdowns();
             if (!ModelState.IsValid)
             {
@@ -150,7 +151,7 @@ namespace DOWTank.Controllers
             TANK_usp_insupd_DispatchTank_spParams objDispatchTankParams = new TANK_usp_insupd_DispatchTank_spParams();
             if (postModel.intDispatchId != null && postModel.intDispatchId > 0)
                 objDispatchTankParams.DispatchID = postModel.intDispatchId;
-            objDispatchTankParams.LocationID = 1;
+            objDispatchTankParams.LocationID = SecurityExtended.LocationId.Value;
             objDispatchTankParams.EquipmentID = postModel.intEquipmentId;
             if (ChassisID.Trim().Length > 0)
                 objDispatchTankParams.ChassisEquipmentID = Convert.ToInt32(ChassisID);
@@ -206,13 +207,14 @@ namespace DOWTank.Controllers
         [HttpPost]
         public JsonResult DeleteDispatchData(DeleteDispatchPostModel postModel)
         {
+            PopulateSecurityExtended();	
             if (postModel == null || postModel.DispatchID == null || postModel.EquipmentID == 0)
             {
                 return Json(0);
             }
             TANK_usp_insupd_DispatchTank_spParams objDispatchTankParams = new TANK_usp_insupd_DispatchTank_spParams()
                 {
-                    LocationID = 1,
+                    LocationID = SecurityExtended.LocationId.Value,
                     DispatchID = postModel.DispatchID,
                     EquipmentID = postModel.EquipmentID,
                     ActiveFL = false,
@@ -236,11 +238,12 @@ namespace DOWTank.Controllers
         [HttpGet]
         public JsonResult LoadLastMove(int? equipmentId)
         {
+            PopulateSecurityExtended();	
             if (equipmentId == null || equipmentId.Value == 0)
             {
                 return Json(string.Empty, JsonRequestBehavior.AllowGet);
             }
-            var data = _sharedFunctions.LoadDispatchLastMove(equipmentId.Value, 1);
+            var data = _sharedFunctions.LoadDispatchLastMove(equipmentId.Value, SecurityExtended.LocationId.Value);
             if (data != null && data.Any())
             {
                 var result = data.FirstOrDefault();
@@ -251,6 +254,8 @@ namespace DOWTank.Controllers
 
         private void LoadDispatchTankDropdowns()
         {
+            PopulateSecurityExtended();												
+
             #region LoadPoint
 
             var loadItemsPoint = new List<SelectListItem>();
@@ -287,7 +292,7 @@ namespace DOWTank.Controllers
             #region fitting ddl
 
             var fittingList = new List<SelectListItem>();
-            var response = _sharedFunctions.PopulateFitting();
+            var response = _sharedFunctions.PopulateFitting(SecurityExtended.LocationId.Value);
             if (response != null && response.Any())
             {
                 fittingList.Add(new SelectListItem { Text = "", Value = "" });
@@ -350,8 +355,9 @@ namespace DOWTank.Controllers
         [HttpGet]
         public JsonResult PopulateProduct(string searchTerm)
         {
+            PopulateSecurityExtended();	
             //todo: re-factor it later as required
-            var response = _sharedFunctions.PopulateProduct(false, 1, searchTerm.Trim());
+            var response = _sharedFunctions.PopulateProduct(false, SecurityExtended.LocationId.Value, searchTerm.Trim());
             var productList = new List<Select2ViewModel>();
             if (response != null && response.Any())
             {
@@ -399,8 +405,9 @@ namespace DOWTank.Controllers
         [HttpGet]
         public JsonResult PopulateChargeCode(string searchTerm)
         {
+            PopulateSecurityExtended();	
             //todo: re-factor it later as required
-            var response = _sharedFunctions.PopulateChargeCode(0, searchTerm.Trim());
+            var response = _sharedFunctions.PopulateChargeCode(0, searchTerm.Trim(),SecurityExtended.LocationId.Value);
             var chargeCodes = new List<Select2ViewModel>();
             if (response != null && response.Any())
             {
@@ -463,8 +470,8 @@ namespace DOWTank.Controllers
         [HttpGet]
         public JsonResult PopulateContacts(string searchTerm)
         {
-            //todo: re-factor it later as required
-            var response = _sharedFunctions.PopulateContacts();
+            PopulateSecurityExtended(); 
+            var response = _sharedFunctions.PopulateContacts(SecurityExtended.LocationId.Value);
 
             var productList = new List<Select2ViewModel>();
             if (response != null && response.Any())
@@ -482,13 +489,13 @@ namespace DOWTank.Controllers
 
         private List<Select2ViewModel> LoadLocations(int locationType)
         {
-            //todo: re-factor it later as required
+            PopulateSecurityExtended();	
             var loadPoints = new List<Select2ViewModel>();
 
             //selected location
             if (locationType == 1)
             {
-                var response = _sharedFunctions.PopulateLoadPointLocationAll(1);
+                var response = _sharedFunctions.PopulateLoadPointLocationAll(SecurityExtended.LocationId.Value);
                 if (response != null && response.Any())
                 {
                     foreach (var item in response)
@@ -504,7 +511,7 @@ namespace DOWTank.Controllers
             //Over The Road
             else if (locationType == 2)
             {
-                var response = _sharedFunctions.PopulateLoadPointLocationTreeFlatOverTheRoad(1);
+                var response = _sharedFunctions.PopulateLoadPointLocationTreeFlatOverTheRoad(SecurityExtended.LocationId.Value);
                 if (response != null && response.Any())
                 {
                     foreach (var item in response)
@@ -520,7 +527,7 @@ namespace DOWTank.Controllers
             //Block
             else if (locationType == 3)
             {
-                var response = _sharedFunctions.PopulateLoadPointLocationTreeFlatBlock(1);
+                var response = _sharedFunctions.PopulateLoadPointLocationTreeFlatBlock(SecurityExtended.LocationId.Value);
                 if (response != null && response.Any())
                 {
                     foreach (var item in response)
@@ -536,7 +543,7 @@ namespace DOWTank.Controllers
             //Grounded
             else if (locationType == 4)
             {
-                var response = _sharedFunctions.PopulateLoadPointLocationGrounded(1);
+                var response = _sharedFunctions.PopulateLoadPointLocationGrounded(SecurityExtended.LocationId.Value);
                 if (response != null && response.Any())
                 {
                     foreach (var item in response)

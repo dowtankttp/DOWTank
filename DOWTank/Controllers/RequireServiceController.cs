@@ -62,12 +62,13 @@ namespace DOWTank.Controllers
 
         public ActionResult ViewInExcel()
         {
+            PopulateSecurityExtended();	
             // database call
 
             var TANK_usp_rpt_RequiresMaint_spParams = new TANK_usp_rpt_RequiresMaint_spParams()
             {
                 //TODO: re-factor it later from hard coded
-                LocationID = 1
+                LocationID = SecurityExtended.LocationId.Value
             };
             DataTable dataTable = _utilityService.ExecStoredProcedureForDataTable("TANK_usp_rpt_RequiresMaint", TANK_usp_rpt_RequiresMaint_spParams);
 

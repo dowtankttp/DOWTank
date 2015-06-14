@@ -51,7 +51,7 @@ namespace DOWTank.Controllers
 
             InvoiceListModel invoiceListModel = new InvoiceListModel();           
 
-            int locationId = 1;            
+            int locationId = SecurityExtended.LocationId.Value;            
             string equipment = postModel.TextSearch;
 
             invoiceListModel.DataTableMoveHistory = GetTankMoveHistory(locationId, equipment, "");
@@ -74,7 +74,7 @@ namespace DOWTank.Controllers
 
             InvoiceListModel invoiceListModel = new InvoiceListModel();
 
-            int locationId = 1;            
+            int locationId = SecurityExtended.LocationId.Value;            
             string equipment = TempData["Equipment"].ToString();
             string filter = postModel.TextFilter;
             string filterColumn = postModel.SelectedColumn;

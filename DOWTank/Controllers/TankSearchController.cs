@@ -53,7 +53,7 @@ namespace DOWTank.Controllers
             {
                 postModel = (TankSearchPostModel)TempData["postModel"];
 
-                TANK_usp_rpt_TankSearch_spParams.LocationID = 1;
+                TANK_usp_rpt_TankSearch_spParams.LocationID = SecurityExtended.LocationId.Value;
                 if (postModel.TankNumber != null && postModel.TankNumber.Trim().Length > 0)
                     TANK_usp_rpt_TankSearch_spParams.EquipmentAN = postModel.TankNumber;
                 if (postModel.Chassis != null && postModel.Chassis.Trim().Length > 0)
@@ -153,13 +153,14 @@ namespace DOWTank.Controllers
 
         private List<Select2ViewModel> LoadLocations(int locationType)
         {
+            PopulateSecurityExtended();	
             //todo: re-factor it later as required
             var loadPoints = new List<Select2ViewModel>();
 
             //selected location
             if (locationType == 1)
             {
-                var response = _sharedFunctions.PopulateLoadPointLocationAll(1);
+                var response = _sharedFunctions.PopulateLoadPointLocationAll(SecurityExtended.LocationId.Value);
                 if (response != null && response.Any())
                 {
                     foreach (var item in response)
@@ -175,7 +176,7 @@ namespace DOWTank.Controllers
             //Over The Road
             else if (locationType == 2)
             {
-                var response = _sharedFunctions.PopulateLoadPointLocationTreeFlatOverTheRoad(1);
+                var response = _sharedFunctions.PopulateLoadPointLocationTreeFlatOverTheRoad(SecurityExtended.LocationId.Value);
                 if (response != null && response.Any())
                 {
                     foreach (var item in response)
@@ -191,7 +192,7 @@ namespace DOWTank.Controllers
             //Block
             else if (locationType == 3)
             {
-                var response = _sharedFunctions.PopulateLoadPointLocationTreeFlatBlock(1);
+                var response = _sharedFunctions.PopulateLoadPointLocationTreeFlatBlock(SecurityExtended.LocationId.Value);
                 if (response != null && response.Any())
                 {
                     foreach (var item in response)
@@ -207,7 +208,7 @@ namespace DOWTank.Controllers
             //Grounded
             else if (locationType == 4)
             {
-                var response = _sharedFunctions.PopulateLoadPointLocationGrounded(1);
+                var response = _sharedFunctions.PopulateLoadPointLocationGrounded(SecurityExtended.LocationId.Value);
                 if (response != null && response.Any())
                 {
                     foreach (var item in response)

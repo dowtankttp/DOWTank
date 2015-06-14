@@ -68,6 +68,7 @@ namespace DOWTank.Controllers
         [HttpGet]
         public ActionResult AuditMissingMoves()
         {
+            PopulateSecurityExtended();	
             var postModel = new AuditMissingMovesPostModel();
             if (TempData["AuditMissingMovesPostModel"] != null)
             {
@@ -76,7 +77,7 @@ namespace DOWTank.Controllers
                 var TANK_usp_rpt_AuditMissingMoves_spParams = new TANK_usp_rpt_AuditMissingMoves_spParams()
                 {
                     //TODO: re-factor it later from hard coded
-                    LocationID = 1,
+                    LocationID = SecurityExtended.LocationId.Value,
                     StartDT = postModel.StartDate,
                     EndDT = postModel.EndDate,
                     EquipmentAn = postModel.TankNumber
@@ -107,6 +108,7 @@ namespace DOWTank.Controllers
         [HttpGet]
         public ActionResult AuditMovesByUser()
         {
+            PopulateSecurityExtended();	
             var postModel = new AuditMovesByUserPostModel();
             if (TempData["AuditMovesByUserPostModel"] != null)
             {
@@ -115,7 +117,7 @@ namespace DOWTank.Controllers
                 var TANK_usp_rpt_AuditMovesByUser_spParams = new TANK_usp_rpt_AuditMovesByUser_spParams()
                 {
                     //TODO: re-factor it later from hard coded
-                    LocationID = 1,
+                    LocationID = SecurityExtended.LocationId.Value,
                     StartDT = postModel.StartDate,
                     EndDT = postModel.EndDate,
                     UserAN = postModel.UserAn
@@ -143,6 +145,7 @@ namespace DOWTank.Controllers
         [HttpGet]
         public ActionResult AuditWarningMessages()
         {
+            PopulateSecurityExtended();	
             var postModel = new AuditWarningMessagesPostModel();
             if (TempData["AuditWarningMessagesPostModel"] != null)
             {
@@ -151,7 +154,7 @@ namespace DOWTank.Controllers
                 var TANK_usp_rpt_AuditWarningMessages_spParams = new TANK_usp_rpt_AuditWarningMessages_spParams()
                 {
                     //TODO: re-factor it later from hard coded
-                    LocationID = 1,
+                    LocationID = SecurityExtended.LocationId.Value,
                     StartDT = postModel.StartDate,
                     EndDT = postModel.EndDate,
                     UserAN = postModel.UserAn
@@ -179,6 +182,7 @@ namespace DOWTank.Controllers
         [HttpGet]
         public ActionResult DedicatedTanks()
         {
+            PopulateSecurityExtended();	
             var postModel = new DedicatedTanksPostModel();
             if (TempData["DedicatedTanksPostModel"] != null)
             {
@@ -187,7 +191,7 @@ namespace DOWTank.Controllers
                 var TANK_usp_rpt_DedicatedTanks_spParams = new TANK_usp_rpt_DedicatedTanks_spParams()
                 {
                     //TODO: re-factor it later from hard coded
-                    LocationID = 1,
+                    LocationID = SecurityExtended.LocationId.Value,
                     CurrentLocationDS = postModel.CurrentLocationDS,
                     DedicatedLocationDS = postModel.DedicatedLocationDS,
                     DedicatedProductDS = postModel.DedicatedLocationDS
@@ -215,6 +219,7 @@ namespace DOWTank.Controllers
         [HttpGet]
         public ActionResult TankCostToDate()
         {
+            PopulateSecurityExtended();	
             var postModel = new TankCostToDatePostModel();
             if (TempData["TankCostToDatePostModel"] != null)
             {
@@ -223,7 +228,7 @@ namespace DOWTank.Controllers
                 var TANK_usp_rpt_TankCostToDate_spParams = new TANK_usp_rpt_TankCostToDate_spParams()
                 {
                     //TODO: re-factor it later from hard coded
-                    LocationID = 1,
+                    LocationID = SecurityExtended.LocationId.Value,
                     StartDT = postModel.StartDate,
                     EndDT = postModel.EndDate,
                     OperatorID = postModel.OperatorID,
@@ -254,9 +259,10 @@ namespace DOWTank.Controllers
         [HttpGet]
         public JsonResult PopulateSecurityDDL(string searchTerm)
         {
+            PopulateSecurityExtended();	
             searchTerm = searchTerm.Trim();
             //todo: re-factor it later as required
-            var response = _sharedFunctions.PopulateSecurityDDL();
+            var response = _sharedFunctions.PopulateSecurityDDL(SecurityExtended.LocationId.Value);
             if (response != null && response.Any())
             {
                 var data = response.Where(r => r.UserAN != null).Select(r => new { id = r.UserAN, text = r.FullName }).ToList();
@@ -334,11 +340,12 @@ namespace DOWTank.Controllers
         [HttpPost]
         public ActionResult HSEReport(HSEReportPostModel hSEReportPostModel)
         {
+            PopulateSecurityExtended();	
             // database call                
             var TANK_usp_rpt_WasteExtract_spParams = new TANK_usp_rpt_WasteExtract_spParams()
             {
                 //TODO: re-factor it later from hard coded
-                LocationID = 1
+                LocationID = SecurityExtended.LocationId.Value
             };
             DataTable dataTable = _utilityService.ExecStoredProcedureForDataTable("TANK_usp_rpt_WasteExtract",
                                                                                       TANK_usp_rpt_WasteExtract_spParams);
@@ -362,11 +369,12 @@ namespace DOWTank.Controllers
         [HttpPost]
         public ActionResult IdleEquipment(IdleEquipmentPostModel idleEquipmentPostModel)
         {
+            PopulateSecurityExtended();	
             // database call                
             var TANK_usp_rpt_IdleEquipment_spParams = new TANK_usp_rpt_IdleEquipment_spParams()
             {
                 //TODO: re-factor it later from hard coded
-                LocationID = 1
+                LocationID = SecurityExtended.LocationId.Value
             };
             DataTable dataTable = _utilityService.ExecStoredProcedureForDataTable("TANK_usp_rpt_IdleEquipment",
                                                                                       TANK_usp_rpt_IdleEquipment_spParams);
@@ -382,6 +390,7 @@ namespace DOWTank.Controllers
 
         public ActionResult InvoiceSummary()
         {
+            PopulateSecurityExtended();	
             var postModel = new InvoiceSummmaryPostModel();
             if (TempData["InvoiceSummmaryPostModel"] != null)
             {
@@ -390,7 +399,7 @@ namespace DOWTank.Controllers
                 var TANK_usp_rpt_InvoiceSummary_spParams = new TANK_usp_rpt_InvoiceSummary_spParams()
                 {
                     //TODO: re-factor it later from hard coded
-                    LocationID = 1,
+                    LocationID = SecurityExtended.LocationId.Value,
                     StartDT = postModel.StartDate,
                     EndDT = postModel.EndDate
                 };
@@ -418,6 +427,7 @@ namespace DOWTank.Controllers
 
         public ActionResult FacilityEquipment()
         {
+            PopulateSecurityExtended();	
             PopulateFacilityEquipmentDropDowns();
 
             var postModel = new FacilityEquipmentPostModel();
@@ -428,7 +438,7 @@ namespace DOWTank.Controllers
                 var TANK_usp_rpt_EquipmentInventory_spParams = new TANK_usp_rpt_EquipmentInventory_spParams()
                 {
                     //TODO: re-factor it later from hard coded
-                    LocationID = 1,
+                    LocationID = SecurityExtended.LocationId.Value,
                     OwnerID=postModel.OwnerID,
                     BarrelConditionTypeCD = postModel.BarrelConditionTypeCD,
                     CurrentLocationDS = postModel.CurrentLocationDS,
@@ -562,6 +572,7 @@ namespace DOWTank.Controllers
 
         public ActionResult DailyDispatch()
         {
+            PopulateSecurityExtended();	
             var postModel = new DailyDispatchPostModel();
             if (TempData["DailyDispatchPostModel"] != null)
             {
@@ -592,7 +603,7 @@ namespace DOWTank.Controllers
                 //todo: these parameters ll be dynamic, but for proof of concept i kept them hard coded
                 crDailyDispatch.SetParameterValue("@StartDT", postModel.StartDate);
                 crDailyDispatch.SetParameterValue("@EndDT", DateTime.Now);
-                crDailyDispatch.SetParameterValue("@LocationId", 1);
+                crDailyDispatch.SetParameterValue("@LocationId", SecurityExtended.LocationId.Value);
                 crDailyDispatch.SetParameterValue("LocationName", "");
                 _contentBytes = StreamToBytes(crDailyDispatch.ExportToStream(ExportFormatType.PortableDocFormat));
 
@@ -613,6 +624,7 @@ namespace DOWTank.Controllers
 
         public ActionResult ChassisActivity()
         {
+            PopulateSecurityExtended();	
             var postModel = new ChassisActivityPostModel();
             if (TempData["ChassisActivityPostModel"] != null)
             {
@@ -644,7 +656,7 @@ namespace DOWTank.Controllers
                 //todo: these parameters ll be dynamic, but for proof of concept i kept them hard coded
                 crChassisActivity.SetParameterValue("@StartDT", postModel.StartDate);
                 crChassisActivity.SetParameterValue("@EndDT", postModel.EndDate);
-                crChassisActivity.SetParameterValue("@LocationId", 1);
+                crChassisActivity.SetParameterValue("@LocationId", SecurityExtended.LocationId.Value);
                 crChassisActivity.SetParameterValue("LocationName", "");
                 _contentBytes = StreamToBytes(crChassisActivity.ExportToStream(ExportFormatType.PortableDocFormat));
 
@@ -671,10 +683,11 @@ namespace DOWTank.Controllers
         [HttpPost]
         public ActionResult LastChassisLocation(String Status)
         {
+            PopulateSecurityExtended();	
             var TANK_usp_rpt_ChassisLastLocation_spParams = new TANK_usp_rpt_ChassisLastLocation_spParams()
             {
                 //TODO: re-factor it later from hard coded
-                LocationId = 1,
+                LocationId = SecurityExtended.LocationId.Value,
                 InstallId = 1
             };
             DataTable dataTable = _utilityService.ExecStoredProcedureForDataTable("TANK_usp_rpt_LastChassisLocation", TANK_usp_rpt_ChassisLastLocation_spParams);
@@ -694,7 +707,7 @@ namespace DOWTank.Controllers
             crLastChassisLocation.SetDatabaseLogon(dbUserId, dbPassword, dbServer, dbName, true);
             crLastChassisLocation.SetDataSource(dataSet);
             //todo: these parameters ll be dynamic, but for proof of concept i kept them hard coded
-            crLastChassisLocation.SetParameterValue("@LocationID", 1);
+            crLastChassisLocation.SetParameterValue("@LocationID", SecurityExtended.LocationId.Value);
             crLastChassisLocation.SetParameterValue("@InstallID", 1);
             _contentBytes = StreamToBytes(crLastChassisLocation.ExportToStream(ExportFormatType.PortableDocFormat));
 
