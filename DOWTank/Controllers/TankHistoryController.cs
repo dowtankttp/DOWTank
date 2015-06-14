@@ -4,23 +4,66 @@ using System.Data;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using DOWTank.Common;
 using DOWTank.Core.Domain.TANK_usp_rpt;
+using DOWTank.Core.Enum;
 using DOWTank.Core.Service;
+using DOWTank.Custom;
 
 namespace DOWTank.Controllers
 {
-    public class TankHistoryController : Controller
+    [ClaimsAuthorize(Roles = "Tank History")]
+    public class TankHistoryController : BaseController
     {
         private readonly IUtilityService _utilityService;
+        private readonly ISharedFunctions _sharedFunctions;
 
-        public TankHistoryController(IUtilityService utilityService)
+        public TankHistoryController(IUtilityService utilityService, ISharedFunctions sharedFunctions)
         {
             _utilityService = utilityService;
+            _sharedFunctions = sharedFunctions;
         }
 
         // GET: /TankHistory/
         public ActionResult Index(string tankNumber)
         {
+            PopulateSecurityExtended();
+            int securityProfileId = SecurityExtended.SecurityProfileId;
+            var permissionList = _sharedFunctions.GetSecuritySettings(securityProfileId, (int)SecurityCatEnum.TankHistory, null);
+            ViewBag.AllowDispatch = false;
+            ViewBag.AllowPrep = false;
+            ViewBag.AllowEditDispatch = false;
+            ViewBag.AllowViewOnHireHistory = false;
+            ViewBag.AllowEditOnHireHistory = false;
+            ViewBag.AllowEditTankInfo = false;
+            foreach (var permission in permissionList)
+            {
+                if (permission.PrivilegeDS == "Dispatch")
+                {
+                    ViewBag.AllowDispatch = (permission.GrantedFL == 1);
+                }
+                else if (permission.PrivilegeDS == "Prep")
+                {
+                    ViewBag.AllowPrep = (permission.GrantedFL == 1);
+                }
+                else if (permission.PrivilegeDS == "Edit Dispatch")
+                {
+                    ViewBag.AllowEditDispatch = (permission.GrantedFL == 1);
+                }
+                else if (permission.PrivilegeDS == "View On Hire History")
+                {
+                    ViewBag.AllowViewOnHireHistory = (permission.GrantedFL == 1);
+                }
+                else if (permission.PrivilegeDS == "Edit On Hire History")
+                {
+                    ViewBag.AllowEditOnHireHistory = (permission.GrantedFL == 1);
+                }
+                else if (permission.PrivilegeDS == "Edit Tank Info")
+                {
+                    ViewBag.AllowEditTankInfo = (permission.GrantedFL == 1);
+                }
+            }
+          
             TankHistoryModel tankHistoryModel = new TankHistoryModel();
 
             string equipment = string.Empty;
@@ -33,8 +76,8 @@ namespace DOWTank.Controllers
                 equipment = TempData["Equipment"].ToString();
             }
 
-            int locationId = 1;
-            int majorLocationID = 1;
+            int locationId = SecurityExtended.LocationId.Value;
+            int majorLocationID = SecurityExtended.LocationId.Value;
 
             tankHistoryModel.DataTableActivityHistory = GetTankActivityHistory(false, locationId, equipment, "");
             tankHistoryModel.DataTableActivityHistory.Columns["DispatchID"].SetOrdinal(15); 
@@ -64,10 +107,48 @@ namespace DOWTank.Controllers
 
         public ActionResult Filter(TankHistoryModel postModel)
         {
+            PopulateSecurityExtended();
+            int securityProfileId = SecurityExtended.SecurityProfileId;
+            var permissionList = _sharedFunctions.GetSecuritySettings(securityProfileId, (int)SecurityCatEnum.TankHistory, null);
+            ViewBag.AllowDispatch = false;
+            ViewBag.AllowPrep = false;
+            ViewBag.AllowEditDispatch = false;
+            ViewBag.AllowViewOnHireHistory = false;
+            ViewBag.AllowEditOnHireHistory = false;
+            ViewBag.AllowEditTankInfo = false;
+            foreach (var permission in permissionList)
+            {
+                if (permission.PrivilegeDS == "Dispatch")
+                {
+                    ViewBag.AllowDispatch = (permission.GrantedFL == 1);
+                }
+                else if (permission.PrivilegeDS == "Prep")
+                {
+                    ViewBag.AllowPrep = (permission.GrantedFL == 1);
+                }
+                else if (permission.PrivilegeDS == "Edit Dispatch")
+                {
+                    ViewBag.AllowEditDispatch = (permission.GrantedFL == 1);
+                }
+                else if (permission.PrivilegeDS == "View On Hire History")
+                {
+                    ViewBag.AllowViewOnHireHistory = (permission.GrantedFL == 1);
+                }
+                else if (permission.PrivilegeDS == "Edit On Hire History")
+                {
+                    ViewBag.AllowEditOnHireHistory = (permission.GrantedFL == 1);
+                }
+                else if (permission.PrivilegeDS == "Edit Tank Info")
+                {
+                    ViewBag.AllowEditTankInfo = (permission.GrantedFL == 1);
+                }
+            }
+           
+           
             TankHistoryModel tankHistoryModel = new TankHistoryModel();
 
-            int locationId = 1;
-            int majorLocationID = 1;
+            int locationId = SecurityExtended.LocationId.Value;
+            int majorLocationID = SecurityExtended.LocationId.Value;
             string equipment = TempData["Equipment"].ToString();
             string filter = postModel.TextFilter;
             string filterColumn = postModel.SelectedColumn;

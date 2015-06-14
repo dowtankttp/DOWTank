@@ -35,7 +35,10 @@
                     <h4>Tank Information <span class="ml3">(@ViewBag.TotalRecordsEquipmentInfo)</span></h4>
                 </div>
                 <div class="col-md-6 mt10">
-                    <a href="javascript:void(0)" onclick="alert('will be linked when Edit Tank web form ll be ready')">Edit Tank Info</a>
+                    @if (Convert.ToBoolean(ViewBag.AllowEditTankInfo))
+                    {
+                        <a href="javascript:void(0)" onclick=" alert('will be linked when Edit Tank web form ll be ready') ">Edit Tank Info</a>
+                    }
                 </div>
             </div>
             <div class="row no-margin">
@@ -101,8 +104,18 @@
                                         }
                                         else if (@col.ColumnName == "EquipmentID")
                                         {
-                                        <td>@Html.ActionLink("Prep", "Prep", "Tank", new { @equipmentAn = @row["EquipmentAN"].ToString() }, null)</td>
-                                        <td>@Html.ActionLink("Dispatch", "Index", "Dispatch", new { @equipmentAn = @row["EquipmentAN"].ToString() }, null)</td>
+                                        <td>
+                                            @if (Convert.ToBoolean(ViewBag.AllowPrep))
+                                            {
+                                                @Html.ActionLink("Prep", "Prep", "Tank", new { @equipmentAn = @row["EquipmentAN"].ToString() }, null)
+                                            }
+                                        </td>
+                                        <td>
+                                            @if (Convert.ToBoolean(ViewBag.AllowDispatch))
+                                            {
+                                                @Html.ActionLink("Dispatch", "Index", "Dispatch", new { @equipmentAn = @row["EquipmentAN"].ToString() }, null)
+                                            }
+                                        </td>
                                         }
                                     }
                                 </tr>
@@ -235,7 +248,11 @@
                                         else if (@col.ColumnName == "DispatchID")
                                         {
                                             <td>
-                                                @Html.ActionLink("Edit", "Index", "Dispatch", new { @dispatchid = @row["DispatchID"].ToString() }, null)</td>
+                                                @if (Convert.ToBoolean(ViewBag.AllowEditDispatch))
+                                                {
+                                                    @Html.ActionLink("Edit", "Index", "Dispatch", new {@dispatchid = @row["DispatchID"].ToString()}, null)
+                                                }
+                                            </td>
                                             
                                         }
                                     }
@@ -281,7 +298,10 @@
                     <h4>On-Hire History <span class="ml3">(@ViewBag.TotalOnHireHistory)</span></h4>
                 </div>
                 <div class="col-md-6 mt10">
-                    <a href="javascript:void(0)" onclick="alert('will be linked when Add History web form ll be ready')">Edit Tank Info</a>
+                    @if (Convert.ToBoolean(ViewBag.AllowEditTankInfo))
+                    {
+                        <a href="javascript:void(0)" onclick=" alert('will be linked when Add History web form ll be ready') ">Edit Tank Info</a>
+                    }
                 </div>
             </div>
         </div>

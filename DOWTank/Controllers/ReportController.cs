@@ -15,7 +15,7 @@ using DOWTank.Reports;
 
 namespace DOWTank.Controllers
 {
-    public class ReportController : Controller
+    public class ReportController : BaseController
     {
         private readonly IUtilityService _utilityService;
         private readonly ISharedFunctions _sharedFunctions;
@@ -29,6 +29,7 @@ namespace DOWTank.Controllers
 
         public ActionResult AuditDriverList()
         {
+            PopulateSecurityExtended();
             var postModel = new AuditDriverListPostModel();
             if (TempData["AuditDriverListPostModel"] != null)
             {
@@ -36,8 +37,7 @@ namespace DOWTank.Controllers
                 postModel = (AuditDriverListPostModel)TempData["AuditDriverListPostModel"];
                 var TANK_usp_rpt_AuditDrivers_spParams = new TANK_usp_rpt_AuditDrivers_spParams()
                     {
-                        //TODO: re-factor it later from hard coded
-                        LocationID = 1,
+                        LocationID = SecurityExtended.LocationId??0,
                         StartDT = postModel.StartDate,
                         EndDT = postModel.EndDate
                     };

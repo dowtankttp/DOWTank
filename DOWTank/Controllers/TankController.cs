@@ -361,6 +361,7 @@ namespace DOWTank.Controllers
 
         #region Tank Arrival/Update
 
+        [ClaimsAuthorize(Roles = "Arrive Tank")]
         [HttpGet]
         public ActionResult TankArrivalUpdate()
         {
@@ -368,10 +369,11 @@ namespace DOWTank.Controllers
             var viewModel = new TankArrivalUpdatePostModel();
             return View(viewModel);
         }
-
+        [ClaimsAuthorize(Roles = "Arrive Tank")]
         [HttpPost]
         public ActionResult TankArrivalUpdate(TankArrivalUpdatePostModel postModel)
         {
+            PopulateSecurityExtended();
             LoadTankPrepDropdowns();
             if (!ModelState.IsValid)
             {
@@ -393,7 +395,7 @@ namespace DOWTank.Controllers
             }
             TANK_usp_upd_ArriveEquipment_spParams.LoadStatusTypeCD = postModel.LoadStatusTypeCD;
             TANK_usp_upd_ArriveEquipment_spParams.LocationID = postModel.LocationID;
-            TANK_usp_upd_ArriveEquipment_spParams.UpdateUserAN = "System";
+            TANK_usp_upd_ArriveEquipment_spParams.UpdateUserAN = SecurityExtended.UserName;
 
             _utilityService.ExecStoredProcedureWithoutResults("TANK_usp_upd_ArriveEquipment", TANK_usp_upd_ArriveEquipment_spParams);
 
