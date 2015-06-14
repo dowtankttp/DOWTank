@@ -50,9 +50,10 @@ namespace DOWTank.Custom
         private bool CheckRoles(string userRoles)
         {
             string[] roles = RolesSplit;
+            //say if controller action was w/o role attribute, for instance for reports
             if (roles.Length == 0)
             {
-                return false;
+                return true;
             }
             string[] userRolesArray = SplitString(userRoles);
             if (userRolesArray.Length == 0)

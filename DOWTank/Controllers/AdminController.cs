@@ -9,11 +9,12 @@ using DOWTank.Common;
 using DOWTank.Core.Domain.TANK_usp_insupd;
 using DOWTank.Core.Domain.TANK_usp_sel;
 using DOWTank.Core.Service;
+using DOWTank.Custom;
 using DOWTank.Models;
 
 namespace DOWTank.Controllers
 {
-    [Authorize]
+    [ClaimsAuthorize(Roles = "Admin")]
     public class AdminController : BaseController
     {
 

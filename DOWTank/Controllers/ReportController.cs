@@ -10,11 +10,13 @@ using CrystalDecisions.Shared;
 using DOWTank.Common;
 using DOWTank.Core.Domain.TANK_usp_rpt;
 using DOWTank.Core.Service;
+using DOWTank.Custom;
 using DOWTank.Models;
 using DOWTank.Reports;
 
 namespace DOWTank.Controllers
 {
+    [ClaimsAuthorize(Roles = "")]
     public class ReportController : BaseController
     {
         private readonly IUtilityService _utilityService;
