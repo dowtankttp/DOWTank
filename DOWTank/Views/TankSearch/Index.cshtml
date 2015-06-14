@@ -186,9 +186,18 @@
                                 }
                                 else if (@col.ColumnName == "Type Service")
                                 {
-                                <td>@Html.ActionLink("Prep", "Prep", "Tank", new { @equipmentAn = @tankNumber }, null)</td>
                                 <td>
-                                    @Html.ActionLink("Dispatch", "Index", "Dispatch", new { @equipmentAn = @tankNumber }, null)
+                                    @if (Convert.ToBoolean(ViewBag.AllowPrep))
+                                    {
+                                        @Html.ActionLink("Prep", "Prep", "Tank", new { @equipmentAn = @tankNumber }, null)
+                                    }
+                                </td>
+                                <td>
+                                    @if (Convert.ToBoolean(ViewBag.AccessDispatch))
+                                    {
+
+                                        @Html.ActionLink("Dispatch", "Index", "Dispatch", new { @equipmentAn = @tankNumber }, null)
+                                    }
                                 </td>
                                 }
                             }

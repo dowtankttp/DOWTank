@@ -50,7 +50,7 @@
                                     {
                                 <td>@Html.ActionLink(@row[col.ColumnName].ToString(), "Index", "TankHistory", new { @tankNumber = @row[col.ColumnName].ToString() }, null)</td>
                                     }
-                                    else if (@col.ColumnName == "EquipmentID")
+                                    else if (@col.ColumnName == "EquipmentID" && Convert.ToBoolean(ViewBag.AccessDispatch))
                                     {
                                 <td>@Html.ActionLink("Dispatch", "Index", "Dispatch", new { @equipmentAn = @row["Equipment #"].ToString() }, null)</td>
                                     }

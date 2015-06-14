@@ -6,12 +6,13 @@ using System.Web;
 using System.Web.Mvc;
 using DOWTank.Common;
 using DOWTank.Core.Domain.TANK_usp_rpt;
+using DOWTank.Core.Enum;
 using DOWTank.Core.Service;
 using DOWTank.Models;
 
 namespace DOWTank.Controllers
 {
-    public class TankSearchController : Controller
+    public class TankSearchController : BaseController
     {
         private readonly IUtilityService _utilityService;
         private readonly ISharedFunctions _sharedFunctions;
@@ -25,6 +26,23 @@ namespace DOWTank.Controllers
         // GET: /TankSearch/
         public ActionResult Index()
         {
+            PopulateSecurityExtended();
+            int securityProfileId = SecurityExtended.SecurityProfileId;
+            var permissionList = _sharedFunctions.GetSecuritySettings(securityProfileId, (int)SecurityCatEnum.TankSearch, null);
+            ViewBag.AccessDispatch = false;
+            ViewBag.AllowPrep = false;
+            foreach (var permission in permissionList)
+            {
+                if (permission.PrivilegeDS == "Dispatch")
+                {
+                    ViewBag.AccessDispatch = (permission.GrantedFL == 1);
+                }
+                else if (permission.PrivilegeDS == "Prep")
+                {
+                    ViewBag.AllowPrep = (permission.GrantedFL == 1);
+                }
+            }
+          
             LoadTankSearchDropdowns();
 
             TankSearchPostModel postModel;

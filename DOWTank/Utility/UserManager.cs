@@ -44,7 +44,7 @@ namespace DOWTank.Utility
             {
                 identity.AddClaim(new Claim("LocationId", locationResults[0].LocationID.HasValue ? locationResults[0].LocationID.ToString() : null));
                 identity.AddClaim(new Claim("LocationName", locationResults[0].LocationDS));
-                identity.AddClaim(new Claim("SecurityProfileID", locationResults[0].SecurityProfileID.ToString()));
+                identity.AddClaim(new Claim("SecurityProfileId", locationResults[0].SecurityProfileID.ToString()));
             }
 
             #endregion location

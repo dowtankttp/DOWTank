@@ -9,10 +9,12 @@ using DOWTank.Common;
 using DOWTank.Core.Domain.TANK_usp_rpt;
 using DOWTank.Core.Enum;
 using DOWTank.Core.Service;
+using DOWTank.Custom;
 using DOWTank.Utility;
 
 namespace DOWTank.Controllers
 {
+    [ClaimsAuthorize(Roles = "Require Cleaning")]
     public class RequireCleaningController : BaseController
     {
         private readonly IUtilityService _utilityService;

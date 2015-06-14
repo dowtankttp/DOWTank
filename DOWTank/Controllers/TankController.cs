@@ -6,7 +6,9 @@ using System.Web.Mvc;
 using DOWTank.Common;
 using DOWTank.Core.Domain.TANK_usp_insupd;
 using DOWTank.Core.Domain.TANK_usp_upd;
+using DOWTank.Core.Enum;
 using DOWTank.Core.Service;
+using DOWTank.Custom;
 using DOWTank.Models;
 
 namespace DOWTank.Controllers
@@ -23,10 +25,20 @@ namespace DOWTank.Controllers
 
         #region Tank Prep
 
-        //
-        // GET: /Tank/
+        [ClaimsAuthorize(Roles = "Prep")]
         public ActionResult Prep(string equipmentAn)
         {
+            PopulateSecurityExtended();
+            int securityProfileId = SecurityExtended.SecurityProfileId;
+            var permissionList = _sharedFunctions.GetSecuritySettings(securityProfileId, (int)SecurityCatEnum.PrepScreen, null);
+            ViewBag.AllowDelete = false;
+            foreach (var permission in permissionList)
+            {
+                if (permission.PrivilegeDS == "Delete Dispatch")
+                {
+                    ViewBag.AllowDelete = (permission.GrantedFL == 1);
+                }
+            }
             LoadTankPrepDropdowns();
             ViewBag.EquipmentAN = equipmentAn;
             var viewModel = new TankPrepPostModel();
@@ -34,6 +46,7 @@ namespace DOWTank.Controllers
             return View(viewModel);
         }
 
+        [ClaimsAuthorize(Roles = "Prep")]
         [HttpPost]
         public ActionResult Prep(TankPrepPostModel postModel)
         {
@@ -43,10 +56,11 @@ namespace DOWTank.Controllers
                 //return appropriate validation messages
                 return View(postModel);
             }
+            PopulateSecurityExtended();
             //todo: re-factor it as required
             TANK_usp_insupd_TankPrep_spParams TANK_usp_insupd_TankPrep_spParams =
                 new TANK_usp_insupd_TankPrep_spParams();
-            TANK_usp_insupd_TankPrep_spParams.LocationID = 1;
+            TANK_usp_insupd_TankPrep_spParams.LocationID = SecurityExtended.LocationId ?? 0;
             TANK_usp_insupd_TankPrep_spParams.EquipmentID = postModel.EquipmentID;
             TANK_usp_insupd_TankPrep_spParams.ChassisEquipmentID = postModel.ChassisEquipmentID;
             TANK_usp_insupd_TankPrep_spParams.LoadStatusTypeCD = postModel.LoadStatusTypeCD;
@@ -62,13 +76,29 @@ namespace DOWTank.Controllers
             TANK_usp_insupd_TankPrep_spParams.ScheduledDeliveryDT = postModel.ScheduledDeliveryDT;
             TANK_usp_insupd_TankPrep_spParams.DeliverASAPFL = postModel.DeliverASAPFL;
             TANK_usp_insupd_TankPrep_spParams.ContactID = postModel.ContactID;
-            TANK_usp_insupd_TankPrep_spParams.UpdateUserAN = "System";
+            TANK_usp_insupd_TankPrep_spParams.UpdateUserAN = SecurityExtended.UserName;
             TANK_usp_insupd_TankPrep_spParams.TankPrepID = 0;
 
             _utilityService.ExecStoredProcedureWithoutResults("TANK_usp_insupd_TankPrep", TANK_usp_insupd_TankPrep_spParams);
             Success("Tank Prep Saved Successfully.");
             //return appropriate message
             return View(postModel);
+        }
+
+        [HttpPost]
+        public JsonResult DeletePrep(int TankPrepID)
+        {
+            PopulateSecurityExtended();
+            TANK_usp_insupd_TankPrep_spParams TANK_usp_insupd_TankPrep_spParams =
+                new TANK_usp_insupd_TankPrep_spParams()
+                    {
+                        ActiveFL = false,
+                        LocationID = SecurityExtended.LocationId ?? 0,
+                        UpdateUserAN = SecurityExtended.UserName,
+                        TankPrepID = TankPrepID
+                    };
+            _utilityService.ExecStoredProcedureWithoutResults("TANK_usp_insupd_TankPrep", TANK_usp_insupd_TankPrep_spParams);
+            return Json(1);
         }
 
         //PopulateChargeCode

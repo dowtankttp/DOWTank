@@ -15,7 +15,7 @@ using DOWTank.Utility;
 namespace DOWTank.Controllers
 {
     [ClaimsAuthorize(Roles = "Require Service")]
-    public class RequireServiceController : Controller
+    public class RequireServiceController : BaseController
     {
 
         private readonly IUtilityService _utilityService;
@@ -30,16 +30,27 @@ namespace DOWTank.Controllers
         [OutputCache(Duration = 3600, VaryByParam = "none")]
         public ActionResult Index()
         {
-            var identity = HttpContext.User.Identity as ClaimsIdentity;
-            int securityProfileId = identity.GetSecurityProfileId();
+            PopulateSecurityExtended();
+            int securityProfileId = SecurityExtended.SecurityProfileId;
             var permissionList = _sharedFunctions.GetSecuritySettings(securityProfileId, (int)SecurityCatEnum.RequireService, null);
-
+            ViewBag.AccessDispatch = false;
+            ViewBag.EditTestDates = false;
+            foreach (var permission in permissionList)
+            {
+                if (permission.PrivilegeDS == "Dispatch")
+                {
+                    ViewBag.AccessDispatch = (permission.GrantedFL == 1);
+                }
+                else if (permission.PrivilegeDS == "Edit Test Dates")
+                {
+                    ViewBag.EditTestDates = (permission.GrantedFL == 1);
+                }
+            }
             // database call
 
             var TANK_usp_rpt_RequiresMaint_spParams = new TANK_usp_rpt_RequiresMaint_spParams()
             {
-                //TODO: re-factor it later from hard coded
-                LocationID = 1
+                LocationID = SecurityExtended.LocationId ?? 0
             };
             DataTable dataTable = _utilityService.ExecStoredProcedureForDataTable("TANK_usp_rpt_RequiresMaint", TANK_usp_rpt_RequiresMaint_spParams);
             dataTable.Columns["EquipmentID"].SetOrdinal(9);
