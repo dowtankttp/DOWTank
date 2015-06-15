@@ -135,6 +135,8 @@
     <Compile Include="Domain\TANK_usp_sel\TANK_usp_sel_FittingDDL_spResults.cs" />
     <Compile Include="Domain\TANK_usp_sel\TANK_usp_sel_FittingsUpd_spParams.cs" />
     <Compile Include="Domain\TANK_usp_sel\TANK_usp_sel_GroundedMatrix_spParams.cs" />
+    <Compile Include="Domain\TANK_usp_sel\TANK_usp_sel_HazardClassDDL_spParams.cs" />
+    <Compile Include="Domain\TANK_usp_sel\TANK_usp_sel_HazardClassDDL_spResults.cs" />
     <Compile Include="Domain\TANK_usp_sel\TANK_usp_sel_InvoiceList_spParams.cs" />
     <Compile Include="Domain\TANK_usp_sel\TANK_usp_sel_LoadStatusTypeDDL_spParams.cs" />
     <Compile Include="Domain\TANK_usp_sel\TANK_usp_sel_LoadStatusTypeDDL_spResults.cs" />
@@ -168,6 +170,8 @@
     <Compile Include="Domain\TANK_usp_sel\TANK_usp_sel_SecurityProfilePrivileges_spResults.cs" />
     <Compile Include="Domain\TANK_usp_sel\TANK_usp_sel_SecurityProfile_spParams.cs" />
     <Compile Include="Domain\TANK_usp_sel\TANK_usp_sel_ServiceTypeDDL_spResults.cs" />
+    <Compile Include="Domain\TANK_usp_sel\TANK_usp_sel_TankConstructionTypeDDL_spParams.cs" />
+    <Compile Include="Domain\TANK_usp_sel\TANK_usp_sel_TankConstructionTypeDDL_spResults.cs" />
     <Compile Include="Domain\TANK_usp_sel\TANK_usp_sel_TankConstructionUpd_spParams.cs" />
     <Compile Include="Domain\TANK_usp_sel\TANK_usp_sel_TankGradeTypeDDL_spParams.cs" />
     <Compile Include="Domain\TANK_usp_sel\TANK_usp_sel_TankGradeTypeDDL_spResults.cs" />

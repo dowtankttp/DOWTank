@@ -50,6 +50,8 @@ namespace DOWTank.Common
         int? ToNullableInt32(string s);
         List<TANK_usp_sel_SecurityProfilePrivileges_spResults> GetSecuritySettings(int? currentUserProfileId, int? privilegeCategoryId, int? securityProfileId);
         List<TANK_usp_sel_SecurityLocation_spResults> GetLocation(string userAn);
+        IEnumerable<TANK_usp_sel_HazardClassDDL_spResults> PopulateHazardClass(bool iIncludeBlank);
+        IEnumerable<TANK_usp_sel_TankConstructionTypeDDL_spResults> PopulateTankConstructionType(bool iIncludeBlank);
     }
 
     public class SharedFunctions : ISharedFunctions
@@ -551,6 +553,38 @@ namespace DOWTank.Common
                 IncludeBlank = iIncludeBlank
             };
             var data = _utilityService.ExecStoredProcedureWithResults<TANK_usp_sel_ServiceTypeDDL_spResults>("TANK_usp_sel_ServiceTypeDDL", TANK_usp_sel_DispatchReasonDDL_spParams);
+
+            //# database call
+
+            return data;
+        }
+
+        public IEnumerable<TANK_usp_sel_HazardClassDDL_spResults> PopulateHazardClass(bool iIncludeBlank)
+        {
+            // database call
+
+            var TANK_usp_sel_HazardClassDDL_spParams = new TANK_usp_sel_HazardClassDDL_spParams()
+            {
+                //TODO: re-factor it later from hard coded
+                IncludeBlank = iIncludeBlank
+            };
+            var data = _utilityService.ExecStoredProcedureWithResults<TANK_usp_sel_HazardClassDDL_spResults>("TANK_usp_sel_HazardClassTypeDDL", TANK_usp_sel_HazardClassDDL_spParams);
+
+            //# database call
+
+            return data;
+        }
+
+        public IEnumerable<TANK_usp_sel_TankConstructionTypeDDL_spResults> PopulateTankConstructionType(bool iIncludeBlank)
+        {
+            // database call
+
+            var TANK_usp_sel_TankConstructionTypeDDL_spParams = new TANK_usp_sel_TankConstructionTypeDDL_spParams()
+            {
+                //TODO: re-factor it later from hard coded
+                IncludeBlank = iIncludeBlank
+            };
+            var data = _utilityService.ExecStoredProcedureWithResults<TANK_usp_sel_TankConstructionTypeDDL_spResults>("TANK_usp_sel_TankConstructionTypeDDL", TANK_usp_sel_TankConstructionTypeDDL_spParams);
 
             //# database call
 

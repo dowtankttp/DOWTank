@@ -738,20 +738,51 @@ namespace DOWTank.Controllers
 
 
         [HttpGet]
-        public ActionResult ProductMaster(string id)
+        public ActionResult ProductMaster()
         {
-
             return View();
         }
 
         [HttpPost]
-        public ActionResult ProductMaster(ProductMasterPostModel postModel)
+        public ActionResult ProductMaster(AdminProductModel postModel)
         {
-
-            return View();
+            if (!ModelState.IsValid)
+            {
+                return View(postModel);
+            }
+            _utilityService.ExecStoredProcedureWithoutResults("TANK_usp_insupd_product", postModel);
+            Success("Product Saved Successfully.");
+            //return appropriate message
+            return View(postModel);
         }
 
+        //PopulateHazardClassDDL
+        [HttpGet]
+        public JsonResult PopulateHazardClassDDL(string searchTerm)
+        {
+            var response = _sharedFunctions.PopulateHazardClass(false);
+            if (response != null && response.Any())
+            {
+                var data = response.Where(r => r.HazardClassTypeDS != null).Select(r => new { id = r.HazardClassTypeCD, text = r.HazardClassTypeDS }).ToList();
+                return Json(data, JsonRequestBehavior.AllowGet);
+            }
+            return Json(string.Empty, JsonRequestBehavior.AllowGet);
+        }
 
+        //PopulateTankConstructionTypeDDL
+        [HttpGet]
+        public JsonResult PopulateTankConstructionTypeDDL(string searchTerm)
+        {
+            searchTerm = searchTerm.Trim();
+            //todo: re-factor it later as required
+            var response = _sharedFunctions.PopulateTankConstructionType(false);
+            if (response != null && response.Any())
+            {
+                var data = response.Where(r => r.TankConstructionTypeDS != null).Select(r => new { id = r.TankConstructionTypeCD, text = r.TankConstructionTypeDS }).ToList();
+                return Json(data, JsonRequestBehavior.AllowGet);
+            }
+            return Json(string.Empty, JsonRequestBehavior.AllowGet);
+        }
 
         #endregion product master
 
@@ -1009,13 +1040,11 @@ namespace DOWTank.Controllers
         
         }
 
-        //PopulateOwnerDDL
+        //PopulateTypeDDL
         [HttpGet]
         public JsonResult PopulateTypeDDL(string searchTerm)
         {
-            searchTerm = searchTerm.Trim();
-            //todo: re-factor it later as required
-            var response = _sharedFunctions.PopulateEquipmentType(Convert.ToInt16(searchTerm));
+            var response = _sharedFunctions.PopulateEquipmentType(1);
             if (response != null && response.Any())
             {
                 var data = response.Where(r => r.EquipmentTypeDS != null).Select(r => new { id = r.EquipmentTypeCD, text = r.EquipmentTypeDS }).ToList();

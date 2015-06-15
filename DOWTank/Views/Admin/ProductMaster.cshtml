@@ -1,6 +1,10 @@
-﻿@{
+﻿@model DOWTank.Models.AdminProductModel
+@{
     ViewBag.Title = "Product Master";
 }
+
+@Html.HiddenFor(m => m.Key)
+
 <div class="well well-lg">
     <!--title-->
     <div class="row">
@@ -8,7 +12,7 @@
             <h4 class="dow-color col-md-6">Product</h4>
         </div>
     </div>
-    @using (Html.BeginForm("Equipment", "Admin", FormMethod.Post))
+    @using (Html.BeginForm("ProductMaster", "Admin", FormMethod.Post))
     {
         if (ViewData.ModelState.Keys.Any(k => ViewData.ModelState[k].Errors.Count() > 0))
         {
@@ -25,11 +29,11 @@
             <div class="row">
                 <div class="col-md-4">
                     <label>Product Code #:</label>
-                    <input type="text" class="form-control" />
+                    @Html.TextBoxFor(m => m.ProductCodeAN, new { @class = "form-control" })
                 </div>
-                <div class="col-md-5">
+                <div class="col-md-4">
                     <label>MSDS Number #:</label>
-                    <input type="text" class="form-control" />
+                    @Html.TextBoxFor(m => m.MSDSNumberAN, new { @class = "form-control" })
                 </div>
             </div>
         </div>
@@ -37,25 +41,29 @@
             <div class="row">
                 <div class="col-md-4">
                     <label>WPN #:</label>
-                    <input type="text" class="form-control" />
+                    @Html.TextBoxFor(m => m.WPNNumberAN, new { @class = "form-control" })
                 </div>
-                <div class="col-md-5">
+                <div class="col-md-4">
                     <label>Product Name:*</label>
-                    <input type="text" class="form-control" />
+                    @Html.TextBoxFor(m => m.ProductName, new { @class = "form-control" })
                 </div>
             </div>
         </div>
         <div class="form-group">
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <label>DOT Shipping Name::</label>
-                    <input type="text" class="form-control" />
+                    @Html.TextBoxFor(m => m.DOTShippingNameDS, new { @class = "form-control" })
                 </div>
             </div>
         </div>
         <div class="form-group">
-            <label>Synonyms:</label><span>(Please separate Synonyms with a semi-colon [;])</span>
-            <textarea rows="4" cols="18" name="CommentsAn" class="form-control"></textarea>
+            <div class="row">
+                <div class="col-md-8">
+                    <label>Synonyms:</label><span>(Please separate Synonyms with a semi-colon [;])</span>
+                    @Html.TextAreaFor(m => m.SynonymsDS, new { rows = "4", cols = "18", @class = "form-control" })
+                </div>
+            </div>
         </div>
         <div class="form-group">
             <div class="col-md-12 nopadding">
@@ -65,7 +73,7 @@
                 <div class="col-md-1 nopadding">
                     <div class="radio">
                         <label>
-                            <input type="radio" name="ReloadFL" value="true" checked>
+                            <input type="radio" name="HazardousFL" value="true" checked>
                             Yes
                         </label>
                     </div>
@@ -73,7 +81,7 @@
                 <div class="col-md-1 nopadding">
                     <div class="radio">
                         <label>
-                            <input type="radio" name="ReloadFL" value="false">
+                            <input type="radio" name="HazardousFL" value="false">
                             No
                         </label>
                     </div>
@@ -82,15 +90,13 @@
         </div>
         <div class="form-group">
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <label>Hazard Class:</label>
-                    <select class="form-control">
-                        <option></option>
-                    </select>
+                    <input id="ddlHazardClass" name="DOTHazardClassID" style="width: 100%; box-sizing: border-box;">
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <label>UN/NA #:</label>
-                    <input type="text" class="form-control" />
+                    @Html.TextBoxFor(m => m.UNNANumberAN, new { @class = "form-control" })
                 </div>
             </div>
         </div>
@@ -98,33 +104,39 @@
             <div class="row">
                 <div class="col-md-4">
                     <label>Density:</label>
-                    <input type="text" class="form-control" />
+                    @Html.TextBoxFor(m => m.DensityDS, new { @class = "form-control" })
                 </div>
                 <div class="col-md-4">
                     <label>LBS Per Gallon:</label>
-                    <input type="text" class="form-control" />
+                    @Html.TextBoxFor(m => m.LBSPerGalAMT, new { @class = "form-control" })
                 </div>
             </div>
         </div>
         <div class="form-group">
-            <label>Prior Content Restriction:</label>
-            <textarea rows="5" cols="20" name="CommentsAn" class="form-control"></textarea>
+            <div class="row">
+                <div class="col-md-8">
+                    <label>Prior Content Restriction:</label>
+                    @Html.TextAreaFor(m => m.PriorContentRestrictionDS, new { rows = "5", cols = "20", @class = "form-control" })
+                </div>
+            </div>            
         </div>
         <div class="form-group">
-            <label>Cleaning Requirements:</label>
-            <textarea rows="5" cols="20" name="CommentsAn" class="form-control"></textarea>
+            <div class="row">
+                <div class="col-md-8">
+                    <label>Cleaning Requirements:</label>
+                    @Html.TextAreaFor(m => m.CleaningRequirementsDS, new { rows = "5", cols = "20", @class = "form-control" })
+                </div>
+            </div>           
         </div>
         <div class="form-group">
             <div class="row">
                 <div class="col-md-4">
-                    <label>Tank Capacity:</label>
-                    <input type="text" class="form-control" />
+                    <label>Tank Capacity (Liters):</label>
+                    @Html.TextBoxFor(m => m.TankCapacity, new { @class = "form-control" })
                 </div>
                 <div class="col-md-4">
                     <label>Tank Type:</label>
-                    <select class="form-control">
-                        <option></option>
-                    </select>
+                    <input id="ddlTankType" name="EquipmentTypeCD" style="width: 100%; box-sizing: border-box;">
                 </div>
             </div>
         </div>
@@ -132,13 +144,11 @@
             <div class="row">
                 <div class="col-md-4">
                     <label>Tank Construction:</label>
-                    <select class="form-control">
-                        <option></option>
-                    </select>
+                    <input id="ddlTankConstruction" name="TankConstructionTypeCD" style="width: 100%; box-sizing: border-box;">
                 </div>
                 <div class="col-md-4">
                     <label>Tank # of Bars:</label>
-                    <input type="text" class="form-control" />
+                    @Html.TextBoxFor(m => m.TankNumberOfBarsAMT, new { @class = "form-control" })
                 </div>
             </div>
         </div>
@@ -146,9 +156,7 @@
             <div class="row">
                 <div class="col-md-4">
                     <label>Tank Grade:</label>
-                    <select class="form-control">
-                        <option></option>
-                    </select>
+                    <input id="ddlTankGrade" name="TankGradeTypeCD" style="width: 100%; box-sizing: border-box;">
                 </div>
                 <div class="col-md-6">
                     <label>Tank Discharge:</label>
@@ -156,7 +164,7 @@
                         <div class="col-md-2">
                             <div class="checkbox">
                                 <label>
-                                    <input type="checkbox" name="ReloadFL" value="true" checked>
+                                    @Html.CheckBoxFor(m => m.TankTopDischargeFL, new { @checked = true })
                                     Top
                                 </label>
                             </div>
@@ -164,7 +172,7 @@
                         <div class="col-md-2">
                             <div class="checkbox">
                                 <label>
-                                    <input type="checkbox" name="ReloadFL" value="false">
+                                    @Html.CheckBoxFor(m => m.TankBottomDischargeFL)
                                     Bottom
                                 </label>
                             </div>
@@ -182,16 +190,16 @@
                         <div class="col-md-4">
                             <div class="checkbox">
                                 <label>
-                                    <input type="checkbox" name="ReloadFL" value="true" checked>
-                                    Hydro
+                                    @Html.CheckBoxFor(m => m.TankSteamCoilsFL, new { @checked = true })
+                                    Steam Coils
                                 </label>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="checkbox">
                                 <label>
-                                    <input type="checkbox" name="ReloadFL" value="false">
-                                    Air
+                                    @Html.CheckBoxFor(m => m.TankElectricHeatFL)
+                                    Electric Heat
                                 </label>
                             </div>
                         </div>
@@ -203,7 +211,7 @@
                         <div class="col-md-2">
                             <div class="radio">
                                 <label>
-                                    <input type="radio" name="ReloadFL" value="true" checked>
+                                    <input type="radio" name="ActiveFL" value="true" checked>
                                     Yes
                                 </label>
                             </div>
@@ -211,7 +219,7 @@
                         <div class="col-md-2">
                             <div class="radio">
                                 <label>
-                                    <input type="radio" name="ReloadFL" value="false">
+                                    <input type="radio" name="ActiveFL" value="false">
                                     No
                                 </label>
                             </div>
@@ -227,3 +235,86 @@
     }
 
 </div>
+
+
+<!--script-->
+@section scripts
+{    <script>
+    
+    //ddlHazardClass
+    $("#ddlHazardClass").select2({
+        minimumInputLength: 0,
+        cache: false,
+        ajax: {
+            url: "/Admin/PopulateHazardClassDDL",
+            dataType: 'json',
+            quietMillis: 650,
+            data: function (term) {
+                return {
+                    searchTerm: term // search term
+                };
+            },
+            results: function (data) {
+                return { results: data };
+            }
+        }
+    });
+                
+    //ddlTankType
+    $("#ddlTankType").select2({
+        minimumInputLength: 0,
+        cache: false,
+        ajax: {
+            url: "/Admin/PopulateTypeDDL",
+            dataType: 'json',
+            quietMillis: 650,
+            data: function (term) {
+                return {
+                    searchTerm: term // search term
+                };
+            },
+            results: function (data) {
+                return { results: data };
+            }
+        }
+    });
+
+    //ddlTankConstruction
+    $("#ddlTankConstruction").select2({
+        minimumInputLength: 0,
+        cache: false,
+        ajax: {
+            url: "/Admin/PopulateTankConstructionTypeDDL",
+            dataType: 'json',
+            quietMillis: 650,
+            data: function (term) {
+                return {
+                    searchTerm: term // search term
+                };
+            },
+            results: function (data) {
+                return { results: data };
+            }
+        }
+    });
+
+    //ddlTankGrade
+    $("#ddlTankGrade").select2({
+        minimumInputLength: 0,
+        cache: false,
+        ajax: {
+            url: "/Admin/PopulateTankGradeDDL",
+            dataType: 'json',
+            quietMillis: 650,
+            data: function (term) {
+                return {
+                    searchTerm: term // search term
+                };
+            },
+            results: function (data) {
+                return { results: data };
+            }
+        }
+    });
+    </script>
+}
