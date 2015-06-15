@@ -36,7 +36,7 @@
                 <div class="col-md-1 nopadding">
                     <div class="radio">
                         <label>
-                            <input type="radio" name="ReloadFL" value="2" checked>
+                            <input type="radio" name="ReloadFL" value="true" checked>
                             Chessis
                         </label>
                     </div>
@@ -44,7 +44,7 @@
                 <div class="col-md-1 nopadding">
                     <div class="radio">
                         <label>
-                            <input type="radio" name="ReloadFL" value="3">
+                            <input type="radio" name="ReloadFL" value="false">
                             Container
                         </label>
                     </div>
@@ -52,7 +52,7 @@
                 <div class="col-md-1 nopadding">
                     <div class="radio">
                         <label>
-                            <input type="radio" name="ReloadFL" value="1">
+                            <input type="radio" name="ReloadFL" value="false">
                             Tank
                         </label>
                     </div>
@@ -131,7 +131,7 @@
                 </div>
                 <div class="col-md-4">
                     <label>Current/Last Product:*</label>
-                    <input id="ddlCurrentLastProduct" name="ProductID" style="width: 100%; box-sizing: border-box;">
+                    <input type="text" class="form-control" />
                 </div>
                 <div class="col-md-2">
                     <a href="#">[ Add ]</a>
@@ -148,7 +148,8 @@
                 </div>
                 <div class="col-md-4">
                     <label>Dedicated Product:</label>
-                    <input id="ddlDedicatedProduct" name="DedicatedProductID" style="width: 100%; box-sizing: border-box;">
+                    <!--todo: replace it with select2-->
+                    <input type="text" class="form-control" />
                 </div>
                 <div class="col-md-2">
                     <label></label>
@@ -174,12 +175,11 @@
             <div class="row">                
                 <div class="col-md-4">
                     <label>Last Test Date:</label>
-                    @Html.TextBoxFor(m => m.Tank5YRTestDT, new { @class = "form-control datetimepicker" })
-                    @*<input type="text" name="Tank5YRTestDT" class="form-control datetimepicker">*@
+                    <input type="text" name="Tank5YRTestDT" class="form-control datetimepicker">
                 </div>
                 <div class="col-md-4">
                     <label>FHWA Inspect Date:</label>
-                    @Html.TextBoxFor(m => m.DOTInspectedDT, new { @class = "form-control datetimepicker" })
+                    <input type="text" name="txtDOTInspectedDT" class="form-control datetimepicker">
                 </div>
             </div>
         </div>
@@ -252,17 +252,26 @@
 {
     <script>
 
-        $(document).ready(function () {
-            $("#ddlType").select2({
+        $(function () {
+
+            $("#Tank5YRTestDT").datetimepicker({
+                format: 'm/d/Y'
+            });
+            $("#txtDOTInspectedDT").datetimepicker({
+                format: 'm/d/Y'
+            });
+
+            //ddlOwner
+            $("#ReloadFL").change({
                 minimumInputLength: 0,
                 cache: false,
                 ajax: {
-                    url: "/Admin/PopulateTypeDDL",
+                    url: "/Admin/PopulateOwnerDDL",
                     dataType: 'json',
                     quietMillis: 650,
                     data: function (term) {
                         return {
-                            searchTerm: "2" // search term
+                            searchTerm: term // search term
                         };
                     },
                     results: function (data) {
@@ -270,38 +279,7 @@
                     }
                 }
             });
-        });
 
-        $(function () {
-            $('.datetimepicker').datetimepicker({
-                format: 'm/d/Y'
-            });
-        });
-
-        $(function () {
-                        
-            $(':radio[name=ReloadFL]').change(function () {
-                // read the value of the selected radio
-                var value = $(this).val();
-                $("#ddlType").select2({
-                    minimumInputLength: 0,
-                    cache: false,
-                    ajax: {
-                        url: "/Admin/PopulateTypeDDL",
-                        dataType: 'json',
-                        quietMillis: 650,
-                        data: function (term) {
-                            return {
-                                searchTerm: value // search term
-                            };
-                        },
-                        results: function (data) {
-                            return { results: data };
-                        }
-                    }
-                });
-            });
-            
             //ddlOwner
             $("#ddlOwner").select2({
                 minimumInputLength: 0,
@@ -327,120 +305,6 @@
                 cache: false,
                 ajax: {
                     url: "/Admin/PopulateOperatorDDL",
-                    dataType: 'json',
-                    quietMillis: 650,
-                    data: function (term) {
-                        return {
-                            searchTerm: term // search term
-                        };
-                    },
-                    results: function (data) {
-                        return { results: data };
-                    }
-                }
-            });
-
-            //ddlLoadStatus
-            $("#ddlLoadStatus").select2({
-                minimumInputLength: 0,
-                cache: false,
-                ajax: {
-                    url: "/Admin/PopulateLoadStatusDDL",
-                    dataType: 'json',
-                    quietMillis: 650,
-                    data: function (term) {
-                        return {
-                            searchTerm: term // search term
-                        };
-                    },
-                    results: function (data) {
-                        return { results: data };
-                    }
-                }
-            });
-
-            //ddlTankGrade
-            $("#ddlTankGrade").select2({
-                minimumInputLength: 0,
-                cache: false,
-                ajax: {
-                    url: "/Admin/PopulateTankGradeDDL",
-                    dataType: 'json',
-                    quietMillis: 650,
-                    data: function (term) {
-                        return {
-                            searchTerm: term // search term
-                        };
-                    },
-                    results: function (data) {
-                        return { results: data };
-                    }
-                }
-            });
-
-            //ddlCurrentLastProduct
-            $("#ddlCurrentLastProduct").select2({
-                minimumInputLength: 0,
-                cache: false,
-                ajax: {
-                    url: "/Admin/PopulateProductDDL",
-                    dataType: 'json',
-                    quietMillis: 650,
-                    data: function (term) {
-                        return {
-                            searchTerm: term // search term
-                        };
-                    },
-                    results: function (data) {
-                        return { results: data };
-                    }
-                }
-            });
-
-            //ddlDedicatedProduct
-            $("#ddlDedicatedProduct").select2({
-                minimumInputLength: 0,
-                cache: false,
-                ajax: {
-                    url: "/Admin/PopulateProductDDL",
-                    dataType: 'json',
-                    quietMillis: 650,
-                    data: function (term) {
-                        return {
-                            searchTerm: term // search term
-                        };
-                    },
-                    results: function (data) {
-                        return { results: data };
-                    }
-                }
-            });
-
-            //ddlBarrelCondition
-            $("#ddlBarrelCondition").select2({
-                minimumInputLength: 0,
-                cache: false,
-                ajax: {
-                    url: "/Admin/PopulateTankConditionDDL",
-                    dataType: 'json',
-                    quietMillis: 650,
-                    data: function (term) {
-                        return {
-                            searchTerm: term // search term
-                        };
-                    },
-                    results: function (data) {
-                        return { results: data };
-                    }
-                }
-            });
-
-            //ddlMoveType
-            $("#ddlMoveType").select2({
-                minimumInputLength: 0,
-                cache: false,
-                ajax: {
-                    url: "/Admin/PopulateMoveTypeDDL",
                     dataType: 'json',
                     quietMillis: 650,
                     data: function (term) {

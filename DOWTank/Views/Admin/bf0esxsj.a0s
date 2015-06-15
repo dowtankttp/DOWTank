@@ -1,0 +1,264 @@
+﻿@model DOWTank.Models.AdminEquipmentModel
+@{
+    ViewBag.Title = "Equipment";
+}
+
+
+
+
+<div class="well well-lg">
+    <!--title-->
+    <div class="row">
+        <div class="col-md-12 nopadding">
+            <h4 class="dow-color col-md-6">Equipment</h4>
+        </div>
+    </div>
+    @using (Html.BeginForm("Equipment", "Admin", FormMethod.Post))
+    {
+        if (ViewData.ModelState.Keys.Any(k => ViewData.ModelState[k].Errors.Count() > 0))
+        { 
+        <div class="alert alert-danger">
+            <button class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            @Html.ValidationSummary(false, "Please correct the following items: ")
+        </div>
+        }
+        <div class="form-group text-right">
+            <input type="submit" value="Save Equipment" class="btn btn-default btn-primary" />
+        </div>
+        <div class="form-group">
+            <div class="col-md-12 nopadding">
+                <label>Is this a Reload?:</label>
+            </div>
+            <div class="row no-row-margin">
+                <div class="col-md-1 nopadding">
+                    <div class="radio">
+                        <label>
+                            <input type="radio" name="ReloadFL" value="true" checked>
+                            Chessis
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-1 nopadding">
+                    <div class="radio">
+                        <label>
+                            <input type="radio" name="ReloadFL" value="false">
+                            Container
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-1 nopadding">
+                    <div class="radio">
+                        <label>
+                            <input type="radio" name="ReloadFL" value="false">
+                            Tank
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>   
+    
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-4">
+                    <label>Equipment #:*</label>
+                    <!--todo: repalce it with select2-->
+                    <input type="text" class="form-control" />
+                </div>
+                <div class="col-md-3">
+                    <label>Type:*</label>
+                    <!--todo: repalce it with actual-->
+                    <select class="form-control">
+                        <option></option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    
+        <div class="form-group">
+            <div class="col-md-12 nopadding">
+                <label>Pool:</label>
+            </div>
+            <div class="row no-row-margin">
+                <div class="col-md-1 nopadding">
+                    <div class="radio">
+                        <label>
+                            <input type="radio" name="ReloadFL" value="true" checked>
+                            Yes
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-1 nopadding">
+                    <div class="radio">
+                        <label>
+                            <input type="radio" name="ReloadFL" value="false">
+                            No
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>  
+    
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-4">
+                    <label>Owner:</label>
+                    <select class="form-control">
+                        <option></option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label>Operator:</label>
+                    <select class="form-control">
+                        <option></option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-4">
+                    <label>Current Location:</label>
+                    <!--todo: replace it with select2-->
+                    <input type="text" class="form-control" />
+                </div>
+                <div class="col-md-4">
+                    <label>Current Load Status:</label>
+                    <select class="form-control">
+                        <option></option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-4">
+                    <label>Tank Grade:</label>
+                    <select class="form-control">
+                        <option></option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label>Current/Last Product:*</label>
+                    <!--todo: replace it with select2-->
+                    <input type="text" class="form-control" />
+                </div>
+                <div class="col-md-2">
+                    <a href="#">[ Add ]</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-4">
+                    <label>Dedicated Location:</label>
+                    <!--todo: replace it with select2-->
+                    <input type="text" class="form-control" />
+                </div>
+                <div class="col-md-4">
+                    <label>Dedicated Product:</label>
+                    <!--todo: replace it with select2-->
+                    <input type="text" class="form-control" />
+                </div>
+                <div class="col-md-2">
+                    <label></label>
+                    <input type="button" value="Add Product" class="btn btn-default mt20" />
+                </div>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-4">
+                    <label>Tank Condition:</label>
+                    <!--todo: replace it with select2-->
+                    <input type="text" class="form-control" />
+                </div>
+                <div class="col-md-4">
+                    <label>Service Type:*</label>
+                    <!--todo: replace it with select2-->
+                    <select class="form-control">
+                        <option></option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    
+        <div class="form-group">
+            <div class="row">                
+                <div class="col-md-4">
+                    <label>Last Test Date:</label>
+                    <input type="text" name="Tank5YRTestDT" class="form-control datetimepicker">
+                </div>
+                <div class="col-md-4">
+                    <label>FHWA Inspect Date:</label>
+                    <input type="text" name="txtDOTInspectedDT" class="form-control datetimepicker">
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-12 nopadding">
+                <label>Last Test Type:</label>
+            </div>
+            <div class="row no-row-margin">
+                <div class="col-md-1 nopadding">
+                    <div class="radio">
+                        <label>
+                            <input type="radio" name="ReloadFL" value="true" checked>
+                            Hydro
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-1 nopadding">
+                    <div class="radio">
+                        <label>
+                            <input type="radio" name="ReloadFL" value="false">
+                            Air
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-4">
+                    <label>Tank Capacity:</label>
+                    <input type="text" class="form-control" />
+                </div>
+            </div>
+        </div>
+    
+        <div class="form-group">
+            <div class="col-md-12 nopadding">
+                <label>Active:</label>
+            </div>
+            <div class="row no-row-margin">
+                <div class="col-md-1 nopadding">
+                    <div class="radio">
+                        <label>
+                            <input type="radio" name="ReloadFL" value="true" checked>
+                            Yes
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-1 nopadding">
+                    <div class="radio">
+                        <label>
+                            <input type="radio" name="ReloadFL" value="false">
+                            No
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        <div class="form-group text-right mt10">
+            <input type="submit" value="Save Equipment" class="btn btn-default btn-primary" />
+        </div>
+    }
+</div>
+
