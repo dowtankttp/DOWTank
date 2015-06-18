@@ -352,7 +352,7 @@
                                         }
                                         else
                                         {
-                                    <td>Delete</td>
+                                    <td><a onclick="DeleteHistory(@row["OnHireHistoryID"].ToString())" href="javascript:void(0)">Delete</a></td>
                                     <td>@Html.ActionLink("Edit", "SaveHistory", "TankHistory", new { @onHireHistoryID = @row["OnHireHistoryID"].ToString() }, null)</td>
                                         }
                                     }
@@ -371,6 +371,23 @@
 @section scripts
 {
     <script>
+
+        function DeleteHistory(id) {
+            $.ajax({
+                url: "/TankHistory/DeleteHistory",
+                dataType: 'json',
+                method: 'POST',
+                data: { onHireHistoryID: id },
+                success: function (response) {
+                    if (response && response.length > 0) {
+                        location.reload();
+                    }
+                }
+            });
+        }
+        //delete data
+
+
         $(document).ready(function () {
 
             if ($("#hfShowResult").val() == "true")
@@ -383,7 +400,6 @@
                 return true;
             });
         });
-
 
     </script>
 }

@@ -8,6 +8,7 @@ using DOWTank.Common;
 using DOWTank.Core.Domain.TANK_usp_insupd;
 using DOWTank.Core.Domain.TANK_usp_rpt;
 using DOWTank.Core.Domain.TANK_usp_sel;
+using DOWTank.Core.Domain.TANK_usp_upd;
 using DOWTank.Core.Enum;
 using DOWTank.Core.Service;
 using DOWTank.Custom;
@@ -369,6 +370,25 @@ namespace DOWTank.Controllers
         }
 
         #endregion Add History
+
+        #region Delete History
+
+        [HttpPost]
+        public JsonResult DeleteHistory(int onHireHistoryID)
+        {
+            PopulateSecurityExtended();
+            var TANK_usp_del_OnHireHistory_spParams = new TANK_usp_del_OnHireHistory_spParams()
+                {
+                    OnHireHistoryID = onHireHistoryID
+                };
+
+            _utilityService.ExecStoredProcedureWithoutResults("TANK_usp_del_OnHireHistory", TANK_usp_del_OnHireHistory_spParams);
+
+            return Json(1);
+        }
+
+        #endregion Delete History
+
     }
 
     public class TankHistoryModel

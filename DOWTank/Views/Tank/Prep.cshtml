@@ -220,7 +220,6 @@
                     url: "/Tank/DeletePrep",
                     dataType: 'json',
                     method: 'POST',
-                    contentType: 'application/json; charset=utf-8',
                     data: { TankPrepID: $("#TankPrepID").val() },
                     success: function (response) {
                         if (response && response.length > 0) {
