@@ -247,12 +247,12 @@
                                         }
                                         else if (@col.ColumnName == "DispatchID")
                                         {
-                                            <td>
-                                                @if (Convert.ToBoolean(ViewBag.AllowEditDispatch))
-                                                {
-                                                    @Html.ActionLink("Edit", "Index", "Dispatch", new {@dispatchid = @row["DispatchID"].ToString()}, null)
-                                                }
-                                            </td>
+                                        <td>
+                                            @if (Convert.ToBoolean(ViewBag.AllowEditDispatch))
+                                            {
+                                                @Html.ActionLink("Edit", "Index", "Dispatch", new { @dispatchid = @row["DispatchID"].ToString() }, null)
+                                            }
+                                        </td>
                                             
                                         }
                                     }
@@ -313,7 +313,7 @@
                         <tr>
                             @foreach (DataColumn col in Model.DataTableOnHireHistory.Columns)
                             {
-                                if (@col.ColumnName == "ChargeCodeAn" || @col.ColumnName == "OnHireDS" || @col.ColumnName == "StatusDt" || @col.ColumnName == "OnHireReasonTypeDS")
+                                if (@col.ColumnName == "ChargeCodeAn" || @col.ColumnName == "OnHireDS" || @col.ColumnName == "StatusDt" || @col.ColumnName == "OnHireReasonTypeDS" || @col.ColumnName == "OnHireHistoryID")
                                 {
                                     switch (@col.ColumnName)
                                     {
@@ -329,6 +329,10 @@
                                         case "OnHireReasonTypeDS":
                                 <th>Reason</th>
                                             break;
+                                        case "OnHireHistoryID":
+                                <th></th>
+                                <th></th>
+                                            break;
                                     }
                                 }
                             }
@@ -340,9 +344,17 @@
                             <tr>
                                 @foreach (DataColumn col in Model.DataTableOnHireHistory.Columns)
                                 {
-                                    if (@col.ColumnName == "ChargeCodeAn" || @col.ColumnName == "OnHireDS" || @col.ColumnName == "StatusDt" || @col.ColumnName == "OnHireReasonTypeDS")
+                                    if (@col.ColumnName == "ChargeCodeAn" || @col.ColumnName == "OnHireDS" || @col.ColumnName == "StatusDt" || @col.ColumnName == "OnHireReasonTypeDS" || @col.ColumnName == "OnHireHistoryID")
                                     {
+                                        if (@col.ColumnName != "OnHireHistoryID")
+                                        {
                                     <td>@row[col.ColumnName]</td>
+                                        }
+                                        else
+                                        {
+                                    <td>Delete</td>
+                                    <td>@Html.ActionLink("Edit", "SaveHistory", "TankHistory", new { @onHireHistoryID = @row["OnHireHistoryID"].ToString() }, null)</td>
+                                        }
                                     }
                                 }
                             </tr>

@@ -1,0 +1,141 @@
+﻿@model DOWTank.Models.EquipmentOnHireHistoryPostModel
+@{
+    ViewBag.Title = "Add/Edit History";
+}
+<div class="well well-lg">
+    <!--title-->
+    <div class="row">
+        <div class="col-md-12 nopadding">
+            <h4 class="dow-color col-md-6">On-Hire History Maintenance </h4>
+        </div>
+    </div>
+    @using (Html.BeginForm("SaveHistory", "TankHistory", FormMethod.Post))
+    {
+        @Html.HiddenFor(m => m.OnHireHistoryID)
+        if (ViewData.ModelState.Keys.Any(k => ViewData.ModelState[k].Errors.Count() > 0))
+        {
+        <div class="alert alert-danger">
+            <button class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            @Html.ValidationSummary(false, "Please correct the following items: ")
+        </div>
+        }
+        <div class="form-group text-right">
+            <input type="submit" value="Save" class="btn btn-default btn-primary" />
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-4">
+                    <label>Tank:</label>
+                    @Html.TextBoxFor(m => m.EquipmentAN, new { @class = "form-control" })
+                </div>
+                <div class="col-md-4">
+                    <label>Charge Code:*</label>
+                    <input id="ddlChargeCode" type="hidden" style="width: 100%; box-sizing: border-box;">
+                    @Html.HiddenFor(m => m.ChargeCodeAn)
+                    @Html.HiddenFor(m => m.ChargeCodeID)
+                </div>
+            </div>
+        </div>
+      
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-4">
+                    <label>Shipment #:</label>
+                    @Html.TextBoxFor(m => m.ShipmentAN, new { @class = "form-control" })
+                </div>
+                <div class="col-md-3">
+                    <label>Date:*</label>
+                    @Html.TextBoxFor(m => m.StatusDt, new { @class = "form-control datetimepicker" })
+                </div>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <div class="col-md-12 nopadding">
+                <label>On/Off Hire:*</label>
+            </div>
+            <div class="row no-row-margin">
+                <div class="col-md-1 nopadding">
+                    <div class="radio">
+                        <label>
+                            @Html.RadioButtonFor(m => m.OnHireFL, true)
+                            Yes
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-1 nopadding">
+                    <div class="radio">
+                        <label>
+                            @Html.RadioButtonFor(m => m.OnHireFL, false)
+                            No
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-4">
+                    <label>Reason:*</label>
+                    @Html.DropDownList("OnHireReasonTypeCD", null, new { @class = "form-control" })
+                    @Html.HiddenFor(m => m.OnHireReasonTypeCDEdit)
+                </div>
+            </div>
+        </div>
+    
+        <div class="form-group text-right mt10">
+            <input type="submit" value="Save" class="btn btn-default btn-primary" />
+        </div>
+    }
+
+</div>
+<!--script-->
+@section scripts
+{
+    <script>
+        $(function () {
+            $('.datetimepicker').datetimepicker({
+                format: 'm/d/Y H:i'
+            });
+
+            $("#ddlChargeCode").change(function () {
+                var theSelection = $("#ddlChargeCode").select2('data').text;
+                $("#ChargeCodeAn").val(theSelection);
+            });
+
+        });
+        //select2
+        $(function () {
+            //#region select2
+
+            // charge code ddl
+            $("#ddlChargeCode").select2({
+                minimumInputLength: 0,
+                cache: true,
+                ajax: {
+                    url: "/Tank/PopulateChargeCode",
+                    dataType: 'json',
+                    quietMillis: 650,
+                    data: function (term) {
+                        return {
+                            searchTerm: term // search term
+                        };
+                    },
+                    results: function (data) {
+                        return { results: data };
+                    }
+                }
+            });
+
+            if ($("#OnHireHistoryID").val()) {
+                //charge code
+                $("#ddlChargeCode").select2("data", { id: $("#ChargeCodeID").val(), text: $("#ChargeCodeAn").val() });
+                //reason
+                $("#OnHireReasonTypeCD").val($("#OnHireReasonTypeCDEdit").val());
+            }
+
+        });
+
+    </script>
+}

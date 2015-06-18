@@ -140,7 +140,7 @@ namespace DOWTank.Controllers
         [HttpPost]
         public ActionResult Index(DispatchTankModel postModel, String ChassisID, String ProductID, String DriverID, String LoadStatusTypeCD)
         {
-            PopulateSecurityExtended();	
+            PopulateSecurityExtended();
             LoadDispatchTankDropdowns();
             if (!ModelState.IsValid)
             {
@@ -194,7 +194,7 @@ namespace DOWTank.Controllers
             objDispatchTankParams.ReloadFL = postModel.bolIsReloadFL;
             objDispatchTankParams.CleaningApprovedFL = postModel.bolIsCleaningApprovedFL;
             objDispatchTankParams.WPNAN = postModel.strWPNAN;
-            objDispatchTankParams.UpdateUserAN = "System";
+            objDispatchTankParams.UpdateUserAN = SecurityExtended.UserName;
 
             _utilityService.ExecStoredProcedureWithoutResults("TANK_usp_insupd_Dispatch", objDispatchTankParams);
             Success("Dispatch Tank Saved Successfully.");
@@ -207,7 +207,7 @@ namespace DOWTank.Controllers
         [HttpPost]
         public JsonResult DeleteDispatchData(DeleteDispatchPostModel postModel)
         {
-            PopulateSecurityExtended();	
+            PopulateSecurityExtended();
             if (postModel == null || postModel.DispatchID == null || postModel.EquipmentID == 0)
             {
                 return Json(0);
@@ -238,7 +238,7 @@ namespace DOWTank.Controllers
         [HttpGet]
         public JsonResult LoadLastMove(int? equipmentId)
         {
-            PopulateSecurityExtended();	
+            PopulateSecurityExtended();
             if (equipmentId == null || equipmentId.Value == 0)
             {
                 return Json(string.Empty, JsonRequestBehavior.AllowGet);
@@ -254,7 +254,7 @@ namespace DOWTank.Controllers
 
         private void LoadDispatchTankDropdowns()
         {
-            PopulateSecurityExtended();												
+            PopulateSecurityExtended();
 
             #region LoadPoint
 
@@ -355,7 +355,7 @@ namespace DOWTank.Controllers
         [HttpGet]
         public JsonResult PopulateProduct(string searchTerm)
         {
-            PopulateSecurityExtended();	
+            PopulateSecurityExtended();
             //todo: re-factor it later as required
             var response = _sharedFunctions.PopulateProduct(false, SecurityExtended.LocationId.Value, searchTerm.Trim());
             var productList = new List<Select2ViewModel>();
@@ -405,9 +405,9 @@ namespace DOWTank.Controllers
         [HttpGet]
         public JsonResult PopulateChargeCode(string searchTerm)
         {
-            PopulateSecurityExtended();	
+            PopulateSecurityExtended();
             //todo: re-factor it later as required
-            var response = _sharedFunctions.PopulateChargeCode(0, searchTerm.Trim(),SecurityExtended.LocationId.Value);
+            var response = _sharedFunctions.PopulateChargeCode(0, searchTerm.Trim(), SecurityExtended.LocationId.Value);
             var chargeCodes = new List<Select2ViewModel>();
             if (response != null && response.Any())
             {
@@ -470,7 +470,7 @@ namespace DOWTank.Controllers
         [HttpGet]
         public JsonResult PopulateContacts(string searchTerm)
         {
-            PopulateSecurityExtended(); 
+            PopulateSecurityExtended();
             var response = _sharedFunctions.PopulateContacts(SecurityExtended.LocationId.Value);
 
             var productList = new List<Select2ViewModel>();
@@ -489,7 +489,7 @@ namespace DOWTank.Controllers
 
         private List<Select2ViewModel> LoadLocations(int locationType)
         {
-            PopulateSecurityExtended();	
+            PopulateSecurityExtended();
             var loadPoints = new List<Select2ViewModel>();
 
             //selected location

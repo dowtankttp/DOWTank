@@ -172,6 +172,7 @@
     <Compile Include="Models\AdminEquipmentModel.cs" />
     <Compile Include="Models\AdminProductModel.cs" />
     <Compile Include="Models\DispatchTankModel.cs" />
+    <Compile Include="Models\EquipmentOnHireHistoryPostModel.cs" />
     <Compile Include="Models\LoginPostModel.cs" />
     <Compile Include="Models\Select2ShortViewModel.cs" />
     <Compile Include="Models\Select2ViewModel.cs" />
@@ -233,6 +234,7 @@
     <Compile Include="Utility\CrystalReportPdfResult.cs" />
     <Compile Include="Utility\SecurityExtended.cs" />
     <Compile Include="Utility\UserManager.cs" />
+    <Compile Include="Utility\Utility.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />
@@ -557,6 +559,7 @@
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Home\AccessDenied.cshtml" />
+    <Content Include="Views\TankHistory\SaveHistory.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DOWTank.Core\DOWTank.Core.csproj">
