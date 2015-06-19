@@ -50,11 +50,11 @@
 
         <div class="form-group text-right">
             <input type="submit" value="Dispatch Tank" class="btn btn-default btn-primary mr10" />
-            @if (Convert.ToBoolean(ViewBag.AllowDeleteDispatch))
+            @if (Convert.ToBoolean(ViewBag.AllowDeleteDispatch) && @Model.intDispatchId.HasValue)
             {
                 <input type="button" value="Delete Dispatch" onclick=" return confirm('Are you sure you want to delete ?'); " class="btn btn-default btn-primary mr10 btnDeleteDispatch" />
             }
-            @if (Convert.ToBoolean(ViewBag.AllowAddInvoice))
+            @if (Convert.ToBoolean(ViewBag.AllowAddInvoice) && @Model.intDispatchId.HasValue)
             {
                 <!--todo: replace it with action link-->
                 <input type="button" value="Add Invoice" class="btn btn-default btn-primary" />
@@ -295,11 +295,11 @@
         </div>
         <div class="form-group text-right">
             <input type="submit" value="Dispatch Tank" class="btn btn-default btn-primary mr10" />
-            @if (Convert.ToBoolean(ViewBag.AllowDeleteDispatch))
+            @if (Convert.ToBoolean(ViewBag.AllowDeleteDispatch) && @Model.intDispatchId.HasValue)
             {
                 <input type="button" value="Delete Dispatch" onclick=" return confirm('Are you sure you want to delete ?'); " class="btn btn-default btn-primary mr10 btnDeleteDispatch" />
             }
-            @if (Convert.ToBoolean(ViewBag.AllowAddInvoice))
+            @if (Convert.ToBoolean(ViewBag.AllowAddInvoice) && @Model.intDispatchId.HasValue)
             {
                 <!--todo: replace it with action link-->
                 <input type="button" value="Add Invoice" class="btn btn-default btn-primary" />

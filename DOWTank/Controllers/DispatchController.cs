@@ -54,6 +54,7 @@ namespace DOWTank.Controllers
             LoadDispatchTankDropdowns();
             ViewBag.EquipmentAN = equipmentAn;
             var postModel = new DispatchTankModel();
+            postModel.intDispatchId = dispatchId;
             if (dispatchId.HasValue)
             {
                 LoadDispatch(dispatchId.Value, postModel);

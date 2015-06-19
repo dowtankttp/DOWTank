@@ -34,19 +34,19 @@ namespace DOWTank.Controllers
             PopulateSecurityExtended();
             int securityProfileId = SecurityExtended.SecurityProfileId;
             var permissionList = _sharedFunctions.GetSecuritySettings(securityProfileId, (int)SecurityCatEnum.RequireService, null);
-            ViewBag.AccessDispatch = true;
-            ViewBag.EditTestDates = true;
-            //foreach (var permission in permissionList)
-            //{
-            //    if (permission.PrivilegeDS == "Dispatch")
-            //    {
-            //        ViewBag.AccessDispatch = (permission.GrantedFL == 1);
-            //    }
-            //    else if (permission.PrivilegeDS == "Edit Test Dates")
-            //    {
-            //        ViewBag.EditTestDates = (permission.GrantedFL == 1);
-            //    }
-            //}
+            ViewBag.AccessDispatch = false;
+            ViewBag.EditTestDates = false;
+            foreach (var permission in permissionList)
+            {
+                if (permission.PrivilegeDS == "Dispatch")
+                {
+                    ViewBag.AccessDispatch = (permission.GrantedFL == 1);
+                }
+                else if (permission.PrivilegeDS == "Edit Test Dates")
+                {
+                    ViewBag.EditTestDates = (permission.GrantedFL == 1);
+                }
+            }
             // database call
 
             var TANK_usp_rpt_RequiresMaint_spParams = new TANK_usp_rpt_RequiresMaint_spParams()
