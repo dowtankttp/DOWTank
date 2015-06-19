@@ -5,6 +5,9 @@
     
     <ul class="nav navbar-nav navbar-right">
         <li>
+            @Html.Action("_LocationSelection", "Home")
+        </li>
+        <li>
             <a href="javascript:void(0)">@("Hi " + @Html.Action("GetUserName", "Account") + "!")</a>
         </li>
         <li>@Html.ActionLink("Log Out", "LogOut", "Account")</li>

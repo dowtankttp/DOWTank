@@ -52,6 +52,7 @@ namespace DOWTank.Common
         List<TANK_usp_sel_SecurityLocation_spResults> GetLocation(string userAn);
         IEnumerable<TANK_usp_sel_HazardClassDDL_spResults> PopulateHazardClass(bool iIncludeBlank);
         IEnumerable<TANK_usp_sel_TankConstructionTypeDDL_spResults> PopulateTankConstructionType(bool iIncludeBlank);
+        List<TANK_usp_sel_SecurityLocationALL_spResults> PopulateSecurityLocations(string userName);
     }
 
     public class SharedFunctions : ISharedFunctions
@@ -61,6 +62,15 @@ namespace DOWTank.Common
         public SharedFunctions(IUtilityService utilityService)
         {
             _utilityService = utilityService;
+        }
+
+        public List<TANK_usp_sel_SecurityLocationALL_spResults> PopulateSecurityLocations(string userName)
+        {
+            var TANK_usp_sel_SecurityLocationALL_spParams = new TANK_usp_sel_SecurityLocationALL_spParams()
+                {
+                    UserAn = userName
+                };
+            return _utilityService.ExecStoredProcedureWithResults<TANK_usp_sel_SecurityLocationALL_spResults>("TANK_usp_sel_SecurityLocationALL", TANK_usp_sel_SecurityLocationALL_spParams).ToList();
         }
 
         public List<TANK_usp_sel_SecurityLocation_spResults> GetLocation(string userAn)

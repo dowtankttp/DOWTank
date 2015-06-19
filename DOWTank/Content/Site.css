@@ -113,6 +113,9 @@ input[type="checkbox"].input-validation-error {
 .mt5 {
     margin-top: 5px!important;
 }
+.mt15 {
+    margin-top: 15px!important;
+}
 .mb5 {
     margin-bottom: 5px!important;
 }
