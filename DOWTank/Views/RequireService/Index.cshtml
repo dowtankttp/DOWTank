@@ -29,6 +29,7 @@
                                 if (@col.ColumnName == "EquipmentID")
                                 {
                             <th></th>
+                            <th></th>
                                 }
                                 else
                                 {
@@ -52,6 +53,7 @@
                                     }
                                     else if (@col.ColumnName == "EquipmentID" && Convert.ToBoolean(ViewBag.AccessDispatch))
                                     {
+                                <td><a  class="edit" id="@row["EquipmentID"].ToString()" href="javascript:void(0)">Edit</a></td>
                                 <td>@Html.ActionLink("Dispatch", "Index", "Dispatch", new { @equipmentAn = @row["Equipment #"].ToString() }, null)</td>
                                     }
                                     else
@@ -71,33 +73,62 @@
 
 </div>
 
+<!-- Modal -->
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+
+            <div class="modal-body">
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <label>Last Test:</label>
+                            <input type="text" name="LastTest" class="form-control datetimepicker" />
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-12 nopadding">
+                        <label>On/Off Hire:*</label>
+                    </div>
+                    <div class="row no-row-margin">
+                        <div class="col-md-2 nopadding">
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="OnOffHire" value="true" />
+                                    Hydro
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-2 nopadding">
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="OnOffHire" value="false" />
+                                    Air
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" id="btnSaveChanges" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+<input type="hidden" id="hdnEquipmentId" value="" />
 <!--script-->
 @section scripts
 {
-    @*https://editor.datatables.net/media/js/dataTables.editor.min.js*@
-    <script src="~/Scripts/dataTables.editor.js"></script>
+
     <script>
 
-        //editor
-        //$(function () {
-        //    var editor = new $.fn.dataTable.Editor({
-        //        table: "#tblRequireService",
-        //        formOptions: {
-        //            bubble: {
-        //                title: 'Edit',
-        //                buttons: false
-        //            }
-        //        }
-        //    });
+        function EditRequireService(equipmentId) {
+            console.log('equipment id ' + equipmentId);
+        }
 
-        //    $('#tblRequireService').on('click', 'tbody td', function (e) {
-        //        if ($(this).index() < 6) {
-        //            editor.bubble(this);
-        //        }
-        //    });
-
-        //    //mark end of document ready
-        //});
         //data table
         $(function () {
 
@@ -113,8 +144,59 @@
                     responsive: true
                 });
 
-            console.log('data ' + $("#tblRequireService").dataTable().fnGetData()[0]);
+
+            $('body').on('click', '#tblRequireService tbody tr a.edit', function () {
+
+                console.log('inside row click... ' + $(this).prop('id'));
+                $("#hdnEquipmentId").val($(this).prop('id'));
+                $("input[name='LastTest']").val('');
+                $("#editModal").modal();
+
+            });
+
+
+            //console.log('data ' + $("#tblRequireService").dataTable().fnGetData()[0]);
+
+            ////var table = $('#tblRequireService').DataTable();
+            //$('#tblRequireService tbody').on('click', 'tr', function () {
+            //    console.log($('#tblRequireService').row(this).data());
+            //});
+
             //mark end of document ready
         });
+
+        $(function () {
+
+            $('.datetimepicker').datetimepicker({
+                format: 'm/d/Y'
+            });
+
+            $("#btnSaveChanges").on('click', function () {
+
+                var equipmentId = $("#hdnEquipmentId").val();
+                var lastTest = $("input[name='LastTest']").val();
+                var testType = $("input[name='OnOffHire']:checked").val();
+                console.log('inside btn save changes ' + lastTest + ' ' + testType);
+                //todo: call ajax method to save changes
+                if (equipmentId && lastTest && testType) {
+                    $.ajax({
+                        url: "/RequireService/SaveChanges",
+                        dataType: 'json',
+                        method: 'POST',
+                        data: { EquipmentID: equipmentId, LastTestHydroFL: testType, Tank5YRTestDT: lastTest },
+                        success: function (response) {
+                            if (response) {
+                                location.reload();
+                            }
+                        }
+                    });
+                } else {
+                    alert("Please provide all the inputs");
+                }
+            });
+
+            //mark end of document ready
+        });
+
     </script>
 }

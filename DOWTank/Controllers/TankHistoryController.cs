@@ -35,39 +35,39 @@ namespace DOWTank.Controllers
             PopulateSecurityExtended();
             int securityProfileId = SecurityExtended.SecurityProfileId;
             var permissionList = _sharedFunctions.GetSecuritySettings(securityProfileId, (int)SecurityCatEnum.TankHistory, null);
-            ViewBag.AllowDispatch = true;
-            ViewBag.AllowPrep = true;
-            ViewBag.AllowEditDispatch = true;
-            ViewBag.AllowViewOnHireHistory = true;
-            ViewBag.AllowEditOnHireHistory = true;
-            ViewBag.AllowEditTankInfo = true;
-            //foreach (var permission in permissionList)
-            //{
-            //    if (permission.PrivilegeDS == "Dispatch")
-            //    {
-            //        ViewBag.AllowDispatch = (permission.GrantedFL == 1);
-            //    }
-            //    else if (permission.PrivilegeDS == "Prep")
-            //    {
-            //        ViewBag.AllowPrep = (permission.GrantedFL == 1);
-            //    }
-            //    else if (permission.PrivilegeDS == "Edit Dispatch")
-            //    {
-            //        ViewBag.AllowEditDispatch = (permission.GrantedFL == 1);
-            //    }
-            //    else if (permission.PrivilegeDS == "View On Hire History")
-            //    {
-            //        ViewBag.AllowViewOnHireHistory = (permission.GrantedFL == 1);
-            //    }
-            //    else if (permission.PrivilegeDS == "Edit On Hire History")
-            //    {
-            //        ViewBag.AllowEditOnHireHistory = (permission.GrantedFL == 1);
-            //    }
-            //    else if (permission.PrivilegeDS == "Edit Tank Info")
-            //    {
-            //        ViewBag.AllowEditTankInfo = (permission.GrantedFL == 1);
-            //    }
-            //}
+            ViewBag.AllowDispatch = false;
+            ViewBag.AllowPrep = false;
+            ViewBag.AllowEditDispatch = false;
+            ViewBag.AllowViewOnHireHistory = false;
+            ViewBag.AllowEditOnHireHistory = false;
+            ViewBag.AllowEditTankInfo = false;
+            foreach (var permission in permissionList)
+            {
+                if (permission.PrivilegeDS == "Dispatch")
+                {
+                    ViewBag.AllowDispatch = (permission.GrantedFL == 1);
+                }
+                else if (permission.PrivilegeDS == "Prep")
+                {
+                    ViewBag.AllowPrep = (permission.GrantedFL == 1);
+                }
+                else if (permission.PrivilegeDS == "Edit Dispatch")
+                {
+                    ViewBag.AllowEditDispatch = (permission.GrantedFL == 1);
+                }
+                else if (permission.PrivilegeDS == "View On Hire History")
+                {
+                    ViewBag.AllowViewOnHireHistory = (permission.GrantedFL == 1);
+                }
+                else if (permission.PrivilegeDS == "Edit On Hire History")
+                {
+                    ViewBag.AllowEditOnHireHistory = (permission.GrantedFL == 1);
+                }
+                else if (permission.PrivilegeDS == "Edit Tank Info")
+                {
+                    ViewBag.AllowEditTankInfo = (permission.GrantedFL == 1);
+                }
+            }
 
             TankHistoryModel tankHistoryModel = new TankHistoryModel();
 
@@ -115,39 +115,39 @@ namespace DOWTank.Controllers
             PopulateSecurityExtended();
             int securityProfileId = SecurityExtended.SecurityProfileId;
             var permissionList = _sharedFunctions.GetSecuritySettings(securityProfileId, (int)SecurityCatEnum.TankHistory, null);
-            ViewBag.AllowDispatch = true;
-            ViewBag.AllowPrep = true;
-            ViewBag.AllowEditDispatch = true;
-            ViewBag.AllowViewOnHireHistory = true;
-            ViewBag.AllowEditOnHireHistory = true;
-            ViewBag.AllowEditTankInfo = true;
-            //foreach (var permission in permissionList)
-            //{
-            //    if (permission.PrivilegeDS == "Dispatch")
-            //    {
-            //        ViewBag.AllowDispatch = (permission.GrantedFL == 1);
-            //    }
-            //    else if (permission.PrivilegeDS == "Prep")
-            //    {
-            //        ViewBag.AllowPrep = (permission.GrantedFL == 1);
-            //    }
-            //    else if (permission.PrivilegeDS == "Edit Dispatch")
-            //    {
-            //        ViewBag.AllowEditDispatch = (permission.GrantedFL == 1);
-            //    }
-            //    else if (permission.PrivilegeDS == "View On Hire History")
-            //    {
-            //        ViewBag.AllowViewOnHireHistory = (permission.GrantedFL == 1);
-            //    }
-            //    else if (permission.PrivilegeDS == "Edit On Hire History")
-            //    {
-            //        ViewBag.AllowEditOnHireHistory = (permission.GrantedFL == 1);
-            //    }
-            //    else if (permission.PrivilegeDS == "Edit Tank Info")
-            //    {
-            //        ViewBag.AllowEditTankInfo = (permission.GrantedFL == 1);
-            //    }
-            //}
+            ViewBag.AllowDispatch = false;
+            ViewBag.AllowPrep = false;
+            ViewBag.AllowEditDispatch = false;
+            ViewBag.AllowViewOnHireHistory = false;
+            ViewBag.AllowEditOnHireHistory = false;
+            ViewBag.AllowEditTankInfo = false;
+            foreach (var permission in permissionList)
+            {
+                if (permission.PrivilegeDS == "Dispatch")
+                {
+                    ViewBag.AllowDispatch = (permission.GrantedFL == 1);
+                }
+                else if (permission.PrivilegeDS == "Prep")
+                {
+                    ViewBag.AllowPrep = (permission.GrantedFL == 1);
+                }
+                else if (permission.PrivilegeDS == "Edit Dispatch")
+                {
+                    ViewBag.AllowEditDispatch = (permission.GrantedFL == 1);
+                }
+                else if (permission.PrivilegeDS == "View On Hire History")
+                {
+                    ViewBag.AllowViewOnHireHistory = (permission.GrantedFL == 1);
+                }
+                else if (permission.PrivilegeDS == "Edit On Hire History")
+                {
+                    ViewBag.AllowEditOnHireHistory = (permission.GrantedFL == 1);
+                }
+                else if (permission.PrivilegeDS == "Edit Tank Info")
+                {
+                    ViewBag.AllowEditTankInfo = (permission.GrantedFL == 1);
+                }
+            }
 
 
             TankHistoryModel tankHistoryModel = new TankHistoryModel();

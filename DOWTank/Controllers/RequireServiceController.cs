@@ -6,6 +6,7 @@ using System.Security.Claims;
 using System.Web;
 using System.Web.Mvc;
 using DOWTank.Common;
+using DOWTank.Core.Domain.TANK_usp_insupd;
 using DOWTank.Core.Domain.TANK_usp_rpt;
 using DOWTank.Core.Enum;
 using DOWTank.Core.Service;
@@ -27,25 +28,25 @@ namespace DOWTank.Controllers
             _sharedFunctions = sharedFunctions;
         }
 
-        [OutputCache(Duration = 3600, VaryByParam = "none")]
+        //[OutputCache(Duration = 3600, VaryByParam = "none")]
         public ActionResult Index()
         {
             PopulateSecurityExtended();
             int securityProfileId = SecurityExtended.SecurityProfileId;
             var permissionList = _sharedFunctions.GetSecuritySettings(securityProfileId, (int)SecurityCatEnum.RequireService, null);
-            ViewBag.AccessDispatch = false;
-            ViewBag.EditTestDates = false;
-            foreach (var permission in permissionList)
-            {
-                if (permission.PrivilegeDS == "Dispatch")
-                {
-                    ViewBag.AccessDispatch = (permission.GrantedFL == 1);
-                }
-                else if (permission.PrivilegeDS == "Edit Test Dates")
-                {
-                    ViewBag.EditTestDates = (permission.GrantedFL == 1);
-                }
-            }
+            ViewBag.AccessDispatch = true;
+            ViewBag.EditTestDates = true;
+            //foreach (var permission in permissionList)
+            //{
+            //    if (permission.PrivilegeDS == "Dispatch")
+            //    {
+            //        ViewBag.AccessDispatch = (permission.GrantedFL == 1);
+            //    }
+            //    else if (permission.PrivilegeDS == "Edit Test Dates")
+            //    {
+            //        ViewBag.EditTestDates = (permission.GrantedFL == 1);
+            //    }
+            //}
             // database call
 
             var TANK_usp_rpt_RequiresMaint_spParams = new TANK_usp_rpt_RequiresMaint_spParams()
@@ -60,9 +61,24 @@ namespace DOWTank.Controllers
             return View(dataTable);
         }
 
+        [HttpPost]
+        public JsonResult SaveChanges(RequireServicePostModel postModel)
+        {
+            PopulateSecurityExtended();
+            var TANK_usp_upd_TankTestDates_spParams = new TANK_usp_upd_TankTestDates_spParams()
+                {
+                    EquipmentID = postModel.EquipmentID,
+                    LastTestHydroFL = postModel.LastTestHydroFL,
+                    Tank5YRTestDT = Convert.ToDateTime(postModel.Tank5YRTestDT),
+                    UpdateUserAN = SecurityExtended.UserName
+                };
+            _utilityService.ExecStoredProcedureWithoutResults("TANK_usp_upd_TankTestDates", TANK_usp_upd_TankTestDates_spParams);
+            return Json(postModel.EquipmentID);
+        }
+
         public ActionResult ViewInExcel()
         {
-            PopulateSecurityExtended();	
+            PopulateSecurityExtended();
             // database call
 
             var TANK_usp_rpt_RequiresMaint_spParams = new TANK_usp_rpt_RequiresMaint_spParams()
@@ -79,4 +95,12 @@ namespace DOWTank.Controllers
             return RedirectToAction("Index");
         }
     }
+
+    public class RequireServicePostModel
+    {
+        public int EquipmentID { get; set; }
+        public bool LastTestHydroFL { get; set; }
+        public string Tank5YRTestDT { get; set; }
+    }
+
 }
