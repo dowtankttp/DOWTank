@@ -377,17 +377,21 @@ namespace DOWTank.Controllers
         [HttpGet]
         public JsonResult PopulateDriver(string searchTerm)
         {
-            //todo: re-factor it later as required
-            var response = _sharedFunctions.PopulateDrivers(false);
+            searchTerm = searchTerm.ToUpper();
+            var response = _sharedFunctions.PopulateDrivers(false).ToList();
+            response = response.Where(d => !d.Driver.StartsWith(" ")).ToList();
             var DriverList = new List<Select2ViewModel>();
             if (response != null && response.Any())
             {
-                foreach (var item in response.Where(d => d.Driver.Contains(searchTerm)))
+                //foreach (var item in response.ToList())
+                foreach (var item in response)
                 {
                     var Driver = new Select2ViewModel();
                     Driver.id = item.DriverID;
                     Driver.text = item.Driver;
-                    DriverList.Add(Driver);
+                    var fullName = item.Driver.Split(',');
+                    if (fullName[0].ToUpper().Contains(searchTerm) || fullName[1].ToUpper().Contains(searchTerm))
+                    { DriverList.Add(Driver); }
                 }
             }
             return Json(DriverList, JsonRequestBehavior.AllowGet);
