@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using DOWTank.Common;
+using DOWTank.Core.Domain.TANK_usp_upd;
 using DOWTank.Core.Service;
 using DOWTank.Custom;
 
@@ -32,6 +33,21 @@ namespace DOWTank.Controllers
         {
 
             return View();
+        }
+
+        [HttpPost]
+        public JsonResult UpdateUserLocation(int locationId)
+        {
+            PopulateSecurityExtended();
+            
+            var TANK_usp_upd_SecurityDefaultLocation_spParams = new TANK_usp_upd_SecurityDefaultLocation_spParams()
+                {
+                    UserAn = SecurityExtended.UserName,
+                    LocationID = locationId
+                };
+            _utilityService.ExecStoredProcedureWithoutResults("TANK_usp_upd_SecurityDefaultLocation", TANK_usp_upd_SecurityDefaultLocation_spParams);
+
+            return Json(1);
         }
 
         public ActionResult _LocationSelection()

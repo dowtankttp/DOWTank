@@ -122,6 +122,24 @@
         $(function () {
             $('.dropdown.open .dropdown-toggle').dropdown('toggle');
         });
+        $(function () {
+         
+            $("#SecurityLocations").change(function() {
+                console.log($(this).val());
+                $.ajax({
+                    url: "/Home/UpdateUserLocation",
+                    dataType: 'json',
+                    method: 'POST',
+                    data: { locationId: $(this).val() },
+                    success: function (response) {
+                        if (response) {
+                            location.reload();
+                        }
+                    }
+                });
+
+            });
+        });
     </script>
 </body>
 </html>
