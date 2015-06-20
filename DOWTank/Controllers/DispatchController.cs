@@ -401,8 +401,9 @@ namespace DOWTank.Controllers
         [HttpGet]
         public JsonResult PopulateLoadPoint(string searchTerm, int locationType = 1)
         {
-            //todo: re-factor it later as required
+            searchTerm = searchTerm.ToUpper();
             var locations = LoadLocations(locationType);
+            locations = locations.Where(l => l.text.ToUpper().Contains(searchTerm)).ToList();
             return Json(locations, JsonRequestBehavior.AllowGet);
         }
 
@@ -410,9 +411,11 @@ namespace DOWTank.Controllers
         [HttpGet]
         public JsonResult PopulateChargeCode(string searchTerm)
         {
+            searchTerm = searchTerm.Trim().ToUpper();
             PopulateSecurityExtended();
             //todo: re-factor it later as required
             var response = _sharedFunctions.PopulateChargeCode(0, searchTerm.Trim(), SecurityExtended.LocationId.Value);
+            response = response.Where(c => c.ChargeCodeAN.ToUpper().Contains(searchTerm)).ToList();
             var chargeCodes = new List<Select2ViewModel>();
             if (response != null && response.Any())
             {
@@ -434,8 +437,10 @@ namespace DOWTank.Controllers
         [HttpGet]
         public JsonResult PopulateWasteClass(string searchTerm)
         {
+            searchTerm = searchTerm.ToUpper();
             //todo: re-factor it later as required
             var response = _sharedFunctions.PopulateWasteClassTypes(false);
+            response = response.Where(r => r.WasteClassTypeDS.ToUpper().Contains(searchTerm)).ToList();
             var WasteClassList = new List<Select2ViewModel>();
             if (response != null && response.Any())
             {
@@ -454,9 +459,9 @@ namespace DOWTank.Controllers
         [HttpGet]
         public JsonResult PopulateDispatchReasons(string searchTerm)
         {
-            //todo: re-factor it later as required
+            searchTerm = searchTerm.ToUpper();
             var response = _sharedFunctions.PopulateDispatchReasons(false);
-
+            response = response.Where(s => s.DispatchReasonTypeDS.ToUpper().Contains(searchTerm)).ToList();
             var DispatchReasons = new List<Select2ShortViewModel>();
             if (response != null && response.Any())
             {
@@ -475,6 +480,7 @@ namespace DOWTank.Controllers
         [HttpGet]
         public JsonResult PopulateContacts(string searchTerm)
         {
+            searchTerm = searchTerm.ToUpper();
             PopulateSecurityExtended();
             var response = _sharedFunctions.PopulateContacts(SecurityExtended.LocationId.Value);
 
@@ -486,7 +492,9 @@ namespace DOWTank.Controllers
                     var product = new Select2ViewModel();
                     product.id = item.ContactID;
                     product.text = item.Contact;
-                    productList.Add(product);
+                    var fullName = item.Contact.Split(',');
+                    if (fullName[0].ToUpper().Contains(searchTerm) || fullName[1].ToUpper().Contains(searchTerm))
+                    { productList.Add(product); }
                 }
             }
             return Json(productList, JsonRequestBehavior.AllowGet);
