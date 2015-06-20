@@ -12,6 +12,7 @@ namespace DOWTank.Models
             ActiveFL = true;
             UpdateUserAN = "SYSTEM";
         }
+        public Int16? EquipmentClassTypeCD { get; set; }
         public Int32? EquipmentID { get; set; }
         [Required(ErrorMessage = "Equipment # is required")]
         public String EquipmentAN { get; set; }

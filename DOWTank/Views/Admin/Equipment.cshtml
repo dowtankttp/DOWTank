@@ -30,13 +30,13 @@
         </div>
         <div class="form-group">
             <div class="col-md-12 nopadding">
-                <label>Is this a Reload?:</label>
+                <label>Class:*</label>
             </div>
             <div class="row no-row-margin">
                 <div class="col-md-1 nopadding">
                     <div class="radio">
                         <label>
-                            <input type="radio" name="ReloadFL" value="2" checked>
+                            @Html.RadioButtonFor(m => m.EquipmentClassTypeCD, 2)
                             Chessis
                         </label>
                     </div>
@@ -44,7 +44,7 @@
                 <div class="col-md-1 nopadding">
                     <div class="radio">
                         <label>
-                            <input type="radio" name="ReloadFL" value="3">
+                            @Html.RadioButtonFor(m => m.EquipmentClassTypeCD, 3)
                             Container
                         </label>
                     </div>
@@ -52,7 +52,7 @@
                 <div class="col-md-1 nopadding">
                     <div class="radio">
                         <label>
-                            <input type="radio" name="ReloadFL" value="1">
+                            @Html.RadioButtonFor(m => m.EquipmentClassTypeCD, 1)
                             Tank
                         </label>
                     </div>
@@ -64,11 +64,11 @@
             <div class="row">
                 <div class="col-md-4">
                     <label>Equipment #:*</label>
-                    <input type="text" name="EquipmentAN" class="form-control" />
+                    @Html.TextBoxFor(m => m.EquipmentAN, new { @class = "form-control" })
                 </div>
                 <div class="col-md-3">
                     <label>Type:*</label>
-                    <input id="ddlType" name="EquipmentTypeCD" style="width: 100%; box-sizing: border-box;">
+                    @Html.DropDownList("EquipmentTypeCD", null, new { @class = "form-control" })
                 </div>
             </div>
         </div>
@@ -81,7 +81,7 @@
                 <div class="col-md-1 nopadding">
                     <div class="radio">
                         <label>
-                            <input type="radio" name="PoolFL" value="true" checked>
+                            @Html.RadioButtonFor(m => m.PoolFL, true)
                             Yes
                         </label>
                     </div>
@@ -89,7 +89,7 @@
                 <div class="col-md-1 nopadding">
                     <div class="radio">
                         <label>
-                            <input type="radio" name="PoolFL" value="false">
+                            @Html.RadioButtonFor(m => m.PoolFL, false)
                             No
                         </label>
                     </div>
@@ -171,7 +171,7 @@
         </div>
     
         <div class="form-group">
-            <div class="row">                
+            <div class="row">
                 <div class="col-md-4">
                     <label>Last Test Date:</label>
                     @Html.TextBoxFor(m => m.Tank5YRTestDT, new { @class = "form-control datetimepicker" })
@@ -252,25 +252,6 @@
 {
     <script>
 
-        $(document).ready(function () {
-            $("#ddlType").select2({
-                minimumInputLength: 0,
-                cache: false,
-                ajax: {
-                    url: "/Admin/PopulateTypeDDL",
-                    dataType: 'json',
-                    quietMillis: 650,
-                    data: function (term) {
-                        return {
-                            searchTerm: "2" // search term
-                        };
-                    },
-                    results: function (data) {
-                        return { results: data };
-                    }
-                }
-            });
-        });
 
         $(function () {
             $('.datetimepicker').datetimepicker({
@@ -279,8 +260,8 @@
         });
 
         $(function () {
-                        
-            $(':radio[name=ReloadFL]').change(function () {
+
+            $(':radio[name=EquipmentClassTypeCD]').change(function () {
                 // read the value of the selected radio
                 var value = $(this).val();
                 $("#ddlType").select2({
@@ -301,7 +282,7 @@
                     }
                 });
             });
-            
+
             //ddlOwner
             $("#ddlOwner").select2({
                 minimumInputLength: 0,

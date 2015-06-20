@@ -1012,20 +1012,33 @@ namespace DOWTank.Controllers
 
         #region Equipment
 
-        public ActionResult Equipment()
+        public ActionResult Equipment(string EquipmentAN)
         {
+            var viewModel = new AdminEquipmentModel();
+            if (!string.IsNullOrEmpty(EquipmentAN))
+            {
+                //load data
+                var data = _sharedFunctions.RefreshEquipment(null, EquipmentAN).FirstOrDefault();
+                viewModel.EquipmentAN = data.EquipmentAN;
+                viewModel.EquipmentTypeCD = data.EquipmentTypeCD;
+                viewModel.EquipmentClassTypeCD = data.EquipmentClassTypeCD;
+                viewModel.PoolFL = data.PoolFL;
+
+            }
+
             LoadAdminEquipmentDropdowns();
-            return View();
+            return View(viewModel);
         }
 
         [HttpPost]
         public ActionResult Equipment(AdminEquipmentModel postModel)
         {
+            LoadAdminEquipmentDropdowns();
             if (!ModelState.IsValid)
             {
                 return View(postModel);
             }
-            
+
             postModel.EquipmentAN = postModel.EquipmentAN.Substring(0, 10);
             if (postModel.EquipmentAN.Trim().Length == 11)
                 postModel.CheckDigitAN = postModel.EquipmentAN.Substring(10, 11)[0];
@@ -1036,15 +1049,30 @@ namespace DOWTank.Controllers
         }
 
         private void LoadAdminEquipmentDropdowns()
-        { 
-        
+        {
+            PopulateSecurityExtended();
+            #region equipmentTypeList
+            var equipmentTypeList = new List<SelectListItem>();
+            var response = _sharedFunctions.PopulateEquipmentType(1);
+            if (response != null && response.Any())
+            {
+                foreach (var item in response)
+                {
+                    equipmentTypeList.Add(new SelectListItem { Text = item.EquipmentTypeDS, Value = item.EquipmentTypeCD.HasValue ? item.EquipmentTypeCD.Value.ToString() : string.Empty });
+                }
+                ViewBag.EquipmentTypeCD = equipmentTypeList;
+            }
+
+            #endregion equipmentTypeList
         }
 
         //PopulateTypeDDL
         [HttpGet]
         public JsonResult PopulateTypeDDL(string searchTerm)
         {
+            searchTerm = searchTerm.ToUpper();
             var response = _sharedFunctions.PopulateEquipmentType(1);
+            response = response.Where(s => s.EquipmentTypeDS.ToUpper().Contains(searchTerm)).ToList();
             if (response != null && response.Any())
             {
                 var data = response.Where(r => r.EquipmentTypeDS != null).Select(r => new { id = r.EquipmentTypeCD, text = r.EquipmentTypeDS }).ToList();
@@ -1057,9 +1085,9 @@ namespace DOWTank.Controllers
         [HttpGet]
         public JsonResult PopulateOwnerDDL(string searchTerm)
         {
-            searchTerm = searchTerm.Trim();
-            //todo: re-factor it later as required
+            searchTerm = searchTerm.ToUpper();
             var response = _sharedFunctions.PopulateOwnerDDL();
+            response = response.Where(s => s.OwnerNM.ToUpper().Contains(searchTerm)).ToList();
             if (response != null && response.Any())
             {
                 var data = response.Where(r => r.OwnerID != null).Select(r => new { id = r.OwnerID, text = r.OwnerNM }).ToList();
@@ -1072,9 +1100,10 @@ namespace DOWTank.Controllers
         [HttpGet]
         public JsonResult PopulateOperatorDDL(string searchTerm)
         {
-            searchTerm = searchTerm.Trim();
-            //todo: re-factor it later as required
+            searchTerm = searchTerm.ToUpper();
+
             var response = _sharedFunctions.PopulateOperatorDDL();
+            response = response.Where(r => r.OperatorNM.ToUpper().Contains(searchTerm)).ToList();
             if (response != null && response.Any())
             {
                 var data = response.Where(r => r.OperatorID != null).Select(r => new { id = r.OperatorID, text = r.OperatorNM }).ToList();
@@ -1102,9 +1131,9 @@ namespace DOWTank.Controllers
         [HttpGet]
         public JsonResult PopulateTankGradeDDL(string searchTerm)
         {
-            searchTerm = searchTerm.Trim();
-            //todo: re-factor it later as required
+            searchTerm = searchTerm.ToUpper();
             var response = _sharedFunctions.PopulateTankGrade();
+            response = response.Where(r => r.TankGradeTypeDS.ToUpper().Contains(searchTerm)).ToList();
             if (response != null && response.Any())
             {
                 var data = response.Where(r => r.TankGradeTypeDS != null).Select(r => new { id = r.TankGradeTypeCD, text = r.TankGradeTypeDS }).ToList();
@@ -1117,9 +1146,9 @@ namespace DOWTank.Controllers
         [HttpGet]
         public JsonResult PopulateTankConditionDDL(string searchTerm)
         {
-            searchTerm = searchTerm.Trim();
-            //todo: re-factor it later as required
+            searchTerm = searchTerm.ToUpper();
             var response = _sharedFunctions.PopulateBarrelCondition();
+            response = response.Where(r => r.BarrelConditionTypeDS.ToUpper().Contains(searchTerm));
             if (response != null && response.Any())
             {
                 var data = response.Where(r => r.BarrelConditionTypeDS != null).Select(r => new { id = r.BarrelConditionTypeCD, text = r.BarrelConditionTypeDS }).ToList();
@@ -1132,9 +1161,9 @@ namespace DOWTank.Controllers
         [HttpGet]
         public JsonResult PopulateMoveTypeDDL(string searchTerm)
         {
-            searchTerm = searchTerm.Trim();
-            //todo: re-factor it later as required
+            searchTerm = searchTerm.ToUpper();
             var response = _sharedFunctions.PopulateMoveType();
+            response = response.Where(s => s.MoveTypeDS.ToUpper().Contains(searchTerm)).ToList();
             if (response != null && response.Any())
             {
                 var data = response.Where(r => r.MoveTypeDS != null).Select(r => new { id = r.MoveTypeCD, text = r.MoveTypeDS }).ToList();
@@ -1147,9 +1176,9 @@ namespace DOWTank.Controllers
         [HttpGet]
         public JsonResult PopulateProductDDL(string searchTerm)
         {
-            searchTerm = searchTerm.Trim();
-            //todo: re-factor it later as required
+            searchTerm = searchTerm.ToUpper();
             var response = _sharedFunctions.PopulateProduct(false, 1, searchTerm);
+            response = response.Where(s => s.ProductDS.ToUpper().Contains(searchTerm)).ToList();
             if (response != null && response.Any())
             {
                 var data = response.Where(r => r.ProductDS != null).Select(r => new { id = r.ProductID, text = r.ProductDS }).ToList();
@@ -1576,7 +1605,7 @@ namespace DOWTank.Controllers
         [HttpPost]
         public JsonResult ManageEquipmentTypes(EquipmentTypesPostModel postModel)
         {
-            PopulateSecurityExtended();	
+            PopulateSecurityExtended();
             switch (Request.Form["oper"])
             {
                 case "add":
@@ -1659,7 +1688,7 @@ namespace DOWTank.Controllers
         public JsonResult GetFacilityParameters(int page, int rows, string search, string sidx, string sord)
         {
             // database call
-            PopulateSecurityExtended();	
+            PopulateSecurityExtended();
             var TANK_usp_sel_FacilityParametersUpd_spParams = new TANK_usp_sel_FacilityParametersUpd_spParams()
             {
                 //TODO: re-factor it later from hard coded
@@ -1782,7 +1811,7 @@ namespace DOWTank.Controllers
         [HttpGet]
         public JsonResult GetFittings(int page, int rows, string search, string sidx, string sord)
         {
-            PopulateSecurityExtended();	
+            PopulateSecurityExtended();
             // database call
 
             var TANK_usp_sel_FittingsUpd_spParams = new TANK_usp_sel_FittingsUpd_spParams()
@@ -1822,7 +1851,7 @@ namespace DOWTank.Controllers
         [HttpPost]
         public JsonResult ManageFittings(FittingsPostModel postModel)
         {
-            PopulateSecurityExtended();	
+            PopulateSecurityExtended();
 
             switch (Request.Form["oper"])
             {
@@ -1899,7 +1928,7 @@ namespace DOWTank.Controllers
         [HttpGet]
         public JsonResult GetLocations(int page, int rows, string search, string sidx, string sord)
         {
-            PopulateSecurityExtended();	
+            PopulateSecurityExtended();
             // database call
 
             var TANK_usp_sel_LocationsUpd_spParams = new TANK_usp_sel_LocationsUpd_spParams()
