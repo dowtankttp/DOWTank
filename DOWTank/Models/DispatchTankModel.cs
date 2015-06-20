@@ -70,6 +70,39 @@ namespace DOWTank.Models
         public int? ContactID { get; set; }
         public string Contact { get; set; }
         
-        
+        //persist data after post
+        //ddlChassis
+        public int? ddlChassisId { get; set; }
+        public string ddlChassisText { get; set; }
+        //ddlProduct
+        public int? ddlProductId { get; set; }
+        public string ddlProductText { get; set; }
+        //ddlDriver
+        public int? ddlDriverId { get; set; }
+        public string ddlDriverText { get; set; }
+        //ddlLoadPoint
+        public int? ddlLoadPointId { get; set; }
+        public string ddlLoadPointText { get; set; }
+        //ddlChargeCode
+        public int? ddlChargeCodeId { get; set; }
+        public string ddlChargeCodeText { get; set; }
+        //ddlDeliveryLocation
+        public int? ddlDeliveryLocationId { get; set; }
+        public string ddlDeliveryLocationText { get; set; }
+        //ddlOnHireBlock
+        public int? ddlOnHireBlockId { get; set; }
+        public string ddlOnHireBlockText { get; set; }
+        //ddlWasteClass
+        public int? ddlWasteClassId { get; set; }
+        public string ddlWasteClassText { get; set; }
+        //ddlInstructionsReason
+        public int? ddlInstructionsReasonId { get; set; }
+        public string ddlInstructionsReasonText { get; set; }
+        //ddlAdditionalInstruct
+        public int? ddlAdditionalInstructId { get; set; }
+        public string ddlAdditionalInstructText { get; set; }
+        //ddlContact
+        public int? ddlContactId { get; set; }
+        public string ddlContactText { get; set; }
     }
 }

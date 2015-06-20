@@ -156,14 +156,20 @@
                 <div class="col-md-4 ">
                     <label>Chassis:</label>
                     <input id="ddlChassis" name="intChassisEquipmentId" style="width: 100%; box-sizing: border-box;">
+                    @Html.HiddenFor(m => m.ddlChassisText)
+                    @Html.HiddenFor(m => m.ddlChassisId)
                 </div>
                 <div class="col-md-4 ">
                     <label>Product:</label>
                     <input id="ddlProduct" type="hidden" name="sintProductId" style="width: 100%; box-sizing: border-box;">
+                    @Html.HiddenFor(m => m.ddlProductId)
+                    @Html.HiddenFor(m => m.ddlProductText)
                 </div>
                 <div class="col-md-4 ">
                     <label>Driver:</label>
                     <input id="ddlDriver" type="hidden" name="intDriverId" style="width: 100%; box-sizing: border-box;">
+                    @Html.HiddenFor(m => m.ddlDriverId)
+                    @Html.HiddenFor(m => m.ddlDriverText)
                 </div>
             </div>
         </div>
@@ -177,10 +183,14 @@
                 <div class="col-md-4">
                     <label>Loading Point:</label>
                     <input id="ddlLoadPoint" name="intLocationFrom" type="hidden" style="width: 100%; box-sizing: border-box;">
+                    @Html.HiddenFor(m => m.ddlLoadPointId)
+                    @Html.HiddenFor(m => m.ddlLoadPointText)
                 </div>
                 <div class="col-md-4">
                     <label>Charge Code:</label>
                     <input id="ddlChargeCode" name="intChargeCode" style="width: 100%; box-sizing: border-box;">
+                    @Html.HiddenFor(m => m.ddlChargeCodeId)
+                    @Html.HiddenFor(m => m.ddlChargeCodeText)
                 </div>
             </div>
         </div>
@@ -194,6 +204,8 @@
                 <div class="col-md-4">
                     <label>Delivery Point:</label>
                     <input id="ddlDeliveryLocation" name="intLocationTo" type="hidden" style="width: 100%; box-sizing: border-box;">
+                    @Html.HiddenFor(m => m.ddlDeliveryLocationId)
+                    @Html.HiddenFor(m => m.ddlDeliveryLocationText)
                 </div>
                 <div class="col-md-4">
                     <label>Tank Status:</label>
@@ -212,6 +224,8 @@
                 <div class="col-md-4">
                     <label>On-Hire Block:</label>
                     <input id="ddlOnHireBlock" name="intChargeBlockLocationId" type="hidden" style="width: 100%; box-sizing: border-box;">
+                    @Html.HiddenFor(m => m.ddlOnHireBlockId)
+                    @Html.HiddenFor(m => m.ddlOnHireBlockText)
                 </div>
                 <div class="col-md-4 mt20">
                     <label>Is this a Reload?:</label>
@@ -225,14 +239,20 @@
                 <div class="col-md-4">
                     <label>Waste Class:</label>
                     <input id="ddlWasteClass" type="hidden" name="intWasteClassTypeId" style="width: 100%; box-sizing: border-box;">
+                    @Html.HiddenFor(m => m.ddlWasteClassId)
+                    @Html.HiddenFor(m => m.ddlWasteClassText)
                 </div>
                 <div class="col-md-4">
                     <label>Instructions/Reason:</label>
                     <input id="ddlInstructionsReason" name="sintDispatchReasonTypeId" style="width: 100%; box-sizing: border-box;">
+                    @Html.HiddenFor(m => m.ddlInstructionsReasonId)
+                    @Html.HiddenFor(m => m.ddlInstructionsReasonText)
                 </div>
                 <div class="col-md-4">
                     <label>Additional Instruct:</label>
                     <input id="ddlAdditionalInstruct" name="sintAdditionalDispatchReasonTypeId" style="width: 100%; box-sizing: border-box;">
+                    @Html.HiddenFor(m => m.ddlAdditionalInstructId)
+                    @Html.HiddenFor(m => m.ddlAdditionalInstructText)
                 </div>
             </div>
         </div>
@@ -285,6 +305,8 @@
                 <div class="col-md-4">
                     <label>Block Contact:</label>
                     <input id="ddlContact" name="intContactId" type="hidden" style="width: 100%; box-sizing: border-box;">
+                    @Html.HiddenFor(m => m.ddlContactId)
+                    @Html.HiddenFor(m => m.ddlContactText)
                 </div>
             </div>
         </div>
@@ -312,6 +334,7 @@
 @section scripts
 {
     <script>
+
 
         //delete dispatch
         $(function () {
@@ -374,7 +397,10 @@
                     }
                 }
             });
-
+            $("#ddlChassis").change(function () {
+                $("#ddlChassisText").val($("#ddlChassis").select2('data').text);
+                $("#ddlChassisId").val($("#ddlChassis").select2('data').id);
+            });
             //Product ddl
             $("#ddlProduct").select2({
                 minimumInputLength: 1,
@@ -393,7 +419,10 @@
                     }
                 }
             });
-
+            $("#ddlProduct").change(function () {
+                $("#ddlProductText").val($("#ddlProduct").select2('data').text);
+                $("#ddlProductId").val($("#ddlProduct").select2('data').id);
+            });
             //Driver ddl
             $("#ddlDriver").select2({
                 minimumInputLength: 1,
@@ -412,7 +441,10 @@
                     }
                 }
             });
-
+            $("#ddlDriver").change(function () {
+                $("#ddlDriverText").val($("#ddlDriver").select2('data').text);
+                $("#ddlDriverId").val($("#ddlDriver").select2('data').id);
+            });
             //Load Point ddl
             $("#ddlLoadPoint").select2({
                 minimumInputLength: 0,
@@ -432,7 +464,10 @@
                     }
                 }
             });
-
+            $("#ddlLoadPoint").change(function () {
+                $("#ddlLoadPointText").val($("#ddlLoadPoint").select2('data').text);
+                $("#ddlLoadPointId").val($("#ddlLoadPoint").select2('data').id);
+            });
             //Destination ddl
             $("#ddlDeliveryLocation").select2({
                 minimumInputLength: 1,
@@ -451,6 +486,11 @@
                         return { results: data };
                     }
                 }
+            });
+
+            $("#ddlDeliveryLocation").change(function () {
+                $("#ddlDeliveryLocationText").val($("#ddlDeliveryLocation").select2('data').text);
+                $("#ddlDeliveryLocationId").val($("#ddlDeliveryLocation").select2('data').id);
             });
 
             //OnHireBlock ddl
@@ -473,6 +513,12 @@
                 }
             });
 
+            $("#ddlOnHireBlock").change(function () {
+                $("#ddlOnHireBlockText").val($("#ddlOnHireBlock").select2('data').text);
+                $("#ddlOnHireBlockId").val($("#ddlOnHireBlock").select2('data').id);
+            });
+
+
             // charge code ddl
             $("#ddlChargeCode").select2({
                 minimumInputLength: 0,
@@ -490,6 +536,10 @@
                         return { results: data };
                     }
                 }
+            });
+            $("#ddlChargeCode").change(function () {
+                $("#ddlChargeCodeText").val($("#ddlChargeCode").select2('data').text);
+                $("#ddlChargeCodeId").val($("#ddlChargeCode").select2('data').id);
             });
 
             //WasteClass ddl
@@ -511,6 +561,11 @@
                 }
             });
 
+            $("#ddlWasteClass").change(function () {
+                $("#ddlWasteClassText").val($("#ddlWasteClass").select2('data').text);
+                $("#ddlWasteClassId").val($("#ddlWasteClass").select2('data').id);
+            });
+
             // InstructionsReason ddl
             $("#ddlInstructionsReason").select2({
                 minimumInputLength: 0,
@@ -528,6 +583,12 @@
                         return { results: data };
                     }
                 }
+            });
+
+
+            $("#ddlInstructionsReason").change(function () {
+                $("#ddlInstructionsReasonText").val($("#ddlInstructionsReason").select2('data').text);
+                $("#ddlInstructionsReasonId").val($("#ddlInstructionsReason").select2('data').id);
             });
 
             // AdditionalInstruct ddl
@@ -549,6 +610,12 @@
                 }
             });
 
+
+            $("#ddlAdditionalInstruct").change(function () {
+                $("#ddlAdditionalInstructText").val($("#ddlAdditionalInstruct").select2('data').text);
+                $("#ddlAdditionalInstructId").val($("#ddlAdditionalInstruct").select2('data').id);
+            });
+
             //ddlContact
             $("#ddlContact").select2({
                 minimumInputLength: 0,
@@ -567,6 +634,51 @@
                     }
                 }
             });
+            
+            $("#ddlContact").change(function () {
+                $("#ddlContactText").val($("#ddlContact").select2('data').text);
+                $("#ddlContactId").val($("#ddlContact").select2('data').id);
+            });
+
+
+        });
+
+        //on page load re-popluate
+        $(function () {
+            //ddlChassis
+            $("#ddlChassis").select2("data", { id: $("#ddlChassisId").val(), text: $("#ddlChassisText").val() });
+            $("#intChassisEquipmentId").val($("#ddlChassisId").val());
+            //ddlProduct
+            $("#ddlProduct").select2("data", { id: $("#ddlProductId").val(), text: $("#ddlProductText").val() });
+            $("#sintProductId").val($("#ddlProductId").val());
+            //ddlDriver
+            $("#ddlDriver").select2("data", { id: $("#ddlDriverId").val(), text: $("#ddlDriverText").val() });
+            $("#intDriverId").val($("#ddlDriverId").val());
+            //ddlLoadPoint
+            $("#ddlLoadPoint").select2("data", { id: $("#ddlLoadPointId").val(), text: $("#ddlLoadPointText").val() });
+            $("#intLocationFrom").val($("#ddlLoadPointId").val());
+            //ddlChargeCode
+            $("#ddlChargeCode").select2("data", { id: $("#ddlChargeCodeId").val(), text: $("#ddlChargeCodeText").val() });
+            $("#intChargeCode").val($("#ddlChargeCodeId").val());
+            //ddlDeliveryLocation
+            $("#ddlDeliveryLocation").select2("data", { id: $("#ddlDeliveryLocationId").val(), text: $("#ddlDeliveryLocationText").val() });
+            $("#intLocationTo").val($("#ddlDeliveryLocationId").val());
+            //ddlOnHireBlock
+            $("#ddlOnHireBlock").select2("data", { id: $("#ddlOnHireBlockId").val(), text: $("#ddlOnHireBlockText").val() });
+            $("#intChargeBlockLocationId").val($("#ddlOnHireBlockId").val());
+            //ddlWasteClass
+            $("#ddlWasteClass").select2("data", { id: $("#ddlWasteClassId").val(), text: $("#ddlWasteClassText").val() });
+            $("#intWasteClassTypeId").val($("#ddlWasteClassId").val());
+            //ddlInstructionsReason
+            $("#ddlInstructionsReason").select2("data", { id: $("#ddlInstructionsReasonId").val(), text: $("#ddlInstructionsReasonText").val() });
+            $("#sintDispatchReasonTypeId").val($("#ddlInstructionsReasonId").val());
+            //ddlAdditionalInstruct
+            $("#ddlAdditionalInstruct").select2("data", { id: $("#ddlAdditionalInstructId").val(), text: $("#ddlAdditionalInstructText").val() });
+            $("#sintAdditionalDispatchReasonTypeId").val($("#ddlAdditionalInstructId").val());
+            //ddlContact
+            $("#ddlContact").select2("data", { id: $("#ddlContactId").val(), text: $("#ddlContactText").val() });
+            $("#intContactId").val($("#ddlContactId").val());
+
         });
 
         $(function () {
