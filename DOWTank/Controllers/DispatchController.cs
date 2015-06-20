@@ -52,7 +52,7 @@ namespace DOWTank.Controllers
             }
 
             LoadDispatchTankDropdowns();
-            ViewBag.EquipmentAN = equipmentAn;
+            TempData["EquipmentAN"] = ViewBag.EquipmentAN = equipmentAn;
             var postModel = new DispatchTankModel();
             postModel.intDispatchId = dispatchId;
             if (dispatchId.HasValue)
@@ -145,6 +145,10 @@ namespace DOWTank.Controllers
             LoadDispatchTankDropdowns();
             if (!ModelState.IsValid)
             {
+                if (TempData["EquipmentAN"] != null)
+                {
+                    TempData["EquipmentAN"] = ViewBag.EquipmentAN = TempData["EquipmentAN"].ToString();
+                }
                 //return appropriate validation messages
                 return View(postModel);
             }
