@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Web;
 using System.Web.Mvc;
 using DOWTank.Common;
@@ -46,6 +47,23 @@ namespace DOWTank.Controllers
                     LocationID = locationId
                 };
             _utilityService.ExecStoredProcedureWithoutResults("TANK_usp_upd_SecurityDefaultLocation", TANK_usp_upd_SecurityDefaultLocation_spParams);
+
+            #region  location
+
+            var locationResults = _sharedFunctions.GetLocation(SecurityExtended.UserName);
+            if (locationResults != null && locationResults.Any())
+            {
+                var identity = User.Identity as ClaimsIdentity;
+                identity.RemoveClaim(identity.FindFirst("LocationId"));
+                identity.AddClaim(new Claim("LocationId", locationResults[0].LocationID.HasValue ? locationResults[0].LocationID.ToString() : null));
+                identity.RemoveClaim(identity.FindFirst("LocationName"));
+                identity.AddClaim(new Claim("LocationName", locationResults[0].LocationDS));
+                identity.RemoveClaim(identity.FindFirst("SecurityProfileId"));
+                identity.AddClaim(new Claim("SecurityProfileId", locationResults[0].SecurityProfileID.ToString()));
+            }
+
+            #endregion location
+
 
             return Json(1);
         }

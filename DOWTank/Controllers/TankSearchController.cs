@@ -42,7 +42,7 @@ namespace DOWTank.Controllers
                     ViewBag.AllowPrep = (permission.GrantedFL == 1);
                 }
             }
-          
+
             LoadTankSearchDropdowns();
 
             TankSearchPostModel postModel;
@@ -140,20 +140,18 @@ namespace DOWTank.Controllers
 
         //PopulateLoadPoint
         [HttpGet]
-        [OutputCache(Duration = int.MaxValue, VaryByParam = "locationType")]
         public JsonResult PopulateLoadPoint(string searchTerm, int locationType = 1)
         {
-            //todo: re-factor it later as required
-            searchTerm = searchTerm.Trim();
-
+            searchTerm = searchTerm.ToUpper();
             var locations = LoadLocations(locationType);
+            locations = locations.Where(l => l.text.ToUpper().Contains(searchTerm)).ToList();
 
             return Json(locations, JsonRequestBehavior.AllowGet);
         }
 
         private List<Select2ViewModel> LoadLocations(int locationType)
         {
-            PopulateSecurityExtended();	
+            PopulateSecurityExtended();
             //todo: re-factor it later as required
             var loadPoints = new List<Select2ViewModel>();
 
@@ -225,13 +223,12 @@ namespace DOWTank.Controllers
 
         //PopulateDispatchReasons
         [HttpGet]
-        [OutputCache(Duration = int.MaxValue, VaryByParam = "searchTerm")]
         public JsonResult PopulateDispatchReasons(string searchTerm)
         {
-            //todo: re-factor it later as required
+            searchTerm = searchTerm.ToUpper();
             var response = _sharedFunctions.PopulateDispatchReasons(false);
-
             var DispatchReasons = new List<Select2ShortViewModel>();
+            response = response.Where(r => r.DispatchReasonTypeDS.ToUpper().Contains(searchTerm)).ToList();
             if (response != null && response.Any())
             {
                 foreach (var item in response)
@@ -247,12 +244,11 @@ namespace DOWTank.Controllers
 
         //PopulateServiceType
         [HttpGet]
-        [OutputCache(Duration = int.MaxValue, VaryByParam = "searchTerm")]
         public JsonResult PopulateServiceType(string searchTerm)
         {
-            //todo: re-factor it later as required
+            searchTerm = searchTerm.ToUpper();
             var response = _sharedFunctions.PopulateServiceType(false);
-
+            response = response.Where(r => r.ServiceTypeDS.ToUpper().Contains(searchTerm)).ToList();
             var ServiceTypes = new List<SelectServiceTypeModel>();
             if (response != null && response.Any())
             {
@@ -269,12 +265,11 @@ namespace DOWTank.Controllers
 
         //PopulateProducts
         [HttpGet]
-        [OutputCache(Duration = int.MaxValue, VaryByParam = "searchTerm")]
         public JsonResult PopulateProducts(string searchTerm)
         {
-            //todo: re-factor it later as required
+            searchTerm = searchTerm.ToUpper();
             var response = _sharedFunctions.PopulateProduct(false, 1, searchTerm.Trim().Replace("%", "[%]"));
-
+            response = response.Where(r => r.ProductDS.ToUpper().Contains(searchTerm)).ToList();
             var Products = new List<Select2ShortViewModel>();
             if (response != null && response.Any())
             {

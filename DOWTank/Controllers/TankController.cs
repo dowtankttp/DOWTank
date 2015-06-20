@@ -103,14 +103,13 @@ namespace DOWTank.Controllers
 
         //PopulateChargeCode
         [HttpGet]
-        [OutputCache(Duration = int.MaxValue, VaryByParam = "searchTerm")]
         public JsonResult PopulateChargeCode(string searchTerm)
         {
             PopulateSecurityExtended();
-            searchTerm = searchTerm.Trim();
+            searchTerm = searchTerm.Trim().ToUpper();
             //todo: re-factor it later as required
             var response = _sharedFunctions.PopulateChargeCode(0, searchTerm, SecurityExtended.LocationId.Value);
-
+            response = response.Where(r => r.ChargeCodeAN.ToUpper().Contains(searchTerm));
             var chargeCodes = new List<Select2ViewModel>();
             if (response != null && response.Any())
             {
@@ -130,10 +129,9 @@ namespace DOWTank.Controllers
 
         //PopulateProduct
         [HttpGet]
-        [OutputCache(Duration = int.MaxValue, VaryByParam = "searchTerm")]
         public JsonResult PopulateProduct(string searchTerm)
         {
-            PopulateSecurityExtended();	
+            PopulateSecurityExtended();
             searchTerm = searchTerm.Trim();
             //todo: re-factor it later as required
             var response = _sharedFunctions.PopulateProduct(false, SecurityExtended.LocationId.Value, searchTerm);
@@ -154,20 +152,18 @@ namespace DOWTank.Controllers
 
         //PopulateLoadPoint
         [HttpGet]
-        [OutputCache(Duration = int.MaxValue, VaryByParam = "locationType")]
         public JsonResult PopulateLoadPoint(string searchTerm, int locationType = 1)
         {
             //todo: re-factor it later as required
-            searchTerm = searchTerm.Trim();
+            searchTerm = searchTerm.Trim().ToUpper();
 
-            var locations = LoadLocations(locationType);
-
+            var locations = LoadLocations(locationType, searchTerm);
+            locations = locations.Where(l => l.text.ToUpper().Contains(searchTerm)).ToList();
             return Json(locations, JsonRequestBehavior.AllowGet);
         }
 
         //PopulateEquipment
         [HttpGet]
-        [OutputCache(Duration = int.MaxValue, VaryByParam = "searchTerm")]
         public JsonResult PopulateEquipment(string searchTerm)
         {
             searchTerm = searchTerm.Trim();
@@ -190,7 +186,6 @@ namespace DOWTank.Controllers
 
         //PopulateChassis
         [HttpGet]
-        [OutputCache(Duration = int.MaxValue, VaryByParam = "searchTerm")]
         public JsonResult PopulateChassis(string searchTerm)
         {
             searchTerm = searchTerm.Trim();
@@ -213,12 +208,10 @@ namespace DOWTank.Controllers
 
         //PopulateContacts
         [HttpGet]
-        [OutputCache(Duration = int.MaxValue, VaryByParam = "searchTerm")]
         public JsonResult PopulateContacts(string searchTerm)
         {
-            PopulateSecurityExtended();		
-            searchTerm = searchTerm.Trim();
-            //todo: re-factor it later as required
+            searchTerm = searchTerm.ToUpper();
+            PopulateSecurityExtended();
             var response = _sharedFunctions.PopulateContacts(SecurityExtended.LocationId.Value);
 
             var productList = new List<Select2ViewModel>();
@@ -229,18 +222,19 @@ namespace DOWTank.Controllers
                     var product = new Select2ViewModel();
                     product.id = item.ContactID;
                     product.text = item.Contact;
-                    productList.Add(product);
+                    var fullName = item.Contact.Split(',');
+                    if (fullName[0].ToUpper().Contains(searchTerm) || fullName[1].ToUpper().Contains(searchTerm))
+                    { productList.Add(product); }
                 }
             }
             return Json(productList, JsonRequestBehavior.AllowGet);
         }
 
-        private List<Select2ViewModel> LoadLocations(int locationType)
+        private List<Select2ViewModel> LoadLocations(int locationType, string searchTerm)
         {
-            PopulateSecurityExtended();	
-            //todo: re-factor it later as required
+            searchTerm = searchTerm.ToUpper();
+            PopulateSecurityExtended();
             var loadPoints = new List<Select2ViewModel>();
-
             //selected location
             if (locationType == 1)
             {
@@ -309,7 +303,7 @@ namespace DOWTank.Controllers
 
         private void LoadTankPrepDropdowns()
         {
-            PopulateSecurityExtended();												
+            PopulateSecurityExtended();
 
             #region LoadPoint
 

@@ -123,8 +123,7 @@
             $('.dropdown.open .dropdown-toggle').dropdown('toggle');
         });
         $(function () {
-         
-            $("#SecurityLocations").change(function() {
+           $("#SecurityLocations").change(function() {
                 console.log($(this).val());
                 $.ajax({
                     url: "/Home/UpdateUserLocation",
