@@ -11,6 +11,7 @@ using DOWTank.Core.Domain.TANK_usp_sel;
 using DOWTank.Core.Service;
 using DOWTank.Custom;
 using DOWTank.Models;
+using DOWTank.Utility;
 
 namespace DOWTank.Controllers
 {
@@ -1020,10 +1021,28 @@ namespace DOWTank.Controllers
                 //load data
                 var data = _sharedFunctions.RefreshEquipment(null, EquipmentAN).FirstOrDefault();
                 viewModel.EquipmentAN = data.EquipmentAN;
-                viewModel.EquipmentTypeCD = data.EquipmentTypeCD;
+                viewModel.EquipmentTypeCDSelected = data.EquipmentTypeCD;
                 viewModel.EquipmentClassTypeCD = data.EquipmentClassTypeCD;
                 viewModel.PoolFL = data.PoolFL;
-
+                viewModel.OwnerIDSelected = data.OwnerID;
+                viewModel.OperatorIDSelected = data.OperatorID;
+                viewModel.LoadStatusTypeCDSelected = data.LoadStatusTypeCD;
+                viewModel.TankGradeTypeCDSelected = data.TankGradeTypeCD;
+                viewModel.MoveTypeCDSelected = data.MoveTypeCD;
+                viewModel.Tank5YRTestDT = string.IsNullOrEmpty(data.TankLastTestDT) ? (DateTime?)null : Convert.ToDateTime(data.TankLastTestDT);
+                viewModel.DOTInspectedDT = string.IsNullOrEmpty(data.DOTInspectedDT) ? (DateTime?)null : Convert.ToDateTime(data.DOTInspectedDT);
+                viewModel.LastTestHydroFL = data.LastTestHydroFL;
+                viewModel.TankCapacity = data.TankCapacity;
+                viewModel.ActiveFL = data.ActiveFL;
+                viewModel.ProductIDSelected = data.ProductID;
+                viewModel.ProductDS = data.ProductDS;
+                viewModel.DedicatedProductIDSelected = data.DedicatedProductID;
+                viewModel.DedicatedProductID = data.DedicatedProductID;
+                viewModel.DedicatedLocationID = data.DedicatedLocationID;
+                viewModel.DedicatedLocationIDSelected = data.DedicatedLocationID;
+                viewModel.LocationID = data.LocationID;
+                viewModel.LocationIDSelected = data.LocationID;
+                viewModel.LocationDS = data.LocationDS;
             }
 
             LoadAdminEquipmentDropdowns();
@@ -1033,16 +1052,39 @@ namespace DOWTank.Controllers
         [HttpPost]
         public ActionResult Equipment(AdminEquipmentModel postModel)
         {
+            PopulateSecurityExtended();
             LoadAdminEquipmentDropdowns();
             if (!ModelState.IsValid)
             {
                 return View(postModel);
             }
 
-            postModel.EquipmentAN = postModel.EquipmentAN.Substring(0, 10);
+            postModel.EquipmentAN = postModel.EquipmentAN.Left(10);
             if (postModel.EquipmentAN.Trim().Length == 11)
                 postModel.CheckDigitAN = postModel.EquipmentAN.Substring(10, 11)[0];
-            _utilityService.ExecStoredProcedureWithoutResults("TANK_usp_insupd_equipment", postModel);
+            TANK_usp_insupd_equipment_spParams TANK_usp_insupd_equipment_spParams = new TANK_usp_insupd_equipment_spParams()
+                {
+                    EquipmentAN = postModel.EquipmentAN,
+                    ActiveFL = postModel.ActiveFL,
+                    BarrelConditionTypeCD = postModel.BarrelConditionTypeCD,
+                    DedicatedLocationID = postModel.DedicatedLocationID,
+                    DedicatedProductID = postModel.DedicatedProductID,
+                    EquipmentTypeCD = postModel.EquipmentTypeCD,
+                    LastTestHydroFL = postModel.LastTestHydroFL,
+                    DOTInspectedDT = postModel.DOTInspectedDT,
+                    LocationID = postModel.LocationID,
+                    PoolFL = postModel.PoolFL,
+                    OwnerID = postModel.OwnerID,
+                    OperatorID = postModel.OperatorID,
+                    LoadStatusTypeCD = postModel.LoadStatusTypeCD,
+                    TankGradeTypeCD = postModel.TankGradeTypeCD,
+                    ProductID = postModel.ProductID,
+                    MoveTypeCD = postModel.MoveTypeCD,
+                    Tank5YRTestDT = postModel.Tank5YRTestDT,
+                    TankCapacity = postModel.TankCapacity,
+                    UpdateUserAN = SecurityExtended.UserName
+                };
+            _utilityService.ExecStoredProcedureWithoutResults("TANK_usp_insupd_equipment", TANK_usp_insupd_equipment_spParams);
             Success("Equipment Saved Successfully.");
             //return appropriate message
             return View(postModel);
@@ -1052,18 +1094,145 @@ namespace DOWTank.Controllers
         {
             PopulateSecurityExtended();
             #region equipmentTypeList
-            var equipmentTypeList = new List<SelectListItem>();
-            var response = _sharedFunctions.PopulateEquipmentType(1);
-            if (response != null && response.Any())
+
             {
-                foreach (var item in response)
+                var equipmentTypeList = new List<SelectListItem>();
+                var response = _sharedFunctions.PopulateEquipmentType(1);
+                if (response != null && response.Any())
                 {
-                    equipmentTypeList.Add(new SelectListItem { Text = item.EquipmentTypeDS, Value = item.EquipmentTypeCD.HasValue ? item.EquipmentTypeCD.Value.ToString() : string.Empty });
+                    foreach (var item in response)
+                    {
+                        equipmentTypeList.Add(new SelectListItem
+                            {
+                                Text = item.EquipmentTypeDS,
+                                Value = item.EquipmentTypeCD.HasValue ? item.EquipmentTypeCD.Value.ToString() : string.Empty
+                            });
+                    }
+                    ViewBag.EquipmentTypeCD = equipmentTypeList;
                 }
-                ViewBag.EquipmentTypeCD = equipmentTypeList;
             }
 
-            #endregion equipmentTypeList
+            #endregion owner
+
+            #region owner
+            {
+                var list = new List<SelectListItem>();
+                var response = _sharedFunctions.PopulateOwnerDDL();
+                if (response != null && response.Any())
+                {
+                    list.Add(new SelectListItem() { Text = "", Value = "" });
+                    foreach (var item in response)
+                    {
+                        list.Add(new SelectListItem
+                            {
+                                Text = item.OwnerNM,
+                                Value = item.OwnerID.HasValue ? item.OwnerID.Value.ToString() : string.Empty
+                            });
+                    }
+                    ViewBag.OwnerID = list;
+                }
+            }
+            #endregion owner
+
+            #region operator
+            {
+                var list = new List<SelectListItem>();
+                var response = _sharedFunctions.PopulateOperatorDDL();
+                if (response != null && response.Any())
+                {
+                    list.Add(new SelectListItem() { Text = "", Value = "" });
+                    foreach (var item in response)
+                    {
+                        list.Add(new SelectListItem
+                        {
+                            Text = item.OperatorNM,
+                            Value = item.OperatorID.HasValue ? item.OperatorID.Value.ToString() : string.Empty
+                        });
+                    }
+                    ViewBag.OperatorID = list;
+                }
+            }
+            #endregion operator
+
+            #region load status
+            {
+                var list = new List<SelectListItem>();
+                var response = _sharedFunctions.PopulateLoadStatusType();
+                if (response != null && response.Any())
+                {
+                    list.Add(new SelectListItem() { Text = "", Value = "" });
+                    foreach (var item in response)
+                    {
+                        list.Add(new SelectListItem
+                        {
+                            Text = item.LoadStatusTypeDS,
+                            Value = item.LoadStatusTypeCD.ToString()
+                        });
+                    }
+                    ViewBag.LoadStatusTypeCD = list;
+                }
+            }
+            #endregion loadstatus
+
+            #region Tank Grade
+            {
+                var list = new List<SelectListItem>();
+                var response = _sharedFunctions.PopulateTankGrade();
+                if (response != null && response.Any())
+                {
+                    list.Add(new SelectListItem() { Text = "", Value = "" });
+                    foreach (var item in response)
+                    {
+                        list.Add(new SelectListItem
+                        {
+                            Text = item.TankGradeTypeDS,
+                            Value = item.TankGradeTypeCD.ToString()
+                        });
+                    }
+                    ViewBag.TankGradeTypeCD = list;
+                }
+            }
+            #endregion Tank Grade
+
+            #region Service Type
+            {
+                var list = new List<SelectListItem>();
+                var response = _sharedFunctions.PopulateMoveType();
+                if (response != null && response.Any())
+                {
+                    list.Add(new SelectListItem() { Text = "", Value = "" });
+                    foreach (var item in response)
+                    {
+                        list.Add(new SelectListItem
+                        {
+                            Text = item.MoveTypeDS,
+                            Value = item.MoveTypeCD.ToString()
+                        });
+                    }
+                    ViewBag.MoveTypeCD = list;
+                }
+            }
+            #endregion Service Type
+
+            #region Tank condition
+            {
+                var list = new List<SelectListItem>();
+                var response = _sharedFunctions.PopulateBarrelCondition();
+                if (response != null && response.Any())
+                {
+                    list.Add(new SelectListItem() { Text = "", Value = "" });
+                    foreach (var item in response)
+                    {
+                        list.Add(new SelectListItem
+                        {
+                            Text = item.BarrelConditionTypeDS,
+                            Value = item.BarrelConditionTypeCD.ToString()
+                        });
+                    }
+                    ViewBag.BarrelConditionTypeCD = list;
+                }
+            }
+            #endregion Tank condition
         }
 
         //PopulateTypeDDL
@@ -1114,14 +1283,15 @@ namespace DOWTank.Controllers
 
         //PopulateLoadStatusDDL
         [HttpGet]
-        public JsonResult PopulateLoadStatusDDL(string searchTerm)
+        public JsonResult PopulateLoactionDDL(string searchTerm)
         {
-            searchTerm = searchTerm.Trim();
-            //todo: re-factor it later as required
-            var response = _sharedFunctions.PopulateLoadStatusType();
+            PopulateSecurityExtended();
+            searchTerm = searchTerm.ToUpper();
+            var response = _sharedFunctions.PopulateLoadPointLocationAll(SecurityExtended.LocationId.Value);
+            response = response.Where(r => r.LocationDS.ToUpper().Contains(searchTerm)).ToList();
             if (response != null && response.Any())
             {
-                var data = response.Where(r => r.LoadStatusTypeDS != null).Select(r => new { id = r.LoadStatusTypeCD, text = r.LoadStatusTypeDS }).ToList();
+                var data = response.Select(r => new { id = r.LocationID, text = r.LocationDS }).ToList();
                 return Json(data, JsonRequestBehavior.AllowGet);
             }
             return Json(string.Empty, JsonRequestBehavior.AllowGet);

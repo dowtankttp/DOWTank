@@ -5,9 +5,7 @@
 
 @Html.HiddenFor(m => m.EquipmentID)
 @Html.HiddenFor(m => m.DedicatedLocationID)
-@Html.HiddenFor(m => m.ProductID)
 @Html.HiddenFor(m => m.DedicatedProductID)
-
 
 <div class="well well-lg">
     <!--title-->
@@ -18,6 +16,20 @@
     </div>
     @using (Html.BeginForm("Equipment", "Admin", FormMethod.Post))
     {
+        @Html.HiddenFor(m => m.EquipmentTypeCDSelected)
+        @Html.HiddenFor(m => m.OwnerIDSelected)
+        @Html.HiddenFor(m => m.OperatorIDSelected)
+        @Html.HiddenFor(m => m.LoadStatusTypeCDSelected)
+        @Html.HiddenFor(m => m.TankGradeTypeCDSelected)
+        @Html.HiddenFor(m => m.MoveTypeCDSelected)
+        @Html.HiddenFor(m => m.ProductDS)
+        @Html.HiddenFor(m => m.ProductIDSelected)
+        @Html.HiddenFor(m => m.DedicatedProductIDSelected)
+        @Html.HiddenFor(m => m.DedicatedProductDS)
+        @Html.HiddenFor(m => m.DedicatedLocationIDSelected)
+        @Html.HiddenFor(m => m.DedicatedLocationDS)
+        @Html.HiddenFor(m => m.LocationIDSelected)
+        @Html.HiddenFor(m => m.LocationDS)
         if (ViewData.ModelState.Keys.Any(k => ViewData.ModelState[k].Errors.Count() > 0))
         { 
         <div class="alert alert-danger">
@@ -101,11 +113,11 @@
             <div class="row">
                 <div class="col-md-4">
                     <label>Owner:</label>
-                    <input id="ddlOwner" name="OwnerID" style="width: 100%; box-sizing: border-box;">
+                    @Html.DropDownList("OwnerID", null, new { @class = "form-control" })
                 </div>
                 <div class="col-md-4">
                     <label>Operator:</label>
-                    <input id="ddlOperator" name="OperatorID" style="width: 100%; box-sizing: border-box;">
+                    @Html.DropDownList("OperatorID", null, new { @class = "form-control" })
                 </div>
             </div>
         </div>
@@ -118,7 +130,7 @@
                 </div>
                 <div class="col-md-4">
                     <label>Current Load Status:</label>
-                    <input id="ddlLoadStatus" name="LoadStatusTypeCD" style="width: 100%; box-sizing: border-box;">
+                    @Html.DropDownList("LoadStatusTypeCD", null, new { @class = "form-control" })
                 </div>
             </div>
         </div>
@@ -127,11 +139,11 @@
             <div class="row">
                 <div class="col-md-4">
                     <label>Tank Grade:</label>
-                    <input id="ddlTankGrade" name="TankGradeTypeCD" style="width: 100%; box-sizing: border-box;">
+                    @Html.DropDownList("TankGradeTypeCD", null, new { @class = "form-control" })
                 </div>
                 <div class="col-md-4">
                     <label>Current/Last Product:*</label>
-                    <input id="ddlCurrentLastProduct" name="ProductID" style="width: 100%; box-sizing: border-box;">
+                    <input id="ddlCurrentLastProduct" name="ProductID" type="hidden" value="@Model.ProductID" style="width: 100%; box-sizing: border-box;">
                 </div>
                 <div class="col-md-2">
                     <a href="#">[ Add ]</a>
@@ -143,12 +155,11 @@
             <div class="row">
                 <div class="col-md-4">
                     <label>Dedicated Location:</label>
-                    <!--todo: replace it with select2-->
-                    <input type="text" class="form-control" />
+                    <input type="hidden" id="ddlDedicatedLocation" name="DedicatedLocationID" style="width: 100%; box-sizing: border-box;" />
                 </div>
                 <div class="col-md-4">
                     <label>Dedicated Product:</label>
-                    <input id="ddlDedicatedProduct" name="DedicatedProductID" style="width: 100%; box-sizing: border-box;">
+                    <input id="ddlDedicatedProduct" type="hidden" name="DedicatedProductID" style="width: 100%; box-sizing: border-box;">
                 </div>
                 <div class="col-md-2">
                     <label></label>
@@ -161,11 +172,11 @@
             <div class="row">
                 <div class="col-md-4">
                     <label>Tank Condition:</label>
-                    <input id="ddlBarrelCondition" name="BarrelConditionTypeCD" style="width: 100%; box-sizing: border-box;">
+                    @Html.DropDownList("BarrelConditionTypeCD", null, new { @class = "form-control" })
                 </div>
                 <div class="col-md-4">
                     <label>Service Type:*</label>
-                    <input id="ddlMoveType" name="MoveTypeCD" style="width: 100%; box-sizing: border-box;">
+                    @Html.DropDownList("MoveTypeCD", null, new { @class = "form-control" })
                 </div>
             </div>
         </div>
@@ -192,7 +203,7 @@
                 <div class="col-md-1 nopadding">
                     <div class="radio">
                         <label>
-                            <input type="radio" name="LastTestHydroFL" value="true" checked>
+                            @Html.RadioButtonFor(m => m.LastTestHydroFL, true)
                             Hydro
                         </label>
                     </div>
@@ -200,7 +211,7 @@
                 <div class="col-md-1 nopadding">
                     <div class="radio">
                         <label>
-                            <input type="radio" name="LastTestHydroFL" value="false">
+                            @Html.RadioButtonFor(m => m.LastTestHydroFL, false)
                             Air
                         </label>
                     </div>
@@ -212,7 +223,7 @@
             <div class="row">
                 <div class="col-md-4">
                     <label>Tank Capacity (Liters):</label>
-                    <input type="text" name="TankCapacity" class="form-control" />
+                    @Html.TextBoxFor(m => m.TankCapacity, new { @class = "form-control" })
                 </div>
             </div>
         </div>
@@ -225,7 +236,7 @@
                 <div class="col-md-1 nopadding">
                     <div class="radio">
                         <label>
-                            <input type="radio" name="ActiveFL" value="true" checked>
+                            @Html.RadioButtonFor(m => m.ActiveFL, true)
                             Yes
                         </label>
                     </div>
@@ -233,7 +244,7 @@
                 <div class="col-md-1 nopadding">
                     <div class="radio">
                         <label>
-                            <input type="radio" name="ActiveFL" value="false">
+                            @Html.RadioButtonFor(m => m.ActiveFL, false)
                             No
                         </label>
                     </div>
@@ -247,11 +258,23 @@
     }
 </div>
 
+
 <!--script-->
 @section scripts
 {
     <script>
 
+        $(function () {
+            if ($("#EquipmentAN").val()) {
+
+                $("#EquipmentTypeCD").val($("#EquipmentTypeCDSelected").val());
+                $("#OwnerID").val($("#OwnerIDSelected").val());
+                $("#OperatorID").val($("#OperatorIDSelected").val());
+                $("#LoadStatusTypeCD").val($("#LoadStatusTypeCDSelected").val());
+                $("#TankGradeTypeCD").val($("#TankGradeTypeCDSelected").val());
+                $("#MoveTypeCD").val($("#MoveTypeCDSelected").val());
+            }
+        });
 
         $(function () {
             $('.datetimepicker').datetimepicker({
@@ -261,34 +284,12 @@
 
         $(function () {
 
-            $(':radio[name=EquipmentClassTypeCD]').change(function () {
-                // read the value of the selected radio
-                var value = $(this).val();
-                $("#ddlType").select2({
-                    minimumInputLength: 0,
-                    cache: false,
-                    ajax: {
-                        url: "/Admin/PopulateTypeDDL",
-                        dataType: 'json',
-                        quietMillis: 650,
-                        data: function (term) {
-                            return {
-                                searchTerm: value // search term
-                            };
-                        },
-                        results: function (data) {
-                            return { results: data };
-                        }
-                    }
-                });
-            });
-
-            //ddlOwner
-            $("#ddlOwner").select2({
+            //ddlCurrentLocation
+            $("#ddlCurrentLocation").select2({
                 minimumInputLength: 0,
                 cache: false,
                 ajax: {
-                    url: "/Admin/PopulateOwnerDDL",
+                    url: "/Admin/PopulateLoactionDDL",
                     dataType: 'json',
                     quietMillis: 650,
                     data: function (term) {
@@ -301,51 +302,13 @@
                     }
                 }
             });
-
-            //ddlOperator
-            $("#ddlOperator").select2({
+            
+            //ddlDedicatedLocation
+            $("#ddlDedicatedLocation").select2({
                 minimumInputLength: 0,
                 cache: false,
                 ajax: {
-                    url: "/Admin/PopulateOperatorDDL",
-                    dataType: 'json',
-                    quietMillis: 650,
-                    data: function (term) {
-                        return {
-                            searchTerm: term // search term
-                        };
-                    },
-                    results: function (data) {
-                        return { results: data };
-                    }
-                }
-            });
-
-            //ddlLoadStatus
-            $("#ddlLoadStatus").select2({
-                minimumInputLength: 0,
-                cache: false,
-                ajax: {
-                    url: "/Admin/PopulateLoadStatusDDL",
-                    dataType: 'json',
-                    quietMillis: 650,
-                    data: function (term) {
-                        return {
-                            searchTerm: term // search term
-                        };
-                    },
-                    results: function (data) {
-                        return { results: data };
-                    }
-                }
-            });
-
-            //ddlTankGrade
-            $("#ddlTankGrade").select2({
-                minimumInputLength: 0,
-                cache: false,
-                ajax: {
-                    url: "/Admin/PopulateTankGradeDDL",
+                    url: "/Admin/PopulateLoactionDDL",
                     dataType: 'json',
                     quietMillis: 650,
                     data: function (term) {
@@ -397,45 +360,48 @@
                 }
             });
 
-            //ddlBarrelCondition
-            $("#ddlBarrelCondition").select2({
-                minimumInputLength: 0,
-                cache: false,
-                ajax: {
-                    url: "/Admin/PopulateTankConditionDDL",
-                    dataType: 'json',
-                    quietMillis: 650,
-                    data: function (term) {
-                        return {
-                            searchTerm: term // search term
-                        };
-                    },
-                    results: function (data) {
-                        return { results: data };
-                    }
-                }
-            });
 
-            //ddlMoveType
-            $("#ddlMoveType").select2({
-                minimumInputLength: 0,
-                cache: false,
-                ajax: {
-                    url: "/Admin/PopulateMoveTypeDDL",
-                    dataType: 'json',
-                    quietMillis: 650,
-                    data: function (term) {
-                        return {
-                            searchTerm: term // search term
-                        };
-                    },
-                    results: function (data) {
-                        return { results: data };
-                    }
-                }
+            //mark end of document ready
+        });
+
+
+        //on page load re-popluate
+        $(function () {
+            $("#ddlCurrentLastProduct").select2("data", { id: $("#ProductIDSelected").val(), text: $("#ProductDS").val() });
+            $("#ddlDedicatedProduct").select2("data", { id: $("#DedicatedProductIDSelected").val(), text: $("#DedicatedProductDS").val() });
+            $("#ddlCurrentLocation").select2("data", { id: $("#LocationIDSelected").val(), text: $("#LocationDS").val() });
+            $("#ddlDedicatedLocation").select2("data", { id: $("#DedicatedLocationIDSelected").val(), text: $("#DedicatedLocationDS").val() });
+        });
+        //re-populate on post
+        $(function () {
+
+            $("#ddlCurrentLastProduct").change(function () {
+                var text = $("#ddlCurrentLastProduct").select2('data').text;
+                $("#ProductDS").val(text);
+                var id = $("#ddlCurrentLastProduct").select2('data').id;
+                $("#ProductIDSelected").val(id);
+            });
+            $("#ddlDedicatedProduct").change(function () {
+                var text = $("#ddlDedicatedProduct").select2('data').text;
+                $("#DedicatedProductDS").val(text);
+                var id = $("#ddlDedicatedProduct").select2('data').id;
+                $("#DedicatedProductIDSelected").val(id);
+            });
+            $("#ddlCurrentLocation").change(function () {
+                var text = $("#ddlCurrentLocation").select2('data').text;
+                $("#LocationDS").val(text);
+                var id = $("#ddlCurrentLocation").select2('data').id;
+                $("#LocationIDSelected").val(id);
+            });
+            $("#ddlDedicatedLocation").change(function () {
+                var text = $("#ddlDedicatedLocation").select2('data').text;
+                $("#DedicatedLocationDS").val(text);
+                var id = $("#ddlDedicatedLocation").select2('data').id;
+                $("#DedicatedLocationIDSelected").val(id);
             });
 
         });
+
 
     </script>
 }

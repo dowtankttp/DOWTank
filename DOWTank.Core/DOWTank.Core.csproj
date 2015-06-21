@@ -60,6 +60,7 @@
     <Compile Include="Domain\TANK_usp_insupd\TANK_usp_insupd_Driver_spParams.cs" />
     <Compile Include="Domain\TANK_usp_insupd\TANK_usp_insupd_EquipmentOnHireHistory_spParams.cs" />
     <Compile Include="Domain\TANK_usp_insupd\TANK_usp_insupd_EquipmentType_spParams.cs" />
+    <Compile Include="Domain\TANK_usp_insupd\TANK_usp_insupd_equipment_spParams.cs" />
     <Compile Include="Domain\TANK_usp_insupd\TANK_usp_insupd_FacilityParameter_spParams.cs" />
     <Compile Include="Domain\TANK_usp_insupd\TANK_usp_insupd_Fitting_spParams.cs" />
     <Compile Include="Domain\TANK_usp_insupd\TANK_usp_insupd_Location_spParams.cs" />
