@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Schedule>
+  <ScheduledTask>
+    <TaskType>DowTank.BackgroundService.Tasks.AlertProcessorTask</TaskType>
+      <LastExecutionEndTime>6/1/2011 3:42:59 PM</LastExecutionEndTime>
+    <LastExecutionStartTime>6/8/2011 1:30:59 PM</LastExecutionStartTime>
+    <ScheduledDaysOfWeek>127</ScheduledDaysOfWeek>
+    <ScheduledTimeOfDay>
+    </ScheduledTimeOfDay>
+    <HourInterval>
+    </HourInterval>
+    <MinuteInterval>5</MinuteInterval>
+    <ConfigFilePath>
+    </ConfigFilePath>
+  </ScheduledTask>
+
+  <ScheduledTask>
+    <TaskType>DowTank.BackgroundService.Tasks.SkybitzImporter</TaskType>
+    <LastExecutionEndTime>6/1/2011 3:42:59 PM</LastExecutionEndTime>
+    <LastExecutionStartTime>6/8/2011 1:30:59 PM</LastExecutionStartTime>
+    <ScheduledDaysOfWeek>127</ScheduledDaysOfWeek>
+    <ScheduledTimeOfDay>10:00:00 PM</ScheduledTimeOfDay>
+    <HourInterval>
+    </HourInterval>
+    <MinuteInterval></MinuteInterval>
+    <ConfigFilePath>
+    </ConfigFilePath>
+  </ScheduledTask>
+  
+</Schedule>

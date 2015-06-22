@@ -1,0 +1,15 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="DOWTank.BackgroundService.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="ScheduleFileName" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">DowTankBackgroundProcessorSchedule.xml</Value>
+    </Setting>
+    <Setting Name="TankDatabaseConnectionString" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Server=r3bk0ijsa8.database.windows.net;Database=TANK1DS;user id=schoonersa;password=$ch00ner%6;</Value>
+    </Setting>
+    <Setting Name="SkybitzFIleLocation" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">C:\dev\btt\DOWTank\DOWTank.BackgroundService\Import\SkybitzImport.xlsx</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
