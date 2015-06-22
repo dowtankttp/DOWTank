@@ -241,6 +241,24 @@ namespace DOWTank.Controllers
         #endregion Delete Dispatch
 
         [HttpGet]
+        public JsonResult GetProDetails(string pro)
+        {
+            PopulateSecurityExtended();	
+
+            if (string.IsNullOrEmpty(pro))
+            {
+                return Json(string.Empty, JsonRequestBehavior.AllowGet);
+            }
+            var data = _sharedFunctions.LoadProDetails(pro);
+            if (data != null && data.Any())
+            {
+                var result = data.FirstOrDefault();
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            return Json(pro, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
         public JsonResult LoadLastMove(int? equipmentId)
         {
             PopulateSecurityExtended();

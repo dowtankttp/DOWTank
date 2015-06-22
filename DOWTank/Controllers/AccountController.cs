@@ -43,10 +43,11 @@ namespace DOWTank.Controllers
             }
 
             AuthenticationManager.SignOut("ApplicationCookie");
+            DOWTank.Core.Domain.TANK_usp_sel.TANK_usp_sel_Security_spResults userDetails = null;
 
-            if (_userManager.Athenticate(postModel.UserName, postModel.Password))
+            if (_userManager.Athenticate(postModel.UserName, postModel.Password, ref userDetails))
             {
-                var identity = _userManager.CreateIdentity(postModel);
+                var identity = _userManager.CreateIdentity(userDetails);
                 AuthenticationManager.SignIn(new AuthenticationProperties() { IsPersistent = false }, identity);
                 return RedirectToAction("Index", "Home");
             }
@@ -66,7 +67,7 @@ namespace DOWTank.Controllers
         public ActionResult GetUserName()
         {
             var identity = User.Identity as ClaimsIdentity;
-            var userName = identity.GetUserName();
+            var userName = identity.GetUserDisplayName();
             return Content(userName);
         }
     }

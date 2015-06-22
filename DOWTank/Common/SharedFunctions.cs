@@ -52,6 +52,8 @@ namespace DOWTank.Common
         List<TANK_usp_sel_SecurityLocation_spResults> GetLocation(string userAn);
         IEnumerable<TANK_usp_sel_HazardClassDDL_spResults> PopulateHazardClass(bool iIncludeBlank);
         IEnumerable<TANK_usp_sel_TankConstructionTypeDDL_spResults> PopulateTankConstructionType(bool iIncludeBlank);
+        IEnumerable<TANK_usp_sel_ProDetails_spResults> LoadProDetails(string pro);
+        TANK_usp_sel_Security_spResults GetUserDetails(string userName);
         List<TANK_usp_sel_SecurityLocationALL_spResults> PopulateSecurityLocations(string userName);
     }
 
@@ -650,7 +652,38 @@ namespace DOWTank.Common
             if (Int32.TryParse(s, out i)) return i;
             return null;
         }
+
+        public IEnumerable<TANK_usp_sel_ProDetails_spResults> LoadProDetails(string pro)
+        {
+            if (string.IsNullOrEmpty(pro) || pro.Length < 14)
+                return null;
+
+            // database call
+            var spParams = new TANK_usp_sel_ProDetails_spParams()
+            {
+                LocationCode = pro.Substring(0, 3),
+                Pro = pro.Substring(3, 6),
+                Line = pro.Substring(9, 3),
+                Move = pro.Substring(12, 2)
+            };
+            var data = _utilityService.ExecStoredProcedureWithResults<TANK_usp_sel_ProDetails_spResults>("[TANK_usp_sel_DispatchDetailsByPro]", spParams);
+            return data;
+        }
+
+
+
+        public TANK_usp_sel_Security_spResults GetUserDetails(string userName)
+        {
+            var spParams = new TANK_usp_sel_Security_spParams()
+            {
+                UserAN = userName
+            };
+            var data = _utilityService.ExecStoredProcedureWithResults<TANK_usp_sel_Security_spResults>("[TANK_usp_sel_Security]", spParams);
+            if (data != null && data.Count() > 0)
+                return data.First();
+
+            else
+                return null;
+        }
     }
-
-
 }

@@ -164,12 +164,14 @@
     <Compile Include="Domain\TANK_usp_sel\TANK_usp_sel_OwnerDDL_spParams.cs" />
     <Compile Include="Domain\TANK_usp_sel\TANK_usp_sel_OwnerDDL_spResults.cs" />
     <Compile Include="Domain\TANK_usp_sel\TANK_usp_sel_OwnersUpd_spParams.cs" />
+    <Compile Include="Domain\TANK_usp_sel\TANK_usp_sel_ProDetails_spResults.cs" />
     <Compile Include="Domain\TANK_usp_sel\TANK_usp_sel_ProductDDL_spParams.cs" />
     <Compile Include="Domain\TANK_usp_sel\TANK_usp_sel_ProductDDL_spResults.cs" />
     <Compile Include="Domain\TANK_usp_sel\TANK_usp_sel_ProductList_spParams.cs" />
     <Compile Include="Domain\TANK_usp_sel\TANK_usp_sel_SecurityDDL_spParams.cs" />
     <Compile Include="Domain\TANK_usp_sel\TANK_usp_sel_SecurityDDL_spResults.cs" />
     <Compile Include="Domain\TANK_usp_sel\TANK_usp_sel_SecurityLocationALL_spParams.cs" />
+    <Compile Include="Domain\TANK_usp_sel\TANK_usp_sel_Security_spParams.cs" />
     <Compile Include="Domain\TANK_usp_sel\TANK_usp_sel_SecurityLocation_spParams.cs" />
     <Compile Include="Domain\TANK_usp_sel\TANK_usp_sel_SecurityProfilePrivileges_spParams.cs" />
     <Compile Include="Domain\TANK_usp_sel\TANK_usp_sel_SecurityProfilePrivileges_spResults.cs" />
@@ -183,6 +185,7 @@
     <Compile Include="Domain\TANK_usp_sel\TANK_usp_sel_VendorUpd_spParams.cs" />
     <Compile Include="Domain\TANK_usp_sel\TANK_usp_sel_WasteClassTypeDDL_spParams.cs" />
     <Compile Include="Domain\TANK_usp_sel\TANK_usp_sel_WasteClassTypeDDL_spResults.cs" />
+    <Compile Include="Domain\TANK_usp_sel\TANK_usp_sel_ProDetails_spParams.cs" />
     <Compile Include="Domain\TANK_usp_sel\TANK_usp_sel_WasteClassUpd_spParams.cs" />
     <Compile Include="Domain\TANK_usp_upd\TANK_usp_del_OnHireHistory_spParams.cs" />
     <Compile Include="Domain\TANK_usp_upd\TANK_usp_upd_ArriveEquipment_spParams.cs" />
@@ -204,7 +207,6 @@
     </Compile>
     <Compile Include="Enum\SecurityCatEnum.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Service\PasswordService.cs" />
     <Compile Include="Service\UtilityService.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -261,7 +261,7 @@
             <div class="row">
                 <div class="col-md-4">
                     <label>Pro Number:</label>
-                    @Html.TextBoxFor(m => m.strProNumberAN, new { @class = "form-control" })
+                    @Html.TextBoxFor(m => m.strProNumberAN, new { @class = "form-control" }) <button class="btn btn-default btn-primary" style="margin-left: 10px" id="btnGetProData" value="Pro Data"/>
                 </div>
                 <div class="col-md-4">
                     <label>ADDL Call Out Hours:</label>
@@ -340,7 +340,7 @@
         $(function () {
 
             $('.btnDeleteDispatch').click(function () {
-
+                
                 var postModel = { DispatchID: $("#intDispatchId").val(), EquipmentID: $("#EquipmentID").val() };
                 $.ajax({
                     url: "/Dispatch/DeleteDispatchData",
@@ -356,6 +356,39 @@
             });
 
         });
+
+        //retrive pro details
+        $(function () {
+            
+            $('#btnGetProData').click(function () {
+                
+             var pro = $("#strProNumberAN").val();
+                
+                $.ajax({
+                    url: "/Dispatch/GetProDetails/?pro=" + pro,
+                    dataType: 'json',
+                    method: 'GET',
+                    success: function (response) {
+                        if (response) {
+                            debugger;
+                            var dispatchDate = new Date(parseInt(response.DispatchStartDateTime.substr(6)));
+                            var scheduledDelivery = new Date(parseInt(response.ArriveAtDeliveryDateTime.substr(6)));
+                            $("#dtmDispatchStart").val((dispatchDate.getMonth() + 1) + "/" + dispatchDate.getDate() + "/" + dispatchDate.getFullYear() + " " + dispatchDate.getHours() + ":" + dispatchDate.getMinutes());
+                            $("#dtmScheduledDelivery").val((dispatchDate.getMonth() + 1) + "/" + dispatchDate.getDate() + "/" + dispatchDate.getFullYear() + " " + dispatchDate.getHours() + ":" + dispatchDate.getMinutes());
+
+                            //$("#ddlLoadPoint").val(response.PickupFacilityCode);
+                            //$("#ddlDeliveryLocation").val(response.DeliveryFacilityCode);
+
+                            //$("#ddlLoadPoint").select2("data", { id: response.PickupLocationId, text: response.PickupLocationName });
+                            //$("#ddlDeliveryLocation").select2("data", { id: response.DeliveryLocationId, text: response.DeliveryLocationName });
+                        }
+                    }
+                });
+                return false;
+            });
+
+        });
+
 
         //select2
 
