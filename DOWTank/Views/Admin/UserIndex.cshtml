@@ -76,10 +76,47 @@
 <div class="well well-lg">
     <!--title-->
     <div class="row">
-        <div class="col-md-2">
+        <div class="col-md-2 nopadding">
             <h4 class="dow-color col-md-12">User List</h4>
         </div>
     </div>
+    <!--filter-->
+    <div id="divFilter" class="row mt5 mb10">
+        <div class="col-md-12">
+            <div class="row mt20">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <span>User Name</span>
+                        <input type="text" id="txtUserName" class="form-control" />
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <span>Login Id</span>
+                        <input type="text" id="txtLoginId" class="form-control" />
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <span>Profile</span>
+                        <input type="text" id="txtProfile" class="form-control" />
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <span>Status</span>
+                        <input type="text" id="txtStatus" class="form-control" />
+                    </div>
+                </div>
+            </div>
+            <div class="row mb10">
+                <div class="col-md-12 text-left">
+                    <input id="btnSearch" type="button" value="Search" class="btn btn-default btn-primary" />
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!--list-->
     <div class="row mt10">
         <div class="col-md-12">
@@ -101,18 +138,17 @@
         $(function () {
             var lastsel;
             $("#list").jqGrid({
-                url: "/Admin/GetUserProfileData",
+                url: "/Admin/GetUserData",
                 datatype: "json",
                 mtype: "GET",
-                colNames: ["Id", "Profile", "Status", "Created By", "Create DT", "Updated By", "Update DT", ""],
+                colNames: ["Id", "User Name", "Login Id", "Profile", "Status", "Create DT", ""],
                 colModel: [
-                    { name: "Id", index: 'Id', sortable: false, hidden: true, align: "right", key: true },
-                    { name: "SecurityProfileDS", index: 'SecurityProfileDS', sortable: true, width: 225 },
-                    { name: "ActiveDS", index: 'ActiveDS', align: 'left', sortable: false, width: 50 },
-                    { name: "CreateUserNM", index: 'CreateUserNM', align: 'left', sortable: false, width: 150 },
-                    { name: "CreateDT", index: 'CreateDT', sortable: false, width: 50 },
-                    { name: "UpdateUserNM", index: 'UpdateUserNM', sortable: false, width: 150 },
-                    { name: "UpdateDT", index: 'UpdateDT', align: "left", sortable: false, width: 50 },
+                    { name: "SecurityID", index: 'SecurityID', sortable: false, hidden: true, align: "right", key: true },
+                    { name: "FullName", index: 'FullName', sortable: true, width: 225 },
+                    { name: "UserAN", index: 'UserAN', align: 'left', sortable: false, width: 50 },
+                    { name: "SecurityProfileDS", index: 'SecurityProfileDS', align: 'left', sortable: false, width: 150 },
+                    { name: "ActiveDS", index: 'ActiveDS', sortable: false, width: 50 },
+                    { name: "CreateDT", index: 'CreateDT', sortable: false, width: 150, formatter: 'date' },
                     { name: 'Recover', index: 'Recover', formatter: linkformatter, sortable: false, width: 50, align: 'center' }
                 ],
                 pager: "#pager",
@@ -132,8 +168,51 @@
 
         function linkformatter(cellvalue, options, rowObject) {
             //rowObject.Id
-            return '<a style="color:#286090;font-size:12px;" href="/Admin/SecurityProfile?id=' + rowObject.Id + '" >Edit</a>';
+            return '<a style="color:#286090;font-size:12px;" href="/Admin/SecurityProfile?id=' + rowObject.SecurityID + '" >Edit</a>';
         }
+
+        $(function () {
+
+            $("#btnSearch").click(function () {
+                gridReload();
+            });
+
+            $("#txtUserName").keypress(function () {
+                $("#txtLoginId").val('');
+                $("#txtStatus").val('');
+                $("#txtProfile").val('');
+            });
+
+            $("#txtLoginId").keypress(function () {
+                $("#txtUserName").val('');
+                $("#txtStatus").val('');
+                $("#txtProfile").val('');
+            });
+            $("#txtStatus").keypress(function () {
+                $("#txtUserName").val('');
+                $("#txtLoginId").val('');
+                $("#txtProfile").val('');
+            });
+
+            $("#txtProfile").keypress(function () {
+                $("#txtUserName").val('');
+                $("#txtLoginId").val('');
+                $("#txtStatus").val('');
+            });
+
+        });
+
+        function gridReload() {
+
+            var userName = $("#txtUserName").val();
+            var loginId = $("#txtLoginId").val();
+            var profile = $("#txtProfile").val();
+            var status = $("#txtStatus").val();
+
+            $("#list").jqGrid('setGridParam', { url: "/Admin/GetUserData?userName=" + userName + "&loginId=" + loginId + "&profile=" + profile + "&status=" + status, page: 1 }).trigger("reloadGrid");
+
+        }
+
 
     </script>
 }

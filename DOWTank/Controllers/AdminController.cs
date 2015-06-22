@@ -34,6 +34,65 @@ namespace DOWTank.Controllers
             return View();
         }
 
+        [HttpGet]
+        public JsonResult GetUserData(int page, int rows, string search, string sidx, string sord, string userName, string loginId, string profile, string status)
+        {
+            PopulateSecurityExtended();
+            // database call
+
+            var spParams = new TANK_usp_sel_Security_spParams()
+            {
+                LocationID = SecurityExtended.LocationId
+            };
+            var data = _utilityService.ExecStoredProcedureWithResults<TANK_usp_sel_Security_spResults>("[TANK_usp_sel_Security]", spParams);
+
+            #region filter
+
+            data = data.Where(s => s.UserAN != "" && s.UserAN != null).ToList();
+            if (!string.IsNullOrEmpty(userName))
+            {
+                userName = userName.ToUpper();
+                data = data.Where(s => s.FullName.ToUpper().Contains(userName)).ToList();
+            }
+            else if (!string.IsNullOrEmpty(loginId))
+            {
+                loginId = loginId.ToUpper();
+                data = data.Where(s => s.UserAN.ToUpper().Contains(loginId)).ToList();
+            }
+            else if (!string.IsNullOrEmpty(profile))
+            {
+                profile = profile.ToUpper();
+                data = data.Where(s => s.SecurityProfileDS.ToUpper().Contains(profile)).ToList();
+            }
+            else if (!string.IsNullOrEmpty(status))
+            {
+                status = status.ToUpper();
+                data = data.Where(s => s.ActiveDS.ToUpper().Contains(status)).ToList();
+            }
+
+            #endregion filter
+
+            //# database call
+
+            int totalRecords = data.Count();
+            var totalPages = (int)Math.Ceiling(totalRecords / (float)rows);
+            int pageNumber = page - 1;
+            data = data.Skip(pageNumber * rows).Take(rows).ToList();
+
+            var jsonData = new
+            {
+
+                total = totalPages,
+                page,
+                records = totalRecords,
+                rows = data
+
+            };
+
+            return Json(jsonData, JsonRequestBehavior.AllowGet);
+
+        }
+
         #endregion User
 
         #region User Profile
