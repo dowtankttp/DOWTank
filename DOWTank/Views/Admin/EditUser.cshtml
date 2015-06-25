@@ -1,0 +1,169 @@
+﻿@model DOWTank.Models.EditUserViewModel
+@{
+    ViewBag.Title = "EditUser";
+}
+<div class="well well-lg">
+    <!--title-->
+    <div class="row">
+        <div class="col-md-12 nopadding">
+            <h4 class="dow-color col-md-6">Edit User</h4>
+        </div>
+    </div>
+    @using (Html.BeginForm("EditUser", "Admin", FormMethod.Post))
+    {
+        if (ViewData.ModelState.Keys.Any(k => ViewData.ModelState[k].Errors.Count() > 0))
+        {
+            <div class="alert alert-danger">
+                <button class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                @Html.ValidationSummary(false, "Please correct the following items: ")
+            </div>
+        }
+        @Html.HiddenFor(m => m.SecurityID)
+        <div class="form-group text-right">
+            <input type="submit" value="Save User" class="btn btn-default btn-primary" />
+            @Html.ActionLink("Return To List", "UserIndex", "Admin", null, new {@class = "btn btn-primary btn-default"})
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-4">
+                    <label>User Name:</label>
+                    @Html.TextBoxFor(m => m.FullName, new {@class = "form-control", @readonly = "readonly"})
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-12 nopadding">
+                <label>Active:*</label>
+            </div>
+            <div class="row no-row-margin">
+                <div class="col-md-1 nopadding">
+                    <div class="radio">
+                        <label>
+                            @Html.RadioButtonFor(m => m.ActiveFL, true)
+                            Yes
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-1 nopadding">
+                    <div class="radio">
+                        <label>
+                            @Html.RadioButtonFor(m => m.ActiveFL, false)
+                            No
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-3">
+                    <label>Facility:</label>
+                    @Html.DropDownList("FacilityLocations", null, new {@class = "form-control"})
+                </div>
+                <div class="col-md-3">
+                    <label>Profile:</label>
+                    @Html.DropDownList("SecurityProfile", null, new {@class = "form-control"})
+                </div>
+                <div class="col-md-2 mt20">
+                    <label>
+                        Default:
+                        <input type="checkbox" id="DefaultFL" name="DefaultFL" /></label>
+                </div>
+                <div class="col-md-1 mt20">
+                    <input type="button" class="btn btn-default btn-primary btn-sm" id="btnGrant" value="Grant" />
+                </div>
+            </div>
+        </div>
+
+        <!--list-->
+        <div class="row mt10">
+            <div class="col-md-12">
+                <table id="list">
+                    <tr>
+                        <td></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group text-right  mt10">
+                <input type="submit" value="Save User" class="btn btn-default btn-primary mt10" />
+                @Html.ActionLink("Return To List", "UserIndex", "Admin", null, new {@class = "btn btn-primary btn-default mr20 mt10"})
+            </div>
+        </div>
+    }
+
+</div>
+<!--script-->
+@section scripts
+{
+    <script>
+        $(function () {
+            $("#btnGrant").click(function () {
+                SaveSecurityLocation();
+            });
+            //mark end of document ready
+        });
+        function SaveSecurityLocation() {
+            $.ajax({
+                url: "/Admin/SaveSecurityLocation",
+                dataType: 'json',
+                method: 'POST',
+                data: { SecurityID: $("#SecurityID").val(), LocationID: $("#FacilityLocations").val(), SecurityProfileId: $("#SecurityProfile").val(), DefaultFL: $("#DefaultFL").is(":checked") ? true : false },
+                success: function (response) {
+                    if (response) {
+                        console.log('inside response ' + response);
+                        $("#list").trigger('reloadGrid');
+                    }
+                }
+            });
+        }
+
+        $(function () {
+            $("#list").jqGrid({
+                url: "/Admin/LoadSecurityLocations?securityId=" + $("#SecurityID").val(),
+                datatype: "json",
+                mtype: "GET",
+                colNames: ["Id", "Facility", "Permissions", "Default", ""],
+                colModel: [
+                    { name: "LocationID", index: 'LocationID', sortable: false, hidden: true, align: "right", key: true },
+                    { name: "LocationDS", index: 'LocationDS', align: 'left', sortable: true, width: 180 },
+                    { name: "SecurityProfileDS", index: 'SecurityProfileDS', align: 'left', sortable: false, width: 200 },
+                    { name: "DefaultDS", index: 'DefaultDS', align: 'left', sortable: false, width: 50 },
+                    { name: 'Revoke', index: 'Revoke', formatter: linkformatter, sortable: false, width: 50, align: 'center' }
+                ],
+                height: 175,
+                width: 600,
+                autowidth: false,
+                viewrecords: true,
+                autoencode: true,
+                key: true
+            }
+            );
+            //$("#list").jqGrid('navGrid', '#pager', { edit: false, add: false, del: false, search: false, refresh: false });
+
+            //mark end of document ready
+        });
+
+        function linkformatter(cellvalue, options, rowObject) {
+            //rowObject.Id
+            return '<a style="color:#286090;font-size:12px;" href="javascript:void(0)" onclick="DeleteProfile(' + rowObject.LocationID + ')" >Revoke</a>';
+        }
+
+        function DeleteProfile(locationId) {
+            $.ajax({
+                url: "/Admin/DeleteProfile",
+                dataType: 'json',
+                method: 'POST',
+                data: { SecurityID: $("#SecurityID").val(), LocationID: locationId },
+                success: function (response) {
+                    if (response) {
+                        console.log('inside response ' + response);
+                        $("#list").trigger('reloadGrid');
+                    }
+                }
+            });
+        }
+
+    </script>
+}

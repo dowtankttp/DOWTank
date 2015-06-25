@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DOWTank.Core.Domain.TANK_usp_sel
+namespace DOWTank.Core.Domain.TANK_usp_upd
 {
-    public class TANK_usp_sel_LocationDDL_spParams_spResults
+    public class TANK_usp_del_SecurityLocation_spParams
     {
+        public int SecurityID { get; set; }
         public int LocationID { get; set; }
-        public string LocationDS { get; set; }
     }
 }

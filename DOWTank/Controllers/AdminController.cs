@@ -8,6 +8,7 @@ using System.Web.Routing;
 using DOWTank.Common;
 using DOWTank.Core.Domain.TANK_usp_insupd;
 using DOWTank.Core.Domain.TANK_usp_sel;
+using DOWTank.Core.Domain.TANK_usp_upd;
 using DOWTank.Core.Service;
 using DOWTank.Custom;
 using DOWTank.Models;
@@ -91,6 +92,162 @@ namespace DOWTank.Controllers
 
             return Json(jsonData, JsonRequestBehavior.AllowGet);
 
+        }
+
+        [HttpGet]
+        public JsonResult LoadSecurityLocations(int page, int rows, string search, string sidx, string sord, int securityId)
+        {
+            var TANK_usp_sel_SecurityLocationALL_spParams = new TANK_usp_sel_SecurityLocationALL_spParams()
+              {
+                  SecurityID = securityId
+              };
+        
+            var data = _utilityService.ExecStoredProcedureWithResults<TANK_usp_sel_SecurityLocationALL_spResults>("TANK_usp_sel_SecurityLocationALL", TANK_usp_sel_SecurityLocationALL_spParams).ToList();
+
+            int totalRecords = data.Count();
+            var totalPages = (int)Math.Ceiling(totalRecords / (float)rows);
+            int pageNumber = page - 1;
+            data = data.Skip(pageNumber * rows).Take(rows).ToList();
+
+            var jsonData = new
+            {
+
+                total = totalPages,
+                page,
+                records = totalRecords,
+                rows = data
+
+            };
+
+            return Json(jsonData, JsonRequestBehavior.AllowGet);
+
+        }
+        
+        [HttpGet]
+        public ActionResult EditUser(int id)
+        {
+            PopulateEditUserDropdowns();
+            // database call
+
+            var spParams = new TANK_usp_sel_Security_spParams()
+            {
+                SecurityID = id
+            };
+            var data = _utilityService.ExecStoredProcedureWithResults<TANK_usp_sel_Security_spResults>("[TANK_usp_sel_Security]", spParams).FirstOrDefault();
+            //database call
+
+            var viewModel = new EditUserViewModel();
+            viewModel.SecurityID = id;
+            viewModel.FullName = data.FullName;
+            viewModel.ActiveFL = data.ActiveFL;
+
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        public ActionResult EditUser(EditUserViewModel postModel)
+        {
+            PopulateEditUserDropdowns();
+
+            var TANK_usp_insupd_Security_spParams = new TANK_usp_insupd_Security_spParams()
+            {
+                SecurityID = postModel.SecurityID,
+                ActiveFL = postModel.ActiveFL
+            };
+
+            _utilityService.ExecStoredProcedureWithoutResults("TANK_usp_insupd_Security", TANK_usp_insupd_Security_spParams);
+
+
+            return RedirectToAction("UserIndex", "Admin");
+        }
+
+        [HttpPost]
+        public JsonResult DeleteProfile(DeleteProfilePostModel postModel)
+        {
+            var TANK_usp_del_SecurityLocation_spParams = new TANK_usp_del_SecurityLocation_spParams()
+            {
+                SecurityID = postModel.SecurityId,
+                LocationID = postModel.LocationId
+            };
+
+            _utilityService.ExecStoredProcedureWithoutResults("TANK_usp_del_SecurityLocation", TANK_usp_del_SecurityLocation_spParams);
+            
+            return Json(postModel.LocationId);
+        }
+
+        [HttpPost]
+        public JsonResult SaveSecurityLocation(SecurityLocationPostModel postModel)
+        {
+            var TANK_usp_insupd_SecurityLocation_spParams = new TANK_usp_insupd_SecurityLocation_spParams()
+                {
+                    SecurityID = postModel.SecurityID,
+                    DefaultFL = postModel.DefaultFL,
+                    LocationID = postModel.LocationID,
+                    SecurityProfileId = postModel.SecurityProfileId
+                };
+
+            _utilityService.ExecStoredProcedureWithoutResults("TANK_usp_insupd_SecurityLocation", TANK_usp_insupd_SecurityLocation_spParams);
+
+            return Json(postModel.LocationID);
+        }
+
+        private void PopulateEditUserDropdowns()
+        {
+            PopulateSecurityExtended();
+
+            #region FacilityLocations
+
+            {
+                var TANK_usp_sel_LocationDDL_spParams = new TANK_usp_sel_LocationDDL_spParams()
+                {
+                    IncludeBlank = false,
+                    LocationTypeCD = 2
+                };
+                var response = _utilityService.ExecStoredProcedureWithResults<TANK_usp_sel_LocationDDL_spParams_spResults>("TANK_usp_sel_LocationDDL", TANK_usp_sel_LocationDDL_spParams);
+
+                var list = new List<SelectListItem>();
+                if (response != null && response.Any())
+                {
+                    foreach (var item in response)
+                    {
+                        list.Add(new SelectListItem
+                        {
+                            Text = item.LocationDS,
+                            Value = item.LocationID.ToString()
+                        });
+                    }
+                    ViewBag.FacilityLocations = list;
+                }
+            }
+
+            #endregion FacilityLocations
+
+            #region SecurityProfile
+
+            {
+                var TANK_usp_sel_SecurityProfileDDL_spParams = new TANK_usp_sel_SecurityProfileDDL_spParams()
+                {
+                    IncludeBlank = false,
+                    LocationID = SecurityExtended.LocationId
+                };
+                var response = _utilityService.ExecStoredProcedureWithResults<TANK_usp_sel_SecurityProfileDDL_spResults>("TANK_usp_sel_SecurityProfileDDL", TANK_usp_sel_SecurityProfileDDL_spParams);
+
+                var list = new List<SelectListItem>();
+                if (response != null && response.Any())
+                {
+                    foreach (var item in response)
+                    {
+                        list.Add(new SelectListItem
+                        {
+                            Text = item.SecurityProfileDS,
+                            Value = item.SecurityProfileID.ToString()
+                        });
+                    }
+                    ViewBag.SecurityProfile = list;
+                }
+            }
+
+            #endregion SecurityProfile
         }
 
         #endregion User

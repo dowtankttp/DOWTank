@@ -171,9 +171,12 @@
     </Compile>
     <Compile Include="Models\AdminEquipmentModel.cs" />
     <Compile Include="Models\AdminProductModel.cs" />
+    <Compile Include="Models\DeleteProfilePostModel.cs" />
     <Compile Include="Models\DispatchTankModel.cs" />
+    <Compile Include="Models\EditUserViewModel.cs" />
     <Compile Include="Models\EquipmentOnHireHistoryPostModel.cs" />
     <Compile Include="Models\LoginPostModel.cs" />
+    <Compile Include="Models\SecurityLocationPostModel.cs" />
     <Compile Include="Models\Select2ShortViewModel.cs" />
     <Compile Include="Models\Select2ViewModel.cs" />
     <Compile Include="Models\SelectServiceTypeModel.cs" />
@@ -562,6 +565,7 @@
     <Content Include="Views\Home\AccessDenied.cshtml" />
     <Content Include="Views\TankHistory\SaveHistory.cshtml" />
     <Content Include="Views\Home\_LocationSelection.cshtml" />
+    <Content Include="Views\Admin\EditUser.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DOWTank.Core\DOWTank.Core.csproj">
