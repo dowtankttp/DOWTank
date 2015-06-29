@@ -110,11 +110,9 @@
                     name: "Class",
                     index: 'Class',
                     sortable: false,
-                    editable: true,
-                    edittype: 'text', editrules: {
-                        required: true
-                    },
-                    editoptions: { size: 60 }
+                    editable: true,                                        
+                    edittype:"select",                    
+                    editoptions: { dataUrl:'/Admin/GetClassDropdown'}
                 },
             {
                 name: "Description",
@@ -124,7 +122,7 @@
                 edittype: 'text', editrules: {
                     required: true
                 }
-                , editoptions: { size: 60 }
+                , editoptions: { size: 40 }
             },
             {
                 name: "Code",
@@ -135,7 +133,7 @@
                 edittype: 'text', editrules: {
                     required: true
                 }
-                , editoptions: { size: 60 }
+                , editoptions: { size: 40 }
             },
             {
                 name: "Length",

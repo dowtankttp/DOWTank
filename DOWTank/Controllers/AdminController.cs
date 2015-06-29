@@ -13,10 +13,11 @@ using DOWTank.Core.Service;
 using DOWTank.Custom;
 using DOWTank.Models;
 using DOWTank.Utility;
+using System.Text;
 
 namespace DOWTank.Controllers
 {
-    [ClaimsAuthorize(Roles = "Admin")]
+    //[ClaimsAuthorize(Roles = "Admin")]
     public class AdminController : BaseController
     {
         private readonly IUtilityService _utilityService;
@@ -2059,6 +2060,36 @@ namespace DOWTank.Controllers
             return Json(true);
         }
 
+        [HttpGet]        
+        public string GetClassDropdown()
+        {
+            var TANK_usp_sel_EquipmentClassTypeDDL_spParams = new TANK_usp_sel_EquipmentClassTypeDDL_spParams()
+            {
+                //TODO: re-factor it later from hard coded
+                IncludeBlank = false
+            };
+
+            DataTable dataTable = _utilityService.ExecStoredProcedureForDataTable("TANK_usp_sel_EquipmentClassTypeDDL", TANK_usp_sel_EquipmentClassTypeDDL_spParams);
+
+            var data = (from p in dataTable.AsEnumerable()
+                        select new
+                        {
+                            Id = p.Field<Int16>("EquipmentClassTypeCD"),
+                            Name = p.Field<string>("EquipmentClassTypeDS"),
+                        }).ToList();
+                        
+            StringBuilder sb = new StringBuilder();
+            sb.Append("<select>");
+
+            foreach (var item in data)
+            {
+                sb.Append("<option value='"+item.Id+"'>"+item.Name+"</option>");
+            }
+
+            sb.Append("</select>");
+            
+            return sb.ToString();
+        }
 
         #endregion
 
@@ -2329,9 +2360,9 @@ namespace DOWTank.Controllers
                         select new
                         {
                             Id = p.Field<int>("Key"),
-                            LocType = p.Field<string>("LocType*"),
+                            LocationTypeCD = p.Field<string>("LocType*"),
                             Description = p.Field<string>("Description*"),
-                            Parent = p.Field<string>("Parent"),
+                            ParentLocationID = p.Field<string>("Parent"),
                             Code = p.Field<string>("Code"),
                         }).ToList();
 
@@ -2370,7 +2401,7 @@ namespace DOWTank.Controllers
                             Code = postModel.Code,
                             Description = postModel.Description,
                             ParentLocationID = postModel.ParentLocationID,
-                            LocationTypeCD = null,
+                            LocationTypeCD = postModel.LocationTypeCD,
                             UpdateUserAN = SecurityExtended.UserName,
                             ActiveFL = true
                         };
@@ -2390,7 +2421,7 @@ namespace DOWTank.Controllers
                             Code = postModel.Code,
                             Description = postModel.Description,
                             ParentLocationID = postModel.ParentLocationID,
-                            LocationTypeCD = null,
+                            LocationTypeCD = postModel.LocationTypeCD,
                             UpdateUserAN = SecurityExtended.UserName,
                             ActiveFL = true
                         };
@@ -2423,6 +2454,69 @@ namespace DOWTank.Controllers
             return Json(true);
         }
 
+        [HttpGet]
+        public string GetLocationTypeDropDown()
+        {
+            var TANK_usp_sel_LocationTypeDDL2_spParams = new TANK_usp_sel_LocationTypeDDL2_spParams()
+            {
+                //TODO: re-factor it later from hard coded
+                IncludeBlank = false
+            };
+
+            DataTable dataTable = _utilityService.ExecStoredProcedureForDataTable("TANK_usp_sel_LocationTypeDDL2", TANK_usp_sel_LocationTypeDDL2_spParams);
+
+            var data = (from p in dataTable.AsEnumerable()
+                        select new
+                        {
+                            Id = p.Field<Int16>("LocationTypeCD"),
+                            Name = p.Field<string>("LocationTypeDS"),
+                        }).ToList();
+
+            StringBuilder sb = new StringBuilder();
+            sb.Append("<select>");
+
+            foreach (var item in data)
+            {
+                sb.Append("<option value='" + item.Id + "'>" + item.Name + "</option>");
+            }
+
+            sb.Append("</select>");
+
+            return sb.ToString();
+        }
+
+        [HttpGet]
+        public string GetParentDropDown()
+        {
+            var TANK_usp_sel_LocationDDL2_spParams = new TANK_usp_sel_LocationDDL2_spParams()
+            {
+                //TODO: re-factor it later from hard coded
+                IncludeBlank = false,
+                LocationTypeCD = null,
+                MajorLocationID = null
+            };
+
+            DataTable dataTable = _utilityService.ExecStoredProcedureForDataTable("TANK_usp_sel_LocationDDL2", TANK_usp_sel_LocationDDL2_spParams);
+
+            var data = (from p in dataTable.AsEnumerable()
+                        select new
+                        {
+                            Id = p.Field<Int32>("LocationID"),
+                            Name = p.Field<string>("LocationDS"),
+                        }).ToList();
+
+            StringBuilder sb = new StringBuilder();
+            sb.Append("<select>");
+
+            foreach (var item in data)
+            {
+                sb.Append("<option value='" + item.Id + "'>" + item.Name + "</option>");
+            }
+
+            sb.Append("</select>");
+
+            return sb.ToString();
+        }
 
         #endregion
 

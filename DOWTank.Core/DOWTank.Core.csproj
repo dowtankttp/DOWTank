@@ -145,6 +145,7 @@
     <Compile Include="Domain\TANK_usp_sel\TANK_usp_sel_InvoiceList_spParams.cs" />
     <Compile Include="Domain\TANK_usp_sel\TANK_usp_sel_LoadStatusTypeDDL_spParams.cs" />
     <Compile Include="Domain\TANK_usp_sel\TANK_usp_sel_LoadStatusTypeDDL_spResults.cs" />
+    <Compile Include="Domain\TANK_usp_sel\TANK_usp_sel_LocationDDL2_spParams.cs" />
     <Compile Include="Domain\TANK_usp_sel\TANK_usp_sel_LocationDDL_spParams.cs" />
     <Compile Include="Domain\TANK_usp_sel\TANK_usp_sel_LocationDDL_spParams_spResults.cs" />
     <Compile Include="Domain\TANK_usp_sel\TANK_usp_sel_LocationsUpd_spParams.cs" />
@@ -154,6 +155,7 @@
     <Compile Include="Domain\TANK_usp_sel\TANK_usp_sel_LocationTreeFLAT_spResults.cs" />
     <Compile Include="Domain\TANK_usp_sel\TANK_usp_sel_LocationTreeGrounded_spParams.cs" />
     <Compile Include="Domain\TANK_usp_sel\TANK_usp_sel_LocationTreeGrounded_spResults.cs" />
+    <Compile Include="Domain\TANK_usp_sel\TANK_usp_sel_LocationTypeDDL2_spParams.cs" />
     <Compile Include="Domain\TANK_usp_sel\TANK_usp_sel_MaintenanceConditionUpd_spParams.cs" />
     <Compile Include="Domain\TANK_usp_sel\TANK_usp_sel_MovementTypeUpd_spParams.cs" />
     <Compile Include="Domain\TANK_usp_sel\TANK_usp_sel_MoveTypeDDL_spParams.cs" />

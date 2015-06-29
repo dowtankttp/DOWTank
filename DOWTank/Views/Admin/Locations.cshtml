@@ -107,14 +107,16 @@
                     key: true
                 },
                 {
-                    name: "LocType",
-                    index: 'LocType',
+                    name: "LocationTypeCD",
+                    index: 'LocationTypeCD',
                     sortable: false,
-                    editable: true,
-                    edittype: 'text', editrules: {
-                        required: true
-                    },
-                    editoptions: { size: 60 }
+                    editable: true,                         
+                    edittype:"select",                    
+                    editoptions: { dataUrl: '/Admin/GetLocationTypeDropDown' },
+                    //editrules: {
+                    //    required: true
+                    //},
+                    //editoptions: { size: 60 }
                 },
             {
                 name: "Description",
@@ -124,18 +126,20 @@
                 edittype: 'text', editrules: {
                     required: true
                 }
-                , editoptions: { size: 60 }
+                , editoptions: { size: 50 }
             },
             {
-                name: "Parent",
-                index: 'Parent',
+                name: "ParentLocationID",
+                index: 'ParentLocationID',
                 align: "right",
-                sortable: false,
+                sortable: false,                
                 editable: true,
-                edittype: 'text', editrules: {
-                    required: true
-                }
-                , editoptions: { size: 60 }
+                edittype: "select",
+                editoptions: { dataUrl: '/Admin/GetParentDropDown' },
+                //editrules: {
+                //    required: true
+                //}
+                //, editoptions: { size: 60 }
             },
             {
                 name: "Code",
