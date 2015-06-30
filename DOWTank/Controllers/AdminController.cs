@@ -17,7 +17,7 @@ using System.Text;
 
 namespace DOWTank.Controllers
 {
-    //[ClaimsAuthorize(Roles = "Admin")]
+    [ClaimsAuthorize(Roles = "Admin")]
     public class AdminController : BaseController
     {
         private readonly IUtilityService _utilityService;
